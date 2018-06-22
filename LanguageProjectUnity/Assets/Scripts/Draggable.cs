@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 /**
  * This script gets attached to any object that the user 
- * can drag, i.e. boxes/cards.
+ * can drag, i.e. words.
  */
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
+    // the section of the screen that the Word should return to if not dropped in an acceptable area
     public Transform parentToReturnTo = null;
-
-    public enum Type { F, X };
-    public Type type;
 
     /**
     * placeholder keeps track of the position that the box should return
-    * to when the mouse is released.
+    * to when the mouse is released. (words in the keyboard don't all shift inwards the
+    * second a word is dragged outside the keyboard)
     */
     GameObject placeholder = null;
 
@@ -44,6 +43,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         le.flexibleHeight = 0;
         le.flexibleHeight = 0;
 
+        //sibling index tracks order of cards in hand
         placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
 
         parentToReturnTo = this.transform.parent;
@@ -54,6 +54,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         DropZone[] zones = GameObject.FindObjectsOfType<DropZone>();
         //TODO: now, loop through zones and highlight the ones that are valid drop zones
+
+        WordPiece[] wordsInWorkspace = GameObject.FindObjectsOfType<WordPiece>();
+
     }
 
     /**
@@ -92,10 +95,4 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Destroy(placeholder);
     }
 
-    /**
-     * This method was just Heidi testing something; will be moved and edited properly later.
-     */
-    public bool CanBeCombinedWith(Draggable otherObject) {
-        return (this.type == otherObject.type);
-    }
 }

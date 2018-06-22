@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /**
- * This script is attached to areas on which boxes can be dropped
+ * This script is attached to areas on which words can be dropped
  */ 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
     
