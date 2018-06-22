@@ -1,1 +1,0 @@
-mcs */*.cs *.cs -out:Testing.exe -nowarn:CS0659,CS0414,CS0219;
