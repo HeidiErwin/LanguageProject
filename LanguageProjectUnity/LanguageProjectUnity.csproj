@@ -303,9 +303,18 @@
     <Compile Include="Assets\Scripts\Draggable.cs" />
     <Compile Include="Assets\Scripts\DropZone.cs" />
     <Compile Include="Assets\Scripts\Keyboard.cs" />
+    <Compile Include="Assets\Scripts\Language\Expression\Expression.cs" />
+    <Compile Include="Assets\Scripts\Language\Expression\Phrase.cs" />
+    <Compile Include="Assets\Scripts\Language\Expression\Word.cs" />
+    <Compile Include="Assets\Scripts\Language\SemanticType\Arrow.cs" />
+    <Compile Include="Assets\Scripts\Language\SemanticType\E.cs" />
+    <Compile Include="Assets\Scripts\Language\SemanticType\SemanticType.cs" />
+    <Compile Include="Assets\Scripts\Language\SemanticType\T.cs" />
+    <Compile Include="Assets\Scripts\Language\Testing.cs" />
     <Compile Include="Assets\Scripts\WordPiece.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\UnityTODOs.txt" />
     <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\Alert.uxml" />

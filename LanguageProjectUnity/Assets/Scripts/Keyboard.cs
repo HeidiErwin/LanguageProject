@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
-* A class that holds the WordPiece objects that appear in the keyboard of the system
+* A class that holds the WordPiece objects that appear in the keyboard of the system.
+* This script will be eventually attached to the Hand (lowest section on screen)
 */
 public class Keyboard : MonoBehaviour {
 

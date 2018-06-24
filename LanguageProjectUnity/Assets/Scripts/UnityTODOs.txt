@@ -1,0 +1,9 @@
+Things Heidi needs to do UI/UX/Unity-wise:
+
+1. make a GameController class to set up the keyboard / add Words to the screen --
+	will definitely be useful if not necessary later anyways
+2. WordPiece.CanAccept
+3. WordPiece.DetermineUpdatedSprite
+4. WordPiece.DeterminePreviewSprite
+5. In WordPiece.OnDrop: a. the dropped word "returns" to the keyboard and the current word changes to the new sprite
+                        b. make sure you can only combine words in the workspace---keyboard should stay constant

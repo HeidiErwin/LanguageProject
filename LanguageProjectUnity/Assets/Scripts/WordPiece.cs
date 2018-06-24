@@ -18,14 +18,8 @@ public class WordPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHa
     public Sprite previousSprite;
 
     public bool isShowingPreview;
-
-    /* comboPreviewSprite is shown for instance in place of a normal E->T 
-     * sprite when user selects E from the keyboard to indicate that the E->T
-     * Word can accept the E that the user has selected.
-    */
-    public Sprite comboPreviewSprite;
  
-    //get rid of the two lines below once Bill's SemanticType code is integrated
+    //SUNDAY: get rid of the two lines below once Bill's SemanticType code is integrated
     public enum SemanticType { E , T , Arrow };
     public SemanticType semanticType;
 
@@ -95,12 +89,6 @@ public class WordPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHa
 
             this.currentSprite = DetermineUpdatedSprite(droppedWord);
             this.isShowingPreview = false;
-            //delte below 5 lines
-            //Sprite newSprite = DetermineUpdatedSprite(droppedWord);
-            //Image[] images = gameObject.GetComponentsInChildren<Image>();
-            //foreach (Image image in images) {
-            //    image.sprite = newSprite;
-            //}
         }
     }
 
@@ -123,12 +111,6 @@ public class WordPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHa
             wp.previousSprite = wp.currentSprite;
             wp.currentSprite = previewSprite;
             wp.isShowingPreview = true;
-
-            //TODO: Possibly remove this loop; may be redundant given the Update() method
-            Image[] images = gameObject.GetComponentsInChildren<Image>();
-            foreach (Image image in images) {
-                image.sprite = previewSprite;
-            }
         }
     }
 
