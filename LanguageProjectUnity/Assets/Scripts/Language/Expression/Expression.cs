@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 // a linguistic entity, either as a primitive word or a
 // complex phrase which (currently but perhaps not permanently)
@@ -13,19 +14,12 @@ using System;
 // first expression's input semantic type.
 // 
 public abstract class Expression {
-    protected String name;
     protected SemanticType type;
+    protected Expression[] args;
+    protected String head;
 
     public Expression(SemanticType type) {
         this.type = type;
-    }
-
-    // returns the name of this expression.
-    // Right now, this is identical to ToString(),
-    // but this will change when we have graphical
-    // representations of this expression.
-    public String GetName() {
-        return name;
     }
 
     // returns this expression's semantic type.
@@ -33,9 +27,24 @@ public abstract class Expression {
         return type;
     }
 
-    // returns the number of arguments of this expression's semantic type,
-    // if it is a functional type. If not, it returns -1.
+    // returns the filled-in arguments for this expression.
+    public Expression GetArg(int i) {
+        return args[i];
+    }
+
+    public String GetHead() {
+        return head;
+    }
+
+    // returns the total number of arguments of this expression,
+    // if any. If not, it returns 0.
     public int GetNumArgs() {
+        return args.Length;
+    }
+
+    // returns the number of unbounded arguments of this expression,
+    // if any. If not, it returns 0.
+    public int GetNumFreeArgs() {
         return type.GetNumArgs();
     }
 
@@ -45,13 +54,15 @@ public abstract class Expression {
         return type.GetInputType(index);
     }
 
+    // returns the list of types corresponding to the
+    // input type of this expression.
+    public List<SemanticType> GetInputType() {
+        return type.GetInputType();
+    }
+
     // returns the output type of this expression's semantic type,
     // if it is a functional type. If not, it returns null.
     public SemanticType GetOutputType() {
         return type.GetOutputType();
-    }
-
-    public override String ToString() {
-        return name;
     }
 }

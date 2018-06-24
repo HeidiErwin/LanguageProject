@@ -6,20 +6,33 @@ using System.Text;
 
 // see "SemanticType.cs" for more info
 public class Arrow : SemanticType {
-    private SemanticType[] input;
+    private List<SemanticType> input;
     private SemanticType output;
 
-    public Arrow(SemanticType[] input, SemanticType output) {
+    public Arrow(List<SemanticType> input, SemanticType output) {
+        // require that the output has an atomic semantic type. (for now)
+        if (!output.IsAtomic()) {
+            throw new ArgumentException();    
+        }
+
         this.input  = input;
         this.output = output;
     }
 
+    public override bool IsAtomic() {
+        return false;
+    }
+
     public override int GetNumArgs() {
-        return input.Length;
+        return input.Count;
     }
 
     public override SemanticType GetInputType(int index) {
         return input[index];
+    }
+
+    public override List<SemanticType> GetInputType() {
+        return input;
     }
 
     public override SemanticType GetOutputType() {
@@ -43,14 +56,14 @@ public class Arrow : SemanticType {
 
         foreach (SemanticType t in input) {
             s.Append(t.ToString());
-            s.Append(" | ");
+            s.Append(", ");
         }
 
         if (s.Length > 1) {
             s.Remove(s.Length - 2, 2);
         }
 
-        s.Append("-> " + output.ToString() + ")");
+        s.Append(" -> " + output.ToString() + ")");
 
         return s.ToString();
     }

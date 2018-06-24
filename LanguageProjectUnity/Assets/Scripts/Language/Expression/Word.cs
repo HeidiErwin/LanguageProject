@@ -4,6 +4,11 @@ using System;
 // and meaning are directly given.
 public class Word : Expression {
     public Word(SemanticType type, String name) : base(type) {
-        this.name = name;
+        this.head = name;
+        this.args = new Expression[type.GetNumArgs()];
+    }
+
+    public override String ToString() {
+        return head;
     }
 }

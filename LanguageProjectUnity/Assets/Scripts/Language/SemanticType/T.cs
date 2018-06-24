@@ -3,6 +3,10 @@ using System;
 // See "SemanticType.cs" for more info
 public class T : SemanticType {
 
+    public override bool IsAtomic() {
+        return true;
+    }
+
     public override String ToString() {
         return "t";
     }
