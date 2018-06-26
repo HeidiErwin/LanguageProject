@@ -32,6 +32,7 @@ public abstract class Expression {
         return args[i];
     }
 
+    // returns the head symbol of this expression.
     public String GetHead() {
         return head;
     }
