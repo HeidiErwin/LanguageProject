@@ -84,5 +84,11 @@ public class Testing {
         PrintInfoString(everyRedThingIsRound);
         PrintInfoString(theRoundThingIsRed);
         PrintInfoString(billGivesHeidiTheApple);
+
+        System.Console.WriteLine("Syntactic Equality:");
+        System.Console.WriteLine(bill.Equals(new Word(individual, "Bill")));
+        System.Console.WriteLine(!bill.Equals(heidi));
+        System.Console.WriteLine(billIsRed.Equals(billIsRed));
+        System.Console.WriteLine(!billIsRed.Equals(billHelpsHeidi));
     }
 }

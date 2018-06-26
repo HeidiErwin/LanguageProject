@@ -65,4 +65,35 @@ public abstract class Expression {
     public SemanticType GetOutputType() {
         return type.GetOutputType();
     }
+
+    // this is syntactic equality; two expressions are equal
+    // just when the expressions are identical. Two expressions
+    // whose referents are identical are still considered distinct
+    // under this form of equality.
+    // 
+    // i.e. (2 + 3) != (3 + 2)
+    public override bool Equals(Object o) {
+        Expression that = o as Expression;
+
+        if (that == null) {
+            return false;
+        }
+
+        if (!this.head.Equals(that.head)) {
+            return false;
+        }
+
+        if (this.GetNumArgs() != that.GetNumArgs()) {
+            
+            return false;
+        }
+
+        for (int i = 0; i < this.GetNumArgs(); i++) {
+            if (!this.GetArg(i).Equals(that.GetArg(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
