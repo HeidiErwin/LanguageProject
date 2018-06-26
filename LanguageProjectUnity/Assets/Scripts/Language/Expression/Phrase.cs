@@ -8,18 +8,18 @@ using System.Collections.Generic;
 // applying the function to the argument at the appropriate index.
 // 
 // for example, if "Bill" is an expression of type e, and "runs" is an expression
-// of type e -> t, then "runs[x0](Bill:x0)" is valid expression of type t.
+// of type e -> t, then "runs[x0](x0:Bill)" is valid expression of type t.
 // 
 // OR:
 // 
 // if "Bill" and "Heidi" are expressions of type e, and "helps" is an expression
-// of type e, e -> t, then "helps[x0, x1](Bill:x1)" reduces to "helps(_, Bill)"
+// of type e, e -> t, then "helps[x0, x1](Bill:x1)" reduces to "helps[x0, Bill]"
 // which is of type e -> t.
 // 
 public class Phrase : Expression {
     // a shortcut for application: simply amounts to
     // applying an argument to the first place
-    public Phrase(Expression function, Expression input) : this(function, input, 0) {}
+    public Phrase(Expression function, Expression input) : this(function, input, 0) { }
 
     public Phrase(Expression function, Expression input, int index) : base(null) {
         // the index has to be between 0 and (numargs - 1)
@@ -36,11 +36,10 @@ public class Phrase : Expression {
 
         this.head = function.GetHead();
         this.args = new Expression[function.GetNumArgs()];
-        
-        // fills in the arguments for this expression.
+
+        // fills in one the old arguments for this expression.
         int counter = -1;
         for (int i = 0; i < GetNumArgs(); i++) {
-            // the old arguments.
             args[i] = function.GetArg(i);
 
             if (args[i] == null) {
@@ -48,7 +47,6 @@ public class Phrase : Expression {
             }
 
             if (counter == index) {
-                // the new argument.
                 args[i] = input;
                 counter++;
             }
@@ -58,11 +56,12 @@ public class Phrase : Expression {
         // if it's a one-argument function, then the type is the output type.
         if (function.GetNumFreeArgs() == 1) {
             this.type = function.GetOutputType();
-        } else {
+        }
+        else {
             // if it's an n-argument function, then the semantic type is
             // the functional type you get if you remove the type of the indexed input.
             // e.g. if your function had a type (A, B, C -> O) and the input type was B,
-            // then the new type would be (A, C -> O)
+            // then the new type would be (A, C -> D)
 
             List<SemanticType> oldInput = function.GetInputType();
             List<SemanticType> newInput = new List<SemanticType>();
@@ -83,7 +82,8 @@ public class Phrase : Expression {
             Expression currentArg = args[i];
             if (currentArg == null) {
                 s.Append("_");
-            } else {
+            }
+            else {
                 s.Append(currentArg.ToString());
             }
             s.Append(", ");
