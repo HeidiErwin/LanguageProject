@@ -84,5 +84,5 @@ public class Testing {
         PrintInfoString(everyRedThingIsRound);
         PrintInfoString(theRoundThingIsRed);
         PrintInfoString(billGivesHeidiTheApple);
-    }    
+    }
 }

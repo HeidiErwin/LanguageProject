@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 /**
  * This script gets attached to any object that the user 
- * can drag, i.e. words.
+ * can drag, i.e. ExpressionPieces.
  */
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
-    // the section of the screen that the Word should return to if not dropped in an acceptable area
+    // the section of the screen that the expression should return to if not dropped in an acceptable area
     public Transform parentToReturnTo = null;
 
     /**
     * placeholder keeps track of the position that the box should return
-    * to when the mouse is released. (words in the keyboard don't all shift inwards the
-    * second a word is dragged outside the keyboard)
+    * to when the mouse is released. (expressions in the keyboard don't all shift inwards the
+    * second a expression is dragged outside the keyboard)
     */
     GameObject placeholder = null;
 
@@ -55,7 +55,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         DropZone[] zones = GameObject.FindObjectsOfType<DropZone>();
         //TODO: now, loop through zones and highlight the ones that are valid drop zones
 
-        WordPiece[] wordsInWorkspace = GameObject.FindObjectsOfType<WordPiece>();
+        ExpressionPiece[] expressionsInWorkspace = GameObject.FindObjectsOfType<ExpressionPiece>();
 
     }
 

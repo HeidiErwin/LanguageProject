@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /**
- * This script is attached to areas on which words can be dropped
+ * This script is attached to areas on which expressions can be dropped (hand & tabletop)
  */ 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
     

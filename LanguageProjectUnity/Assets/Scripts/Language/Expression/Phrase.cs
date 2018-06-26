@@ -19,7 +19,7 @@ using System.Collections.Generic;
 public class Phrase : Expression {
     // a shortcut for application: simply amounts to
     // applying an argument to the first place
-    public Phrase(Expression function, Expression input) : this(function, input, 0) {}
+    public Phrase(Expression function, Expression input) : this(function, input, 0) { }
 
     public Phrase(Expression function, Expression input, int index) : base(null) {
         // the index has to be between 0 and (numargs - 1)
@@ -36,7 +36,7 @@ public class Phrase : Expression {
 
         this.head = function.GetHead();
         this.args = new Expression[function.GetNumArgs()];
-        
+
         // fills in one the old arguments for this expression.
         int counter = -1;
         for (int i = 0; i < GetNumArgs(); i++) {
@@ -56,7 +56,8 @@ public class Phrase : Expression {
         // if it's a one-argument function, then the type is the output type.
         if (function.GetNumFreeArgs() == 1) {
             this.type = function.GetOutputType();
-        } else {
+        }
+        else {
             // if it's an n-argument function, then the semantic type is
             // the functional type you get if you remove the type of the indexed input.
             // e.g. if your function had a type (A, B, C -> O) and the input type was B,
@@ -81,7 +82,8 @@ public class Phrase : Expression {
             Expression currentArg = args[i];
             if (currentArg == null) {
                 s.Append("_");
-            } else {
+            }
+            else {
                 s.Append(currentArg.ToString());
             }
             s.Append(", ");
