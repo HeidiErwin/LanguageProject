@@ -1,4 +1,4 @@
-Things Heidi needs to do UI/UX/Unity-wise:
+Things Heidi needs to do UI/UX/Unity-wise(6/25 - 6/27):
 [DONE] refactor WordPiece into ExpressionPiece
 [DONE] make a GameController class to set up the keyboard / add expressions to the screen
 	   will definitely be useful if not necessary later anyways
@@ -8,15 +8,17 @@ Things Heidi needs to do UI/UX/Unity-wise:
 [DONE] delete Keyboard.cs if obsolete
 [DONE] In expressionPiece.OnDrop: the dropped expression COPIES from the keyboard
 
+2. implement ExpressionPieceSpawner, which should remove the need for the next thing:
+3. copying from keyboard puts pieces at end of keyboard
 1. when pieces combine, whole new piece!
-2.  In expressionPiece.OnDrop: make sure you can only combine expressions in the workspace---keyboard should stay constant
-4. Clean up comments
-4. update ExpressionPiece image only when necessary
-
+4. In expressionPiece.OnDrop: make sure you can only combine expressions in the workspace---keyboard should stay constant
+5. Clean up comments
+6. update ExpressionPiece image only when necessary
+7. if time, start figuring out Unity Image generation (self-build using a color based on SemanticType, get symbol from image, box size depends on num args)
 ----------------------------------------------------------------------------------------------
 TODO with Bill Thursday:
 	1. edit ExpressionPiece constructor to create its own Expression -- is this what we want? i.e. in the future, making 
-	   an Expression will be done through making an ExpressionPiece
+	   an Expression will be done through making an ExpressionPiece --> Nope! See responses below for how this is going to be handled.
 
 ~~~~~~~~~~~~~~~~
 Bill's Remarks (6/27):
@@ -31,3 +33,11 @@ Bill's Remarks (6/27):
     * this'll mean a larger workspace is necessary.
   - I'd like to see expressions color coded by semantic type and for us to start using images for our symbols instead of fonts, and maintain a regular square size for them. It can be simple shapes for now.
 ~~~~~~~~~~~~~~~
+
+Heidi's Response (6/27):
+	- I can make an ExpressionPieceSpawner class that does what you wanted w/ WordSpawners
+	- So rather than having the GameController create ExpressionPieces and pass in the info so that the ExpressionPiece can create its Expression field, you're suggesting we 
+	  have the GameController not only create ExpressionPieces, but also create Expressions and then just pass the entire Expressions into the constructor of the ExpressionPiece. 
+	  I can make that change.
+	- Will ALL expressions will be square? i.e. will a three-argument expression not be a wider rectangle, which accepts squares? I suppose it would be convenient to have 
+	  every expression be square because argument boxes could then always be square without confusion

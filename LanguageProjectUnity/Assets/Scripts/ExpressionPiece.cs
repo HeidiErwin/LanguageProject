@@ -129,10 +129,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name + " :)");
 
         if (CanAccept(droppedexpression)) {
-            // TODO: the dropped expression "returns" to the keyboard (actually, 
-            //       the expression never vanishes to begin with, just a copy is made) and the current expression changes to the new sprite
-            // TODO: make sure you can only combine expressions in the workspace---keyboard should stay constant
-
             this.currentSprite = DetermineUpdatedSprite(droppedexpression);
             this.isShowingPreview = false;
         }
