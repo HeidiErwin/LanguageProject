@@ -26,7 +26,7 @@ Bill's Remarks (6/27):
       * A WordSpawner takes a SemanticType and String as input. When it's time for the WordSpawner to make a Word, it'll pass these as arguments.
       * The WordSpawner will store the Image that's the name of the word. We can have a naming convention for the sprites to be <ID>.png where <ID> is the ID string of the word, and so we find the right image by taking the inputted string and getting our file based off of it.
   - To answer the question in 1.: No, I don't think so. The ExpressionPiece should have its expression as a field, but it shouldn't be the one creating it. The idea is to store the Image in the Container so that we don't have to recreate the image from scratch every time we make a new expression, but also keep Expressions from being Unity Objects with graphical fields so that it's not bloated. I'll talk more about this when we meet.
-  - We need to see if multi-argument function expressions work.
+  - We need to see if multi-argument function expressions work, as well as function expressions with a higher type than e->t, as well as e->e expressions, etc... If you want inspiration for common semantic types, check out my Testing file in the AI folder.
     * That means we need to resize expressions as necessary. If an expression has three arguments, it should be at least 4 units (where one symbol without arguments is 1unitx1unit) wide, maybe more if one the inputs was a compound expression itself. And it should be at least 2 units high.
     * this'll mean a larger workspace is necessary.
   - I'd like to see expressions color coded by semantic type and for us to start using images for our symbols instead of fonts, and maintain a regular square size for them. It can be simple shapes for now.
