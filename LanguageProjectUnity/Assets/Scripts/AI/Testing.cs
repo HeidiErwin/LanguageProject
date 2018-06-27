@@ -84,5 +84,26 @@ public class Testing {
         PrintInfoString(everyRedThingIsRound);
         PrintInfoString(theRoundThingIsRed);
         PrintInfoString(billGivesHeidiTheApple);
+
+        System.Console.WriteLine("Syntactic Equality:");
+        System.Console.WriteLine(bill.Equals(new Word(individual, "Bill")));
+        System.Console.WriteLine(!bill.Equals(heidi));
+        System.Console.WriteLine(billIsRed.Equals(billIsRed));
+        System.Console.WriteLine(!billIsRed.Equals(billHelpsHeidi));
+
+        System.Console.WriteLine("Model:");
+        IModel model = new SimpleModel();
+        System.Console.WriteLine(model.Add(billIsRed));
+        System.Console.WriteLine(!model.Add(billIsRed));
+        System.Console.WriteLine(model.Add(billGivesHeidiTheApple));
+        System.Console.WriteLine(model.Add(theRoundThingIsRed));
+
+        System.Console.WriteLine(model.Contains(billIsRed));
+        System.Console.WriteLine(!model.Contains(billHelpsHeidi));
+
+        System.Console.WriteLine(!model.Remove(billHelpsHeidi));
+        System.Console.WriteLine(model.Remove(billIsRed));
+
+        System.Console.WriteLine(!model.Contains(billIsRed));
     }
 }
