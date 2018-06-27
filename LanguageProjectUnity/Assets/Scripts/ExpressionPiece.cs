@@ -17,60 +17,23 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public Sprite previousSprite;
     public bool isShowingPreview;
 
-    private bool isKeyboardPiece;
-
     private Expression myExpression;
 
     //the expressions on screen that can accept this expression
     List<ExpressionPiece> compatibleAcceptingExpressions;
 
-    public ExpressionPiece(string expressionName, Sprite defaultSprite, Sprite currentSprite, bool isKeyboardPiece) {
+    public ExpressionPiece(string expressionName, Sprite defaultSprite, Sprite currentSprite, Expression expr) {
         this.expressionName = expressionName;
         this.defaultSprite = defaultSprite;
         this.currentSprite = currentSprite;
-        this.isKeyboardPiece = isKeyboardPiece;
+        myExpression = expr;
     }
 
-    /**
-     * This method should be called after the ExpressionPiece is made, so that 
-     * this piece can remember if it is part of the keyboard
-     * This is important because, for instance, the parent of a piece originally 
-     * in the Keyboard changes from the Keyboard to the Canvas once the piece is 
-     * picked up [in the Draggable script], isKeyboardPiece will indicate that this
-     * Piece belongs in the keyboard.
-     */
-    public void SetKeyboardPiece(bool isKeyboardPiece) {
-        this.isKeyboardPiece = isKeyboardPiece;
-    }
-
-    /**
-     * This method should be called after the ExpressionPiece is made, so that an 
-     * Expression script can be built and attached to this ExpressionPiece
-     * 
-     * @param name - the name of this Expression
-     * @param isWord - false if the Expression is a Phrase, false if the Expression is a Word
-     * @param semType - the SemanticType of this Expression
-     * @param phraseParts - if the Expression is a Word, null 
-     *                      if the Expression is a Phrase, a 2-element List with the input and 
-     *                      output Expressions for the phrase
-     * 
-     * NOTE: potentially merge this with the ExpressionPiece constructor later
-     */
-    public void SetExpression(string name, bool isWord, SemanticType semType, List<Expression> phraseParts) {
-        if (isWord) {
-            myExpression = new Word(semType, name);
-        }
-        else {
-            myExpression = new Phrase(phraseParts[0], phraseParts[1]);
-        }
-    }
-
-    public void SetExpression(Expression expression) {
+    public void SetExpression(Expression expression) { 
         myExpression = expression;
     }
 
     public void Update() {
-        //TODO: efficiency, don't update every tick if unnecessary
         //there should only be one image in the images array; the loop below is just for safe measure
         Image[] images = gameObject.GetComponentsInChildren<Image>();
         foreach (Image image in images) {
@@ -139,36 +102,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * the appropriate preview sprite.
      * e.g. if this expression is an E, a expression of type E->T will turn from a solid shape into a 
      * shape that shows that this E can be inserted into the shape.
-     * 
-     * If a piece is part of the Keyboard, it does not get moved, but rather a copy of it is made, which
-     * gets moved.
      */
     public void OnBeginDrag(PointerEventData eventData) {
-        if (isKeyboardPiece) {
-           Debug.Log("a keyboard piece!");
-            GameObject keyboard = this.transform.parent.Find("Keyboard").gameObject;
-
-            //remove any occurences of "(Clone)" from this object's name
-            int indexOfParentheses = this.gameObject.name.IndexOf('('); 
-            string trimmedObjectName;
-            if (indexOfParentheses != -1) {
-                trimmedObjectName = this.gameObject.name.Substring(0, indexOfParentheses);
-                Debug.Log("huh " + trimmedObjectName);
-            } else {
-                trimmedObjectName = gameObject.name;
-            }
-
-            GameObject copy = Resources.Load(trimmedObjectName) as GameObject;
-            Debug.Log("this.gameObject.name is " + this.gameObject.name);
-            GameObject copyInstance = Instantiate(copy, new Vector2(100, 100), Quaternion.identity) as GameObject;
-            copyInstance.transform.SetParent(keyboard.transform);
-            ExpressionPiece copiedPiece = copyInstance.GetComponent<ExpressionPiece>();
-            copiedPiece.SetExpression(myExpression);
-            copiedPiece.SetKeyboardPiece(true);
-
-            this.isKeyboardPiece = false;
-        }
-
         ExpressionPiece[] expressionsOnScreen = FindObjectsOfType<ExpressionPiece>();
         compatibleAcceptingExpressions = new List<ExpressionPiece>();
         foreach (ExpressionPiece ep in expressionsOnScreen) {
