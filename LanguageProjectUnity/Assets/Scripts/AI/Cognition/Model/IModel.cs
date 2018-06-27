@@ -1,4 +1,4 @@
-// an interface for an agents "model", an
+// an interface for an agent's "model", an
 // internal representation of the propositional attitudes
 // that the agent holds: which sentences it holds true,
 // which goals the agent has, etc.
