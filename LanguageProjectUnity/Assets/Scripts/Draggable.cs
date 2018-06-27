@@ -17,6 +17,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     * placeholder keeps track of the position that the box should return
     * to when the mouse is released. (expressions in the keyboard don't all shift inwards the
     * second a expression is dragged outside the keyboard)
+    * Essentially, placeholder maintains an empty space
     */
     GameObject placeholder = null;
 

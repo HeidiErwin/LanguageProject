@@ -1,17 +1,19 @@
 Things Heidi needs to do UI/UX/Unity-wise:
-
 [DONE] refactor WordPiece into ExpressionPiece
-[DONE] make a GameController class to set up the keyboard / add expressions to the screen --
+[DONE] make a GameController class to set up the keyboard / add expressions to the screen
 	   will definitely be useful if not necessary later anyways
-2. expressionPiece.CanAccept --> GET and KEY working fine, bug w/ F & X
-3. expressionPiece.DetermineUpdatedSprite
-4. expressionPiece.DeterminePreviewSprite
-8. update ExpressionPiece image only when necessary
-5. In expressionPiece.OnDrop: a. the dropped expression COPIES from the keyboard and the current expression changes to the new sprite
-                        b. make sure you can only combine expressions in the workspace---keyboard should stay constant
-6. Clean up comments
-7. delete Keyboard.cs if obsolete
+[DONE] expressionPiece.CanAccept --> GET and KEY working fine, bug w/ F & X
+[DONE] expressionPiece.DetermineUpdatedSprite
+[DONE] expressionPiece.DeterminePreviewSprite
+[DONE] delete Keyboard.cs if obsolete
+[DONE] In expressionPiece.OnDrop: the dropped expression COPIES from the keyboard
 
+1. when pieces combine, whole new piece!
+2.  In expressionPiece.OnDrop: make sure you can only combine expressions in the workspace---keyboard should stay constant
+4. Clean up comments
+4. update ExpressionPiece image only when necessary
+
+----------------------------------------------------------------------------------------------
 TODO with Bill Thursday:
 	1. edit ExpressionPiece constructor to create its own Expression -- is this what we want? i.e. in the future, making 
 	   an Expression will be done through making an ExpressionPiece

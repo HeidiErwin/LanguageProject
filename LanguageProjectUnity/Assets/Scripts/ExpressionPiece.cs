@@ -17,17 +17,30 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public Sprite previousSprite;
     public bool isShowingPreview;
 
-    public SemanticType semanticType;
+    private bool isKeyboardPiece;
 
     private Expression myExpression;
 
     //the expressions on screen that can accept this expression
     List<ExpressionPiece> compatibleAcceptingExpressions;
 
-    public ExpressionPiece(string expressionName, Sprite defaultSprite, Sprite currentSprite) {
+    public ExpressionPiece(string expressionName, Sprite defaultSprite, Sprite currentSprite, bool isKeyboardPiece) {
         this.expressionName = expressionName;
         this.defaultSprite = defaultSprite;
         this.currentSprite = currentSprite;
+        this.isKeyboardPiece = isKeyboardPiece;
+    }
+
+    /**
+     * This method should be called after the ExpressionPiece is made, so that 
+     * this piece can remember if it is part of the keyboard
+     * This is important because, for instance, the parent of a piece originally 
+     * in the Keyboard changes from the Keyboard to the Canvas once the piece is 
+     * picked up [in the Draggable script], isKeyboardPiece will indicate that this
+     * Piece belongs in the keyboard.
+     */
+    public void SetKeyboardPiece(bool isKeyboardPiece) {
+        this.isKeyboardPiece = isKeyboardPiece;
     }
 
     /**
@@ -52,6 +65,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
+    public void SetExpression(Expression expression) {
+        myExpression = expression;
+    }
+
     public void Update() {
         //TODO: efficiency, don't update every tick if unnecessary
         //there should only be one image in the images array; the loop below is just for safe measure
@@ -64,11 +81,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     /**
     * Returns true if this Expression can accept another Expression as input, false otherwise
     */
-    public bool CanAccept (ExpressionPiece otherexpression) {
-        //TODO: test below
+    public bool CanAccept (ExpressionPiece otherExpression) {
         List<SemanticType> myInputTypes = myExpression.GetInputType();
-        // return (myInputTypes.Exists(semtype => semtype.Equals(otherexpression.semanticType)));
-        return true;
+        if(myInputTypes == null) {
+            return false;
+        } else {
+            return myInputTypes.Exists(semtype => semtype.Equals(otherExpression.GetExpression().GetSemanticType()));
+        }
     }
 
     /**
@@ -76,10 +95,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * the ExpressionPiece expressionToCombine
      */
     public Sprite DetermineUpdatedSprite (ExpressionPiece expressionToCombine) {
-        Sprite fXSprite = Resources.Load<Sprite>("PlaceholderSprites/fXImage");
+        Sprite updatedSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expressionName + expressionToCombine.expressionName);
 
-        //TODO: given expressionToCombine, return appropriate Sprite
-        return fXSprite;
+        if (updatedSprite != null) {
+            return updatedSprite;
+        }
+        else {
+            return Resources.Load<Sprite>("PlaceholderSprites/smile"); //smile as placeholder if no appropriate sprite exists
+        }
     }
 
     /**
@@ -87,10 +110,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     * the ExpressionPiece expressionToCombine
     */
     public Sprite DeterminePreviewSprite(ExpressionPiece expressionToCombine) {
-        Sprite fOpenSprite = Resources.Load<Sprite>("PlaceholderSprites/fOpenSlot");
+        Sprite previewSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expressionToCombine.expressionName + this.expressionName + "open");
 
-        //TODO: given expressionToCombine, return appropriate Sprite
-        return fOpenSprite;
+        if (previewSprite != null) {
+            return previewSprite;
+        }
+        else {
+            return Resources.Load<Sprite>("PlaceholderSprites/smile"); //smile as placeholder if no appropriate sprite exists
+        }
     }
 
     /**
@@ -115,21 +142,49 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * When this expression is picked up, anything that it can be combined with will adopt
      * the appropriate preview sprite.
      * e.g. if this expression is an E, a expression of type E->T will turn from a solid shape into a 
-     * shape that clearly shows that this E can be inserted into the shape.
+     * shape that shows that this E can be inserted into the shape.
+     * 
+     * If a piece is part of the Keyboard, it does not get moved, but rather a copy of it is made, which
+     * gets moved.
      */
     public void OnBeginDrag(PointerEventData eventData) {
+        if (isKeyboardPiece) {
+           Debug.Log("a keyboard piece!");
+            GameObject keyboard = this.transform.parent.Find("Keyboard").gameObject;
+
+            //remove any occurences of "(Clone)" from this object's name
+            int indexOfParentheses = this.gameObject.name.IndexOf('('); 
+            string trimmedObjectName;
+            if (indexOfParentheses != -1) {
+                trimmedObjectName = this.gameObject.name.Substring(0, indexOfParentheses);
+                Debug.Log("huh " + trimmedObjectName);
+            } else {
+                trimmedObjectName = gameObject.name;
+            }
+
+            GameObject copy = Resources.Load(trimmedObjectName) as GameObject;
+            Debug.Log("this.gameObject.name is " + this.gameObject.name);
+            GameObject copyInstance = Instantiate(copy, new Vector2(100, 100), Quaternion.identity) as GameObject;
+            copyInstance.transform.SetParent(keyboard.transform);
+            ExpressionPiece copiedPiece = copyInstance.GetComponent<ExpressionPiece>();
+            copiedPiece.SetExpression(myExpression);
+            copiedPiece.SetKeyboardPiece(true);
+
+            this.isKeyboardPiece = false;
+        }
+
         ExpressionPiece[] expressionsOnScreen = FindObjectsOfType<ExpressionPiece>();
         compatibleAcceptingExpressions = new List<ExpressionPiece>();
-        foreach (ExpressionPiece wp in expressionsOnScreen) {
-            if (this.CanAccept(wp) && !this.Equals(wp)) {
-                compatibleAcceptingExpressions.Add(wp);
+        foreach (ExpressionPiece ep in expressionsOnScreen) {
+            if (ep.CanAccept(gameObject.GetComponent<ExpressionPiece>()) && !this.Equals(ep)) { 
+                compatibleAcceptingExpressions.Add(ep);
             }
         }
-        foreach (ExpressionPiece wp in compatibleAcceptingExpressions) {
-            Sprite previewSprite = DeterminePreviewSprite(wp);
-            wp.previousSprite = wp.currentSprite;
-            wp.currentSprite = previewSprite;
-            wp.isShowingPreview = true;
+        foreach (ExpressionPiece ep in compatibleAcceptingExpressions) {
+            Sprite previewSprite = DeterminePreviewSprite(ep);
+            ep.previousSprite = ep.currentSprite;
+            ep.currentSprite = previewSprite;
+            ep.isShowingPreview = true;
         }
     }
 
@@ -141,9 +196,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     * their original sprites.
     */
     public void OnEndDrag(PointerEventData eventData) {
-        foreach (ExpressionPiece wp in compatibleAcceptingExpressions) {
-            if (wp.isShowingPreview) {
-                wp.currentSprite = wp.previousSprite;
+        foreach (ExpressionPiece ep in compatibleAcceptingExpressions) {
+            if (ep.isShowingPreview) {
+                ep.currentSprite = ep.previousSprite;
             }
         }
         compatibleAcceptingExpressions.Clear();

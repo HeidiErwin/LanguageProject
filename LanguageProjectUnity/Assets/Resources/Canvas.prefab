@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 222913355664319604}
   - component: {fileID: 114786394488507528}
   - component: {fileID: 114748125266640636}
-  - component: {fileID: 114946780398795748}
   m_Layer: 5
   m_Name: Keyboard
   m_TagString: Untagged
@@ -213,17 +212,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114946780398795748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1360097128724918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2093953fb21c3534fb366a3999d4b340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222236942524496264
 CanvasRenderer:
   m_ObjectHideFlags: 1

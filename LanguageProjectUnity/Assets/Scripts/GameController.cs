@@ -14,13 +14,9 @@ public class GameController : MonoBehaviour {
 	void Start () {
         SetUpCanvas();
         SetUpKeyboard();
-        //instance.transform.SetParent(instance2.transform, false);
-
     }
 
-    void Update () {
-		
-	}
+    void Update () { }
 
     /**
      * Creates the Canvas which holds the keyboard and workspace
@@ -28,9 +24,7 @@ public class GameController : MonoBehaviour {
     public void SetUpCanvas() {
         GameObject canvas = Resources.Load("Canvas") as GameObject;
         canvasInstance = Instantiate(canvas, new Vector2(100, 100), Quaternion.identity) as GameObject;
-        keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject;
-
-        Debug.Log("helloooo" + keyboardInstance.GetComponent<Image>().name); //debug print, remove later
+        keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject as GameObject;
     }
 
     /**
@@ -53,15 +47,21 @@ public class GameController : MonoBehaviour {
         GameObject keyInstance = Instantiate(key, new Vector2(100, 100), Quaternion.identity) as GameObject;
         keyInstance.transform.SetParent(keyboardInstance.transform);
 
-        ExpressionPiece keyPiece = keyInstance.GetComponent<ExpressionPiece>();
-        keyPiece.SetExpression("key", true, new E(), null);
+        ExpressionPiece fPiece = fInstance.GetComponent<ExpressionPiece>();
+        fPiece.SetExpression("f", true, new Arrow(new List<SemanticType> { new E() }, new T()), null);
+        fPiece.SetKeyboardPiece(true);
 
-        ExpressionPiece xPiece = keyInstance.GetComponent<ExpressionPiece>();
+        ExpressionPiece xPiece = xInstance.GetComponent<ExpressionPiece>();
         xPiece.SetExpression("x", true, new E(), null);
+        xPiece.SetKeyboardPiece(true);
 
         ExpressionPiece getPiece = getInstance.GetComponent<ExpressionPiece>();
-        getPiece.SetExpression("get", true, new Arrow(new List<SemanticType> { new E() }, new T()), null); 
-        
+        getPiece.SetExpression("get", true, new Arrow(new List<SemanticType> { new E() }, new T()), null);
+        getPiece.SetKeyboardPiece(true);
+
+        ExpressionPiece keyPiece = keyInstance.GetComponent<ExpressionPiece>();
+        keyPiece.SetExpression("key", true, new E(), null);
+        keyPiece.SetKeyboardPiece(true);
     }
 
     public static Sprite GetSpriteWithName(string name) {
