@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 /**
  * A script to be attached to any Expression objects.
@@ -19,6 +20,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     private Expression myExpression;
 
+    private ExpressionPiece[] myArguments;
+
     //the expressions on screen that can accept this expression
     List<ExpressionPiece> compatibleAcceptingExpressions;
 
@@ -29,8 +32,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         myExpression = expr;
     }
 
+    /**
+     * Called when an ExpressionPiece is created by a Controller or something that isn't OnDrop()
+     */
     public void SetExpression(Expression expression) { 
         myExpression = expression;
+        myArguments = new ExpressionPiece[expression.GetNumArgs()];
     }
 
     public void Update() {
@@ -91,10 +98,66 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
         Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name + " :)");
 
-        if (CanAccept(droppedexpression)) {
-            this.currentSprite = DetermineUpdatedSprite(droppedexpression);
-            this.isShowingPreview = false;
+        Expression expr = null;
+        //try to create new Expression
+        try {
+            expr = new Phrase(this.myExpression, droppedexpression.GetExpression());
+        } catch (ArgumentException e) {
+            Debug.Log("arg exception");
+            return;
         }
+
+        GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        exprPieceScript.SetExpression(expr);
+        exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+        exprPieceScript.expressionName = expr.GetHead();
+        exprPieceScript.myArguments = this.myArguments;
+
+        int index = 0; //TODO --> actually compute index later, based on where dragging happened
+        int counter = -1;
+        for (int i = 0; i < myArguments.Length; i++) {
+            exprPieceScript.myArguments[i] = this.myArguments[i];
+            if (exprPieceScript.myArguments != null) {
+                counter++;
+            }
+            if (counter == index) {
+                exprPieceScript.myArguments[i] = droppedexpression;
+                counter++;
+            }
+        }
+
+        exprPieceScript.currentSprite = GenerateNewImage(exprPieceScript); 
+
+        //exprPiece.transform.localScale = new Vector2(3f, 2f);
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/running");
+
+        Destroy(this.gameObject, 0.0f);
+        Destroy(droppedexpression.gameObject, 0.0f);
+    }
+
+    /**
+     * Creates an Image, which is a component that contains other Images, stored inside
+     * GameObjects, as children
+     * 
+     * STEPS TO GENERATE NEW SPRITE
+     * 1. head in top left
+     * 2. generate argument sprites
+     * 3. set piece sprite width to sum of widths of args (+1 for head)
+     * 4. set piece sprite height to max height of args + 1
+     * 5. place head
+     * 6. place args: if arg has width > 1, we place next arg however many after it
+     */
+    public Sprite GenerateNewImage(ExpressionPiece exprPieceScript) {
+        Expression expr = exprPieceScript.myExpression;
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead());
+        GameObject headObject = new GameObject();
+        headObject.transform.SetParent(exprPieceScript.gameObject.transform);
+        Image headImage = headObject.AddComponent<Image>();
+        headImage.sprite = headSprite;
+
+        return headSprite;
     }
 
     /**
