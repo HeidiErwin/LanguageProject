@@ -28,7 +28,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject;
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.SetExpression(myExpression);
-        exprPieceScript.GenerateVisual(exprPieceScript).transform.SetParent(gameObject.transform);
+        exprPieceScript.GenerateVisual(exprPieceScript).transform.SetParent(this.gameObject.transform);
     }
 
     /**

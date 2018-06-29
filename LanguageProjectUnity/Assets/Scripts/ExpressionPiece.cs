@@ -37,8 +37,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public void Update() {
-        Image[] images = gameObject.GetComponentsInChildren<Image>();
-        images[0].sprite = currentSprite;
+        //Image[] images = gameObject.GetComponentsInChildren<Image>();
+        //images[0].sprite = currentSprite;
     }
 
     /**
@@ -89,7 +89,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     */
     public void OnDrop(PointerEventData eventData) {
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
-        Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name + " :)");
 
         Expression expr = null;
         //try to create new Expression
@@ -118,13 +117,11 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
             if (counter == index) {
                 exprPieceScript.myArguments[i] = droppedexpression;
+               // exprPieceScript.myArguments[i].SetExpression(droppedexpression.myExpression);
                 counter++;
             }
         }
 
-        //pseudo-code: set this EP's child to what's returned by generate visual
-        //GameObject visual = GenerateVisual(exprPieceScript);
-        //visual.transform.SetParent(exprPieceInstance.transform);
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
 
         Destroy(this.gameObject, 0.0f);
@@ -147,11 +144,17 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      */
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
         GameObject exprPiece = exprPieceScript.gameObject;
-        float centerPieceX = exprPiece.transform.position.x;
-        float centerPieceY = exprPiece.transform.position.y;
+        RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
+        float calculatedWidth = MY_WIDTH + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
+        pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
+        float pieceCenterX = exprPiece.transform.position.x;
+        float pieceCenterY = exprPiece.transform.position.y;
+        float pieceTopLeftY = exprPiece.transform.position.y + pieceRect.rect.height/2;
+        float pieceTopLeftX = exprPiece.transform.position.x - pieceRect.rect.width/2;
 
-        float calculatedWidth = MY_WIDTH + (35.0f * (exprPieceScript.myExpression.GetNumArgs()));
-        Debug.Log(MY_WIDTH + "ismywidth");
+        //set color
+        Image[] bgImage = exprPiece.GetComponents<Image>();
+        bgImage[0].color = GetColorOfOutputType(exprPieceScript.myExpression.GetSemanticType());
 
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
@@ -165,10 +168,24 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
         headImage.sprite = headSprite;
         headImage.transform.localScale = headImage.transform.localScale*.25f;
-        headImage.transform.position = new Vector3(centerPieceX - 20, centerPieceY + 20);
+        headImage.transform.position = new Vector3(pieceTopLeftX + 15, pieceTopLeftY - 15);
 
-        RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
-        pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
+
+        //for (int i = 0; i < exprPieceScript.myArguments.Length; i++) {
+            //ExpressionPiece arg = exprPieceScript.myArguments[i];
+            //Debug.Log("ARG" + arg);
+            ////GenerateVisual(arg);
+
+            //GameObject argObject = new GameObject();
+            //argObject.name = "Argument";
+            //argObject.transform.SetParent(visualContainer.transform);
+            //Image argImage = argObject.AddComponent<Image>();
+            //Expression argExpr = arg.myExpression;
+            //Sprite argSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
+            //headImage.sprite = headSprite;
+            //headImage.transform.localScale = headImage.transform.localScale * .25f;
+            //headImage.transform.position = new Vector3(centerPieceX - 20, centerPieceY + 20);
+       // }
 
         return visualContainer;
     }
@@ -219,15 +236,31 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return myExpression;
     }
 
-    public Color GetColorOfSemanticType(SemanticType semType) {
-        if (semType.GetType() == typeof(E)) {
-            return Color.red;
+    /**
+     * Given a semantic type, returns a color based on the output type of that semantic type.
+     * If the type is atomic (the output type would be null), returns a color based on simply 
+     * the semantic type.
+     */
+    public Color GetColorOfOutputType(SemanticType semType) {
+        SemanticType determiningType;
+
+        if (semType.IsAtomic()) {
+            determiningType = semType;
+        } else {
+            determiningType = semType.GetOutputType();
         }
-        else if (semType.GetType() == typeof(T)) {
-            return Color.green;
+
+        if (determiningType.GetType() == typeof(E)) {
+            Debug.Log("in red");
+            return new Color32(255, 80, 26, 140);
+        }
+        else if (determiningType.GetType() == typeof(T)) {
+            Debug.Log("in blue");
+            return new Color32(86, 178, 255, 140);
         }
         else {
-            return Color.blue;
+            Debug.Log("in purple");
+            return new Color32(218, 162, 255, 140);
         }
     }
 }

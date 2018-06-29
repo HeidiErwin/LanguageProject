@@ -47,18 +47,20 @@ TODO After 6/27:
 [DONE] remove bug from Draggable where placeholder remains and makes workspace appear shifted
 
 1. GenerateNewImage
-	- self-build using a color based on SemanticType
+	- [DONE] self-build using a color based on SemanticType
 	- [DONE] get symbol from image
 	- [DONE] box size depends on num args
 	- box height depends on max height of args
 	- argument positioning
-
-2. update ExpressionPiece image only when necessary
-3. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
-4. argument indeces
-5. if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()
+2. PieceSpawner Image resolve bug
+3. preview sprites
+4. update ExpressionPiece image only when necessary
+5. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
+6. argument indeces
+7. if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()
    to not make myArguments just an empty array
-6. Clean up comments & Debugs
+8. Clean up comments & Debugs
+9. order doesn't change when new piece in workspace
 
 COLORS:
 	- outline gives current semtype
