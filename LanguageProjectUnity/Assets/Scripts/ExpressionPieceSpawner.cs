@@ -10,8 +10,6 @@ using UnityEngine.UI;
  */
 public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
-    public string expressionPieceName;
-
     private Expression myExpression;
 
     /**
@@ -22,8 +20,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * So SetUpSpawner must be called once the ExpressionPieceSpawner is created and this script
      * can be accessed.
      */
-    public void SetUpSpawner(string expressionPiecename, Expression expr) {
-        this.expressionPieceName = expressionPiecename;
+    public void SetUpSpawner(Expression expr) {
         this.myExpression = expr;
     }
 
@@ -33,11 +30,12 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
     public ExpressionPiece MakeNewExpressionPiece() {
         GameObject workspace = this.transform.parent.parent.Find("Tabletop").gameObject;
 
-        GameObject exprPiece = Resources.Load(expressionPieceName) as GameObject;
+        GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject; //adjust position if don't set parent to keyboard?
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.SetExpression(myExpression);
+        exprPieceScript.SetVisual(exprPieceScript.GenerateVisual(exprPieceScript));
 
         return exprPieceInstance.GetComponent<ExpressionPiece>();
     }

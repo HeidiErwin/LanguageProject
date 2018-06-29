@@ -43,15 +43,19 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public void Update() {
         //there should only be one image in the images array; the loop below is just for safe measure
         Image[] images = gameObject.GetComponentsInChildren<Image>();
-        foreach (Image image in images) {
-            image.sprite = currentSprite;
-        }
+        images[0].sprite = currentSprite;
+        //foreach (Image image in images) {
+        //  image.sprite = currentSprite;
+        //}
     }
 
     /**
     * Returns true if this Expression can accept another Expression as input, false otherwise
     */
     public bool CanAccept (ExpressionPiece otherExpression) {
+        //Debug.Log("i am " + name + " and my types is " + myExpression.GetSemanticType());
+        //Debug.Log("my FIRST input type is " + myExpression.GetInputType(0));
+        //Debug.Log("i am " + name + " other's type is " + otherExpression.myExpression.GetSemanticType());
         List<SemanticType> myInputTypes = myExpression.GetInputType();
         if(myInputTypes == null) {
             return false;
@@ -107,8 +111,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             return;
         }
 
+        //generate new Piece
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.SetExpression(expr);
         exprPieceInstance.transform.SetParent(this.transform.parent.transform);
@@ -128,20 +133,26 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
         }
 
-        exprPieceScript.currentSprite = GenerateNewImage(exprPieceScript); 
+        //pseudo-code: set this EP's child to what's returned by generate visual
+        //GameObject visual = GenerateVisual(exprPieceScript);
+        //visual.transform.SetParent(exprPieceInstance.transform);
+        exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
+
 
         //exprPiece.transform.localScale = new Vector2(3f, 2f);
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/running");
+        //Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/running");
 
         Destroy(this.gameObject, 0.0f);
         Destroy(droppedexpression.gameObject, 0.0f);
     }
 
     /**
-     * Creates an Image, which is a component that contains other Images, stored inside
-     * GameObjects, as children
+     * Creates a GameObject that will be a child of this ExpressionPiece, and will
+     * have children GameObjects which hold Images (the different visuals of this 
+     * ExpressionPiece).
+     * This ExpressionPiece will later set the returned GameObject as a child of itself.
      * 
-     * STEPS TO GENERATE NEW SPRITE
+     * STEPS TO GENERATE NEW VISUAL:
      * 1. head in top left
      * 2. generate argument sprites
      * 3. set piece sprite width to sum of widths of args (+1 for head)
@@ -149,15 +160,30 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 5. place head
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
-    public Sprite GenerateNewImage(ExpressionPiece exprPieceScript) {
-        Expression expr = exprPieceScript.myExpression;
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead());
+    public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
+        GameObject visualContainer = new GameObject();
+        visualContainer.name = "VisualContainer";
+        visualContainer.transform.SetParent(exprPieceScript.gameObject.transform);
+
         GameObject headObject = new GameObject();
-        headObject.transform.SetParent(exprPieceScript.gameObject.transform);
+        headObject.name = "Head";
+        headObject.transform.SetParent(visualContainer.transform);
         Image headImage = headObject.AddComponent<Image>();
+        Expression expr = exprPieceScript.myExpression;
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
         headImage.sprite = headSprite;
 
-        return headSprite;
+        GameObject exprPiece = exprPieceScript.gameObject;
+        float centerX = headImage.transform.localPosition.x;
+        float centerY = headImage.transform.localPosition.y;
+        headImage.transform.localScale = headImage.transform.localScale*.25f;
+        headImage.transform.position = exprPiece.transform.position;
+            
+        return visualContainer;
+    }
+
+    public void SetVisual(GameObject generatedVisual) {
+        generatedVisual.transform.SetParent(gameObject.transform);
     }
 
     /**
