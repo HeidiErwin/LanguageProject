@@ -9,22 +9,22 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1691107124587242}
+  m_RootGameObject: {fileID: 1417875048716628}
   m_IsPrefabParent: 1
---- !u!1 &1691107124587242
+--- !u!1 &1417875048716628
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 224711961774975296}
-  - component: {fileID: 222178880288111870}
-  - component: {fileID: 114466605665830540}
-  - component: {fileID: 114414878129944414}
-  - component: {fileID: 114573274544462860}
-  - component: {fileID: 225697004871498596}
-  - component: {fileID: 114613111077567674}
+  - component: {fileID: 224113997747115938}
+  - component: {fileID: 222362661185665894}
+  - component: {fileID: 114538213724947056}
+  - component: {fileID: 114402884614174408}
+  - component: {fileID: 114922208485104894}
+  - component: {fileID: 225824807525953450}
+  - component: {fileID: 114294238684283382}
   m_Layer: 5
   m_Name: Piece
   m_TagString: Untagged
@@ -32,28 +32,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1969572429449974
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224207994647086270}
-  - component: {fileID: 222893928611954156}
-  m_Layer: 5
-  m_Name: FText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &114414878129944414
+--- !u!114 &114294238684283382
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
+  m_GameObject: {fileID: 1417875048716628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141fd8aef4498d40bbb67e45d653a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expressionName: genericPiece
+  currentSprite: {fileID: 21300000, guid: 00f921c22476194468e26f28059a1e11, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 00f921c22476194468e26f28059a1e11, type: 3}
+  previousSprite: {fileID: 0}
+  isShowingPreview: 0
+--- !u!114 &114402884614174408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417875048716628}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5afaeedce6670c4789791d46eee36fe, type: 3}
@@ -61,12 +61,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentToReturnTo: {fileID: 0}
   placeholderParent: {fileID: 0}
---- !u!114 &114466605665830540
+--- !u!114 &114538213724947056
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
+  m_GameObject: {fileID: 1417875048716628}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -88,12 +88,12 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114573274544462860
+--- !u!114 &114922208485104894
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
+  m_GameObject: {fileID: 1417875048716628}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1679637790, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -107,63 +107,22 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
---- !u!114 &114613111077567674
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9141fd8aef4498d40bbb67e45d653a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expressionName: genericPiece
-  currentSprite: {fileID: 21300000, guid: 00f921c22476194468e26f28059a1e11, type: 3}
-  defaultSprite: {fileID: 21300000, guid: 00f921c22476194468e26f28059a1e11, type: 3}
-  previousSprite: {fileID: 0}
-  isShowingPreview: 0
---- !u!222 &222178880288111870
+--- !u!222 &222362661185665894
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
---- !u!222 &222893928611954156
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1969572429449974}
---- !u!224 &224207994647086270
+  m_GameObject: {fileID: 1417875048716628}
+--- !u!224 &224113997747115938
 RectTransform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1969572429449974}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 224711961774975296}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.0000023842}
-  m_SizeDelta: {x: 39.09, y: 34.19}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &224711961774975296
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
+  m_GameObject: {fileID: 1417875048716628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
-  m_Children:
-  - {fileID: 224207994647086270}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -172,12 +131,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 71.3, y: 71.3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &225697004871498596
+--- !u!225 &225824807525953450
 CanvasGroup:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691107124587242}
+  m_GameObject: {fileID: 1417875048716628}
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1

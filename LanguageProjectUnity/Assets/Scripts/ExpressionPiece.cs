@@ -18,19 +18,15 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public Sprite previousSprite;
     public bool isShowingPreview;
 
+    private static float MY_WIDTH = 70.0f;
+    private static float MY_HEIGHT = 70.0f;
+
     private Expression myExpression;
 
     private ExpressionPiece[] myArguments;
 
     //the expressions on screen that can accept this expression
     List<ExpressionPiece> compatibleAcceptingExpressions;
-
-    public ExpressionPiece(string expressionName, Sprite defaultSprite, Sprite currentSprite, Expression expr) {
-        this.expressionName = expressionName;
-        this.defaultSprite = defaultSprite;
-        this.currentSprite = currentSprite;
-        myExpression = expr;
-    }
 
     /**
      * Called when an ExpressionPiece is created by a Controller or something that isn't OnDrop()
@@ -41,21 +37,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public void Update() {
-        //there should only be one image in the images array; the loop below is just for safe measure
         Image[] images = gameObject.GetComponentsInChildren<Image>();
         images[0].sprite = currentSprite;
-        //foreach (Image image in images) {
-        //  image.sprite = currentSprite;
-        //}
     }
 
     /**
     * Returns true if this Expression can accept another Expression as input, false otherwise
     */
     public bool CanAccept (ExpressionPiece otherExpression) {
-        //Debug.Log("i am " + name + " and my types is " + myExpression.GetSemanticType());
-        //Debug.Log("my FIRST input type is " + myExpression.GetInputType(0));
-        //Debug.Log("i am " + name + " other's type is " + otherExpression.myExpression.GetSemanticType());
         List<SemanticType> myInputTypes = myExpression.GetInputType();
         if(myInputTypes == null) {
             return false;
@@ -107,7 +96,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         try {
             expr = new Phrase(this.myExpression, droppedexpression.GetExpression());
         } catch (ArgumentException e) {
-            Debug.Log("arg exception");
+            Debug.LogException(e);
             return;
         }
 
@@ -138,10 +127,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         //visual.transform.SetParent(exprPieceInstance.transform);
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
 
-
-        //exprPiece.transform.localScale = new Vector2(3f, 2f);
-        //Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/running");
-
         Destroy(this.gameObject, 0.0f);
         Destroy(droppedexpression.gameObject, 0.0f);
     }
@@ -161,6 +146,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
+        GameObject exprPiece = exprPieceScript.gameObject;
+        float centerPieceX = exprPiece.transform.position.x;
+        float centerPieceY = exprPiece.transform.position.y;
+
+        float calculatedWidth = MY_WIDTH + (35.0f * (exprPieceScript.myExpression.GetNumArgs()));
+        Debug.Log(MY_WIDTH + "ismywidth");
+
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
         visualContainer.transform.SetParent(exprPieceScript.gameObject.transform);
@@ -172,13 +164,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Expression expr = exprPieceScript.myExpression;
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
         headImage.sprite = headSprite;
-
-        GameObject exprPiece = exprPieceScript.gameObject;
-        float centerX = headImage.transform.localPosition.x;
-        float centerY = headImage.transform.localPosition.y;
         headImage.transform.localScale = headImage.transform.localScale*.25f;
-        headImage.transform.position = exprPiece.transform.position;
-            
+        headImage.transform.position = new Vector3(centerPieceX - 20, centerPieceY + 20);
+
+        RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
+        pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
+
         return visualContainer;
     }
 
@@ -226,5 +217,17 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     public Expression GetExpression() {
         return myExpression;
+    }
+
+    public Color GetColorOfSemanticType(SemanticType semType) {
+        if (semType.GetType() == typeof(E)) {
+            return Color.red;
+        }
+        else if (semType.GetType() == typeof(T)) {
+            return Color.green;
+        }
+        else {
+            return Color.blue;
+        }
     }
 }

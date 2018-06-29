@@ -22,6 +22,13 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      */
     public void SetUpSpawner(Expression expr) {
         this.myExpression = expr;
+
+        //get and set the visual for this spawner
+        GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        exprPieceScript.SetExpression(myExpression);
+        exprPieceScript.GenerateVisual(exprPieceScript).transform.SetParent(gameObject.transform);
     }
 
     /**
@@ -31,7 +38,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         GameObject workspace = this.transform.parent.parent.Find("Tabletop").gameObject;
 
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject; //adjust position if don't set parent to keyboard?
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(100, 100), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.SetExpression(myExpression);

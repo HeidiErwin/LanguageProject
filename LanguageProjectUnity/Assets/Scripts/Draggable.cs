@@ -96,4 +96,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Destroy(placeholder);
     }
 
+    public void OnDestroy() {
+        Destroy(placeholder);
+    }
+
 }

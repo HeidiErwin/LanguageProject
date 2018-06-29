@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -42,10 +42,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 731
-  m_MinSize: {x: 681, y: 492}
-  m_MaxSize: {x: 14002, y: 14042}
+  m_MinSize: {x: 683, y: 492}
+  m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 122
+  controlID: 118
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -64,8 +64,8 @@ MonoBehaviour:
     y: 0
     width: 448
     height: 731
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -89,8 +89,8 @@ MonoBehaviour:
     y: 0
     width: 327
     height: 442
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -252,8 +252,8 @@ MonoBehaviour:
     y: 0
     width: 761
     height: 442
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
@@ -323,20 +323,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources/PlaceholderSprites
+    - Assets/Scripts/AI/Language/SemanticType
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/PlaceholderSprites
+  - Assets/Scripts/AI/Language/SemanticType
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\heidi\Documents\LanguageProject2018\LanguageProject\LanguageProjectUnity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ec0b0000
-    m_LastClickedID: 3052
-    m_ExpandedIDs: 00000000fe0800003e0900004e090000520a0000340b0000780b0000ae2c0000b02c000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 5}
+    m_SelectedIDs: 320b0000
+    m_LastClickedID: 2866
+    m_ExpandedIDs: 00000000fe0800004209000052090000620a0000440b0000880b0000be2c0000c02c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -364,7 +364,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000fe0800003e0900004e090000520a0000340b0000780b0000ae2c0000b02c0000
+    m_ExpandedIDs: 00000000fe0800004209000052090000620a0000440b0000880b0000be2c0000c02c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -482,7 +482,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 72b5fcff88b5fcffbab7fcffceb7fcffece6fcff9eebfcffa8ebfcffb2ebfcffe21bfdfff61bfdff3e45fdff4845fdff5245fdff0a72fdff2072fdff4873fdff5c73fdffee84fdfff884fdff0285fdff62cffdff78cffdff9cd0fdffa6d0fdffb0d0fdff0addfdff20ddfdffc2defdffccdefdffd6defdff66e2fdff70e2fdff7ae2fdfff8f1fdff16f2fdff0400feff1000feff2600feff1001feff1a01feff2401feffee06feff0207feff0e07feff1807feff2207feff0e1cfeff1a1cfeff301cfeffc01dfeffca1dfeffd41dfeffae25feffc425feff7a27feff8427feff8e27feff9c2ffeffb22ffeff6c3afeff943afefff83afeff0c3bfeff183bfeff223bfeff2c3bfefff03ffeff0640feff7641feff9e41feff2842feff3242feff3c42feff1049feff2649feffb04afeffba4afeffc44afeff8e51feffb051feffee56fefff856feff0257fefff85efeff0e5ffeff0461feff0e61feff1861feff6c74feff4c14ffff1261ffff2465fffff0fbffff00000000
+    m_ExpandedIDs: 4eb5ffff58b5ffff2acefffff0fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

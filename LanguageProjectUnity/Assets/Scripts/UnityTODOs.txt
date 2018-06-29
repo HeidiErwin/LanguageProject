@@ -12,10 +12,6 @@ Things Heidi needs to do UI/UX/Unity-wise(6/25 - 6/27):
 [DONE] In expressionPiece.OnDrop: make sure you can only combine expressions in the workspace---keyboard should stay constant
 [DONE] when pieces combine, whole new piece!
 
-1. GenerateNewImage
-5. Clean up comments & Debugs
-6. update ExpressionPiece image only when necessary
-7. Unity Image generation (self-build using a color based on SemanticType, get symbol from image, box size depends on num args)
 ----------------------------------------------------------------------------------------------
 TODO with Bill Thursday:
 	1. edit ExpressionPiece constructor to create its own Expression -- is this what we want? i.e. in the future, making 
@@ -44,16 +40,25 @@ Heidi's Response (6/27):
 	- Will ALL expressions be square? i.e. will a three-argument expression not be a wider rectangle, which accepts squares? I suppose it would be convenient to have 
 	  every expression be square because argument boxes could then always be square without confusion
 ~~~~~~~~~~~~~~~
-
 TODO After 6/27: 
-1. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
-2. figure out if it's better to:
-	* change prefabs from specific prefabs to general Piece & PieceSpawner prefabs, and then later set specifications OR --> probably this
-	* copy prefabs as we need more symbols, that can then be called by name
-3. expression sizes
+[DONE] figure out if it's better to:
+		* change prefabs from specific prefabs to general Piece & PieceSpawner prefabs, and then later set specifications OR --> this!
+		* copy prefabs as we need more symbols, that can then be called by name
+[DONE] remove bug from Draggable where placeholder remains and makes workspace appear shifted
+
+1. GenerateNewImage
+	- self-build using a color based on SemanticType
+	- [DONE] get symbol from image
+	- [DONE] box size depends on num args
+	- box height depends on max height of args
+	- argument positioning
+
+2. update ExpressionPiece image only when necessary
+3. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
 4. argument indeces
 5. if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()
    to not make myArguments just an empty array
+6. Clean up comments & Debugs
 
 COLORS:
 	- outline gives current semtype
