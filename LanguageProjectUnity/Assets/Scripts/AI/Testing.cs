@@ -73,6 +73,8 @@ public class Testing {
         Expression everyRedThingIsRound = new Phrase(new Phrase(every, red), round);
         Expression billGivesHeidiTheApple = new Phrase(billGivesHeidi, new Phrase(the, apple));
 
+        Expression verum = new Word(truthValue, "T");
+
         // PrintInfoString(bill);
         // PrintInfoString(heidi);
         // PrintInfoString(red);
@@ -92,7 +94,7 @@ public class Testing {
         System.Console.WriteLine(!billIsRed.Equals(billHelpsHeidi));
 
         System.Console.WriteLine("Model:");
-        IModel model = new SimpleModel();
+        IModel model = new PrefixModel();
         System.Console.WriteLine(model.Add(billIsRed));
         System.Console.WriteLine(!model.Add(billIsRed));
         System.Console.WriteLine(model.Add(billGivesHeidiTheApple));
@@ -105,5 +107,20 @@ public class Testing {
         System.Console.WriteLine(model.Remove(billIsRed));
 
         System.Console.WriteLine(!model.Contains(billIsRed));
+
+        System.Console.WriteLine(model.Add(verum));
+        System.Console.WriteLine(model.Contains(verum));
+        System.Console.WriteLine(model.Remove(verum));
+        System.Console.WriteLine(!model.Contains(verum));
+
+        System.Console.WriteLine(model.Add(helps));
+        System.Console.WriteLine(model.Contains(helps));
+        System.Console.WriteLine(model.Remove(helps));
+        System.Console.WriteLine(!model.Contains(helps));
+
+        System.Console.WriteLine(model.Add(red));
+        System.Console.WriteLine(model.Contains(red));
+        System.Console.WriteLine(model.Remove(red));
+        System.Console.WriteLine(!model.Contains(red));
     }
 }
