@@ -30,19 +30,19 @@ public class GameController : MonoBehaviour {
      * ExpressionPieces in the workspace.
      */
     public void SetUpKeyboard() {
-        GameObject fSpawner = Resources.Load("PieceSpawner") as GameObject;
-        GameObject fSpawnerInstance = Instantiate(fSpawner, new Vector2(100, 100), Quaternion.identity) as GameObject;
-        fSpawnerInstance.transform.SetParent(keyboardInstance.transform);
-        ExpressionPieceSpawner fSpawnerScript = fSpawnerInstance.GetComponent<ExpressionPieceSpawner>();
-        Expression fExpression = new Word(new Arrow(new List<SemanticType> { new E() }, new T()), "f");
-        fSpawnerScript.SetUpSpawner(fExpression);
+        GameObject runsSpawner = Resources.Load("PieceSpawner") as GameObject;
+        GameObject runsSpawnerInstance = Instantiate(runsSpawner, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        runsSpawnerInstance.transform.SetParent(keyboardInstance.transform);
+        ExpressionPieceSpawner runsSpawnerScript = runsSpawnerInstance.GetComponent<ExpressionPieceSpawner>();
+        Expression runsExpression = new Word(new Arrow(new List<SemanticType> { new E() }, new T()), "runs");
+        runsSpawnerScript.SetUpSpawner(runsExpression);
 
-        GameObject xSpawner = Resources.Load("PieceSpawner") as GameObject;
-        GameObject xSpawnerInstance = Instantiate(xSpawner, new Vector2(100, 100), Quaternion.identity) as GameObject;
-        xSpawnerInstance.transform.SetParent(keyboardInstance.transform);
-        ExpressionPieceSpawner xSpawnerScript = xSpawnerInstance.GetComponent<ExpressionPieceSpawner>();
-        Expression xExpression = new Word(new E(), "x");
-        xSpawnerScript.SetUpSpawner(xExpression);
+        GameObject keySpawner = Resources.Load("PieceSpawner") as GameObject;
+        GameObject keySpawnerInstance = Instantiate(keySpawner, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        keySpawnerInstance.transform.SetParent(keyboardInstance.transform);
+        ExpressionPieceSpawner keySpawnerScript = keySpawnerInstance.GetComponent<ExpressionPieceSpawner>();
+        Expression keyExpression = new Word(new E(), "key");
+        keySpawnerScript.SetUpSpawner(keyExpression);
 
         GameObject helpsSpawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject helpsSpawnerInstance = Instantiate(helpsSpawner, new Vector2(100, 100), Quaternion.identity) as GameObject;

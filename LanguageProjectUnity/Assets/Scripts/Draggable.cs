@@ -10,11 +10,15 @@ using UnityEngine.UI;
  */
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
-    // the section of the screen that the expression should return to if not dropped in an acceptable area
+    /* parentToReturnTo - the section of the screen that the expression should return to if not dropped in 
+    * an acceptable area. If the Workspace is still the only area in which words can be combined,
+    * this will be more or less obsolete. This was originally implemented when pieces were
+    * dragged from the keyboard, rather than 'clicked' from the keyboard.
+    */ 
     public Transform parentToReturnTo = null;
 
     /**
-    * placeholder keeps track of the position that the box should return
+    * placeholder - keeps track of the position that the box should return
     * to when the mouse is released. (expressions in the keyboard don't all shift inwards the
     * second a expression is dragged outside the keyboard)
     * Essentially, placeholder maintains an empty space
@@ -54,10 +58,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
         DropZone[] zones = GameObject.FindObjectsOfType<DropZone>();
-        //TODO: now, loop through zones and highlight the ones that are valid drop zones
 
         ExpressionPiece[] expressionsInWorkspace = GameObject.FindObjectsOfType<ExpressionPiece>();
-
     }
 
     /**
@@ -85,7 +87,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         placeholder.transform.SetSiblingIndex(newSiblingIndex);
-
     }
 
     public void OnEndDrag(PointerEventData eventData) {
@@ -99,5 +100,4 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnDestroy() {
         Destroy(placeholder);
     }
-
 }

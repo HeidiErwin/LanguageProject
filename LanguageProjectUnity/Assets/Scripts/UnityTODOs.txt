@@ -40,11 +40,13 @@ Heidi's Response (6/27):
 	- Will ALL expressions be square? i.e. will a three-argument expression not be a wider rectangle, which accepts squares? I suppose it would be convenient to have 
 	  every expression be square because argument boxes could then always be square without confusion
 ~~~~~~~~~~~~~~~
-TODO After 6/27: 
+TODO After 6/27 (6/28 - 6/30):
 [DONE] figure out if it's better to:
 		* change prefabs from specific prefabs to general Piece & PieceSpawner prefabs, and then later set specifications OR --> this!
 		* copy prefabs as we need more symbols, that can then be called by name
 [DONE] remove bug from Draggable where placeholder remains and makes workspace appear shifted
+[DONE] update ExpressionPiece image only when necessary
+[DONE] PieceSpawner Image resolve bug
 
 1. GenerateNewImage
 	- [DONE] self-build using a color based on SemanticType
@@ -52,9 +54,8 @@ TODO After 6/27:
 	- [DONE] box size depends on num args
 	- box height depends on max height of args
 	- argument positioning
-2. PieceSpawner Image resolve bug
+	- remove DeterminePreviewSprite & DetermineUpdatedSprite -- ensure their functionalities are covered.
 3. preview sprites
-4. update ExpressionPiece image only when necessary
 5. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
 6. argument indeces
 7. if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()

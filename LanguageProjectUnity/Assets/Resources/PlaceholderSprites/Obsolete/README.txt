@@ -1,0 +1,1 @@
+Everything in the Obsolete folder was used before Image generation in Unity was implemented.

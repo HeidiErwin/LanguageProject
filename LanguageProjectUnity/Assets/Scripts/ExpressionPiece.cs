@@ -22,7 +22,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     private static float MY_HEIGHT = 70.0f;
 
     private Expression myExpression;
-
     private ExpressionPiece[] myArguments;
 
     //the expressions on screen that can accept this expression
@@ -34,11 +33,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public void SetExpression(Expression expression) { 
         myExpression = expression;
         myArguments = new ExpressionPiece[expression.GetNumArgs()];
-    }
-
-    public void Update() {
-        //Image[] images = gameObject.GetComponentsInChildren<Image>();
-        //images[0].sprite = currentSprite;
     }
 
     /**
@@ -123,9 +117,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
 
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
+        int indexToOccupy = gameObject.transform.GetSiblingIndex();
 
         Destroy(this.gameObject, 0.0f);
         Destroy(droppedexpression.gameObject, 0.0f);
+
+        exprPiece.transform.SetSiblingIndex(indexToOccupy);
     }
 
     /**
@@ -170,6 +167,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         headImage.transform.localScale = headImage.transform.localScale*.25f;
         headImage.transform.position = new Vector3(pieceTopLeftX + 15, pieceTopLeftY - 15);
 
+        //BILL: The below commented lines can be ignored; this was an attempt at arguments that
+        //      was never completed. I am still not sure if the arguments are better maintained as 
+        //      full ExpressionPieces, or if it's better to save their individual data.
+        //      Keeping them as full ExpressionPieces seems easier, but if you're trying things out it's your call.
 
         //for (int i = 0; i < exprPieceScript.myArguments.Length; i++) {
             //ExpressionPiece arg = exprPieceScript.myArguments[i];
@@ -241,7 +242,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * If the type is atomic (the output type would be null), returns a color based on simply 
      * the semantic type.
      */
-    public Color GetColorOfOutputType(SemanticType semType) {
+    public static Color GetColorOfOutputType(SemanticType semType) {
         SemanticType determiningType;
 
         if (semType.IsAtomic()) {
@@ -251,16 +252,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
 
         if (determiningType.GetType() == typeof(E)) {
-            Debug.Log("in red");
-            return new Color32(255, 80, 26, 140);
+            return new Color32(255, 80, 26, 255); //alpha = 140 for semi transparent
         }
         else if (determiningType.GetType() == typeof(T)) {
-            Debug.Log("in blue");
-            return new Color32(86, 178, 255, 140);
+            return new Color32(86, 178, 255, 255);
         }
         else {
-            Debug.Log("in purple");
-            return new Color32(218, 162, 255, 140);
+            return new Color32(218, 162, 255, 255);
         }
     }
 }
