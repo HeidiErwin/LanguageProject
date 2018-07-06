@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -40,11 +40,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     */
     public bool CanAccept (ExpressionPiece otherExpression) {
         List<SemanticType> myInputTypes = myExpression.GetInputType();
-        if(myInputTypes == null) {
-            return false;
-        } else {
-            return myInputTypes.Exists(semtype => semtype.Equals(otherExpression.GetExpression().GetSemanticType()));
-        }
+        return myInputTypes != null && myInputTypes.Exists(semtype => semtype.Equals(otherExpression.GetExpression().GetSemanticType()));
     }
 
     /**
@@ -88,7 +84,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         //try to create new Expression
         try {
             expr = new Phrase(this.myExpression, droppedexpression.GetExpression());
-        } catch (ArgumentException e) {
+        } catch (Exception e) {
             Debug.LogException(e);
             return;
         }
@@ -106,7 +102,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int counter = -1;
         for (int i = 0; i < myArguments.Length; i++) {
             exprPieceScript.myArguments[i] = this.myArguments[i];
-            if (exprPieceScript.myArguments != null) {
+            if (exprPieceScript.myArguments[i] == null) {
                 counter++;
             }
             if (counter == index) {
@@ -144,6 +140,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
         float calculatedWidth = MY_WIDTH + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
+        
         float pieceCenterX = exprPiece.transform.position.x;
         float pieceCenterY = exprPiece.transform.position.y;
         float pieceTopLeftY = exprPiece.transform.position.y + pieceRect.rect.height/2;
@@ -155,13 +152,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
-        visualContainer.transform.SetParent(exprPieceScript.gameObject.transform);
+        visualContainer.transform.SetParent(exprPiece.transform);
 
         GameObject headObject = new GameObject();
         headObject.name = "Head";
         headObject.transform.SetParent(visualContainer.transform);
         Image headImage = headObject.AddComponent<Image>();
-        Expression expr = exprPieceScript.myExpression;
+        Expression expr = exprPieceScript.GetExpression();
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
         headImage.sprite = headSprite;
         headImage.transform.localScale = headImage.transform.localScale*.25f;
@@ -171,12 +168,21 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         //      was never completed. I am still not sure if the arguments are better maintained as 
         //      full ExpressionPieces, or if it's better to save their individual data.
         //      Keeping them as full ExpressionPieces seems easier, but if you're trying things out it's your call.
-
-        //for (int i = 0; i < exprPieceScript.myArguments.Length; i++) {
-            //ExpressionPiece arg = exprPieceScript.myArguments[i];
-            //Debug.Log("ARG" + arg);
-            ////GenerateVisual(arg);
-
+        //      
+        //      this was my stab at making the arguments show up. still buggy and not working properly.
+        //      still need to account for variable-sized arguments.
+        int numArgs = exprPieceScript.myArguments.Length;
+        for (int i = 0; i < numArgs; i++) {
+            ExpressionPiece arg = exprPieceScript.myArguments[i];
+            Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
+            if (arg != null) {
+                Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
+                GameObject argVisual = GenerateVisual(arg);
+                argVisual.transform.SetParent(visualContainer.transform);
+                argVisual.transform.position = new Vector3(pieceTopLeftX + (30 * i) + 45, pieceTopLeftY - 45);
+                Debug.Log(arg.GetExpression().GetHead() + " @ " + i);
+            }
+            
             //GameObject argObject = new GameObject();
             //argObject.name = "Argument";
             //argObject.transform.SetParent(visualContainer.transform);
@@ -186,7 +192,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             //headImage.sprite = headSprite;
             //headImage.transform.localScale = headImage.transform.localScale * .25f;
             //headImage.transform.position = new Vector3(centerPieceX - 20, centerPieceY + 20);
-       // }
+       }
 
         return visualContainer;
     }
