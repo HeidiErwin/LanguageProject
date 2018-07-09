@@ -107,7 +107,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
             if (counter == index) {
                 exprPieceScript.myArguments[i] = droppedexpression;
-               // exprPieceScript.myArguments[i].SetExpression(droppedexpression.myExpression);
                 counter++;
             }
         }
@@ -119,6 +118,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Destroy(droppedexpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
+    }
+
+    public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
+        return GenerateVisual(exprPieceScript, 0);
     }
 
     /**
@@ -135,7 +138,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 5. place head
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
-    public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
+    public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer) {
         GameObject exprPiece = exprPieceScript.gameObject;
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
         float calculatedWidth = MY_WIDTH + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
@@ -147,12 +150,23 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         float pieceTopLeftX = exprPiece.transform.position.x - pieceRect.rect.width/2;
 
         //set color
-        Image[] bgImage = exprPiece.GetComponents<Image>();
-        bgImage[0].color = GetColorOfOutputType(exprPieceScript.myExpression.GetSemanticType());
+        // Image[] bgImage = exprPiece.GetComponents<Image>();
+        // bgImage[0].color = GetColorOfOutputType(exprPieceScript.myExpression.GetSemanticType());
 
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
         visualContainer.transform.SetParent(exprPiece.transform);
+        visualContainer.layer = layer;
+
+        Image bgImage = visualContainer.AddComponent<Image>();
+        bgImage.color = GetColorOfOutputType(exprPieceScript.myExpression.GetSemanticType());
+
+        // bgImage.transform.localScale = visualContainer.transform.localScale;
+        // GameObject theBar = GameObject.Find ("Canvas/loadBar");
+        // var theBarRectTransform = theBar.transform as RectTransform;
+        // theBarRectTransform.sizeDelta = new Vector2 (width, theBarRectTransform.sizeDelta.y);
+        // bgImage.transform.
+        // bgImage.transform.position = new Vector3(pieceCenterX, pieceCenterY);
 
         GameObject headObject = new GameObject();
         headObject.name = "Head";
@@ -164,6 +178,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         headImage.transform.localScale = headImage.transform.localScale*.25f;
         headImage.transform.position = new Vector3(pieceTopLeftX + 15, pieceTopLeftY - 15);
 
+        // Debug.Log(expr.GetHead() + ": " + bgImage[0].color);
+
         //BILL: The below commented lines can be ignored; this was an attempt at arguments that
         //      was never completed. I am still not sure if the arguments are better maintained as 
         //      full ExpressionPieces, or if it's better to save their individual data.
@@ -174,10 +190,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int numArgs = exprPieceScript.myArguments.Length;
         for (int i = 0; i < numArgs; i++) {
             ExpressionPiece arg = exprPieceScript.myArguments[i];
-            Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
+            // Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
             if (arg != null) {
                 Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
-                GameObject argVisual = GenerateVisual(arg);
+                GameObject argVisual = GenerateVisual(arg, layer + 1);
                 argVisual.transform.SetParent(visualContainer.transform);
                 argVisual.transform.position = new Vector3(pieceTopLeftX + (30 * i) + 45, pieceTopLeftY - 45);
                 Debug.Log(arg.GetExpression().GetHead() + " @ " + i);
