@@ -20,8 +20,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     private int myWidthInUnits = 1;
     private int myHeightInUnits = 1;
-    private static float BUFFER_IN_UNITS = 0.1f; //the slight space between args, etc. for visual appeal
-    private static float PIXELS_PER_UNIT = 35.0f;
+    private const float BUFFER_IN_UNITS = 0.1f; //the slight space between args, etc. for visual appeal
+    private const float PIXELS_PER_UNIT = 35.0f;
 
     private Expression myExpression;
     private ExpressionPiece[] myArguments;
@@ -105,10 +105,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.expressionName = expr.GetHead();
         exprPieceScript.myArguments = this.myArguments;
 
-        this.myWidthInUnits = 1;
-        this.myWidthInUnits += droppedexpression.myWidthInUnits;
-        if (myHeightInUnits < (droppedexpression.myHeightInUnits + 1)) {
-            myHeightInUnits = droppedexpression.myHeightInUnits + 1;
+        exprPieceScript.myWidthInUnits = 1;
+        exprPieceScript.myWidthInUnits += droppedexpression.myWidthInUnits;
+
+
+        if (exprPieceScript.myHeightInUnits < (droppedexpression.myHeightInUnits + 1)) {
+            exprPieceScript.myHeightInUnits = droppedexpression.myHeightInUnits + 1;
         }
 
         int index = 0; //TODO --> actually compute index later, based on where dragging happened
@@ -118,19 +120,24 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             exprPieceScript.myArguments[i] = this.myArguments[i];
             if (exprPieceScript.myArguments[i] == null) {
                 counter++;
+                exprPieceScript.myWidthInUnits++;
             } else {
-                myWidthInUnits += exprPieceScript.myArguments[i].myWidthInUnits;
-                if (myHeightInUnits < (exprPieceScript.myHeightInUnits + 1)) {
-                    myHeightInUnits = exprPieceScript.myHeightInUnits + 1;
+                exprPieceScript.myWidthInUnits += exprPieceScript.myArguments[i].myWidthInUnits;
+                if (exprPieceScript.myHeightInUnits < (exprPieceScript.myHeightInUnits + 1)) {
+                    exprPieceScript.myHeightInUnits = exprPieceScript.myHeightInUnits + 1;
                 }
             }
              
             if (counter == index) {
                 exprPieceScript.myArguments[i] = droppedexpression;
                 counter++;
+                exprPieceScript.myWidthInUnits--;
             }
 
         }
+
+        Debug.Log(exprPieceScript.GetExpression().ToString() + " IN ON DROP: mywidthinunits is " + exprPieceScript.myWidthInUnits);
+
 
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
         int indexToOccupy = gameObject.transform.GetSiblingIndex();
@@ -142,7 +149,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
-        return GenerateVisual(exprPieceScript, 0, 0, 0, null);
+        return GenerateVisual(exprPieceScript, 0, 0, 0);
     }
 
     /**
@@ -159,45 +166,37 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 5. place head
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
-    public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer, int xOffset, int yOffset, Transform parentTransform) {
+    public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer, int xOffset, int yOffset) {
         GameObject exprPiece = exprPieceScript.gameObject;
-        if (parentTransform != null) {
-            exprPiece.transform.position.Set(parentTransform.position.x, parentTransform.position.y, 0);
-        }
+
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
-        float calculatedWidth = (PIXELS_PER_UNIT * myWidthInUnits);// + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
-        float calculatedHeight = (PIXELS_PER_UNIT * myHeightInUnits);// + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
-        Debug.Log(exprPieceScript.name + "'s width is: " + calculatedWidth);
+        Debug.Log(exprPieceScript.GetExpression().ToString() + "'s width BEFORE is: " + exprPieceScript.myWidthInUnits);
+
+
+        float calculatedWidth = (PIXELS_PER_UNIT * (exprPieceScript.myWidthInUnits));// + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
+        Debug.Log(exprPieceScript.GetExpression().ToString() + "'s width AFTER is: " + exprPieceScript.myWidthInUnits);
+
+        float calculatedHeight = (PIXELS_PER_UNIT * (exprPieceScript.myHeightInUnits));
+        Debug.Log(exprPieceScript.GetExpression().GetHead() + "'s calculatedWidth is: " + calculatedWidth);
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
+        pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight);
 
-        Debug.Log(exprPieceScript.GetExpression().GetHead() + " has a width of " + calculatedWidth + " and a height of "
-    + calculatedHeight);
-
-        //float pieceCenterX = parentTransform.position.x + xOffset * PIXELS_PER_UNIT;
-        //float pieceCenterY = exprPiece.transform.position.y - yOffset * PIXELS_PER_UNIT;
-        //float pieceTopLeftY = exprPiece.transform.position.y + pieceRect.rect.height / 2;
-        //float pieceTopLeftX = exprPiece.transform.position.x - pieceRect.rect.width / 2;
-
-        float pieceCenterX = exprPiece.transform.position.x + xOffset * PIXELS_PER_UNIT;
-        float pieceCenterY = exprPiece.transform.position.y - yOffset * PIXELS_PER_UNIT;
-        float pieceTopLeftY = exprPiece.transform.position.y + pieceRect.rect.height/2;
-        float pieceTopLeftX = exprPiece.transform.position.x - pieceRect.rect.width/2;
+        float pieceCenterX = 0; //xOffset * PIXELS_PER_UNIT;
+        float pieceCenterY = 0; //yOffset * PIXELS_PER_UNIT;
+        float pieceTopLeftX = pieceCenterX - calculatedWidth / 2;
+        float pieceTopLeftY = pieceCenterY + calculatedHeight / 2;
 
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
         visualContainer.transform.SetParent(exprPiece.transform);
+
         visualContainer.layer = layer;
 
         RectTransform visContainerRectTransform = visualContainer.AddComponent<RectTransform>();
         Image bgImage = visualContainer.AddComponent<Image>();
         bgImage.color = GetColorOfOutputType(exprPieceScript.myExpression.GetSemanticType());
-        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
-        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight);
-
-
-        // bgImage.transform.localScale = visualContainer.transform.localScale;
-        // bgImage.transform.
-        // bgImage.transform.position = new Vector3(pieceCenterX, pieceCenterY);
+        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth - PIXELS_PER_UNIT* BUFFER_IN_UNITS);
+        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight - PIXELS_PER_UNIT * BUFFER_IN_UNITS);
 
         GameObject headObject = new GameObject();
         headObject.name = "Head";
@@ -206,10 +205,11 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Expression expr = exprPieceScript.GetExpression();
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
         headImage.sprite = headSprite;
-        headImage.transform.localScale = headImage.transform.localScale*.25f;
-        headImage.transform.position = new Vector3(pieceTopLeftX + 15, pieceTopLeftY - 15);
+        headImage.transform.localScale *= .25f;
+        headImage.transform.position = new Vector3(pieceTopLeftX + (.5f*PIXELS_PER_UNIT), pieceTopLeftY - (.5f*PIXELS_PER_UNIT));
 
-        // Debug.Log(expr.GetHead() + ": " + bgImage[0].color);
+        visualContainer.transform.position = new Vector3(0, 0, 0);
+
 
         //BILL: The below commented lines can be ignored; this was an attempt at arguments that
         //      was never completed. I am still not sure if the arguments are better maintained as 
@@ -224,29 +224,21 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         for (int i = 0; i < numArgs; i++) {
             ExpressionPiece arg = exprPieceScript.myArguments[i];
-            // Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
+            //Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
             if (arg != null) {
                 currentX += arg.myWidthInUnits;
-                Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
+               // Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
                 
-                GameObject argVisual = GenerateVisual(arg, layer + 1, currentX, currentY, exprPiece.transform);
+                GameObject argVisual = GenerateVisual(arg, layer + 1, currentX, currentY);
                 argVisual.transform.SetParent(visualContainer.transform);
 
-                argVisual.transform.position = new Vector3(pieceTopLeftX + (30 * i) + 45, pieceTopLeftY - 45);
-                Debug.Log(arg.GetExpression().GetHead() + " @ " + i);
+                argVisual.transform.position = new Vector3(pieceTopLeftX + PIXELS_PER_UNIT*(currentX - ((.5f * arg.myWidthInUnits) + BUFFER_IN_UNITS)), PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS));
+                //argVisual.transform.position = new Vector3(pieceTopLeftX + (30 * i) + 45, pieceTopLeftY - 45);
+                //Debug.Log(arg.GetExpression().GetHead() + " @ " + i);
             } else {
                 currentX++;
             }
             
-            //GameObject argObject = new GameObject();
-            //argObject.name = "Argument";
-            //argObject.transform.SetParent(visualContainer.transform);
-            //Image argImage = argObject.AddComponent<Image>();
-            //Expression argExpr = arg.myExpression;
-            //Sprite argSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
-            //headImage.sprite = headSprite;
-            //headImage.transform.localScale = headImage.transform.localScale * .25f;
-            //headImage.transform.position = new Vector3(centerPieceX - 20, centerPieceY + 20);
        }
 
         return visualContainer;

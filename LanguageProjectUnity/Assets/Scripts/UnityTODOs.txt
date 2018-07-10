@@ -62,6 +62,7 @@ TODO After 6/27 (6/28 - 6/30):
    to not make myArguments just an empty array
 8. Clean up comments & Debugs
 9. order doesn't change when new piece in workspace
+10. buffer space
 
 COLORS:
 	- outline gives current semtype
