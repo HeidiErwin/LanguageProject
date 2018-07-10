@@ -62,9 +62,21 @@ TODO After 6/27 (6/28 - 6/30):
    to not make myArguments just an empty array
 8. Clean up comments & Debugs
 9. order doesn't change when new piece in workspace
-10. buffer space
+[DONE] buffer space
 
 COLORS:
 	- outline gives current semtype
 	- fill gives semtype that expr will become when all args filled in (output type)
 	- empty input boxes have colored outline for type they accept, fill is semi transparent (look into alpha layers)
+
+
+7/10 and after TODO: 
+- borders (for input and main box)
+- empty arg boxes
+- GenerateVisual needs to be a function of 
+- preview resizing input boxes depending on what's being dragged
+- put exprs in specific input box rather than first slot
+- larger workspace
+- box doesn't shift in place if something is dragged over it, so player can place in specific input box
+- sem type colors ++
+- keyboard should be ordered

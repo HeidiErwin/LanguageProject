@@ -114,11 +114,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int index = 0; //TODO --> actually compute index later, based on where dragging happened
         int counter = -1;
         for (int i = 0; i < myArguments.Length; i++) {
-            exprPieceScript.myArguments[i] = this.myArguments[i];
-            if (exprPieceScript.myArguments[i] == null) {
+
+            if (this.myArguments[i] == null) {
                 counter++;
                 exprPieceScript.myWidthInUnits++;
             } else {
+                exprPieceScript.myArguments[i] = myArguments[i].DeepCopy();
+
                 exprPieceScript.myWidthInUnits += exprPieceScript.myArguments[i].myWidthInUnits;
                 if (exprPieceScript.myHeightInUnits < (exprPieceScript.myArguments[i].myHeightInUnits + 1)) {
                     exprPieceScript.myHeightInUnits = exprPieceScript.myArguments[i].myHeightInUnits + 1;
@@ -126,7 +128,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
              
             if (counter == index) {
-                exprPieceScript.myArguments[i] = droppedexpression;
+                exprPieceScript.myArguments[i] = droppedexpression.DeepCopy();
                 Debug.Log("^" + exprPieceScript.myArguments[i].GetExpression() + "^ was properly set.");
                 counter++;
                 exprPieceScript.myWidthInUnits--;
@@ -134,7 +136,11 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         }
 
+        Debug.Log(exprPieceScript.myHeightInUnits + " is " + exprPieceScript.GetExpression() + "'s height in units");
+
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
+
+
         int indexToOccupy = gameObject.transform.GetSiblingIndex();
 
         // TODO 7/10 --- THIS IS THE SOURCE OF OUR DISCONTENT!!!!
@@ -142,10 +148,35 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         // However, the expressions it leaves behind are dangerous:
         // unity will crash if you try to give a built expression to one of its
         // parts (memory-wise).
-        // Destroy(this.gameObject, 0.0f);
-        // Destroy(droppedexpression.gameObject, 0.0f);
+        Destroy(this.gameObject, 0.0f);
+        Destroy(droppedexpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
+
+        Debug.Log("expression: " + exprPieceScript.GetExpression());
+
+        if (exprPieceScript.myArguments.Length == 2) {
+            Debug.Log(exprPieceScript.myArguments[0]);
+        }
+    }
+
+    public ExpressionPiece DeepCopy() {
+        GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        exprPieceScript.SetExpression(this.GetExpression()); //TODO: deep copy ref??
+        exprPieceScript.myHeightInUnits = this.myHeightInUnits;
+        exprPieceScript.myWidthInUnits = this.myWidthInUnits;
+        exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+        exprPieceScript.expressionName = this.GetExpression().GetHead();
+
+        for (int i = 0; i < this.myArguments.Length; i++) {
+            if (this.myArguments[i] != null) {
+                exprPieceScript.myArguments[i] = this.myArguments[i].DeepCopy();
+            }
+        }
+
+        return exprPieceScript;
     }
 
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
@@ -168,6 +199,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      */
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer) {
         Debug.Log("Calling GenerateVisual on ^" + exprPieceScript.GetExpression() + "^");
+        Debug.Log(exprPieceScript.myHeightInUnits + " is " + exprPieceScript.GetExpression() + "'s height in units in generate visual");
+
         GameObject exprPiece = exprPieceScript.gameObject;
 
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
@@ -219,6 +252,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         for (int i = 0; i < numArgs; i++) {
             Debug.Log("^" + exprPieceScript.GetExpression().GetArg(i) + "^ is an argument...");
             ExpressionPiece arg = exprPieceScript.myArguments[i];
+
+
             // Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
             if (arg != null) {
                 currentX += arg.myWidthInUnits;
@@ -227,7 +262,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 GameObject argVisual = GenerateVisual(arg, layer + 1);
                 argVisual.transform.SetParent(visualContainer.transform);
 
-                argVisual.transform.position = new Vector3(pieceTopLeftX + PIXELS_PER_UNIT*(currentX - ((.5f * arg.myWidthInUnits) + BUFFER_IN_UNITS)), PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS));
+                float positionX = pieceTopLeftX + PIXELS_PER_UNIT * (currentX - ((.5f * arg.myWidthInUnits) + BUFFER_IN_UNITS));
+                float valToTopAlignArgs = (((exprPieceScript.myHeightInUnits - 1) - arg.myHeightInUnits)) * (PIXELS_PER_UNIT / 2);
+                Debug.Log("arg.myheightinunits " + arg.myHeightInUnits + ", myHeightInUnits " + myHeightInUnits + " , arg is: " + arg.GetExpression().ToString());
+                float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
+
+                argVisual.transform.position = new Vector3(positionX, positionY);
                 //argVisual.transform.position = new Vector3(pieceTopLeftX + (30 * i) + 45, pieceTopLeftY - 45);
                 //Debug.Log(arg.GetExpression().GetHead() + " @ " + i);
             } else {
