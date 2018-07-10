@@ -20,7 +20,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     private int myWidthInUnits = 1;
     private int myHeightInUnits = 1;
-    private const float BUFFER_IN_UNITS = 0.1f; //the slight space between args, etc. for visual appeal
+    private const float BUFFER_IN_UNITS = 0.15f; //the slight space between args, etc. for visual appeal
     private const float PIXELS_PER_UNIT = 35.0f;
 
     private Expression myExpression;
@@ -107,8 +107,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         exprPieceScript.myWidthInUnits = 1;
         exprPieceScript.myWidthInUnits += droppedexpression.myWidthInUnits;
-
-
         if (exprPieceScript.myHeightInUnits < (droppedexpression.myHeightInUnits + 1)) {
             exprPieceScript.myHeightInUnits = droppedexpression.myHeightInUnits + 1;
         }
@@ -116,40 +114,42 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int index = 0; //TODO --> actually compute index later, based on where dragging happened
         int counter = -1;
         for (int i = 0; i < myArguments.Length; i++) {
-            
             exprPieceScript.myArguments[i] = this.myArguments[i];
             if (exprPieceScript.myArguments[i] == null) {
                 counter++;
                 exprPieceScript.myWidthInUnits++;
             } else {
                 exprPieceScript.myWidthInUnits += exprPieceScript.myArguments[i].myWidthInUnits;
-                if (exprPieceScript.myHeightInUnits < (exprPieceScript.myHeightInUnits + 1)) {
-                    exprPieceScript.myHeightInUnits = exprPieceScript.myHeightInUnits + 1;
+                if (exprPieceScript.myHeightInUnits < (exprPieceScript.myArguments[i].myHeightInUnits + 1)) {
+                    exprPieceScript.myHeightInUnits = exprPieceScript.myArguments[i].myHeightInUnits + 1;
                 }
             }
              
             if (counter == index) {
                 exprPieceScript.myArguments[i] = droppedexpression;
+                Debug.Log("^" + exprPieceScript.myArguments[i].GetExpression() + "^ was properly set.");
                 counter++;
                 exprPieceScript.myWidthInUnits--;
             }
 
         }
 
-        Debug.Log(exprPieceScript.GetExpression().ToString() + " IN ON DROP: mywidthinunits is " + exprPieceScript.myWidthInUnits);
-
-
         exprPieceScript.SetVisual(GenerateVisual(exprPieceScript));
         int indexToOccupy = gameObject.transform.GetSiblingIndex();
 
-        Destroy(this.gameObject, 0.0f);
-        Destroy(droppedexpression.gameObject, 0.0f);
+        // TODO 7/10 --- THIS IS THE SOURCE OF OUR DISCONTENT!!!!
+        // when these are commented out, the argument structure works out.
+        // However, the expressions it leaves behind are dangerous:
+        // unity will crash if you try to give a built expression to one of its
+        // parts (memory-wise).
+        // Destroy(this.gameObject, 0.0f);
+        // Destroy(droppedexpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
     }
 
     public GameObject GenerateVisual(ExpressionPiece exprPieceScript) {
-        return GenerateVisual(exprPieceScript, 0, 0, 0);
+        return GenerateVisual(exprPieceScript, 0);
     }
 
     /**
@@ -166,30 +166,24 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 5. place head
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
-    public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer, int xOffset, int yOffset) {
+    public GameObject GenerateVisual(ExpressionPiece exprPieceScript, int layer) {
+        Debug.Log("Calling GenerateVisual on ^" + exprPieceScript.GetExpression() + "^");
         GameObject exprPiece = exprPieceScript.gameObject;
 
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
-        Debug.Log(exprPieceScript.GetExpression().ToString() + "'s width BEFORE is: " + exprPieceScript.myWidthInUnits);
-
-
-        float calculatedWidth = (PIXELS_PER_UNIT * (exprPieceScript.myWidthInUnits));// + (35.0f * (exprPieceScript.myExpression.GetNumArgs() - 1));
-        Debug.Log(exprPieceScript.GetExpression().ToString() + "'s width AFTER is: " + exprPieceScript.myWidthInUnits);
-
+        float calculatedWidth = (PIXELS_PER_UNIT * (exprPieceScript.myWidthInUnits));
         float calculatedHeight = (PIXELS_PER_UNIT * (exprPieceScript.myHeightInUnits));
-        Debug.Log(exprPieceScript.GetExpression().GetHead() + "'s calculatedWidth is: " + calculatedWidth);
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight);
 
-        float pieceCenterX = 0; //xOffset * PIXELS_PER_UNIT;
-        float pieceCenterY = 0; //yOffset * PIXELS_PER_UNIT;
+        float pieceCenterX = 0;
+        float pieceCenterY = 0;
         float pieceTopLeftX = pieceCenterX - calculatedWidth / 2;
         float pieceTopLeftY = pieceCenterY + calculatedHeight / 2;
 
         GameObject visualContainer = new GameObject();
         visualContainer.name = "VisualContainer";
         visualContainer.transform.SetParent(exprPiece.transform);
-
         visualContainer.layer = layer;
 
         RectTransform visContainerRectTransform = visualContainer.AddComponent<RectTransform>();
@@ -223,13 +217,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int currentY = 1;
 
         for (int i = 0; i < numArgs; i++) {
+            Debug.Log("^" + exprPieceScript.GetExpression().GetArg(i) + "^ is an argument...");
             ExpressionPiece arg = exprPieceScript.myArguments[i];
-            //Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
+            // Debug.Log(arg.GetExpression()); // if you comment this out, then the second argument is no longer recognized.
             if (arg != null) {
                 currentX += arg.myWidthInUnits;
-               // Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
+                // Debug.Log(expr.GetHead() + " @ " + i + " is " + arg.GetExpression().GetHead());
                 
-                GameObject argVisual = GenerateVisual(arg, layer + 1, currentX, currentY);
+                GameObject argVisual = GenerateVisual(arg, layer + 1);
                 argVisual.transform.SetParent(visualContainer.transform);
 
                 argVisual.transform.position = new Vector3(pieceTopLeftX + PIXELS_PER_UNIT*(currentX - ((.5f * arg.myWidthInUnits) + BUFFER_IN_UNITS)), PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS));
@@ -305,13 +300,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
 
         if (determiningType.GetType() == typeof(E)) {
-            return new Color32(255, 80, 26, 255); //alpha = 140 for semi transparent
+            return new Color32(255, 80, 26, 140); //alpha = 140 for semi transparent
         }
         else if (determiningType.GetType() == typeof(T)) {
-            return new Color32(86, 178, 255, 255);
+            return new Color32(86, 178, 255, 140);
         }
         else {
-            return new Color32(218, 162, 255, 255);
+            return new Color32(218, 162, 255, 140);
         }
     }
 }
