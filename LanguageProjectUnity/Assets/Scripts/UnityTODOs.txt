@@ -52,8 +52,8 @@ TODO After 6/27 (6/28 - 6/30):
 	- [DONE] self-build using a color based on SemanticType
 	- [DONE] get symbol from image
 	- [DONE] box size depends on num args
-	- box height depends on max height of args
-	- argument positioning
+	- [DONE] box height depends on max height of args
+	- [DONE] argument positioning
 	- remove DeterminePreviewSprite & DetermineUpdatedSprite -- ensure their functionalities are covered.
 3. preview sprites
 5. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
@@ -71,12 +71,23 @@ COLORS:
 
 
 7/10 and after TODO: 
-- borders (for input and main box)
-- empty arg boxes
-- GenerateVisual needs to be a function of 
-- preview resizing input boxes depending on what's being dragged
+- [DONE] borders (for input and main box)
+- empty arg boxes: ALMOST DONE BUT BUGGY
+- [DONE] GenerateVisual needs to be a function of 
+- preview resizing input boxes depending on what's being dragged: Maybe don't do this?? Maybe change to click-click instead
 - put exprs in specific input box rather than first slot
 - larger workspace
 - box doesn't shift in place if something is dragged over it, so player can place in specific input box
-- sem type colors ++
+- [DONE] sem type colors ++
 - keyboard should be ordered
+- expressions shouldn't stack transparency
+
+On 7/10-7/11, I added border colors, expanded the keyboard and got argument boxes (almost) working, except for a bug where a completely invisible "dummy" expression piece (which I make to make the empty argument slot) is left on the workspace.
+If you work on the project before I do, could you please work on the bug?
+
+Also, as a cosmetic thing, I would really like to have the transparency the same over all the expression, but since we have multiple
+semi-transparent rectangles stack ontop of one another, the expressions become more opaque the deeper they are in an expression.
+Could you try to fix this if you could?
+
+Thanks,
+Bill

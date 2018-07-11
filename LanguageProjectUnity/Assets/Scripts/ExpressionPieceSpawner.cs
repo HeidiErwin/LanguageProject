@@ -36,7 +36,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.SetExpression(myExpression);
-        exprPieceScript.SetVisual(exprPieceScript.GenerateVisual(exprPieceScript));
+        exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
         return exprPieceInstance.GetComponent<ExpressionPiece>();
     }
@@ -60,13 +60,13 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
         Image headImage = nameObject.AddComponent<Image>();
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead() + "Symbol");
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead());
         headImage.sprite = headSprite;
-        headImage.transform.localScale = headImage.transform.localScale * .25f;
-        headImage.transform.position = new Vector3(pieceTopLeftX + 15, pieceTopLeftY - 15);
+        headImage.transform.localScale = headImage.transform.localScale * .5f;
+        headImage.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
 
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
-        bgImage[0].color = ExpressionPiece.GetColorOfOutputType(expr.GetSemanticType());
+        bgImage[0].color = ExpressionPiece.GetColorOfSemanticType(expr.GetSemanticType()) - (new Color(0, 0, 0, 0.5f));
     }
 }
