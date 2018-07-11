@@ -11,12 +11,10 @@ Things Heidi needs to do UI/UX/Unity-wise(6/25 - 6/27):
 [DONE] copying from keyboard puts pieces at end of keyboard
 [DONE] In expressionPiece.OnDrop: make sure you can only combine expressions in the workspace---keyboard should stay constant
 [DONE] when pieces combine, whole new piece!
-
 ----------------------------------------------------------------------------------------------
 TODO with Bill Thursday:
 	1. edit ExpressionPiece constructor to create its own Expression -- is this what we want? i.e. in the future, making 
 	   an Expression will be done through making an ExpressionPiece --> Nope! See responses below for how this is going to be handled.
-
 ~~~~~~~~~~~~~~~~
 Bill's Remarks (6/27):
   - the symbols on the keyboard shouldn't move, as you've noted, and they also shouldn't change form when a potential argument is in play. They should be inert, and always in the same position on the keyboard. Ultimately there will be multiple tabs for the keyboard.
@@ -47,40 +45,37 @@ TODO After 6/27 (6/28 - 6/30):
 [DONE] remove bug from Draggable where placeholder remains and makes workspace appear shifted
 [DONE] update ExpressionPiece image only when necessary
 [DONE] PieceSpawner Image resolve bug
-
-1. GenerateNewImage
+[DONE] GenerateNewImage --> now GenerateVisual()
 	- [DONE] self-build using a color based on SemanticType
 	- [DONE] get symbol from image
 	- [DONE] box size depends on num args
 	- [DONE] box height depends on max height of args
 	- [DONE] argument positioning
-	- remove DeterminePreviewSprite & DetermineUpdatedSprite -- ensure their functionalities are covered.
-3. preview sprites
-5. change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols.
-6. argument indeces
-7. if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()
-   to not make myArguments just an empty array
-8. Clean up comments & Debugs
-9. order doesn't change when new piece in workspace
+[DONE] change names, which are currently Strings, to symbols, which are Images. Alternatively, keep names, but add in symbols. --> symbols accesssed based on name
 [DONE] buffer space
-
+~~~~~~~~~~~~~~~~~~~~~~~
 COLORS:
 	- outline gives current semtype
 	- fill gives semtype that expr will become when all args filled in (output type)
 	- empty input boxes have colored outline for type they accept, fill is semi transparent (look into alpha layers)
-
-
+~~~~~~~~~~~~~~~~~~~~~~~
 7/10 and after TODO: 
 - [DONE] borders (for input and main box)
-- empty arg boxes: ALMOST DONE BUT BUGGY
 - [DONE] GenerateVisual needs to be a function of 
-- preview resizing input boxes depending on what's being dragged: Maybe don't do this?? Maybe change to click-click instead
-- put exprs in specific input box rather than first slot
-- larger workspace
-- box doesn't shift in place if something is dragged over it, so player can place in specific input box
 - [DONE] sem type colors ++
+- [DONE] empty arg boxes
+- [DONE] larger workspace
+- preview resizing input boxes depending on what's being dragged: Maybe don't do this?? Maybe change to click-click instead
+- put exprs in specific input box rather than first slot / argument indeces
+- box doesn't shift in place if something is dragged over it, so player can place in specific input box
 - keyboard should be ordered
 - expressions shouldn't stack transparency
+- preview sprites
+- remove DeterminePreviewSprite & DetermineUpdatedSprite -- ensure their functionalities are covered (this is related to preview images)
+- order doesn't change when new piece in workspace
+- if we implement an Expression Bank ever (user-saved expressions), we need to edit ExpressionPiece.SetExpression()
+   to not make myArguments just an empty array
+- clean up comments & Debugs
 
 On 7/10-7/11, I added border colors, expanded the keyboard and got argument boxes (almost) working, except for a bug where a completely invisible "dummy" expression piece (which I make to make the empty argument slot) is left on the workspace.
 If you work on the project before I do, could you please work on the bug?
@@ -93,3 +88,16 @@ And could we make the workspace bigger, and possibly move away from drag-drop to
 
 Thanks,
 Bill
+
+7/11: Fixed the bug and made the workspace bigger. I want to know specifically what you're thinking in terms of click-click before I 
+	  start on that so that I don't spend time creating something we don't really want. Would click-click 
+	  mean you select a click a piece, e.g. Alice, and now that Alice has been selected, you would click 'runs' for Alice to be placed into runs? and if you clicked
+	  Alice by accident on the workspace you would be able to re-click Alice to deselect it?
+	  
+	 I'm not totally sure how we could deal with the transparency thing, and hopefully there is an easier way than, in the case of runs(Alice), calculating
+	 the square of pixels that Alice occupies and setting that section of runs to be entirely transparent so that Alice's tint is the only one showing, but this
+	 may be how we have to go about it. If we end up having to attempt that, we will probably use similar code for determining which argument box the user is trying
+	 to drag an argument into, which is also on the TODO list, so that will be a two-birds-one-stone (1.5-birds-one-stone?) situation.
+	 I will look into transparency in Unity online, but it would be great if you could look into this as well.
+
+- Heidi 

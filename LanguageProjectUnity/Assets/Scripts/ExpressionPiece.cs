@@ -13,9 +13,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public static bool DRAW_SUBEXPRESSION_TYPE = true;
     public static float EXPRESSION_OPACITY = 0.4f;
     public static bool DRAW_ARGUMENT_TYPE = true;
-
-    //the expression in English (e.g. Key, Door, etc.)
-    public string expressionName;
+   
+    public string expressionName; //the expression in English (e.g. Key, Door, etc.)
 
     public Sprite currentSprite;
     public Sprite defaultSprite;
@@ -45,13 +44,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         for (int i = 0; i < myArguments.Length; i++) {
             // the BUG is either in this block...
             if (expression.GetArg(i) == null && DRAW_ARGUMENT_TYPE) {
+                Debug.Log("in if");
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
-                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, -100), Quaternion.identity) as GameObject;
                 ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
                 exprPieceScript.myExpression = new Word(expression.GetInputType(counter), "_");
                 exprPieceScript.myArguments = new ExpressionPiece[0];
-                exprPieceInstance.transform.SetParent(this.transform.parent.transform);
-                exprPieceScript.transform.SetParent(this.transform.parent.transform);
+                exprPieceInstance.transform.SetParent(this.transform);
+                exprPieceScript.transform.SetParent(this.transform);
                 exprPieceScript.expressionName = "_";
                 myArguments[i] = exprPieceScript;
                 counter++;
@@ -107,6 +107,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     * The image of this expression is updated appropriately.
     */
     public void OnDrop(PointerEventData eventData) {
+        Debug.Log("in OnDrop");
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
     
         Expression expr = null;
@@ -139,7 +140,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             exprPieceScript.myHeightInUnits = droppedexpression.myHeightInUnits + 1;
         }
 
-        int index = 0; //TODO --> actually compute index, based on where drop happened
+        int index = 0; //TODO: actually compute index, based on where drop happened
         int counter = -1;
         
         for (int i = 0; i < myArguments.Length; i++) {
@@ -162,19 +163,18 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
              
             if (counter == index) {
                 // ... or here.
-                Destroy(this.myArguments[i].gameObject, 0.0f);
-                Destroy(exprPieceScript.myArguments[i].gameObject, 0.0f);
+                //Destroy(this.myArguments[i].gameObject, 0.0f); no longer necessary!
+                //Destroy(exprPieceScript.myArguments[i].gameObject, 0.0f); also no longer necessary!
                 // Destroy(exprPieceScript.myArguments[i], 0.0f);
                 exprPieceScript.myArguments[i] = droppedexpression.DeepCopy();
                 counter++;
                 exprPieceScript.myWidthInUnits--;
             }
-
         }
 
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
-        int indexToOccupy = gameObject.transform.GetSiblingIndex();
+        int indexToOccupy = this.gameObject.transform.GetSiblingIndex();
 
         Destroy(this.gameObject, 0.0f);
         Destroy(droppedexpression.gameObject, 0.0f);
@@ -368,7 +368,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public void OnDrag(PointerEventData eventData) {
-        // Debug.Log("^" + this.myExpression + "^ is being dragged");
+        Debug.Log("^" + this.myExpression + "^ is being dragged");
     }
 
     /**
@@ -443,15 +443,5 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
 
         return GetColorOfSemanticType(determiningType) + new Color(0.25f, 0.25f, 0.25f, 0f) - new Color(0, 0, 0, (1 - EXPRESSION_OPACITY));
-
-        // if (determiningType.Equals(SemanticType.INDIVIDUAL)) {
-        //     return new Color32(255, 80, 26, 140); //alpha = 140 for semi transparent
-        // }
-        
-        // if (determiningType.Equals(SemanticType.TRUTH_VALUE)) {
-        //     return new Color32(86, 178, 255, 140);
-        // }
-        
-        // return new Color32(218, 162, 255, 140);
     }
 }
