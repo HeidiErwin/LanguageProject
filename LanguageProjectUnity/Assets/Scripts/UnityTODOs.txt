@@ -89,5 +89,7 @@ Also, as a cosmetic thing, I would really like to have the transparency the same
 semi-transparent rectangles stack ontop of one another, the expressions become more opaque the deeper they are in an expression.
 Could you try to fix this if you could?
 
+And could we make the workspace bigger, and possibly move away from drag-drop to click-click?
+
 Thanks,
 Bill
