@@ -93,6 +93,9 @@ Bill
 	  start on that so that I don't spend time creating something we don't really want. Would click-click 
 	  mean you select a click a piece, e.g. Alice, and now that Alice has been selected, you would click 'runs' for Alice to be placed into runs? and if you clicked
 	  Alice by accident on the workspace you would be able to re-click Alice to deselect it?
+
+    BILL'S ANSWER: you'd click on the argument slot for 'run', not anywhere on 'run'. That way you can select specific argument slots when there are multiple.
+    Yes, you can deselect by selecting the expression itself, or maybe there are dedicated buttons on the side of the workspace for stuff like deleting, using, selecting, deselecting...
 	  
 	 I'm not totally sure how we could deal with the transparency thing, and hopefully there is an easier way than, in the case of runs(Alice), calculating
 	 the square of pixels that Alice occupies and setting that section of runs to be entirely transparent so that Alice's tint is the only one showing, but this

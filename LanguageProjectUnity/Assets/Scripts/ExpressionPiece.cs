@@ -44,7 +44,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         for (int i = 0; i < myArguments.Length; i++) {
             // the BUG is either in this block...
             if (expression.GetArg(i) == null && DRAW_ARGUMENT_TYPE) {
-                Debug.Log("in if");
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
                 GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, -100), Quaternion.identity) as GameObject;
                 ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
@@ -107,7 +106,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     * The image of this expression is updated appropriately.
     */
     public void OnDrop(PointerEventData eventData) {
-        Debug.Log("in OnDrop");
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
     
         Expression expr = null;
@@ -125,6 +123,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.myExpression = expr;
         exprPieceScript.myArguments = new ExpressionPiece[expr.GetNumArgs()];
+
+        Debug.Log(expr);
+        if (exprPieceScript.myArguments.Length == 3) {
+            Debug.Log(" ...has 3 arguments as expected.");
+        }
+        
         
         if (exprPieceScript.myArguments.Length > 0) {
             exprPieceScript.myHeightInUnits = 2;    
@@ -145,6 +149,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         
         for (int i = 0; i < myArguments.Length; i++) {
             if (this.myArguments[i] == null) {
+                if (i == 2) {
+                    Debug.Log("Third argument: 'twas NULL.");
+                }
                 counter++;
                 exprPieceScript.myWidthInUnits++;
             } else {
@@ -163,8 +170,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
              
             if (counter == index) {
                 // ... or here.
-                //Destroy(this.myArguments[i].gameObject, 0.0f); no longer necessary!
-                //Destroy(exprPieceScript.myArguments[i].gameObject, 0.0f); also no longer necessary!
+                // Destroy(this.myArguments[i].gameObject, 0.0f); no longer necessary!
+                // Destroy(exprPieceScript.myArguments[i].gameObject, 0.0f); also no longer necessary!
                 // Destroy(exprPieceScript.myArguments[i], 0.0f);
                 exprPieceScript.myArguments[i] = droppedexpression.DeepCopy();
                 counter++;
@@ -193,7 +200,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.myHeightInUnits = this.myHeightInUnits;
         exprPieceScript.myWidthInUnits = this.myWidthInUnits;
 
-        exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+        // exprPieceInstance.transform.SetParent(this.transform);
 
         for (int i = 0; i < this.myArguments.Length; i++) {
             if (this.myArguments[i] != null) {
@@ -223,7 +230,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * 6. place args: if arg has width > 1, we place next arg however many after it
      */
     public GameObject GenerateVisual(int layer) {
-        // Debug.Log("Calling GenerateVisual on ^" + exprPieceScript.GetExpression() + "^");
+        // Debug.Log("Calling GenerateVisual on ^" + this.GetExpression() + "^");
 
         GameObject exprPiece = this.gameObject;
 
@@ -368,7 +375,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public void OnDrag(PointerEventData eventData) {
-        Debug.Log("^" + this.myExpression + "^ is being dragged");
+        // Debug.Log("^" + this.myExpression + "^ is being dragged");
     }
 
     /**
