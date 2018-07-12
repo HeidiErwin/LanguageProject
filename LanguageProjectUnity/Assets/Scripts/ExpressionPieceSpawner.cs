@@ -10,7 +10,7 @@ using UnityEngine.UI;
  */
 public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
-    private Expression myExpression;
+    private Expression expression;
 
     /**
      * Sets the name and Expression of this ExpressionPieceSpawner.
@@ -21,7 +21,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * and this script can be accessed.
      */
     public void SetUpSpawner(Expression expr) {
-        this.myExpression = expr;
+        this.expression = expr;
         SetUpSpawnerVisual(expr);
     }
 
@@ -30,12 +30,11 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      */
     public ExpressionPiece MakeNewExpressionPiece() {
         GameObject workspace = this.transform.parent.parent.Find("Tabletop").gameObject;
-
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-        exprPieceScript.SetExpression(myExpression);
+        exprPieceScript.Initialize(expression);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
         return exprPieceInstance.GetComponent<ExpressionPiece>();
@@ -54,8 +53,8 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      */
     public void SetUpSpawnerVisual(Expression expr) {
         RectTransform pieceRect = gameObject.GetComponent<RectTransform>();
-        float pieceTopLeftY = gameObject.transform.position.y + pieceRect.rect.height / 2;
-        float pieceTopLeftX = gameObject.transform.position.x - pieceRect.rect.width / 2;
+        // float pieceTopLeftY = gameObject.transform.position.y + pieceRect.rect.height / 2;
+        // float pieceTopLeftX = gameObject.transform.position.x - pieceRect.rect.width / 2;
         GameObject nameObject = new GameObject();
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
@@ -67,6 +66,6 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
-        bgImage[0].color = ExpressionPiece.GetColorOfSemanticType(expr.GetSemanticType()) - (new Color(0, 0, 0, 0.5f));
+        bgImage[0].color = expr.type.color - (new Color(0, 0, 0, 0.5f));
     }
 }

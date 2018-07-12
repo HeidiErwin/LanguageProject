@@ -14,17 +14,12 @@ using System.Collections.Generic;
 // first expression's input semantic type.
 // 
 public abstract class Expression {
-    protected SemanticType type;
+    public SemanticType type { get; protected set; }
+    public String head { get; protected set; }
     protected Expression[] args;
-    protected String head;
 
     public Expression(SemanticType type) {
         this.type = type;
-    }
-
-    // returns this expression's semantic type.
-    public SemanticType GetSemanticType() {
-        return type;
     }
 
     // returns the filled-in arguments for this expression.
@@ -32,6 +27,7 @@ public abstract class Expression {
         return args[i];
     }
 
+    // returns the string representation of the head of this expression.
     public String GetHead() {
         return head;
     }

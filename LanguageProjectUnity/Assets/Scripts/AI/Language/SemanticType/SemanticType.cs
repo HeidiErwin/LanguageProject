@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 // this is a type system for logical forms.
 // it's a way of restricting what's expressible
@@ -27,6 +28,63 @@ using System.Collections.Generic;
 // n-argument functions from (X1, X2, ..., Xn)s to Ys.
 // 
 public abstract class SemanticType {
+    // the fully opaque color of this semantic type.
+    public Color color {
+        get {
+            if (this.Equals(SemanticType.INDIVIDUAL)) {
+                return new Color32(220, 20, 60,  255);
+            }
+
+            if (this.Equals(SemanticType.TRUTH_VALUE)) {
+                return new Color32(23, 108, 255,  255);
+            }
+
+            if (this.Equals(SemanticType.PREDICATE)) {
+                return new Color32(9, 128, 37, 255);
+            }
+
+            if (this.Equals(SemanticType.RELATION_2)) {
+                return new Color32(240, 240, 60, 255);
+            }
+
+            if (this.Equals(SemanticType.RELATION_3)) {
+                return new Color32(137, 132, 68, 255);
+            }
+
+            if (this.Equals(SemanticType.RELATION_2_REDUCER)) {
+                return new Color32(47, 79, 79, 255);
+            }
+
+            if (this.Equals(SemanticType.DETERMINER)) {
+                return new Color32(235, 168, 206, 255);
+            }
+
+            if (this.Equals(SemanticType.QUANTIFIER)) {
+                return new Color32(137, 28, 232, 255);
+            }
+
+            if (this.Equals(SemanticType.TRUTH_FUNCTION_1)) {
+                return new Color32(180, 180, 180, 255);
+            }
+
+            return new Color32(255, 255, 255, 255);
+        }
+    }
+    
+    // the semitransparent color of the output
+    public Color outputColor {
+        get {
+            SemanticType determiningType;
+
+            if (this.IsAtomic()) {
+                determiningType = this;
+            } else {
+                determiningType = this.GetOutputType();
+            }
+
+            return determiningType.color + new Color(0.25f, 0.25f, 0.25f, 0f) - new Color(0, 0, 0, (1 - ExpressionPiece.EXPRESSION_OPACITY));
+        }
+    }
     // returns true if the semantic type is not a
     // functional type, as in e or t or whatever else.
     public abstract bool IsAtomic();

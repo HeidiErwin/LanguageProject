@@ -3,56 +3,18 @@ using System.Collections.Generic;
 
 public class Testing {
     static void PrintInfoString(Expression e) {
-        System.Console.WriteLine(e + ": " + e.GetSemanticType());
+        System.Console.WriteLine(e + ": " + e.type);
     }
 
     static void Main() {
-        SemanticType individual = new E();
-        SemanticType truthValue = new T();
-
-        List<SemanticType> e = new List<SemanticType>();
-        e.Add(individual);
-
-        List<SemanticType> ee = new List<SemanticType>();
-        ee.Add(individual);
-        ee.Add(individual);
-
-        List<SemanticType> eee = new List<SemanticType>();
-        eee.Add(individual);
-        eee.Add(individual);
-        eee.Add(individual);
-
-        SemanticType predicate = new Arrow(e, truthValue);
-        SemanticType relation2 = new Arrow(ee, truthValue);
-        SemanticType relation3 = new Arrow(eee, truthValue);
-
-        List<SemanticType> et = new List<SemanticType>();
-        et.Add(predicate);
-        List<SemanticType> etet = new List<SemanticType>();
-        etet.Add(predicate);
-        etet.Add(predicate);
-
-        SemanticType quantifierPhrase = new Arrow(et, truthValue);
-        SemanticType quantifier = new Arrow(etet, truthValue);
-        SemanticType determiner = new Arrow(et, individual);
-
-        // System.Console.WriteLine("individual: " + individual);
-        // System.Console.WriteLine("truth value: " + truthValue);
-        // System.Console.WriteLine("predicate: " + predicate);
-        // System.Console.WriteLine("2-place relation: " + relation2);
-        // System.Console.WriteLine("quantifier: " + quantifier);
-        // System.Console.WriteLine("quantifier phrase: " + quantifierPhrase);
-        // System.Console.WriteLine("determiner: " + determiner);
-
-        Expression bill = new Word(individual, "Bill");
-        Expression heidi = new Word(individual, "Heidi");
-        Expression apple = new Word(predicate, "apple");
-        Expression red = new Word(predicate, "red");
-        Expression the = new Word(determiner, "the");
-        Expression round = new Word(predicate, "round");
-        Expression helps = new Word(relation2, "helps");
-        Expression gives = new Word(relation3, "gives");
-        Expression every = new Word(quantifier, "every");
+        Expression bill = new Word(SemanticType.INDIVIDUAL, "Bill");
+        Expression heidi = new Word(SemanticType.INDIVIDUAL, "Heidi");
+        Expression apple = new Word(SemanticType.PREDICATE, "apple");
+        Expression red = new Word(SemanticType.PREDICATE, "red");
+        Expression the = new Word(SemanticType.DETERMINER, "the");
+        Expression round = new Word(SemanticType.PREDICATE, "round");
+        Expression helps = new Word(SemanticType.RELATION_2, "helps");
+        Expression gives = new Word(SemanticType.RELATION_3, "gives");
 
         Expression billIsRed = new Phrase(red, bill);
         Expression billHelps = new Phrase(helps, bill);
@@ -70,10 +32,9 @@ public class Testing {
         Expression theRoundThingIsRed = new Phrase(red, new Phrase(the, round));
 
         Expression billHelpsHeidi = new Phrase(billHelps, heidi);
-        Expression everyRedThingIsRound = new Phrase(new Phrase(every, red), round);
         Expression billGivesHeidiTheApple = new Phrase(billGivesHeidi, new Phrase(the, apple));
 
-        Expression verum = new Word(truthValue, "T");
+        Expression verum = new Word(SemanticType.TRUTH_VALUE, "T");
 
         // PrintInfoString(bill);
         // PrintInfoString(heidi);
@@ -83,12 +44,11 @@ public class Testing {
 
         PrintInfoString(billIsRed);
         PrintInfoString(billHelpsHeidi);
-        PrintInfoString(everyRedThingIsRound);
         PrintInfoString(theRoundThingIsRed);
         PrintInfoString(billGivesHeidiTheApple);
 
         System.Console.WriteLine("Syntactic Equality:");
-        System.Console.WriteLine(bill.Equals(new Word(individual, "Bill")));
+        System.Console.WriteLine(bill.Equals(new Word(SemanticType.INDIVIDUAL, "Bill")));
         System.Console.WriteLine(!bill.Equals(heidi));
         System.Console.WriteLine(billIsRed.Equals(billIsRed));
         System.Console.WriteLine(!billIsRed.Equals(billHelpsHeidi));

@@ -30,7 +30,7 @@ public class Phrase : Expression {
         // ensuring that the types of the expressions are correct:
         // the indexed input type of the first expression should match the type
         // of the second expression.
-        if (!function.GetInputType(index).Equals(input.GetSemanticType())) {
+        if (!function.GetInputType(index).Equals(input.type)) {
             throw new ArgumentException();
         }
 
