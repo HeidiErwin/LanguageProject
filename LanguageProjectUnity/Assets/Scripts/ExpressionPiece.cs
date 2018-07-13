@@ -75,7 +75,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
-    public void CombineWith(ExpressionPiece inputExpression) {
+    public void CombineWith(ExpressionPiece inputExpression, int index) {
         Expression expr = null;
         //try to create new Expression
         try {
@@ -110,7 +110,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, inputExpression.heightInUnits + 1);
 
-        int index = 0; //TODO: actually compute index, based on where drop happened
         int counter = -1;
         
         for (int i = 0; i < arguments.Length; i++) {
@@ -270,7 +269,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     */
     public void OnDrop(PointerEventData eventData) {
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
-        this.CombineWith(droppedexpression);
+        this.CombineWith(droppedexpression, 0); // TODO get rid of this when argument code is implemented
     }
 
     /**
