@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 
     public GameObject keyboardInstance;
     public GameObject canvasInstance;
+    public ExpressionPiece selectedExpression;
 
 	void Start () {
         SetUpCanvas();
@@ -30,7 +31,7 @@ public class GameController : MonoBehaviour {
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
         spawnerInstance.transform.SetParent(keyboardInstance.transform);
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
-        spawnerScript.SetUpSpawner(w);
+        spawnerScript.SetUpSpawner(w, this);
     }
 
     // Creates the keyboard from which the user can click on ExpressionPieceSpawners,

@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
     private Expression expression;
+    private GameController gameController;
 
     /**
      * Sets the name and Expression of this ExpressionPieceSpawner.
@@ -20,9 +21,10 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * So SetUpSpawner must be called once the ExpressionPieceSpawner is created 
      * and this script can be accessed.
      */
-    public void SetUpSpawner(Expression expr) {
+    public void SetUpSpawner(Expression expr, GameController gameController) {
         this.expression = expr;
-        SetUpSpawnerVisual(expr);
+        this.gameController = gameController;
+        SetUpSpawnerVisual();
     }
 
     /**
@@ -34,6 +36,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        exprPieceScript.gameController = this.gameController;
         exprPieceScript.Initialize(expression);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
@@ -51,7 +54,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
     /*
      * Set up the visual for this spawner
      */
-    public void SetUpSpawnerVisual(Expression expr) {
+    public void SetUpSpawnerVisual() {
         RectTransform pieceRect = gameObject.GetComponent<RectTransform>();
         // float pieceTopLeftY = gameObject.transform.position.y + pieceRect.rect.height / 2;
         // float pieceTopLeftX = gameObject.transform.position.x - pieceRect.rect.width / 2;
@@ -59,13 +62,13 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
         Image headImage = nameObject.AddComponent<Image>();
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead());
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.GetHead());
         headImage.sprite = headSprite;
         headImage.transform.localScale = headImage.transform.localScale * .5f;
         headImage.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
 
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
-        bgImage[0].color = expr.type.color - (new Color(0, 0, 0, 0.5f));
+        bgImage[0].color = this.expression.type.color - (new Color(0, 0, 0, 0.5f));
     }
 }

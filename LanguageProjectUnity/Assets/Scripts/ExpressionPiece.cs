@@ -8,14 +8,15 @@ using System;
 /**
  * A script to be attached to any Expression objects.
  */
-public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
-
+public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
     private const bool DRAW_SUBEXPRESSION_TYPE = true;
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
     private const float PIXELS_PER_UNIT = 40.0f;
     private readonly static float BUFFER_IN_PIXELS = BUFFER_IN_UNITS * PIXELS_PER_UNIT;
+
+    public GameController gameController;
 
     public string id; // the string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
 
@@ -26,20 +27,33 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     private ExpressionPiece[] arguments;
 
+    private int index = -1;
+    private ExpressionPiece parentExpressionPiece = null;
+
     public ExpressionPiece DeepCopy() {
+        return DeepCopy(true);
+    }
+
+    public ExpressionPiece DeepCopy(bool isFirstCall) {
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y), Quaternion.identity) as GameObject;
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         
+        exprPieceScript.gameController = this.gameController;
         exprPieceScript.id = this.expression.ToString();
         exprPieceScript.expression = this.expression;
         exprPieceScript.arguments = new ExpressionPiece[this.arguments.Length];
         exprPieceScript.heightInUnits = this.heightInUnits;
         exprPieceScript.widthInUnits = this.widthInUnits;
+        exprPieceScript.index = this.index;
+
+        if (this.parentExpressionPiece != null) {
+            exprPieceScript.parentExpressionPiece = isFirstCall ? this.parentExpressionPiece.DeepCopy(true) : this.parentExpressionPiece;
+        }
 
         for (int i = 0; i < this.arguments.Length; i++) {
             if (this.arguments[i] != null) {
-                exprPieceScript.arguments[i] = this.arguments[i].DeepCopy();
+                exprPieceScript.arguments[i] = this.arguments[i].DeepCopy(false);
             }
         }
 
@@ -59,11 +73,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
                 GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, -100), Quaternion.identity) as GameObject;
                 ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+                exprPieceScript.gameController = gameController;
                 exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
                 exprPieceScript.arguments = new ExpressionPiece[0];
                 exprPieceInstance.transform.SetParent(this.transform);
                 exprPieceScript.transform.SetParent(this.transform);
                 exprPieceScript.id = "_";
+                exprPieceScript.index = counter;
+                exprPieceScript.parentExpressionPiece = this;
                 arguments[i] = exprPieceScript;
                 counter++;
             }
@@ -75,14 +92,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
-    public void CombineWith(ExpressionPiece inputExpression, int index) {
+    public bool CombineWith(ExpressionPiece inputExpression, int index) {
         Expression expr = null;
         //try to create new Expression
         try {
-            expr = new Phrase(this.expression, inputExpression.expression);
+            expr = new Phrase(this.expression, inputExpression.expression, index);
         } catch (Exception e) {
             Debug.LogException(e);
-            return;
+            return false;
         }
 
         // generate new Piece
@@ -102,16 +119,20 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
         
         exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+        exprPieceScript.gameController = gameController;
         exprPieceScript.id = expr.ToString();
         exprPieceScript.arguments = this.arguments;
 
+        exprPieceScript.index = this.index;
+        if (this.parentExpressionPiece != null) {
+            exprPieceScript.parentExpressionPiece = this.parentExpressionPiece.DeepCopy();
+        }
         exprPieceScript.widthInUnits = 1;
         exprPieceScript.widthInUnits += inputExpression.widthInUnits;
 
         exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, inputExpression.heightInUnits + 1);
 
         int counter = -1;
-        
         for (int i = 0; i < arguments.Length; i++) {
             if (this.arguments[i] == null) {
                 counter++;
@@ -124,6 +145,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, exprPieceScript.arguments[i].heightInUnits + 1);
 
                 if (this.arguments[i].id.Equals("_")) {
+                    if (counter > index) {
+                        this.arguments[i].index--;
+                    }
                     counter++;
                 }
             }
@@ -135,6 +159,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
         }
 
+        for (int i = 0; i < arguments.Length; i++) {
+            exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
+        }
+
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
         int indexToOccupy = this.gameObject.transform.GetSiblingIndex();
@@ -143,6 +171,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Destroy(inputExpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
+
+        return true;
     }
 
     // the idea is to make an ExpressionPiece from
@@ -177,7 +207,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return GenerateVisual(true);
     }
     private GameObject GenerateVisual(bool isFirstLevel) {
-        // Debug.Log("Calling GenerateVisual on ^" + this.expression + "^");
+        Debug.Log("Calling GenerateVisual on ^" + this.expression + "^");
         int layer = 0;
 
         GameObject exprPiece = this.gameObject;
@@ -257,11 +287,51 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         generatedVisual.transform.SetParent(gameObject.transform);
     }
 
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        InsertArgument();
+    }
+
+    private bool InsertArgument() {
+        Debug.Log(this.expression);
+
+        if (this.gameController.selectedExpression == null) {
+            this.gameController.selectedExpression = this;
+            return false;
+        }
+
+        if (this.gameController.selectedExpression.Equals(this)) {
+            this.gameController.selectedExpression = null;
+            return false;
+        }
+
+        // this.CombineWith(this.gameController.selectedExpression, 0);
+
+        // THIS
+        if (this.parentExpressionPiece != null) {
+            if (!this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, 0)) {
+                return false;
+            }
+        } else {
+            this.index++;
+            if (!this.arguments[this.index].InsertArgument()) {
+                this.index--;
+            }
+        }
+        // TO THIS
+        // is fake code. What we need to do is to figure out how we can get the child gameobjects to trigger
+        // the event listener, not the parents, so that the argument slots do it directly.
+        // the fake code demonstrates that nothing bad is happening in Destroy() or DeepCopy() or whatever
+        this.gameController.selectedExpression = null;
+        return true;
+    }
+
     public void OnBeginDrag(PointerEventData eventData) {}
 
     public void OnDrag(PointerEventData eventData) {
         // Debug.Log("^" + this.expression + "^ is being dragged");
     }
+
+
 
     /**
     * Triggered anytime an object is released on top of this expression. 
@@ -269,7 +339,18 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     */
     public void OnDrop(PointerEventData eventData) {
         ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
-        this.CombineWith(droppedexpression, 0); // TODO get rid of this when argument code is implemented
+        
+        // if (this.parentExpressionPiece != null) {
+        //     Debug.Log(this.expression);
+        //     Debug.Log(this.parentExpressionPiece);
+        //     if (this.id.Equals("_")) {
+        //         this.parentExpressionPiece.CombineWith(droppedexpression, this.index);
+        //     }
+        // } else {
+        //     this.index++;
+        //     this.arguments[index].OnDrop(eventData);
+        // }
+        // this.CombineWith(droppedexpression, 0); // TODO get rid of this when argument code is implemented
     }
 
     /**
