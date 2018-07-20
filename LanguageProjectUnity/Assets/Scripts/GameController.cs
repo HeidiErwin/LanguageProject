@@ -17,6 +17,26 @@ public class GameController : MonoBehaviour {
         SetUpKeyboard();
     }
 
+    public void Update()
+    {
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 100.0f);
+       // hits = Physics.RaycastAll(Input.mousePosition, transform.forward, 100.0F);
+
+        Debug.Log("hits length = " + hits.Length);
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit hit = hits[i];
+            if (hit.transform.GetComponent<ExpressionPiece>() != null)
+            {
+                Debug.Log(hit.transform.GetComponent<ExpressionPiece>().expression.GetHead() + " was hit in the raycastall");
+            }
+        }
+
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    }
+
     /**
      * Creates the Canvas which holds the keyboard and workspace
      */

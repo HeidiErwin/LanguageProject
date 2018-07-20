@@ -12,10 +12,10 @@ public abstract class Character : MonoBehaviour {
     public const int SOUTH = 2;
     public const int WEST = 3;
 
-    [SerializeField]
-    protected float speed;
+    [SerializeField] protected float speed;
     protected Vector2 velocity;
     protected int directionFacing;
+    [SerializeField] Sprite[] sprites;
 
     protected virtual void Update() {
         Move();

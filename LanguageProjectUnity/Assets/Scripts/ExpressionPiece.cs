@@ -20,7 +20,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     public string id; // the string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
 
-    private Expression expression;
+    public Expression expression;
 
     private int widthInUnits = 1;
     private int heightInUnits = 1;
@@ -29,6 +29,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     private int index = -1;
     private ExpressionPiece parentExpressionPiece = null;
+
+    public void Start() {
+        Debug.Log(expression.GetHead() + " was just created at " + transform.position.x + ", " + transform.position.y);
+    }
 
     public ExpressionPiece DeepCopy() {
         return DeepCopy(true);
@@ -68,7 +72,19 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
 
         int counter = 0;
+        int currentX = 1;
+        int currentY = 1;
         for (int i = 0; i < arguments.Length; i++) {
+            ExpressionPiece arg = this.arguments[i];
+            if (arg == null)
+            {
+                currentX++;
+            }
+            else
+            {
+                currentX += arg.widthInUnits;
+            }
+
             if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
                 GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, -100), Quaternion.identity) as GameObject;
@@ -76,6 +92,22 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 exprPieceScript.gameController = gameController;
                 exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
                 exprPieceScript.arguments = new ExpressionPiece[0];
+
+                //lines 111 to 121 adapted from GenerateVisual to set x and y of empty args so that they can be clicked
+                float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
+                float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
+                float pieceTopLeftX = 0 - calculatedWidth / 2;
+                float pieceTopLeftY = 0 + calculatedHeight / 2;
+                heightInUnits = 1; // currently a placeholder; can't calculate heightInUnits for real unless all arg heights are known
+                float positionX = pieceTopLeftX + 
+                    PIXELS_PER_UNIT * 
+                    (currentX - ((.5f * (exprPieceScript.expression.GetNumArgs() + 1)) + 
+                    BUFFER_IN_UNITS));
+                float valToTopAlignArgs = (((this.heightInUnits - 1) - exprPieceScript.heightInUnits)) * (PIXELS_PER_UNIT / 2);
+                float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
+
+                exprPieceInstance.transform.position = new Vector3(positionX, positionY); //TODO: make this the actual position of the argument; Heidi's code rn just has it in the general vicinity
+
                 exprPieceInstance.transform.SetParent(this.transform);
                 exprPieceScript.transform.SetParent(this.transform);
                 exprPieceScript.id = "_";
@@ -138,7 +170,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 counter++;
                 exprPieceScript.widthInUnits++;
             } else {
-                // or the BUG may be here...
                 exprPieceScript.arguments[i] = arguments[i].DeepCopy();
                 exprPieceScript.widthInUnits += exprPieceScript.arguments[i].widthInUnits;
 
@@ -175,11 +206,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return true;
     }
 
-    // the idea is to make an ExpressionPiece from
-    // scratch; not as the result of combining them on the
-    // workspace. This is for down-the-road when NPCs
-    // can make expressions, and when users can save
-    // expressions onto their keyboard
+    /** The idea is to make an ExpressionPiece from
+    * scratch; not as the result of combining them on the
+    * workspace. This is for down-the-road when NPCs
+    * can make expressions, and when users can save
+    * expressions onto their keyboard
+    */
     public void FromScratch(Expression expr) {
         FromScratch(expr, true);
     }
@@ -208,7 +240,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
     private GameObject GenerateVisual(bool isFirstLevel) {
         Debug.Log("Calling GenerateVisual on ^" + this.expression + "^");
-        int layer = 0;
 
         GameObject exprPiece = this.gameObject;
 
@@ -287,7 +318,40 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         generatedVisual.transform.SetParent(gameObject.transform);
     }
 
+    /**
+     * Loops through all the things the user could possibly be trying to click and
+     * if the user is clicking an argument of this expression piece rather than this expression piece
+     * itself, "forwards the click" i.e. calls the OnClick() method of the argument
+     */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        Debug.Log(expression.GetHead() + " just received a click");
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        Debug.Log("currently clicking over " + results.Count + " items");
+        ExpressionPiece argumentClicked = null;
+        foreach (RaycastResult r in results)
+        {
+            Debug.Log("r is " + r.gameObject.name);
+            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().expression.GetHead().Equals("_"))
+            {
+                Debug.Log("empty arg piece!!");
+                argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
+                break;
+            }
+        }
+
+        //if the user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece
+        //otherwise, call OnClick() for the clicked empty arg
+        if (argumentClicked == null) {
+            OnClick();
+        } else {
+            argumentClicked.OnClick();
+        }
+    }
+
+    public void OnClick() {
         InsertArgument();
     }
 
@@ -325,13 +389,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return true;
     }
 
-    public void OnBeginDrag(PointerEventData eventData) {}
+    public void OnBeginDrag(PointerEventData eventData) {
+        Debug.Log(expression.GetHead() + " just started being dragged");
+    }
 
     public void OnDrag(PointerEventData eventData) {
         // Debug.Log("^" + this.expression + "^ is being dragged");
     }
-
-
 
     /**
     * Triggered anytime an object is released on top of this expression. 
@@ -399,5 +463,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             border.transform.Translate(new Vector3((width - BUFFER_IN_PIXELS) / 2, 0, 0));
             return;
         }
+    }
+
+    public void OnDestroy()
+    {
+        Debug.Log(this.expression.GetHead() + " was just destroyed");
     }
 }
