@@ -6,15 +6,15 @@ using System.Collections.Generic;
 // more space efficient than the simple model
 public class PrefixModel : IModel {
     bool hasBlank = false;
-    private Dictionary<String, PrefixModel[]> entriesByHead = new Dictionary<String, PrefixModel[]>();
+    private Dictionary<String, PrefixModel[]> entriesByHeadString = new Dictionary<String, PrefixModel[]>();
 
     public bool Contains(Expression e) {
         if (e == null) {
             return hasBlank;
         }
 
-        if (entriesByHead.ContainsKey(e.GetHead())) {
-            PrefixModel[] argTrees = entriesByHead[e.GetHead()];
+        if (entriesByHeadString.ContainsKey(e.headString)) {
+            PrefixModel[] argTrees = entriesByHeadString[e.headString];
             for (int i = 0; i < argTrees.Length; i++) {
                 Expression arg = e.GetArg(i);
                 if (!argTrees[i].Contains(arg)) {
@@ -37,15 +37,15 @@ public class PrefixModel : IModel {
             return true;
         }
 
-        String head = e.GetHead();
+        String head = e.headString;
         int numArgs = e.GetNumArgs();
-        if (!entriesByHead.ContainsKey(head)) {
+        if (!entriesByHeadString.ContainsKey(head)) {
 
-            entriesByHead.Add(head, new PrefixModel[numArgs]);
+            entriesByHeadString.Add(head, new PrefixModel[numArgs]);
             changed = true;
         }
 
-        PrefixModel[] argTrees = entriesByHead[head];
+        PrefixModel[] argTrees = entriesByHeadString[head];
 
         for (int i = 0; i < numArgs; i++) {
             if (argTrees[i] == null) {
@@ -76,20 +76,20 @@ public class PrefixModel : IModel {
             return false;
         }
 
-        String head = e.GetHead();
+        String head = e.headString;
         
-        if (!entriesByHead.ContainsKey(head)) {
+        if (!entriesByHeadString.ContainsKey(head)) {
             return false;
         }
 
         int numArgs = e.GetNumArgs();
         
         if (numArgs == 0) {
-            entriesByHead.Remove(head);
+            entriesByHeadString.Remove(head);
             return true;
         }
 
-        PrefixModel[] argTrees = entriesByHead[head];
+        PrefixModel[] argTrees = entriesByHeadString[head];
         bool shouldDeleteArgs = true;
         for (int i = 0; i < numArgs; i++) {
             if (!argTrees[i].Contains(e.GetArg(i))) {

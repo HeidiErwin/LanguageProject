@@ -23,14 +23,14 @@ public class GameController : MonoBehaviour {
         hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 100.0f);
        // hits = Physics.RaycastAll(Input.mousePosition, transform.forward, 100.0F);
 
-        Debug.Log("hits length = " + hits.Length);
+        // Debug.Log("hits length = " + hits.Length);
 
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
             if (hit.transform.GetComponent<ExpressionPiece>() != null)
             {
-                Debug.Log(hit.transform.GetComponent<ExpressionPiece>().expression.GetHead() + " was hit in the raycastall");
+                Debug.Log(hit.transform.GetComponent<ExpressionPiece>().expression.headString + " was hit in the raycastall");
             }
         }
 

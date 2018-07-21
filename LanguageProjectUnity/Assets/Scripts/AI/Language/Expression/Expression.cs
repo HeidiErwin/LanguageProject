@@ -15,7 +15,7 @@ using System.Collections.Generic;
 // 
 public abstract class Expression {
     public SemanticType type { get; protected set; }
-    public String head { get; protected set; }
+    public String headString { get; protected set; }
     protected Expression[] args;
 
     public Expression(SemanticType type) {
@@ -25,11 +25,6 @@ public abstract class Expression {
     // returns the filled-in arguments for this expression.
     public Expression GetArg(int i) {
         return args[i];
-    }
-
-    // returns the string representation of the head of this expression.
-    public String GetHead() {
-        return head;
     }
 
     // returns the total number of arguments of this expression,
@@ -75,7 +70,7 @@ public abstract class Expression {
             return false;
         }
 
-        if (!this.head.Equals(that.head)) {
+        if (!this.headString.Equals(that.headString)) {
             return false;
         }
 

@@ -30,17 +30,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     private int index = -1;
     private ExpressionPiece parentExpressionPiece = null;
 
-    public void Start() {
-        Debug.Log(expression.GetHead() + " was just created at " + transform.position.x + ", " + transform.position.y);
-    }
-
     public ExpressionPiece DeepCopy() {
         return DeepCopy(true);
     }
 
     public ExpressionPiece DeepCopy(bool isFirstCall) {
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y), Quaternion.identity) as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        exprPieceInstance.transform.position = this.transform.position;
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         
         exprPieceScript.gameController = this.gameController;
@@ -51,8 +48,11 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.widthInUnits = this.widthInUnits;
         exprPieceScript.index = this.index;
 
-        if (this.parentExpressionPiece != null) {
+        if (this.parentExpressionPiece == null) {
+            this.transform.SetParent(this.transform.parent);
+        } else {
             exprPieceScript.parentExpressionPiece = isFirstCall ? this.parentExpressionPiece.DeepCopy(true) : this.parentExpressionPiece;
+            this.transform.SetParent(this.parentExpressionPiece.transform);
         }
 
         for (int i = 0; i < this.arguments.Length; i++) {
@@ -64,9 +64,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return exprPieceScript;
     }
 
-    /**
-     * Called when an ExpressionPiece is created by a Controller or something that isn't OnDrop()
-     */
+    // Called when an ExpressionPiece is created by a Controller or something that isn't OnDrop()
     public void Initialize(Expression expr) {
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
@@ -76,18 +74,16 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         int currentY = 1;
         for (int i = 0; i < arguments.Length; i++) {
             ExpressionPiece arg = this.arguments[i];
-            if (arg == null)
-            {
+            if (arg == null) {
                 currentX++;
-            }
-            else
-            {
+            } else {
                 currentX += arg.widthInUnits;
             }
 
             if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
-                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, -100), Quaternion.identity) as GameObject;
+                exprPiece.name = "Argument";
+                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
                 ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
                 exprPieceScript.gameController = gameController;
                 exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
@@ -104,7 +100,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                     (currentX - ((.5f * (exprPieceScript.expression.GetNumArgs() + 1)) + 
                     BUFFER_IN_UNITS));
                 float valToTopAlignArgs = (((this.heightInUnits - 1) - exprPieceScript.heightInUnits)) * (PIXELS_PER_UNIT / 2);
-                float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
+                float positionY = 0; // PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
 
                 exprPieceInstance.transform.position = new Vector3(positionX, positionY); //TODO: make this the actual position of the argument; Heidi's code rn just has it in the general vicinity
 
@@ -140,11 +136,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.expression = expr;
         exprPieceScript.arguments = new ExpressionPiece[expr.GetNumArgs()];
-
-        if (exprPieceScript.arguments.Length == 3) {
-            Debug.Log(" ...has 3 arguments as expected.");
-        }
-        
         
         if (exprPieceScript.arguments.Length > 0) {
             exprPieceScript.heightInUnits = 2;    
@@ -177,7 +168,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
                 if (this.arguments[i].id.Equals("_")) {
                     if (counter > index) {
-                        this.arguments[i].index--;
+                        exprPieceScript.arguments[i].index--;
                     }
                     counter++;
                 }
@@ -206,12 +197,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return true;
     }
 
-    /** The idea is to make an ExpressionPiece from
-    * scratch; not as the result of combining them on the
-    * workspace. This is for down-the-road when NPCs
-    * can make expressions, and when users can save
-    * expressions onto their keyboard
-    */
+    /**
+     * The idea is to make an ExpressionPiece from
+     * scratch; not as the result of combining them on the
+     * workspace. This is for down-the-road when NPCs
+     * can make expressions, and when users can save
+     * expressions onto their keyboard
+     */
     public void FromScratch(Expression expr) {
         FromScratch(expr, true);
     }
@@ -239,8 +231,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return GenerateVisual(true);
     }
     private GameObject GenerateVisual(bool isFirstLevel) {
-        Debug.Log("Calling GenerateVisual on ^" + this.expression + "^");
-
         GameObject exprPiece = this.gameObject;
 
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
@@ -281,7 +271,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         headObject.transform.SetParent(visualContainer.transform);
         Image headImage = headObject.AddComponent<Image>();
         Expression expr = this.expression;
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.GetHead());
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.headString);
         headImage.sprite = headSprite;
         headImage.transform.localScale *= .25f;
         headImage.transform.position = new Vector3(pieceTopLeftX + (.5f*PIXELS_PER_UNIT), pieceTopLeftY - (.5f*PIXELS_PER_UNIT));
@@ -315,7 +305,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     public void SetVisual(GameObject generatedVisual) {
-        generatedVisual.transform.SetParent(gameObject.transform);
+        generatedVisual.transform.SetParent(this.gameObject.transform);
     }
 
     /**
@@ -324,104 +314,69 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      * itself, "forwards the click" i.e. calls the OnClick() method of the argument
      */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-        Debug.Log(expression.GetHead() + " just received a click");
+        // Debug.Log(expression.headString + " just received a click");
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        Debug.Log("currently clicking over " + results.Count + " items");
+        // Debug.Log("currently clicking over " + results.Count + " items");
         ExpressionPiece argumentClicked = null;
-        foreach (RaycastResult r in results)
-        {
-            Debug.Log("r is " + r.gameObject.name);
-            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().expression.GetHead().Equals("_"))
-            {
-                Debug.Log("empty arg piece!!");
+        foreach (RaycastResult r in results) {
+            // Debug.Log("r is " + r.gameObject.name);
+            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
+                // Debug.Log("empty arg piece!!");
                 argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
+                // Debug.Log("Is argument null? => " + (argumentClicked == null));
                 break;
             }
         }
 
-        //if the user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece
+        //if the user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
-            OnClick();
+            Debug.Log("No argument clicked");
+            this.OnClick();
         } else {
+            Debug.Log("argument is clicked");
             argumentClicked.OnClick();
         }
     }
+
+    void IDropHandler.OnDrop(PointerEventData eventData) {}
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {}
+    void IDragHandler.OnDrag(PointerEventData eventData) {}
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData) {}
 
     public void OnClick() {
         InsertArgument();
     }
 
     private bool InsertArgument() {
-        Debug.Log(this.expression);
-
+        // if the game controller has no selected expression,
+        // make this expression the selected expression (unless it's an empty argument slot)
         if (this.gameController.selectedExpression == null) {
-            this.gameController.selectedExpression = this;
+            if (!this.id.Equals("_")) {
+                this.gameController.selectedExpression = this;
+            }
             return false;
         }
 
+        // if we're selecting the same expression, then deselect it
         if (this.gameController.selectedExpression.Equals(this)) {
             this.gameController.selectedExpression = null;
             return false;
         }
 
-        // this.CombineWith(this.gameController.selectedExpression, 0);
-
-        // THIS
+        // if one expression is selected and we click another, try to
+        // combine the two expressions. If it works, return true.
         if (this.parentExpressionPiece != null) {
-            if (!this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, 0)) {
-                return false;
-            }
-        } else {
-            this.index++;
-            if (!this.arguments[this.index].InsertArgument()) {
-                this.index--;
-            }
+            bool toReturn = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
+            this.gameController.selectedExpression = null;
+            return toReturn;
         }
-        // TO THIS
-        // is fake code. What we need to do is to figure out how we can get the child gameobjects to trigger
-        // the event listener, not the parents, so that the argument slots do it directly.
-        // the fake code demonstrates that nothing bad is happening in Destroy() or DeepCopy() or whatever
-        this.gameController.selectedExpression = null;
-        return true;
-    }
 
-    public void OnBeginDrag(PointerEventData eventData) {
-        Debug.Log(expression.GetHead() + " just started being dragged");
+        return false;
     }
-
-    public void OnDrag(PointerEventData eventData) {
-        // Debug.Log("^" + this.expression + "^ is being dragged");
-    }
-
-    /**
-    * Triggered anytime an object is released on top of this expression. 
-    * The image of this expression is updated appropriately.
-    */
-    public void OnDrop(PointerEventData eventData) {
-        ExpressionPiece droppedexpression = eventData.pointerDrag.GetComponent<ExpressionPiece>();
-        
-        // if (this.parentExpressionPiece != null) {
-        //     Debug.Log(this.expression);
-        //     Debug.Log(this.parentExpressionPiece);
-        //     if (this.id.Equals("_")) {
-        //         this.parentExpressionPiece.CombineWith(droppedexpression, this.index);
-        //     }
-        // } else {
-        //     this.index++;
-        //     this.arguments[index].OnDrop(eventData);
-        // }
-        // this.CombineWith(droppedexpression, 0); // TODO get rid of this when argument code is implemented
-    }
-
-    /**
-    * When dragging this ExpressionPiece ends, change the preview sprites on screen back to 
-    * their original sprites.
-    */
-    public void OnEndDrag(PointerEventData eventData) {}
 
     private static int Max(int a, int b) {
         return a >= b ? a : b;
@@ -465,8 +420,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
-    public void OnDestroy()
-    {
-        Debug.Log(this.expression.GetHead() + " was just destroyed");
+    public override String ToString() {
+        return expression.ToString();
     }
 }

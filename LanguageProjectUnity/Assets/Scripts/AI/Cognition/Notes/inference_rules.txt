@@ -1,0 +1,80 @@
+Every dog howls
+=> Every husky howls
+=> Every dog makes noise
+=> Every husky makes noise
+
+
+Every X- Ys+
+
+Not P-
+
+Not every dog howls
+=> Not every animal howls
+=> Not every dog howls loudly
+
+Some dog howls
+=> Some animal howls
+=> Some dog makes noise
+
+No dog howls
+=> No husky howls
+=> No dog howls loudly
+
+
+SUBSENTENTIAL INFERENCE RULES
+(I1) husky |- dog
+(I2) dog |- animal
+(I3) kicks |- hits
+(I4) hits |- touches
+(I5) loudly(howls) |- howls
+(I6) howls |- makes-noise
+(I7) every(P) |- I.P(I)
+(I8) I.P(I) |- some(P)
+(I9) R(x, x) |- itself(R, x)
+
+SYNTHETIC INFERENCE RULES
+Reflexivity(R): |- R(x, x)
+Symmetry(R): R(x, y) |- R(y, x)
+Antisymmetry(R): R(x, y) |- not(R(y, x))
+Transitivity(R): R(x, y) & R(y, z) |- R(x, z)
+Exclusion(R): R(x, y) & R(z, y) |- R(x, z) v R(z, x)
+
+EVALUATION RULES
+(E0) E |- E
+(E1) not(S) |- not(S-)
+(E2) every(P) |- every(P-)
+(E3) some(P) |- some(P+)
+(E4) Y(x1, ..., xn) |- Y+(x1+, ..., xn+)
+(E5) itself(R, x) |- x' := x+; R+(x', x')
+
+
+AN EXAMPLE
+
+not every dog howls |- not every animal howls loudly
+~~
+not(howls(every(dog))) |- not(loudly(howls(every(animal))))
+
+not(howls(every(dog)))+
+(E0) not(howls(every(dog)))
+(E1) not(howls(every(dog))-)
+=> not(howls(every(dog))), not(howls(every(animal))), not(loudly(howls(every(dog)))), not(loudly(howls(every(animal))))
+
+howls(every(dog))-
+(E0) howls(every(dog))
+(E4) howls-(every(dog)-)
+=> howls(every(dog)), howls(every(animal)), loudly(howls(every(dog))), loudly(howls(every(animal)))
+
+howls-
+(E0) howls
+(I5) loudly(howls)
+=> howls, loudly(howls)
+
+every(dog)-
+(E0) every(dog)
+(E2) every(dog+)
+=> every(dog), every(animal)
+
+dog+
+(E0) dog
+(E1) animal
+=> dog, animal

@@ -34,7 +34,7 @@ public class Phrase : Expression {
             throw new ArgumentException();
         }
 
-        this.head = function.GetHead();
+        this.headString = function.headString;
         this.args = new Expression[function.GetNumArgs()];
 
         // fills in one the old arguments for this expression.
@@ -75,7 +75,7 @@ public class Phrase : Expression {
 
     public override String ToString() {
         StringBuilder s = new StringBuilder();
-        s.Append(head);
+        s.Append(headString);
         s.Append("(");
 
         for (int i = 0; i < args.Length; i++) {
