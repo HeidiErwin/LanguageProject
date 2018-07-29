@@ -348,7 +348,41 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData) {}
 
     public void OnClick() {
+        if(this.gameController.selectedExpression == null) {
+            Debug.Log("before insertarg, selected expression null");
+        }
+        else {
+            Debug.Log("before insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
+            if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+                Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+                int counter = 1;
+                foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+                    Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+                    counter++;
+                }
+            }
+            else {
+                Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
+            }
+        }
         InsertArgument();
+        if (this.gameController.selectedExpression == null) {
+            Debug.Log("after insertarg, selected expression null");
+        }
+        else {
+            Debug.Log("after insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
+            if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+                Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+                int counter = 1;
+                foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+                    Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+                    counter++;
+                }
+            } else {
+                Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
+            }
+
+        }
     }
 
     private bool InsertArgument() {
