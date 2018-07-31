@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2018.1.2f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -344,45 +342,45 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\DropdownOptionListDrawer.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\EditorCoroutine.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\GlyphInfoDrawer.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\KerningPairDrawer.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\SpriteInfoDrawer.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_BaseShaderGUI.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_BitmapShaderGUI.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_ColorGradientAssetMenu.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_ColorGradientEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_DropdownEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_EditorPanel.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_EditorUtility.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_FontAssetEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_InputFieldEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_MeshRendererEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_PackageUtilities.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_PostBuildProcessHandler.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_ProjectTextSettings.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_ResourcesLoader.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SDFShaderGUI.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SettingsEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SpriteAssetEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SpriteAssetImporter.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SpriteAssetMenu.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_StyleAssetMenu.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_StyleSheetEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SubMesh_Editor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_SubMeshUI_Editor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_UiEditorPanel.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMP_UIStyleManager.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_ContextMenus.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_CreateObjectMenu.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_EditorShaderUtilities.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_FontAssetCreatorWindow.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_FontPlugin.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_SDFMaterialEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_SortingLayerHelper.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_TextContainerEditor.cs" />
-    <Compile Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.textmeshpro@1.2.4\Scripts\Editor\TMPro_TexturePostProcessor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\DropdownOptionListDrawer.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\EditorCoroutine.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\GlyphInfoDrawer.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\KerningPairDrawer.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\SpriteInfoDrawer.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_BaseShaderGUI.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_BitmapShaderGUI.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_ColorGradientAssetMenu.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_ColorGradientEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_DropdownEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_EditorPanel.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_EditorUtility.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_FontAssetEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_InputFieldEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_MeshRendererEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_PackageUtilities.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_PostBuildProcessHandler.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_ProjectTextSettings.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_ResourcesLoader.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SDFShaderGUI.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SettingsEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SpriteAssetEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SpriteAssetImporter.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SpriteAssetMenu.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_StyleAssetMenu.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_StyleSheetEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SubMesh_Editor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_SubMeshUI_Editor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_UiEditorPanel.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMP_UIStyleManager.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_ContextMenus.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_CreateObjectMenu.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_EditorShaderUtilities.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_FontAssetCreatorWindow.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_FontPlugin.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_SDFMaterialEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_SortingLayerHelper.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_TextContainerEditor.cs" />
+    <Compile Include="Packages\com.unity.textmeshpro\Scripts\Editor\TMPro_TexturePostProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\PlaceholderSprites\Obsolete\README.txt" />
@@ -405,15 +403,15 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Dark.uss" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Light.uss" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\Alert.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageDetails.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageGroup.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageItem.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageList.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageManagerWindow.uxml" />
-    <None Include="C:\Users\heidi\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\PackageSearchFilterTabs.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageDetails.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageGroup.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageItem.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageList.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageManagerWindow.uxml" />
+    <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\PackageSearchFilterTabs.uxml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
