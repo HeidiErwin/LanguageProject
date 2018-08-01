@@ -36,7 +36,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         get { return _parentExpressionPiece; }
         set {
             _parentExpressionPiece = value;
-            //this.gameObject.transform.SetParent(value.gameObject.transform);
+            //this.gameObject.transform.SetParent(value.gameObject.transform, true);
         }
     }
 
@@ -48,7 +48,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
 
-
         Debug.Log("THIS position before is " + this.transform.position.x + ", " + this.transform.position.y);
 
         exprPieceInstance.transform.position = this.transform.position;
@@ -56,8 +55,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Debug.Log("THE COPY'S position is " + exprPieceInstance.transform.position.x + ", " + exprPieceInstance.transform.position.y);
 
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-        Debug.Log("THE COPY'S SCRIPT'S position is " + exprPieceScript.transform.position.x + ", " + exprPieceScript.transform.position.y);
-
 
         exprPieceScript.gameController = this.gameController;
         exprPieceScript.id = this.expression.ToString();
@@ -66,6 +63,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.heightInUnits = this.heightInUnits;
         exprPieceScript.widthInUnits = this.widthInUnits;
         exprPieceScript.index = this.index;
+        Debug.Log("THE COPY'S SCRIPT'S " + exprPieceScript.expression + " position is " + exprPieceScript.transform.position.x + ", " + exprPieceScript.transform.position.y);
 
         //if (this.parentExpressionPiece == null) {
         //    exprPieceInstance.transform.SetParent(this.transform.parent);
@@ -74,11 +72,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         //    exprPieceInstance.transform.SetParent(this.parentExpressionPiece.transform);
         //}
 
-        exprPieceInstance.transform.SetParent(this.transform.parent);
+        //exprPieceInstance.transform.SetParent(this.transform.parent);
 
         for (int i = 0; i < this.arguments.Length; i++) {
             if (this.arguments[i] != null) {
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy(false);
+                exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
+
             }
         }
 
@@ -164,8 +164,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         if (exprPieceScript.arguments.Length > 0) {
             exprPieceScript.heightInUnits = 2;    
         }
-        
+
+        float originalPieceX = this.transform.position.x;
+        float originalPieceY = this.transform.position.y;
+
         exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+        //exprPieceInstance.transform.position = new Vector3(originalPieceX, originalPieceY, 0);
+
         exprPieceScript.gameController = gameController;
         exprPieceScript.id = expr.ToString();
 
@@ -180,6 +185,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, inputExpression.heightInUnits + 1);
 
+        //Add the arguments to the new piece
         int counter = -1;
         for (int i = 0; i < arguments.Length; i++) {
             if (this.arguments[i] == null) {
@@ -201,7 +207,12 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
              
             if (counter == index) {
+                float originalArgX = this.arguments[i].transform.position.x;
+                Debug.Log("The original X is " + originalArgX); //this is definitely working
+                float originalArgY = this.arguments[i].transform.position.y;
                 exprPieceScript.arguments[i] = inputExpression.DeepCopy();
+                exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
+                exprPieceScript.arguments[i].transform.position = new Vector3(originalArgX, originalArgY, 0);
                 counter++;
                 exprPieceScript.widthInUnits--;
             }
@@ -218,6 +229,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Destroy(this.gameObject, 0.0f);
         Destroy(inputExpression.gameObject, 0.0f);
 
+        Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
 
         return true;
@@ -350,8 +362,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         ExpressionPiece argumentClicked = null;
         foreach (RaycastResult r in results) {
             // Debug.Log("r is " + r.gameObject.name);
-            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
-                // Debug.Log("empty arg piece!!");
+            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")){
+                Debug.Log("empty arg piece!!");
                 argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
                 // Debug.Log("Is argument null? => " + (argumentClicked == null));
                 break;
@@ -375,23 +387,23 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData) {}
 
     public void OnClick() {
-        //if(this.gameController.selectedExpression == null) {
-        //    Debug.Log("before insertarg, selected expression null");
-        //}
-        //else {
-        //    Debug.Log("before insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
-        //    if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-        //        Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-        //        int counter = 1;
-        //        foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-        //            Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-        //            counter++;
-        //        }
-        //    }
-        //    else {
-        //        Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
-        //    }
-        //}
+        if(this.gameController.selectedExpression == null) {
+            Debug.Log("before insertarg, selected expression null");
+        }
+        else {
+            Debug.Log("before insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
+            if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+                Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+                int counter = 1;
+                foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+                    Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+                    counter++;
+                }
+            }
+            else {
+                Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
+            }
+        }
 
             if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
                 Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");

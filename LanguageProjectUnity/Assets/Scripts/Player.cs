@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Character {
+    int counter = 0;
 
     protected override void Update() {
         GetInput();
         transform.rotation = Quaternion.Euler(0, 0, 0);
         base.Update();
+        if (counter == 500) {
+            Debug.Log("bob the builder's x value is " + this.transform.position.x);
+            counter = 0;
+        }
+        counter++;
     }
 
     /**

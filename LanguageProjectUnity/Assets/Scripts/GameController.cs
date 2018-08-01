@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour {
 	void Start () {
         SetUpCanvas();
         SetUpKeyboard();
+        SetUpPlayer();
+
     }
 
     public void Update()
@@ -46,6 +48,12 @@ public class GameController : MonoBehaviour {
         keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject as GameObject;
     }
 
+    private void SetUpPlayer() {
+        GameObject player = Resources.Load("Player") as GameObject;
+        GameObject playerInstance = Instantiate(player, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        playerInstance.transform.SetParent(keyboardInstance.transform);
+    }
+
     private void SetUpSpawner(Word w) {
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
@@ -59,17 +67,17 @@ public class GameController : MonoBehaviour {
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
         // truth value constants
-        SetUpSpawner(new Word(SemanticType.TRUTH_VALUE, "verum"));
+      //  SetUpSpawner(new Word(SemanticType.TRUTH_VALUE, "verum"));
 
         // truth function contstants
-        SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_1, "not"));
-        SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_2, "or"));
+       // SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_1, "not"));
+      //  SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_2, "or"));
 
         // determiners
-        SetUpSpawner(new Word(SemanticType.DETERMINER, "the"));
+       // SetUpSpawner(new Word(SemanticType.DETERMINER, "the"));
 
         // quantifiers
-        SetUpSpawner(new Word(SemanticType.QUANTIFIER, "some"));
+       // SetUpSpawner(new Word(SemanticType.QUANTIFIER, "some"));
 
         // 2-place relation reducers
         SetUpSpawner(new Word(SemanticType.RELATION_2_REDUCER, "itself"));
@@ -81,8 +89,8 @@ public class GameController : MonoBehaviour {
 
         // predicates
         SetUpSpawner(new Word(SemanticType.PREDICATE, "run"));
-        SetUpSpawner(new Word(SemanticType.PREDICATE, "key"));
-        SetUpSpawner(new Word(SemanticType.PREDICATE, "apple"));
+      //  SetUpSpawner(new Word(SemanticType.PREDICATE, "key"));
+       // SetUpSpawner(new Word(SemanticType.PREDICATE, "apple"));
 
         // 2-place relations
         SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
