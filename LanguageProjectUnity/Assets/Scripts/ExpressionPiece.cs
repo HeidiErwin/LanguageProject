@@ -7,12 +7,9 @@ using System;
 
 /**
  * A script to be attached to any Expression objects.
- * 
- * JULY 30TH: the code as it is right now, if you put bob in the first slot of helps, 
- * and then check the info for helps, cannot access the second empty arg slot, as that's somehow been destroyed
  */
 public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
-    private const bool DRAW_SUBEXPRESSION_TYPE = true;
+    private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
@@ -21,12 +18,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
     public GameController gameController;
 
-    public string id; // the string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
+    public string id; // string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
 
     public Expression expression;
 
     private int widthInUnits = 1;
     private int heightInUnits = 1;
+
+    private int counterForTesting = 1;
 
     private ExpressionPiece[] arguments;
 
@@ -40,6 +39,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
+    //private void Update() {
+    //    if (counterForTesting == 1000) {
+    //        Debug.Log("hi. " + id + " is located at " + transform.position.x + ", " + transform.position.y);
+    //        counterForTesting = 0;
+    //    }
+    //    counterForTesting++;
+    //}
+
     public ExpressionPiece DeepCopy() {
         return DeepCopy(true);
     }
@@ -47,13 +54,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public ExpressionPiece DeepCopy(bool isFirstCall) {
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
-
-        Debug.Log("THIS position before is " + this.transform.position.x + ", " + this.transform.position.y);
-
         exprPieceInstance.transform.position = this.transform.position;
-
-        Debug.Log("THE COPY'S position is " + exprPieceInstance.transform.position.x + ", " + exprPieceInstance.transform.position.y);
-
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
 
         exprPieceScript.gameController = this.gameController;
@@ -63,7 +64,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.heightInUnits = this.heightInUnits;
         exprPieceScript.widthInUnits = this.widthInUnits;
         exprPieceScript.index = this.index;
-        Debug.Log("THE COPY'S SCRIPT'S " + exprPieceScript.expression + " position is " + exprPieceScript.transform.position.x + ", " + exprPieceScript.transform.position.y);
+        //Debug.Log("THE COPY'S SCRIPT'S " + exprPieceScript.expression + " position is " + exprPieceScript.transform.position.x + ", " + exprPieceScript.transform.position.y);
 
         //if (this.parentExpressionPiece == null) {
         //    exprPieceInstance.transform.SetParent(this.transform.parent);
@@ -192,8 +193,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 counter++;
                 exprPieceScript.widthInUnits++;
             } else {
+                float originalArgX = this.arguments[i].transform.position.x;
+                float originalArgY = this.arguments[i].transform.position.y;
                 exprPieceScript.arguments[i] = arguments[i].DeepCopy();
-                Debug.Log(exprPieceScript.arguments[i].expression);
+                exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
+                exprPieceScript.arguments[i].transform.position = new Vector3(originalArgX, originalArgY, 0);
+                exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
+
                 exprPieceScript.widthInUnits += exprPieceScript.arguments[i].widthInUnits;
 
                 exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, exprPieceScript.arguments[i].heightInUnits + 1);
@@ -208,7 +214,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
              
             if (counter == index) {
                 float originalArgX = this.arguments[i].transform.position.x;
-                Debug.Log("The original X is " + originalArgX); //this is definitely working
                 float originalArgY = this.arguments[i].transform.position.y;
                 exprPieceScript.arguments[i] = inputExpression.DeepCopy();
                 exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
@@ -220,6 +225,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         for (int i = 0; i < arguments.Length; i++) {
             exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
+            exprPieceInstance.transform.SetParent(this.transform.parent.transform);
+
         }
 
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
@@ -229,7 +236,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         Destroy(this.gameObject, 0.0f);
         Destroy(inputExpression.gameObject, 0.0f);
 
-        Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
+       // Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
 
         return true;
@@ -353,7 +360,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
      */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
         Debug.Log(eventData.position.x + ", " + eventData.position.y + " was the spot just clicked");
-        // Debug.Log(expression.headString + " just received a click");
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
@@ -363,7 +369,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         foreach (RaycastResult r in results) {
             // Debug.Log("r is " + r.gameObject.name);
             if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")){
-                Debug.Log("empty arg piece!!");
+                //Debug.Log("empty arg piece!!");
                 argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
                 // Debug.Log("Is argument null? => " + (argumentClicked == null));
                 break;
@@ -373,10 +379,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         //if the user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
-            Debug.Log("No argument clicked");
+            Debug.Log("No empty argument clicked");
             this.OnClick();
         } else {
-            Debug.Log("argument is clicked");
+            Debug.Log("empty argument clicked");
             argumentClicked.OnClick();
         }
     }
@@ -387,11 +393,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     void IEndDragHandler.OnEndDrag(PointerEventData eventData) {}
 
     public void OnClick() {
-        if(this.gameController.selectedExpression == null) {
-            Debug.Log("before insertarg, selected expression null");
-        }
-        else {
-            Debug.Log("before insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
+        Debug.Log(expression.headString + " just received a click");
+
+        InsertArgument();
+
+        if (this.gameController.selectedExpression == null) {
+            Debug.Log("selected expression null");
+        } else {
+            Debug.Log("selected expression is " + this.gameController.selectedExpression.expression.headString);
             if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
                 Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
                 int counter = 1;
@@ -399,46 +408,25 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                     Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
                     counter++;
                 }
-            }
-            else {
+            } else {
                 Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
             }
         }
 
-            if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-                Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-                int counter = 1;
-                foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-                    Debug.Log("argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-                    counter++;
-                }
+        if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+            Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+            int counter = 1;
+            foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+                Debug.Log("argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+                counter++;
             }
-
-            InsertArgument();
-
-            //if (this.gameController.selectedExpression == null) {
-            //    Debug.Log("after insertarg, selected expression null");
-            //}
-            //else {
-            //    Debug.Log("after insertarg, selected expression is " + this.gameController.selectedExpression.expression.headString);
-            //    if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-            //        Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-            //        int counter = 1;
-            //        foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-            //            Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-            //            counter++;
-            //        }
-            //    } else {
-            //        Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
-            //    }
-
-            //}
         }
+    }
 
-        /**
-         * This method SOMETIMES inserts arguments, but not always. This method also manages the gameController's selected expression.
-         */
-        private bool InsertArgument() {
+    /**
+     * This method SOMETIMES inserts arguments, but not always. This method also manages the gameController's selected expression.
+     */
+    private bool InsertArgument() {
         // if the game controller has no selected expression,
         // make this expression the selected expression (unless it's an empty argument slot)
         if (this.gameController.selectedExpression == null) {
