@@ -193,17 +193,23 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 counter++;
                 exprPieceScript.widthInUnits++;
             } else {
+                // this happens to every argument, whether blank or filled
                 float originalArgX = this.arguments[i].transform.position.x;
                 float originalArgY = this.arguments[i].transform.position.y;
-                exprPieceScript.arguments[i] = arguments[i].DeepCopy();
+                
+                // place a copy of the old argument in the same position in the new expression.
+                exprPieceScript.arguments[i] = this.arguments[i].DeepCopy();
                 exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
                 exprPieceScript.arguments[i].transform.position = new Vector3(originalArgX, originalArgY, 0);
                 exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
 
+                // changing the width and height of the new expression
                 exprPieceScript.widthInUnits += exprPieceScript.arguments[i].widthInUnits;
-
                 exprPieceScript.heightInUnits = Max(exprPieceScript.heightInUnits, exprPieceScript.arguments[i].heightInUnits + 1);
 
+                // if it's an empty argument slot, then move forward in the
+                // argument index, and decrement the argument slot's index by 1 if
+                // the argument has already been placed to preserve the new indexing.
                 if (this.arguments[i].id.Equals("_")) {
                     if (counter > index) {
                         exprPieceScript.arguments[i].index--;
@@ -211,7 +217,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                     counter++;
                 }
             }
-             
+            
+            // place the input expression in the appropriate argument position.
             if (counter == index) {
                 float originalArgX = this.arguments[i].transform.position.x;
                 float originalArgY = this.arguments[i].transform.position.y;
@@ -223,6 +230,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
         }
 
+        // this is setting the parentexpressionpiece and parent of all of the new
+        // expression's arguments as the new expression. This doesn't happen in
+        // deepcopy because deepcopy makes a new copy of the expression to set.
         for (int i = 0; i < arguments.Length; i++) {
             exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
             exprPieceInstance.transform.SetParent(this.transform.parent.transform);
