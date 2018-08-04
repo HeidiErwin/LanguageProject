@@ -39,14 +39,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
-    //private void Update() {
-    //    if (counterForTesting == 1000) {
-    //        Debug.Log("hi. " + id + " is located at " + transform.position.x + ", " + transform.position.y);
-    //        counterForTesting = 0;
-    //    }
-    //    counterForTesting++;
-    //}
-
     public ExpressionPiece DeepCopy() {
         return DeepCopy(true);
     }
@@ -64,7 +56,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         exprPieceScript.heightInUnits = this.heightInUnits;
         exprPieceScript.widthInUnits = this.widthInUnits;
         exprPieceScript.index = this.index;
-        //Debug.Log("THE COPY'S SCRIPT'S " + exprPieceScript.expression + " position is " + exprPieceScript.transform.position.x + ", " + exprPieceScript.transform.position.y);
 
         //if (this.parentExpressionPiece == null) {
         //    exprPieceInstance.transform.SetParent(this.transform.parent);
@@ -111,6 +102,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
                 exprPieceScript.arguments = new ExpressionPiece[0];
 
+
                 //lines 111 to 121 adapted from GenerateVisual to set x and y of empty args so that they can be clicked
                 float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
                 float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
@@ -124,10 +116,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 float valToTopAlignArgs = (((this.heightInUnits - 1) - exprPieceScript.heightInUnits)) * (PIXELS_PER_UNIT / 2);
                 float positionY = 0; // PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
 
-                exprPieceInstance.transform.position = new Vector3(positionX, positionY); 
-
+                exprPieceInstance.transform.position = new Vector3(positionX, positionY);
                 exprPieceInstance.transform.SetParent(this.transform);
-                //exprPieceScript.transform.SetParent(this.transform);
+
                 exprPieceScript.id = "_";
                 exprPieceScript.index = counter;
                 exprPieceScript.parentExpressionPiece = this;
@@ -169,7 +160,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         float originalPieceX = this.transform.position.x;
         float originalPieceY = this.transform.position.y;
 
-        exprPieceInstance.transform.SetParent(this.transform.parent.transform);
         //exprPieceInstance.transform.position = new Vector3(originalPieceX, originalPieceY, 0);
 
         exprPieceScript.gameController = gameController;
@@ -194,14 +184,14 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 exprPieceScript.widthInUnits++;
             } else {
                 // this happens to every argument, whether blank or filled
-                float originalArgX = this.arguments[i].transform.position.x;
-                float originalArgY = this.arguments[i].transform.position.y;
-                
+                float originalArgLocalX = this.arguments[i].transform.localPosition.x;
+                float originalArgLocalY = this.arguments[i].transform.localPosition.y;
+
                 // place a copy of the old argument in the same position in the new expression.
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy();
-                exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
-                exprPieceScript.arguments[i].transform.position = new Vector3(originalArgX, originalArgY, 0);
                 exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
+                exprPieceScript.arguments[i].gameObject.transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
+                exprPieceScript.arguments[i].transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
 
                 // changing the width and height of the new expression
                 exprPieceScript.widthInUnits += exprPieceScript.arguments[i].widthInUnits;
@@ -220,11 +210,13 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             
             // place the input expression in the appropriate argument position.
             if (counter == index) {
-                float originalArgX = this.arguments[i].transform.position.x;
-                float originalArgY = this.arguments[i].transform.position.y;
+                float originalArgLocalX = this.arguments[i].transform.localPosition.x;
+                float originalArgLocalY = this.arguments[i].transform.localPosition.y;
+                Destroy(exprPieceScript.arguments[i].gameObject, 0.0f); //need to destroy the empty arg that this piece is replacing
                 exprPieceScript.arguments[i] = inputExpression.DeepCopy();
-                exprPieceScript.arguments[i].gameObject.transform.position = new Vector3(originalArgX, originalArgY, 0);
-                exprPieceScript.arguments[i].transform.position = new Vector3(originalArgX, originalArgY, 0);
+                exprPieceScript.arguments[i].gameObject.transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
+                exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
+
                 counter++;
                 exprPieceScript.widthInUnits--;
             }
@@ -239,6 +231,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
         }
 
+        exprPieceInstance.transform.SetParent(this.transform.parent.transform);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
         int indexToOccupy = this.gameObject.transform.GetSiblingIndex();
