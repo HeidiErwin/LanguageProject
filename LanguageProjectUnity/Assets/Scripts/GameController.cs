@@ -65,37 +65,58 @@ public class GameController : MonoBehaviour {
     // Creates the keyboard from which the user can click on ExpressionPieceSpawners,
     // which will create ExpressionPieces in the workspace.
     public void SetUpKeyboard() {
+
         // LOGIC/FUNCTION WORDS
-        // truth value constants
-      //  SetUpSpawner(new Word(SemanticType.TRUTH_VALUE, "verum"));
+         // truth value constants
+         // SetUpSpawner(new Word(SemanticType.TRUTH_VALUE, "verum"));
 
         // truth function contstants
-       // SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_1, "not"));
-      //  SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_2, "or"));
+         // SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_1, "not"));
+         // SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_2, "or"));
 
         // determiners
-       // SetUpSpawner(new Word(SemanticType.DETERMINER, "the"));
+        SetUpSpawner(new Word(SemanticType.DETERMINER, "the"));
+        SetUpSpawner(new Word(SemanticType.DETERMINER, "a"));
+        SetUpSpawner(new Word(SemanticType.DETERMINER, "two"));
+        SetUpSpawner(new Word(SemanticType.DETERMINER, "three"));
+        SetUpSpawner(new Word(SemanticType.DETERMINER, "every"));
 
         // quantifiers
-       // SetUpSpawner(new Word(SemanticType.QUANTIFIER, "some"));
+        // SetUpSpawner(new Word(SemanticType.QUANTIFIER, "some"));
 
         // 2-place relation reducers
-        SetUpSpawner(new Word(SemanticType.RELATION_2_REDUCER, "itself"));
-        
+        // SetUpSpawner(new Word(SemanticType.RELATION_2_REDUCER, "itself"));
+
         // CONTENT WORDS   
         // proper names
-        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "alice"));
-        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "bob"));
+        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "business-man"));
+        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "evil-man"));
+        // SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "alice"));
+        // SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "bob"));
 
         // predicates
-        SetUpSpawner(new Word(SemanticType.PREDICATE, "run"));
-      //  SetUpSpawner(new Word(SemanticType.PREDICATE, "key"));
-       // SetUpSpawner(new Word(SemanticType.PREDICATE, "apple"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "fountain"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "lamp"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "active"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "inactive"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "king"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "yellow"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "green"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "blue"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "red"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "near-you"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "in-yellow-area"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "in-green-area"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "in-blue-area"));
+        SetUpSpawner(new Word(SemanticType.PREDICATE, "in-red-area"));
+        // SetUpSpawner(new Word(SemanticType.PREDICATE, "run"));
+        // SetUpSpawner(new Word(SemanticType.PREDICATE, "key"));
+        // SetUpSpawner(new Word(SemanticType.PREDICATE, "apple"));
 
         // 2-place relations
-        SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
+        // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
 
         // 3-place relations
-        SetUpSpawner(new Word(SemanticType.RELATION_3, "give"));
+        // SetUpSpawner(new Word(SemanticType.RELATION_3, "give"));
     }
 }

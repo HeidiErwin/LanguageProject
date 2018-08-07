@@ -104,3 +104,17 @@ Bill
 	 I will look into transparency in Unity online, but it would be great if you could look into this as well.
 
 - Heidi 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TODO FOR DEMO:
+- fix expressionpiece placement problems
+- keyboard 
+	- tab buttons working
+	- piecespawners added to keyboard
+	- expressions when clicked add to workspace
+	- button on workspace (check mark type thing) that makes current made expression remain while keyboard & workspace disappear
+	- key to open/close keyboard+workspace
+- ability to say something to an NPC by clicking the NPC
+- if say something to NPC, yes, no, idk, confused responses
+- fill NPC models
+- build world w/ current objects & decided words

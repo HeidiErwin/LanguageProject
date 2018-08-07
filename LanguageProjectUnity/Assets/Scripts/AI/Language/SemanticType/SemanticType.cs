@@ -56,7 +56,7 @@ public abstract class SemanticType {
             }
 
             if (this.Equals(SemanticType.DETERMINER)) {
-                return new Color32(235, 168, 206, 255);
+                return new Color32(255, 203, 0, 255);
             }
 
             if (this.Equals(SemanticType.QUANTIFIER)) {
