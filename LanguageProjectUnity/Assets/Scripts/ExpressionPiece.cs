@@ -96,7 +96,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
                 GameObject exprPiece = Resources.Load("Piece") as GameObject;
                 exprPiece.name = "Argument";
-                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+                GameObject exprPieceInstance = Instantiate(exprPiece, this.transform.position, Quaternion.identity) as GameObject;
                 ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
                 exprPieceScript.gameController = gameController;
                 exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
@@ -105,7 +105,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
 
                 //lines 111 to 121 adapted from GenerateVisual to set x and y of empty args so that they can be clicked
                 float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
-                float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
+                float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits; // we don't want 'this', want arg's height ??
                 float pieceTopLeftX = 0 - calculatedWidth / 2;
                 float pieceTopLeftY = 0 + calculatedHeight / 2;
                 heightInUnits = 1; // currently a placeholder; can't calculate heightInUnits for real unless all arg heights are known
@@ -191,7 +191,6 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy();
                 exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
                 exprPieceScript.arguments[i].gameObject.transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
-                exprPieceScript.arguments[i].transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
 
                 // changing the width and height of the new expression
                 exprPieceScript.widthInUnits += exprPieceScript.arguments[i].widthInUnits;
