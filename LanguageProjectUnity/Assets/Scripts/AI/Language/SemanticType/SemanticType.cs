@@ -85,6 +85,7 @@ public abstract class SemanticType {
             return determiningType.color + new Color(0.25f, 0.25f, 0.25f, 0f) - new Color(0, 0, 0, (1 - ExpressionPiece.EXPRESSION_OPACITY));
         }
     }
+
     // returns true if the semantic type is not a
     // functional type, as in e or t or whatever else.
     public abstract bool IsAtomic();

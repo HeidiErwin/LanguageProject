@@ -87,4 +87,29 @@ public abstract class Expression {
 
         return true;
     }
+
+    // the words of the language
+    public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
+    public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
+    public static readonly Expression TWO = new Word(SemanticType.DETERMINER, "two");
+    public static readonly Expression THREE = new Word(SemanticType.DETERMINER, "three");
+    public static readonly Expression EVERY = new Word(SemanticType.DETERMINER, "every");
+
+    public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
+    public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
+
+    public static readonly Expression FOUNTAIN = new Word(SemanticType.PREDICATE, "fountain");
+    public static readonly Expression LAMP = new Word(SemanticType.PREDICATE, "lamp");
+    public static readonly Expression ACTIVE = new Word(SemanticType.PREDICATE, "active");
+    public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
+    public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
+    public static readonly Expression YELLOW = new Word(SemanticType.PREDICATE, "yellow");
+    public static readonly Expression GREEN = new Word(SemanticType.PREDICATE, "green");
+    public static readonly Expression BLUE = new Word(SemanticType.PREDICATE, "blue");
+    public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");
+    public static readonly Expression NEAR_YOU = new Word(SemanticType.PREDICATE, "near-you");
+    public static readonly Expression IN_YELLOW_AREA = new Word(SemanticType.PREDICATE, "in-yellow-area");
+    public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");
+    public static readonly Expression IN_BLUE_AREA = new Word(SemanticType.PREDICATE, "in-blue-area");
+    public static readonly Expression IN_RED_AREA = new Word(SemanticType.PREDICATE, "in-red-area");
 }

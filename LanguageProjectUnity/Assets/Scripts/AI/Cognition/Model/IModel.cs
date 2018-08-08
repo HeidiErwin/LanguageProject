@@ -8,7 +8,7 @@
 // "Mentalese", if you like (although there currently
 // is no distinction between a surface language and
 // the internal language).
-interface IModel {
+public interface IModel {
     // returns true if e is in this model
     bool Contains(Expression e);
 

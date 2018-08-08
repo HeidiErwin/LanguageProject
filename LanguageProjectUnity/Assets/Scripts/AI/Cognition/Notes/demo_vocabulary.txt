@@ -1,0 +1,23 @@
+e
+names of all the NPCs
+the name of the player
+
+e -> t
+FOUNTAIN
+LAMP
+ACTIVE/INACTIVE
+KING
+YELLOW/GREEN/BLUE/RED
+NEAR-YOU
+IN-YELLOW-AREA/IN-GREEN-AREA ...
+
+(e -> t) -> e
+THE
+A
+TWO
+THREE
+EVERY
+
+Bill's note 8/8:
+For the demo, we should axe THE and NEAR-YOU in favor of NO (as in "no monkey flies") and IN_YOUR_AREA,
+to avoid difficult ambiguities/corner cases

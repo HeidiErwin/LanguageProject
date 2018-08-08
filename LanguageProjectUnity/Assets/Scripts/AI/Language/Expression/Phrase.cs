@@ -56,8 +56,7 @@ public class Phrase : Expression {
         // if it's a one-argument function, then the type is the output type.
         if (function.GetNumFreeArgs() == 1) {
             this.type = function.GetOutputType();
-        }
-        else {
+        } else {
             // if it's an n-argument function, then the semantic type is
             // the functional type you get if you remove the type of the indexed input.
             // e.g. if your function had a type (A, B, C -> O) and the input type was B,
@@ -70,6 +69,27 @@ public class Phrase : Expression {
             newInput.RemoveAt(index);
 
             this.type = new Arrow(newInput, function.GetOutputType());
+        }
+    }
+
+    public Phrase(Expression function, Expression[] inputs) : base(function.GetOutputType()) {
+        if (function.GetNumArgs() != function.GetNumFreeArgs() || inputs.Length != function.GetNumArgs()) {
+            // we don't want partial application for this constructor... yet.
+            throw new ArgumentException();
+        }
+
+        for (int i = 0; i < inputs.Length; i++) {
+            if (!function.GetInputType(i).Equals(inputs[i].type)) {
+                // type check
+                throw new ArgumentException();
+            }
+        }
+
+        this.headString = function.headString;
+        this.args = new Expression[function.GetNumArgs()];
+
+        for (int i = 0; i < inputs.Length; i++) {
+            this.args[i] = inputs[i];
         }
     }
 
