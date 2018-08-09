@@ -8,7 +8,7 @@ using System;
 /**
  * A script to be attached to any Expression objects.
  */
-public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
+public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
@@ -17,15 +17,11 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     private readonly static float BUFFER_IN_PIXELS = BUFFER_IN_UNITS * PIXELS_PER_UNIT;
 
     public GameController gameController;
-
     public string id; // string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
-
     public Expression expression;
 
     private int widthInUnits = 1;
     private int heightInUnits = 1;
-
-    private int counterForTesting = 1;
 
     private ExpressionPiece[] arguments;
 
@@ -70,67 +66,64 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             if (this.arguments[i] != null) {
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy(false);
                 exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
-
             }
         }
-
         return exprPieceScript;
     }
 
-    // Called when an ExpressionPiece is created by a Controller or something that isn't OnDrop()
+    /** 
+     * Called after an ExpressionPiece is created for the first time (all
+     * arguments are empty) to set up the piece. I.e. called when an 
+     * ExpressionPiece is created by a Spawner, Controller or something that isn't OnDrop().
+     */
     public void Initialize(Expression expr) {
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
-
-        int counter = 0;
-        int currentX = 0;
-        int currentY = 1;
-        float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
-        float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits; // we don't want 'this', want arg's height ??
-        float pieceTopLeftX = 0 - calculatedWidth / 2;
-        float pieceTopLeftY = 0 + calculatedHeight / 2;
-
-        for (int i = 0; i < arguments.Length; i++) {
-
-            if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
-                GameObject exprPiece = Resources.Load("Piece") as GameObject;
-                exprPiece.name = "Argument";
-                GameObject exprPieceInstance = Instantiate(exprPiece, this.transform.position, Quaternion.identity) as GameObject;
-                ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-                exprPieceScript.gameController = gameController;
-                exprPieceScript.expression = new Word(expr.GetInputType(counter), "_");
-                exprPieceScript.arguments = new ExpressionPiece[0];
-
-
-                //lines 111 to 121 adapted from GenerateVisual to set x and y of empty args so that they can be clicked
-                float argPositionX = .525f*PIXELS_PER_UNIT + PIXELS_PER_UNIT*currentX; // pieceTopLeftX + 
-                   // PIXELS_PER_UNIT * 
-                   // (currentX - ((.5f * (exprPieceScript.expression.GetNumArgs() + 1)) + 
-                   // BUFFER_IN_UNITS));
-                float valToTopAlignArgs = (((this.heightInUnits - 1) - exprPieceScript.heightInUnits)) * (PIXELS_PER_UNIT / 2);
-                float argPositionY = -.3f*PIXELS_PER_UNIT;// -PIXELS_PER_UNIT/2; // PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
-
-                exprPieceInstance.transform.position = new Vector3(argPositionX, argPositionY);
-                exprPieceInstance.transform.SetParent(this.transform);
-
-                exprPieceScript.id = "_";
-                exprPieceScript.index = counter;
-                exprPieceScript.parentExpressionPiece = this;
-                this.arguments[i] = exprPieceScript;
-                counter++;
-            }
-            if (this.arguments[i] != null) {
-                currentX += this.arguments[i].widthInUnits;
-            } else {
-                currentX++;
-            }
-
-        }
+        this.gameObject.transform.position = new Vector3(0, 0, 0);
 
         if (arguments.Length > 0) {
             this.heightInUnits = 2;
             this.widthInUnits = expr.GetNumArgs() + 1;
         }
+
+        int counter = 0;
+        int currentX = 1;
+        float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
+        float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
+
+        // build empty arguments
+        for (int i = 0; i < arguments.Length; i++) {
+            Expression argExpression = expr.GetArg(i);
+            if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
+
+                GameObject argumentPiece = Resources.Load("Piece") as GameObject;
+                argumentPiece.name = "Argument";
+                GameObject argumentPieceInstance = 
+                    Instantiate(argumentPiece, this.transform.position, Quaternion.identity) as GameObject;
+                ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
+                argumentPieceScript.gameController = gameController;
+                argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
+                argumentPieceScript.arguments = new ExpressionPiece[0]; //is this line necessary?
+
+                //NOTE: argument positions are set relative to the lower left of the overall piece, and are set according to the argument's center
+                float overallPieceHeight = calculatedHeight;
+                float argTopLeftPositionX = PIXELS_PER_UNIT * currentX;
+                float argTopLeftPositionY = 1*PIXELS_PER_UNIT;
+                float argCenterPositionX = argTopLeftPositionX - (PIXELS_PER_UNIT * .5f); //.5f b/c center of arg w/ width & height 1
+                float argCenterPositionY = argTopLeftPositionY - (PIXELS_PER_UNIT * .5f);
+
+                argumentPieceInstance.transform.SetParent(this.gameObject.transform);
+                argumentPieceInstance.transform.position = new Vector3(argCenterPositionX, argCenterPositionY);
+
+                argumentPieceScript.id = "_";
+                argumentPieceScript.index = counter;
+                argumentPieceScript.parentExpressionPiece = this;
+                this.arguments[i] = argumentPieceScript;
+                counter++;
+            }
+            currentX++;
+        }
+
     }
 
     /**
@@ -245,11 +238,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     /**
-     * The idea is to make an ExpressionPiece from
-     * scratch; not as the result of combining them on the
-     * workspace. This is for down-the-road when NPCs
-     * can make expressions, and when users can save
-     * expressions onto their keyboard
+     * Makes an ExpressionPiece from scratch; not as the result of combining 
+     * them on the workspace. This is for down-the-road when NPCs can make 
+     * expressions, and when users can save expressions onto their keyboard
      */
     public void FromScratch(Expression expr) {
         FromScratch(expr, true);
@@ -259,8 +250,8 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         for (int i = 0; i < expr.GetNumArgs(); i++) {
             Expression arg = expr.GetArg(i);
             if (expr.GetArg(i) != null) {
-                // TODO do something here to recursively make the argument ExpressionPieces,
-                // and then make the ExpressionPiece for the whole expression idk
+                // TODO: do something here to recursively make the argument ExpressionPieces,
+                // and then make the ExpressionPiece for the whole expression
             }
         }
         if (isTopLayer) {
@@ -277,6 +268,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     public GameObject GenerateVisual() {
         return GenerateVisual(true);
     }
+
     private GameObject GenerateVisual(bool isFirstLevel) {
         GameObject exprPiece = this.gameObject;
 
@@ -356,9 +348,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     /**
-     * Loops through all the things the user could possibly be trying to click and
-     * if the user is clicking an argument of this expression piece rather than this expression piece
-     * itself, "forwards the click" i.e. calls the OnClick() method of the argument
+     * Loops through all the things the user could possibly be trying to click 
+     * and if the user is clicking an argument of this expression piece rather 
+     * than this expression piece itself, "forwards the click" i.e. calls the 
+     * OnClick() method of the argument.
      */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
         Debug.Log(eventData.position.x + ", " + eventData.position.y + " was the spot just clicked");
@@ -378,7 +371,7 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
             }
         }
 
-        //if the user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
+        //if user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
             Debug.Log("No empty argument clicked");
@@ -389,15 +382,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         }
     }
 
-    void IDropHandler.OnDrop(PointerEventData eventData) {}
-    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {}
-    void IDragHandler.OnDrag(PointerEventData eventData) {}
-    void IEndDragHandler.OnEndDrag(PointerEventData eventData) {}
-
     public void OnClick() {
         Debug.Log(expression.headString + " just received a click");
 
-        InsertArgument();
+        HandleClickSelection();
 
         if (this.gameController.selectedExpression == null) {
             Debug.Log("selected expression null");
@@ -426,9 +414,10 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
     }
 
     /**
-     * This method SOMETIMES inserts arguments, but not always. This method also manages the gameController's selected expression.
+     * This method handles setting and removing the gameController's selectedExpression.
+     * Also calls CombineWith if appropriate.
      */
-    private bool InsertArgument() {
+    private bool HandleClickSelection() {
         // if the game controller has no selected expression,
         // make this expression the selected expression (unless it's an empty argument slot)
         if (this.gameController.selectedExpression == null) {
@@ -459,6 +448,9 @@ public class ExpressionPiece : MonoBehaviour, IDropHandler, IBeginDragHandler, I
         return a >= b ? a : b;
     }
 
+    /**
+     * Adds a visual border to the passed in visualContainer GameObject.
+     */
     private static void GenerateBorder(Color color, GameObject visualContainer, float width, float height, String direction) {
         GameObject border = new GameObject();
         border.name = direction + "Border";

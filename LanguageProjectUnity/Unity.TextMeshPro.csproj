@@ -378,6 +378,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\PlaceholderSprites\Obsolete\README.txt" />
+    <None Include="Assets\Scripts\AI\Cognition\Notes\demo_vocabulary.txt" />
     <None Include="Assets\Scripts\AI\Cognition\Notes\inference_rules.txt" />
     <None Include="Assets\Scripts\UnityTODOs.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

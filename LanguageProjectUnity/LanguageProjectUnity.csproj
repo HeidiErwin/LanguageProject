@@ -304,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI\Cognition\Model\IModel.cs" />
+    <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\SimpleModel.cs" />
     <Compile Include="Assets\Scripts\AI\Language\Expression\Expression.cs" />
@@ -326,6 +327,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\PlaceholderSprites\Obsolete\README.txt" />
+    <None Include="Assets\Scripts\AI\Cognition\Notes\demo_vocabulary.txt" />
     <None Include="Assets\Scripts\AI\Cognition\Notes\inference_rules.txt" />
     <None Include="Assets\Scripts\UnityTODOs.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
