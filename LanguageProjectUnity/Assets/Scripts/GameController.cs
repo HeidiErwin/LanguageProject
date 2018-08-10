@@ -48,12 +48,12 @@ public class GameController : MonoBehaviour {
         playerInstance.transform.SetParent(keyboardInstance.transform);
     }
 
-    private void SetUpSpawner(Word w) {
+    private void SetUpSpawner(Expression e) {
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
         spawnerInstance.transform.SetParent(keyboardInstance.transform);
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
-        spawnerScript.SetUpSpawner(w, this);
+        spawnerScript.SetUpSpawner(e, this);
     }
 
     /** Creates the keyboard from which the user can click on ExpressionPieceSpawners,
@@ -62,56 +62,56 @@ public class GameController : MonoBehaviour {
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
         // determiners
-        SetUpSpawner(new Word(SemanticType.DETERMINER, "the"));
-        //SetUpSpawner(new Word(SemanticType.DETERMINER, "a"));
-        //SetUpSpawner(new Word(SemanticType.DETERMINER, "two"));
-        //SetUpSpawner(new Word(SemanticType.DETERMINER, "three"));
-        //SetUpSpawner(new Word(SemanticType.DETERMINER, "every"));
+        SetUpSpawner(Expression.NO);
+        //SetUpSpawner(Expression.A);
+        //SetUpSpawner(Expression.TWO);
+        //SetUpSpawner(Expression.THREE);
+        //SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
-        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "business-man"));
-        SetUpSpawner(new Word(SemanticType.INDIVIDUAL, "evil-man"));
+        SetUpSpawner(Expression.BOB);
+        SetUpSpawner(Expression.EVAN);
 
         // predicates
-        SetUpSpawner(new Word(SemanticType.PREDICATE, "fountain"));
-        SetUpSpawner(new Word(SemanticType.PREDICATE, "lamp"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "active"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "inactive"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "king"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "yellow"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "green"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "blue"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "red"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "near-you"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "in-yellow-area"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "in-green-area"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "in-blue-area"));
-        //SetUpSpawner(new Word(SemanticType.PREDICATE, "in-red-area"));
+        SetUpSpawner(Expression.FOUNTAIN);
+        SetUpSpawner(Expression.LAMP);
+        //SetUpSpawner(Expression.ACTIVE);
+        //SetUpSpawner(Expression.INACTIVE);
+        //SetUpSpawner(Expression.KING);
+        //SetUpSpawner(Expression.YELLOW);
+        //SetUpSpawner(Expression.GREEN);
+        //SetUpSpawner(Expression.BLUE);
+        //SetUpSpawner(Expression.RED);
+        //SetUpSpawner(Expression.IN_YOUR_AREA);
+        //SetUpSpawner(Expression.IN_YELLOW_AREA);
+        //SetUpSpawner(Expression.IN_GREEN_AREA);
+        //SetUpSpawner(Expression.IN_BLUE_AREA);
+        //SetUpSpawner(Expression.IN_RED_AREA);
 
         //for testing ExpressionPiece object placements, delete later:
         SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
 
 
-        /** BELOW ARE PIECES NOT TO BE USED LATER, NOT IN DEMO:
+        /** BELOW ARE PIECES TO BE USED LATER, NOT IN DEMO:
           // truth value constants
-              SetUpSpawner(new Word(SemanticType.TRUTH_VALUE, "verum"));
+              SetUpSpawner(Expression.VERUM);
 
           // truth function contstants
-              SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_1, "not"));
-              SetUpSpawner(new Word(SemanticType.TRUTH_FUNCTION_2, "or"));
+              SetUpSpawner(Expression.NOT);
+              SetUpSpawner(Expression.OR);
 
           // quantifiers
-              SetUpSpawner(new Word(SemanticType.QUANTIFIER, "some"));
+              SetUpSpawner(Expression.SOME);
 
           // 2-place relation reducers
-              SetUpSpawner(new Word(SemanticType.RELATION_2_REDUCER, "itself"));
+              SetUpSpawner(Expression.ITSELF);
 
           // 2-place relations
-              SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
+              SetUpSpawner(Expression.HELP);
 
           // 3-place relations
-              SetUpSpawner(new Word(SemanticType.RELATION_3, "give"));
+              SetUpSpawner(Expression.GIVE);
 
           */
     }

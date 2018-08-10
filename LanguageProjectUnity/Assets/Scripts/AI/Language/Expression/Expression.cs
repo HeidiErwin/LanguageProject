@@ -89,7 +89,7 @@ public abstract class Expression {
     }
 
     // the words of the language
-    public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
+    public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
     public static readonly Expression TWO = new Word(SemanticType.DETERMINER, "two");
     public static readonly Expression THREE = new Word(SemanticType.DETERMINER, "three");
@@ -107,7 +107,7 @@ public abstract class Expression {
     public static readonly Expression GREEN = new Word(SemanticType.PREDICATE, "green");
     public static readonly Expression BLUE = new Word(SemanticType.PREDICATE, "blue");
     public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");
-    public static readonly Expression NEAR_YOU = new Word(SemanticType.PREDICATE, "near-you");
+    public static readonly Expression IN_YOUR_AREA = new Word(SemanticType.PREDICATE, "in-your-area");
     public static readonly Expression IN_YELLOW_AREA = new Word(SemanticType.PREDICATE, "in-yellow-area");
     public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");
     public static readonly Expression IN_BLUE_AREA = new Word(SemanticType.PREDICATE, "in-blue-area");
