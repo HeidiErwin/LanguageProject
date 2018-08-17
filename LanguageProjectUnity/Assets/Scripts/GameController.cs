@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            keyboardInstance.SetActive(!keyboardInstance.activeInHierarchy);
+            canvasInstance.SetActive(!keyboardInstance.activeInHierarchy);
         }
     }
 
@@ -41,8 +41,9 @@ public class GameController : MonoBehaviour {
      * Creates the Canvas which holds the keyboard and workspace
      */
     public void SetUpCanvas() {
-        GameObject canvas = Resources.Load("Canvas") as GameObject;
-        canvasInstance = Instantiate(canvas, new Vector2(100, 100), Quaternion.identity) as GameObject;
+        canvasInstance.SetActive(true);
+        //GameObject canvas = Resources.Load("Canvas") as GameObject;
+        //canvasInstance = Instantiate(canvas, new Vector2(100, 100), Quaternion.identity) as GameObject;
         keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject as GameObject;
     }
 
@@ -118,5 +119,18 @@ public class GameController : MonoBehaviour {
               SetUpSpawner(Expression.GIVE);
 
           */
+    }
+
+    // updates the keyboard so that the tabToDisplayIndex-th tab is active,
+    // and all other tabs become inactive
+    public void SwitchKeyboardTab(int tabToDisplayIndex) {
+        Debug.Log(tabToDisplayIndex + " was pressssssed");
+        if (tabToDisplayIndex == 0) { //Individual
+            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(220, 20, 60, 255);
+        } else if (tabToDisplayIndex == 1) { // Determiner
+            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(255, 203, 0, 255);
+        } else if (tabToDisplayIndex == 2) { // Predicate
+            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(9, 128, 37, 255);
+        }
     }
 }
