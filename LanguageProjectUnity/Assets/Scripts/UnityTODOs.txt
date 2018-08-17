@@ -107,10 +107,10 @@ Bill
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TODO FOR DEMO:
-- fix ExpressionPiece placement problems
-	- clean up code
+- [DONE] fix ExpressionPiece placement problems
+	- [DONE] clean up code
 	- [DONE] fix Initialize()
-	- fix CombineWith()
+	- [DONE] fix CombineWith()
 - keyboard 
 	- tab buttons working
 	- piecespawners added to keyboard

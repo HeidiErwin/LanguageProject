@@ -61,7 +61,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
                 argumentPieceScript.gameController = gameController;
                 argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
-                argumentPieceScript.arguments = new ExpressionPiece[0]; //is this line necessary?
+                argumentPieceScript.arguments = new ExpressionPiece[0];
 
                 //NOTE: arg positions are set relative to the center of their container expressions, by the center of the arg
                 float overallPieceHeight = calculatedHeight;
@@ -113,7 +113,6 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         }
         return exprPieceScript;
     }
-
 
     /**
     * returns false if 2 expressions shouldn't combine with each other
@@ -221,7 +220,6 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         Destroy(this.gameObject, 0.0f);
         Destroy(inputExpression.gameObject, 0.0f);
 
-        // Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
 
         return true;
@@ -338,19 +336,14 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
      * OnClick() method of the argument.
      */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-        Debug.Log(eventData.position.x + ", " + eventData.position.y + " was the spot just clicked");
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        // Debug.Log("currently clicking over " + results.Count + " items");
         ExpressionPiece argumentClicked = null;
         foreach (RaycastResult r in results) {
-            // Debug.Log("r is " + r.gameObject.name);
             if (r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
-                //Debug.Log("empty arg piece!!");
                 argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
-                // Debug.Log("Is argument null? => " + (argumentClicked == null));
                 break;
             }
         }

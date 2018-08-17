@@ -31,6 +31,10 @@ public class GameController : MonoBehaviour {
                 //Debug.Log(hit.transform.GetComponent<ExpressionPiece>().expression.headString + " was hit in the raycastall");
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            keyboardInstance.SetActive(!keyboardInstance.activeInHierarchy);
+        }
     }
 
     /**
@@ -45,7 +49,7 @@ public class GameController : MonoBehaviour {
     private void SetUpPlayer() {
         GameObject player = Resources.Load("Player") as GameObject;
         GameObject playerInstance = Instantiate(player, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        playerInstance.transform.SetParent(keyboardInstance.transform);
+        playerInstance.transform.SetParent(canvasInstance.transform);
     }
 
     private void SetUpSpawner(Expression e) {
