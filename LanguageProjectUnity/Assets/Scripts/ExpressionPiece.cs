@@ -9,6 +9,7 @@ using System;
  * A script to be attached to any Expression objects.
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
+    #region variables
     private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
@@ -24,14 +25,65 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     private int heightInUnits = 1;
 
     private ExpressionPiece[] arguments;
-
     private int index = -1;
-    private ExpressionPiece _parentExpressionPiece;
-    ExpressionPiece parentExpressionPiece {
-        get { return _parentExpressionPiece; }
-        set {
-            _parentExpressionPiece = value;
-            //this.gameObject.transform.SetParent(value.gameObject.transform, true);
+    private ExpressionPiece parentExpressionPiece;
+    #endregion
+
+    /**
+     * Called after an ExpressionPiece is created for the first time (all
+     * arguments are empty) to set up the piece. I.e. called when an 
+     * ExpressionPiece is created by a Spawner, Controller or something that isn't OnDrop().
+     */
+    public void Initialize(Expression expr) {
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        this.expression = expr;
+        this.arguments = new ExpressionPiece[expr.GetNumArgs()];
+        this.gameObject.transform.position = GetStartingPosition(); 
+
+        if (arguments.Length > 0) {
+            this.heightInUnits = 2;
+            this.widthInUnits = expr.GetNumArgs() + 1;
+        }
+
+        int counter = 0;
+        int currentX = 1;
+        float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
+        float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
+
+        // build empty arguments
+        for (int i = 0; i < arguments.Length; i++) {
+            Expression argExpression = expr.GetArg(i);
+            if (DRAW_OPEN_ARGUMENT_TYPE) {
+                GameObject argumentPiece = Resources.Load("Piece") as GameObject;
+                argumentPiece.name = "Argument";
+                GameObject argumentPieceInstance =
+                    Instantiate(argumentPiece, this.transform.position, Quaternion.identity) as GameObject;
+                ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
+                argumentPieceScript.gameController = gameController;
+                argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
+                argumentPieceScript.arguments = new ExpressionPiece[0]; //is this line necessary?
+
+                //NOTE: arg positions are set relative to the center of their container expressions, by the center of the arg
+                float overallPieceHeight = calculatedHeight;
+                float overallPieceWidth = calculatedWidth;
+                float overallPieceTopLeftX = this.transform.position.x - calculatedWidth / 2.0f;
+                float overallPieceTopLeftY = this.transform.position.y + calculatedHeight / 2.0f;
+
+                float argTopLeftX = overallPieceTopLeftX + PIXELS_PER_UNIT * currentX;
+                float argTopLeftY = overallPieceTopLeftY - 1 * PIXELS_PER_UNIT;
+                float argCenterX = argTopLeftX + (PIXELS_PER_UNIT * .5f) - BUFFER_IN_PIXELS; //.5f b/c center of arg w/ width & height 1
+                float argCenterY = argTopLeftY - (PIXELS_PER_UNIT * .5f) + BUFFER_IN_PIXELS;
+
+                argumentPieceInstance.transform.SetParent(this.gameObject.transform);
+                argumentPieceInstance.transform.localPosition = new Vector3(argCenterX, argCenterY);
+
+                argumentPieceScript.id = "_";
+                argumentPieceScript.index = counter;
+                argumentPieceScript.SetParentExpressionPiece(this);
+                this.arguments[i] = argumentPieceScript;
+                counter++;
+            }
+            currentX++;
         }
     }
 
@@ -53,84 +105,22 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         exprPieceScript.widthInUnits = this.widthInUnits;
         exprPieceScript.index = this.index;
 
-        //if (this.parentExpressionPiece == null) {
-        //    exprPieceInstance.transform.SetParent(this.transform.parent);
-        //} else {
-        //    exprPieceScript.parentExpressionPiece = isFirstCall ? this.parentExpressionPiece.DeepCopy(true) : this.parentExpressionPiece;
-        //    exprPieceInstance.transform.SetParent(this.parentExpressionPiece.transform);
-        //}
-
-        //exprPieceInstance.transform.SetParent(this.transform.parent);
-
         for (int i = 0; i < this.arguments.Length; i++) {
             if (this.arguments[i] != null) {
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy(false);
-                exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
+                exprPieceScript.arguments[i].SetParentExpressionPiece(exprPieceScript);
             }
         }
         return exprPieceScript;
     }
 
-    /** 
-     * Called after an ExpressionPiece is created for the first time (all
-     * arguments are empty) to set up the piece. I.e. called when an 
-     * ExpressionPiece is created by a Spawner, Controller or something that isn't OnDrop().
-     */
-    public void Initialize(Expression expr) {
-        this.expression = expr;
-        this.arguments = new ExpressionPiece[expr.GetNumArgs()];
-        this.gameObject.transform.position = new Vector3(0, 0, 0);
-
-        if (arguments.Length > 0) {
-            this.heightInUnits = 2;
-            this.widthInUnits = expr.GetNumArgs() + 1;
-        }
-
-        int counter = 0;
-        int currentX = 1;
-        float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
-        float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
-
-        // build empty arguments
-        for (int i = 0; i < arguments.Length; i++) {
-            Expression argExpression = expr.GetArg(i);
-            if (expr.GetArg(i) == null && DRAW_OPEN_ARGUMENT_TYPE) {
-
-                GameObject argumentPiece = Resources.Load("Piece") as GameObject;
-                argumentPiece.name = "Argument";
-                GameObject argumentPieceInstance = 
-                    Instantiate(argumentPiece, this.transform.position, Quaternion.identity) as GameObject;
-                ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
-                argumentPieceScript.gameController = gameController;
-                argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
-                argumentPieceScript.arguments = new ExpressionPiece[0]; //is this line necessary?
-
-                //NOTE: argument positions are set relative to the lower left of the overall piece, and are set according to the argument's center
-                float overallPieceHeight = calculatedHeight;
-                float argTopLeftPositionX = PIXELS_PER_UNIT * currentX;
-                float argTopLeftPositionY = 1*PIXELS_PER_UNIT;
-                float argCenterPositionX = argTopLeftPositionX - (PIXELS_PER_UNIT * .5f); //.5f b/c center of arg w/ width & height 1
-                float argCenterPositionY = argTopLeftPositionY - (PIXELS_PER_UNIT * .5f);
-
-                argumentPieceInstance.transform.SetParent(this.gameObject.transform);
-                argumentPieceInstance.transform.position = new Vector3(argCenterPositionX, argCenterPositionY);
-
-                argumentPieceScript.id = "_";
-                argumentPieceScript.index = counter;
-                argumentPieceScript.parentExpressionPiece = this;
-                this.arguments[i] = argumentPieceScript;
-                counter++;
-            }
-            currentX++;
-        }
-
-    }
 
     /**
-     * returns false if 2 expressions shouldn't combine with each other
-     */
+    * returns false if 2 expressions shouldn't combine with each other
+    */
     public bool CombineWith(ExpressionPiece inputExpression, int index) {
         Expression expr = null;
+
         //try to create new Expression
         try {
             expr = new Phrase(this.expression, inputExpression.expression, index);
@@ -141,19 +131,19 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
 
         // generate new Piece
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, GetSpawnPosition(), Quaternion.identity) as GameObject;
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.expression = expr;
         exprPieceScript.arguments = new ExpressionPiece[expr.GetNumArgs()];
-        
+
         if (exprPieceScript.arguments.Length > 0) {
-            exprPieceScript.heightInUnits = 2;    
+            exprPieceScript.heightInUnits = 2;
         }
 
         float originalPieceX = this.transform.position.x;
         float originalPieceY = this.transform.position.y;
 
-        //exprPieceInstance.transform.position = new Vector3(originalPieceX, originalPieceY, 0);
+       // exprPieceInstance.transform.position = new Vector3(originalPieceX, originalPieceY, 0);
 
         exprPieceScript.gameController = gameController;
         exprPieceScript.id = expr.ToString();
@@ -161,7 +151,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         exprPieceScript.index = this.index;
 
         if (this.parentExpressionPiece != null) {
-            exprPieceScript.parentExpressionPiece = this.parentExpressionPiece.DeepCopy(); // DeepCopy here bc 'this' will get destroyed
+            exprPieceScript.SetParentExpressionPiece(this.parentExpressionPiece.DeepCopy()); // DeepCopy here bc 'this' will get destroyed
         }
 
         exprPieceScript.widthInUnits = 1;
@@ -177,8 +167,8 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 exprPieceScript.widthInUnits++;
             } else {
                 // this happens to every argument, whether blank or filled
-                float originalArgLocalX = this.arguments[i].transform.localPosition.x +24;
-                float originalArgLocalY = this.arguments[i].transform.localPosition.y + 5;
+                float originalArgLocalX = this.arguments[i].transform.localPosition.x;
+                float originalArgLocalY = this.arguments[i].transform.localPosition.y;
 
                 // place a copy of the old argument in the same position in the new expression.
                 exprPieceScript.arguments[i] = this.arguments[i].DeepCopy();
@@ -199,11 +189,11 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                     counter++;
                 }
             }
-            
+
             // place the input expression in the appropriate argument position.
             if (counter == index) {
-                float originalArgLocalX = this.arguments[i].transform.localPosition.x + 24;
-                float originalArgLocalY = this.arguments[i].transform.localPosition.y + 5;
+                float originalArgLocalX = this.arguments[i].transform.localPosition.x;
+                float originalArgLocalY = this.arguments[i].transform.localPosition.y;
                 Destroy(exprPieceScript.arguments[i].gameObject, 0.0f); //need to destroy the empty arg that this piece is replacing
                 exprPieceScript.arguments[i] = inputExpression.DeepCopy();
                 exprPieceScript.arguments[i].gameObject.transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
@@ -218,7 +208,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         // expression's arguments as the new expression. This doesn't happen in
         // deepcopy because deepcopy makes a new copy of the expression to set.
         for (int i = 0; i < arguments.Length; i++) {
-            exprPieceScript.arguments[i].parentExpressionPiece = exprPieceScript;
+            exprPieceScript.arguments[i].SetParentExpressionPiece(exprPieceScript);
             exprPieceInstance.transform.SetParent(this.transform.parent.transform);
 
         }
@@ -231,32 +221,26 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         Destroy(this.gameObject, 0.0f);
         Destroy(inputExpression.gameObject, 0.0f);
 
-       // Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
+        // Debug.Log("INDEX TO OCCUPY IS " + indexToOccupy);
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
 
         return true;
     }
 
-    /**
-     * Makes an ExpressionPiece from scratch; not as the result of combining 
-     * them on the workspace. This is for down-the-road when NPCs can make 
-     * expressions, and when users can save expressions onto their keyboard
-     */
-    public void FromScratch(Expression expr) {
-        FromScratch(expr, true);
+    public void SetParentExpressionPiece(ExpressionPiece parent) {
+        parentExpressionPiece = parent;
     }
 
-    private void FromScratch(Expression expr, bool isTopLayer) {
-        for (int i = 0; i < expr.GetNumArgs(); i++) {
-            Expression arg = expr.GetArg(i);
-            if (expr.GetArg(i) != null) {
-                // TODO: do something here to recursively make the argument ExpressionPieces,
-                // and then make the ExpressionPiece for the whole expression
-            }
-        }
-        if (isTopLayer) {
-            Initialize(expr);    
-        }
+    //TODO: fill this in for the demo w/ a calculated position
+    //(horizontal layout group likely will be out of the picture)
+    public Vector3 GetStartingPosition() { 
+        return new Vector3(0, 0, 0);
+    }
+
+    //TODO: fill this in for the demo w/ a calculated position
+    //(horizontal layout group likely will be out of the picture)
+    public Vector3 GetSpawnPosition() {
+        return new Vector3(0, 0, 0);
     }
 
     /**
@@ -273,7 +257,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         GameObject exprPiece = this.gameObject;
 
         RectTransform pieceRect = exprPiece.GetComponent<RectTransform>();
-        float calculatedWidth  = PIXELS_PER_UNIT * this.widthInUnits;
+        float calculatedWidth = PIXELS_PER_UNIT * this.widthInUnits;
         float calculatedHeight = PIXELS_PER_UNIT * this.heightInUnits;
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth);
         pieceRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight);
@@ -290,13 +274,13 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
 
         RectTransform visContainerRectTransform = visualContainer.AddComponent<RectTransform>();
         visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth - BUFFER_IN_PIXELS);
-        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight  - BUFFER_IN_PIXELS);
+        visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight - BUFFER_IN_PIXELS);
 
         if (DRAW_SUBEXPRESSION_TYPE || isFirstLevel) {
 
             Image bgImage = visualContainer.AddComponent<Image>();
             bgImage.color = isFirstLevel ? this.expression.type.outputColor : this.expression.type.color + new Color(0.25f, 0.25f, 0.25f, 0f) - new Color(0, 0, 0, (1 - EXPRESSION_OPACITY));
-            
+
             Color borderColor = this.expression.type.color;
 
             GenerateBorder(borderColor, visualContainer, calculatedWidth, calculatedHeight, "North");
@@ -313,7 +297,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.headString);
         headImage.sprite = headSprite;
         headImage.transform.localScale *= .25f;
-        headImage.transform.position = new Vector3(pieceTopLeftX + (.5f*PIXELS_PER_UNIT), pieceTopLeftY - (.5f*PIXELS_PER_UNIT));
+        headImage.transform.position = new Vector3(pieceTopLeftX + (.5f * PIXELS_PER_UNIT), pieceTopLeftY - (.5f * PIXELS_PER_UNIT));
 
         visualContainer.transform.position = new Vector3(0, 0, 0);
 
@@ -363,7 +347,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         ExpressionPiece argumentClicked = null;
         foreach (RaycastResult r in results) {
             // Debug.Log("r is " + r.gameObject.name);
-            if(r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")){
+            if (r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
                 //Debug.Log("empty arg piece!!");
                 argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
                 // Debug.Log("Is argument null? => " + (argumentClicked == null));

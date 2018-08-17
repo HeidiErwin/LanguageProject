@@ -36,7 +36,6 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-        exprPieceScript.gameController = this.gameController;
         exprPieceScript.Initialize(expression);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
 
