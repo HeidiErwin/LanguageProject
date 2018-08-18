@@ -112,10 +112,10 @@ TODO FOR DEMO:
 	- [DONE] fix Initialize()
 	- [DONE] fix CombineWith()
 - keyboard 
-	- tab buttons working
-		- expressions belong to specific parts of keyboard
-	- piecespawners added to keyboard
-	- expressions when clicked add to workspace
+	- [DONE] tab buttons working
+		- [DONE] expressions belong to specific parts of keyboard
+	- [DONE] piecespawners added to keyboard
+	- [DONE] expressions when clicked add to workspace
 	- button on workspace (check mark type thing) that makes current made expression remain while keyboard & workspace disappear
 	- [DONE] key to open/close keyboard+workspace
 - ability to say something to an NPC by clicking the NPC

@@ -61,12 +61,11 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         Image headImage = nameObject.AddComponent<Image>();
         Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.headString);
         headImage.sprite = headSprite;
-        headImage.transform.localScale = headImage.transform.localScale * .5f;
+        headImage.transform.localScale = headImage.transform.localScale * .3f;
         headImage.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
 
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
         bgImage[0].color = this.expression.type.color - (new Color(0, 0, 0, 0.5f));
-        this.gameObject.transform.localScale = gameObject.transform.localScale * .4f;
     }
 }

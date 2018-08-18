@@ -38,7 +38,9 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
-        this.gameObject.transform.position = GetStartingPosition(); 
+        this.gameObject.transform.position = GetStartingPosition();
+        GameObject tabletop = GameObject.Find("Tabletop");
+        this.gameObject.transform.SetParent(this.transform.parent.transform);
 
         if (arguments.Length > 0) {
             this.heightInUnits = 2;

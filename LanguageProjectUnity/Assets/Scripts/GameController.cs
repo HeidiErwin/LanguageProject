@@ -9,13 +9,20 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public GameObject keyboardInstance;
+    private GameObject currentKeyboard; //the subsection of the keyboard we're currently showing (e.g. Determiners)
     public GameObject canvasInstance;
+    [SerializeField] private GameObject individualKeyboard;
+    [SerializeField] private GameObject determinerKeyboard;
+    [SerializeField] private GameObject predicateKeyboard;
+
     public ExpressionPiece selectedExpression;
 
 	void Start () {
         SetUpCanvas();
         SetUpKeyboard();
         SetUpPlayer();
+        currentKeyboard = individualKeyboard;
+        currentKeyboard.SetActive(true);
     }
 
     public void Update()
@@ -33,7 +40,7 @@ public class GameController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            canvasInstance.SetActive(!keyboardInstance.activeInHierarchy);
+            canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
         }
     }
 
@@ -42,8 +49,6 @@ public class GameController : MonoBehaviour {
      */
     public void SetUpCanvas() {
         canvasInstance.SetActive(true);
-        //GameObject canvas = Resources.Load("Canvas") as GameObject;
-        //canvasInstance = Instantiate(canvas, new Vector2(100, 100), Quaternion.identity) as GameObject;
         keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject as GameObject;
     }
 
@@ -53,21 +58,29 @@ public class GameController : MonoBehaviour {
         playerInstance.transform.SetParent(canvasInstance.transform);
     }
 
-    private void SetUpSpawner(Expression e) {
+    private void SetUpSpawner(Expression e, int type) {
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        spawnerInstance.transform.SetParent(keyboardInstance.transform);
+        if (type == 0) {
+            spawnerInstance.transform.SetParent(individualKeyboard.transform);
+        } else if (type == 1) {
+            spawnerInstance.transform.SetParent(determinerKeyboard.transform);
+        } else if (type == 2) {
+            spawnerInstance.transform.SetParent(predicateKeyboard.transform);
+        } else {
+            Debug.Log("invalid type index");
+        }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
     }
 
-    /** Creates the keyboard from which the user can click on ExpressionPieceSpawners,
+    /** Creates the keyboard (and sub-keyboards) from which the user can click on ExpressionPieceSpawners,
     * which will create ExpressionPieces in the workspace.
     */
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
         // determiners
-        SetUpSpawner(Expression.NO);
+        SetUpSpawner(Expression.NO, 1);
         //SetUpSpawner(Expression.A);
         //SetUpSpawner(Expression.TWO);
         //SetUpSpawner(Expression.THREE);
@@ -75,12 +88,12 @@ public class GameController : MonoBehaviour {
 
         // CONTENT WORDS   
         // proper names
-        SetUpSpawner(Expression.BOB);
-        SetUpSpawner(Expression.EVAN);
+        SetUpSpawner(Expression.BOB, 0);
+        SetUpSpawner(Expression.EVAN, 0);
 
         // predicates
-        SetUpSpawner(Expression.FOUNTAIN);
-        SetUpSpawner(Expression.LAMP);
+        SetUpSpawner(Expression.FOUNTAIN, 2);
+        SetUpSpawner(Expression.LAMP, 2);
         //SetUpSpawner(Expression.ACTIVE);
         //SetUpSpawner(Expression.INACTIVE);
         //SetUpSpawner(Expression.KING);
@@ -94,8 +107,8 @@ public class GameController : MonoBehaviour {
         //SetUpSpawner(Expression.IN_BLUE_AREA);
         //SetUpSpawner(Expression.IN_RED_AREA);
 
-        //for testing ExpressionPiece object placements, delete later:
-        SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
+        //HELP for testing ExpressionPiece object placements, delete later:
+        // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
 
 
         /** BELOW ARE PIECES TO BE USED LATER, NOT IN DEMO:
@@ -124,13 +137,18 @@ public class GameController : MonoBehaviour {
     // updates the keyboard so that the tabToDisplayIndex-th tab is active,
     // and all other tabs become inactive
     public void SwitchKeyboardTab(int tabToDisplayIndex) {
+        currentKeyboard.SetActive(false);
         Debug.Log(tabToDisplayIndex + " was pressssssed");
         if (tabToDisplayIndex == 0) { //Individual
+            currentKeyboard = individualKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(220, 20, 60, 255);
         } else if (tabToDisplayIndex == 1) { // Determiner
+            currentKeyboard = determinerKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(255, 203, 0, 255);
         } else if (tabToDisplayIndex == 2) { // Predicate
+            currentKeyboard = predicateKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(9, 128, 37, 255);
         }
+        currentKeyboard.SetActive(true);
     }
 }
