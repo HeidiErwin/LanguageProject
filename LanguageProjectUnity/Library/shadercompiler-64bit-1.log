@@ -1,0 +1,47 @@
+Base path: /Applications/Unity/Unity.app/Contents
+Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1--962849856
+Cmd: getPlatforms
+Cmd: preprocess
+  insize=3466 outsize=1242 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (100): 'UnityObjectToClipPos' : no matching overloaded function found\nCompiling Vertex program
+  api=0 type=0 insize=2528 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=3508 outsize=1639 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (91): 'UnityObjectToClipPos' : no matching overloaded function found\nCompiling Vertex program
+  api=0 type=0 insize=2173 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=3464 outsize=1289 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (101): 'UnityObjectToClipPos' : no matching overloaded function found\nCompiling Vertex program
+  api=0 type=0 insize=2479 outsize=0 kw= ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (125): Can't find include file UnityUI.cginc
+  insize=10047 outsize=3870 ok=0
+Cmd: preprocess
+  insize=3433 outsize=2609 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at TMPro_Surface.cginc(18): 'UnityObjectToClipPos' : no matching overloaded function found\nCompiling Vertex program with DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF
+  api=0 type=0 insize=15888 outsize=0 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (91): Can't find include file UnityUI.cginc
+  insize=7090 outsize=2394 ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (97): Can't find include file UnityUI.cginc
+  insize=7715 outsize=2661 ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (54): Can't find include file UnityUI.cginc
+  insize=2307 outsize=1109 ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (125): Can't find include file UnityUI.cginc
+  insize=10039 outsize=3859 ok=0
+Cmd: preprocess
+  error: 2 plat 1 at /TMPro_Surface.cginc(91): undefined variable "unity_ObjectToWorld"
+  insize=4252 outsize=4090 ok=0
+Cmd: preprocess
+  error: 2 plat 15 at (91): Can't find include file UnityUI.cginc
+  insize=7098 outsize=2404 ok=0
+End of pipe
+
+Quitting shader compiler process

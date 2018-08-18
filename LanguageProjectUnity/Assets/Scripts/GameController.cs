@@ -58,17 +58,18 @@ public class GameController : MonoBehaviour {
         playerInstance.transform.SetParent(canvasInstance.transform);
     }
 
-    private void SetUpSpawner(Expression e, int type) {
+    private void SetUpSpawner(Expression e) {
+        SemanticType type = e.type;
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        if (type == 0) {
+        if (type.Equals(SemanticType.INDIVIDUAL)) {
             spawnerInstance.transform.SetParent(individualKeyboard.transform);
-        } else if (type == 1) {
+        } else if (type.Equals(SemanticType.DETERMINER)) {
             spawnerInstance.transform.SetParent(determinerKeyboard.transform);
-        } else if (type == 2) {
+        } else if (type.Equals(SemanticType.PREDICATE)) {
             spawnerInstance.transform.SetParent(predicateKeyboard.transform);
         } else {
-            Debug.Log("invalid type index");
+            Debug.Log("invalid type");
         }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
@@ -80,32 +81,32 @@ public class GameController : MonoBehaviour {
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
         // determiners
-        SetUpSpawner(Expression.NO, 1);
-        //SetUpSpawner(Expression.A);
-        //SetUpSpawner(Expression.TWO);
-        //SetUpSpawner(Expression.THREE);
-        //SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.NO);
+        SetUpSpawner(Expression.A);
+        // SetUpSpawner(Expression.TWO);
+        // SetUpSpawner(Expression.THREE);
+        // SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
-        SetUpSpawner(Expression.BOB, 0);
-        SetUpSpawner(Expression.EVAN, 0);
+        SetUpSpawner(Expression.BOB);
+        SetUpSpawner(Expression.EVAN);
 
         // predicates
-        SetUpSpawner(Expression.FOUNTAIN, 2);
-        SetUpSpawner(Expression.LAMP, 2);
-        //SetUpSpawner(Expression.ACTIVE);
-        //SetUpSpawner(Expression.INACTIVE);
-        //SetUpSpawner(Expression.KING);
-        //SetUpSpawner(Expression.YELLOW);
-        //SetUpSpawner(Expression.GREEN);
-        //SetUpSpawner(Expression.BLUE);
-        //SetUpSpawner(Expression.RED);
-        //SetUpSpawner(Expression.IN_YOUR_AREA);
-        //SetUpSpawner(Expression.IN_YELLOW_AREA);
-        //SetUpSpawner(Expression.IN_GREEN_AREA);
-        //SetUpSpawner(Expression.IN_BLUE_AREA);
-        //SetUpSpawner(Expression.IN_RED_AREA);
+        SetUpSpawner(Expression.FOUNTAIN);
+        SetUpSpawner(Expression.LAMP);
+        // SetUpSpawner(Expression.ACTIVE);
+        // SetUpSpawner(Expression.INACTIVE);
+        // SetUpSpawner(Expression.KING);
+        // SetUpSpawner(Expression.YELLOW);
+        // SetUpSpawner(Expression.GREEN);
+        // SetUpSpawner(Expression.BLUE);
+        // SetUpSpawner(Expression.RED);
+        // SetUpSpawner(Expression.IN_YOUR_AREA);
+        // SetUpSpawner(Expression.IN_YELLOW_AREA);
+        // SetUpSpawner(Expression.IN_GREEN_AREA);
+        // SetUpSpawner(Expression.IN_BLUE_AREA);
+        // SetUpSpawner(Expression.IN_RED_AREA);
 
         //HELP for testing ExpressionPiece object placements, delete later:
         // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
@@ -126,7 +127,7 @@ public class GameController : MonoBehaviour {
               SetUpSpawner(Expression.ITSELF);
 
           // 2-place relations
-              SetUpSpawner(Expression.HELP);
+          SetUpSpawner(Expression.HELP);
 
           // 3-place relations
               SetUpSpawner(Expression.GIVE);
