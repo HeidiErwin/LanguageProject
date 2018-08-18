@@ -75,7 +75,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 float argCenterY = argTopLeftY - (PIXELS_PER_UNIT * .5f) + BUFFER_IN_PIXELS;
 
                 argumentPieceInstance.transform.SetParent(this.gameObject.transform);
-                argumentPieceInstance.transform.localPosition = new Vector3(argCenterX, argCenterY);
+                argumentPieceInstance.transform.position = new Vector3(argCenterX, argCenterY);
 
                 argumentPieceScript.id = "_";
                 argumentPieceScript.index = counter;
@@ -232,7 +232,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     //TODO: fill this in for the demo w/ a calculated position
     //(horizontal layout group likely will be out of the picture)
     public Vector3 GetStartingPosition() { 
-        return new Vector3(0, 0, 0);
+        return new Vector3(300, 50, 0);
     }
 
     //TODO: fill this in for the demo w/ a calculated position
@@ -326,6 +326,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     }
 
     public void SetVisual(GameObject generatedVisual) {
+        generatedVisual.transform.position = this.gameObject.transform.position;
         generatedVisual.transform.SetParent(this.gameObject.transform);
     }
 

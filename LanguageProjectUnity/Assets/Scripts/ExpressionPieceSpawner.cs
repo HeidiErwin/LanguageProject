@@ -31,7 +31,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * Creates an new ExpressionPiece based on this ExpressionPieceSpawner
      */
     public ExpressionPiece MakeNewExpressionPiece() {
-        GameObject workspace = this.transform.parent.parent.Find("Tabletop").gameObject;
+        GameObject workspace = GameObject.Find("Tabletop");
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);
@@ -55,8 +55,6 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      */
     public void SetUpSpawnerVisual() {
         RectTransform pieceRect = gameObject.GetComponent<RectTransform>();
-        // float pieceTopLeftY = gameObject.transform.position.y + pieceRect.rect.height / 2;
-        // float pieceTopLeftX = gameObject.transform.position.x - pieceRect.rect.width / 2;
         GameObject nameObject = new GameObject();
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
@@ -69,5 +67,6 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
         bgImage[0].color = this.expression.type.color - (new Color(0, 0, 0, 0.5f));
+        this.gameObject.transform.localScale = gameObject.transform.localScale * .4f;
     }
 }
