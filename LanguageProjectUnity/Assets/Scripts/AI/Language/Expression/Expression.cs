@@ -88,6 +88,8 @@ public abstract class Expression {
         return true;
     }
 
+    // TODO implement GetHashCode() so SimpleModel can be used
+
     // the words of the language
     public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");

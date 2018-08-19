@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.Collections.Generic;
 
 // a model represented as simply as possible:
@@ -24,5 +26,15 @@ public class SimpleModel : IModel {
         }
 
         return false;
+    }
+
+    public override String ToString() {
+        StringBuilder s = new StringBuilder();
+        s.Append("{\n");
+        foreach (Expression e in this.model) {
+            s.Append("    " + e + "\n");
+        }
+        s.Append("}");
+        return s.ToString();
     }
 }

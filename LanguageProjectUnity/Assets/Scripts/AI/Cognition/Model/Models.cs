@@ -16,7 +16,7 @@
 
 public class Models {
     public static IModel BobModel() {
-        IModel m = new SimpleModel();
+        IModel m = new PrefixModel();
 
         // things Bob takes to be true of Bob
         m.Add(new Phrase(Expression.KING, Expression.BOB));
@@ -421,7 +421,7 @@ public class Models {
     }
 
     public static IModel EvanModel() {
-        IModel m = new SimpleModel();
+        IModel m = new PrefixModel();
 
         // things Evan takes to be true of Bob
         m.Add(new Phrase(Expression.ACTIVE, Expression.BOB));
