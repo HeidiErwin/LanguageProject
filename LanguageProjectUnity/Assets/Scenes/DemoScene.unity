@@ -2222,6 +2222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   sprites: []
+  nameString: Evan
 --- !u!61 &1833950087
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2480,6 +2481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   sprites: []
+  nameString: Bob
 --- !u!61 &1950673116
 BoxCollider2D:
   m_ObjectHideFlags: 0
