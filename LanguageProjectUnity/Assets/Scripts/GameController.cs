@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
 
+    public const int PIECES_PER_ROW = 8;
+
+    private bool inSpeakingMode = false; // true only right after user has submitted an expression (pressed checkmark button) and before user has selected an NPC to speak to
+
     public ExpressionPiece selectedExpression;
 
 	void Start () {
@@ -55,7 +59,6 @@ public class GameController : MonoBehaviour {
     private void SetUpPlayer() {
         GameObject player = Resources.Load("Player") as GameObject;
         GameObject playerInstance = Instantiate(player, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        playerInstance.transform.SetParent(canvasInstance.transform);
     }
 
     private void SetUpSpawner(Expression e) {
@@ -63,11 +66,31 @@ public class GameController : MonoBehaviour {
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
         if (type.Equals(SemanticType.INDIVIDUAL)) {
-            spawnerInstance.transform.SetParent(individualKeyboard.transform);
+            GameObject firstRow = individualKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         } else if (type.Equals(SemanticType.DETERMINER)) {
-            spawnerInstance.transform.SetParent(determinerKeyboard.transform);
+            GameObject firstRow = determinerKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = determinerKeyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         } else if (type.Equals(SemanticType.PREDICATE)) {
-            spawnerInstance.transform.SetParent(predicateKeyboard.transform);
+            GameObject firstRow = predicateKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                Debug.Log("1st row's name is " + firstRow.name);
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = predicateKeyboard.transform.GetChild(1).gameObject;
+                Debug.Log("second row's name is " + secondRow.name);
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         } else {
             Debug.Log("invalid type");
         }
@@ -83,9 +106,9 @@ public class GameController : MonoBehaviour {
         // determiners
         SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.A);
-        // SetUpSpawner(Expression.TWO);
-        // SetUpSpawner(Expression.THREE);
-        // SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.TWO);
+        SetUpSpawner(Expression.THREE);
+        SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
@@ -95,18 +118,18 @@ public class GameController : MonoBehaviour {
         // predicates
         SetUpSpawner(Expression.FOUNTAIN);
         SetUpSpawner(Expression.LAMP);
-        // SetUpSpawner(Expression.ACTIVE);
-        // SetUpSpawner(Expression.INACTIVE);
-        // SetUpSpawner(Expression.KING);
-        // SetUpSpawner(Expression.YELLOW);
-        // SetUpSpawner(Expression.GREEN);
-        // SetUpSpawner(Expression.BLUE);
-        // SetUpSpawner(Expression.RED);
-        // SetUpSpawner(Expression.IN_YOUR_AREA);
-        // SetUpSpawner(Expression.IN_YELLOW_AREA);
-        // SetUpSpawner(Expression.IN_GREEN_AREA);
-        // SetUpSpawner(Expression.IN_BLUE_AREA);
-        // SetUpSpawner(Expression.IN_RED_AREA);
+        SetUpSpawner(Expression.ACTIVE);
+        SetUpSpawner(Expression.INACTIVE);
+        SetUpSpawner(Expression.KING);
+        SetUpSpawner(Expression.YELLOW);
+        SetUpSpawner(Expression.GREEN);
+        SetUpSpawner(Expression.BLUE);
+        SetUpSpawner(Expression.RED);
+        SetUpSpawner(Expression.IN_YOUR_AREA);
+        SetUpSpawner(Expression.IN_YELLOW_AREA);
+        SetUpSpawner(Expression.IN_GREEN_AREA);
+        SetUpSpawner(Expression.IN_BLUE_AREA);
+        SetUpSpawner(Expression.IN_RED_AREA);
 
         //HELP for testing ExpressionPiece object placements, delete later:
         // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
@@ -151,5 +174,33 @@ public class GameController : MonoBehaviour {
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(9, 128, 37, 255);
         }
         currentKeyboard.SetActive(true);
+    }
+
+    // Called when user presses button to submit the selected expression.
+    // This method takes the selected expression and unparents it from the canvas,
+    // then hides canvas (keyboard + workspace)
+    public void SubmitSelectedExpression() {
+        if(selectedExpression != null) {
+            GameObject screenCanvas = GameObject.Find("ScreenCanvas");// a Canvas always on screen; never hidden
+            selectedExpression.gameObject.transform.SetParent(screenCanvas.transform);
+            canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
+
+            inSpeakingMode = true;
+        } else {
+            Debug.Log("no selected expression to submit!");
+        }
+    }
+
+    // getter
+    public bool InSpeakingMode() {
+        return inSpeakingMode;
+    }
+
+    public void SetInSpeakingMode(bool speakMode) {
+        inSpeakingMode = speakMode;
+    }
+
+    public ExpressionPiece GetSelectedExpression() {
+        return selectedExpression;
     }
 }

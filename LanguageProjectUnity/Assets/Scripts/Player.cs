@@ -9,11 +9,6 @@ public class Player : Character {
         GetInput();
         transform.rotation = Quaternion.Euler(0, 0, 0);
         base.Update();
-        //if (counter == 500) {
-        //    Debug.Log("bob the builder's x value is " + this.transform.position.x);
-        //    counter = 0;
-        //}
-        //counter++;
     }
 
     /**
