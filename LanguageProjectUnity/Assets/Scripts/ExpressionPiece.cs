@@ -10,7 +10,7 @@ using System;
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
+    private const bool DRAW_SUBEXPRESSION_TYPE = false; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
@@ -276,7 +276,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, calculatedWidth - BUFFER_IN_PIXELS);
         visContainerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, calculatedHeight - BUFFER_IN_PIXELS);
 
-        if (DRAW_SUBEXPRESSION_TYPE || isFirstLevel) {
+        if (DRAW_SUBEXPRESSION_TYPE || this.expression.headString.Equals("_") || isFirstLevel) {
 
             Image bgImage = visualContainer.AddComponent<Image>();
             bgImage.color = isFirstLevel ? this.expression.type.outputColor : this.expression.type.color + new Color(0.25f, 0.25f, 0.25f, 0f) - new Color(0, 0, 0, (1 - EXPRESSION_OPACITY));
