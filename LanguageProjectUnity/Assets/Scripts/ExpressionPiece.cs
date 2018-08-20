@@ -365,10 +365,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     public void OnClick() {
         Debug.Log(expression.headString + " just received a click");
 
-        if (HandleClickSelection()) {
-            // this means combination was a success.
-            this.gameController.combineSuccess.Play();
-        }
+        HandleClickSelection();
 
         if (this.gameController.selectedExpression == null) {
             Debug.Log("selected expression null");
@@ -423,10 +420,17 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         // if one expression is selected and we click another, try to
         // combine the two expressions. If it works, return true.
         if (this.parentExpressionPiece != null && this.id.Equals("_") && !this.gameController.InSpeakingMode()) {
-            bool toReturn = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
+            bool successfulCombination = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
             this.gameController.selectedExpression = null;
             gameController.HidePointer();
-            return toReturn;
+            
+            if (successfulCombination) {
+                this.gameController.combineSuccess.Play();
+            } else {
+                this.gameController.failure.Play();
+            }
+
+            return successfulCombination;
         }
 
         return false;

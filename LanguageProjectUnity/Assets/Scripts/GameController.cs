@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
     public AudioSource highClick;
     public AudioSource lowClick;
     public AudioSource combineSuccess;
+    public AudioSource placeExpression;
+    public AudioSource failure;
 
     public const int PIECES_PER_ROW = 8;
 
@@ -38,6 +40,12 @@ public class GameController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space)) {
             canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
+
+            if (canvasInstance.activeInHierarchy) {
+                highClick.Play();
+            } else {
+                lowClick.Play();
+            }
         }
     }
 
@@ -184,8 +192,11 @@ public class GameController : MonoBehaviour {
             canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
 
             inSpeakingMode = true;
+
+            combineSuccess.Play();
         } else {
             Debug.Log("no selected expression to submit!");
+            failure.Play();
         }
     }
 

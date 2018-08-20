@@ -63,15 +63,18 @@ public class NPC : Character {
         if (!utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             Debug.Log("Semantic Type of utterance is not sentence/truth value.");
             ShowSpeechBubble("questionMark");
+            this.controller.placeExpression.Play(); // TODO make a unique sound for this
             return;
         }
 
         if (this.model.Contains(utterance)) {
             Debug.Log("That's TRUE in their model.");
             ShowSpeechBubble("true");
+            this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else {
             Debug.Log("That's FALSE in their model.");
             ShowSpeechBubble("false");
+            this.controller.failure.Play(); // TODO make a unique sound effect for this
         }
     }
 

@@ -199,7 +199,6 @@ public class Models {
 
         // things Bob takes to be true of no green thing
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.GREEN)));
@@ -211,6 +210,7 @@ public class Models {
 
         // things Bob takes to be true of a green thing
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.GREEN)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.GREEN)));
