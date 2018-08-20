@@ -105,20 +105,22 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.EVAN);
 
         // predicates
+        SetUpSpawner(Expression.YELLOW);
+        SetUpSpawner(Expression.GREEN);
+        SetUpSpawner(Expression.BLUE);
+        SetUpSpawner(Expression.RED);
+
+        SetUpSpawner(Expression.IN_YELLOW_AREA);
+        SetUpSpawner(Expression.IN_GREEN_AREA);
+        SetUpSpawner(Expression.IN_BLUE_AREA);
+        SetUpSpawner(Expression.IN_RED_AREA);
+        SetUpSpawner(Expression.IN_YOUR_AREA);
+
         SetUpSpawner(Expression.FOUNTAIN);
         SetUpSpawner(Expression.LAMP);
         SetUpSpawner(Expression.ACTIVE);
         SetUpSpawner(Expression.INACTIVE);
         SetUpSpawner(Expression.KING);
-        SetUpSpawner(Expression.YELLOW);
-        SetUpSpawner(Expression.GREEN);
-        SetUpSpawner(Expression.BLUE);
-        SetUpSpawner(Expression.RED);
-        SetUpSpawner(Expression.IN_YOUR_AREA);
-        SetUpSpawner(Expression.IN_YELLOW_AREA);
-        SetUpSpawner(Expression.IN_GREEN_AREA);
-        SetUpSpawner(Expression.IN_BLUE_AREA);
-        SetUpSpawner(Expression.IN_RED_AREA);
 
         //HELP for testing ExpressionPiece object placements, delete later:
         // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));

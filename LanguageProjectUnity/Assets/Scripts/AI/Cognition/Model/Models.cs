@@ -32,8 +32,6 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.FOUNTAIN)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.FOUNTAIN)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.FOUNTAIN)));
@@ -42,6 +40,8 @@ public class Models {
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.FOUNTAIN)));
@@ -49,6 +49,7 @@ public class Models {
         // things Bob takes to be true of two fountains
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
 
         // things Bob takes to be true of three fountains
@@ -63,7 +64,6 @@ public class Models {
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.LAMP)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.LAMP)));
 
@@ -71,6 +71,7 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.LAMP)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.LAMP)));
@@ -86,8 +87,6 @@ public class Models {
         // things Bob takes to be true of no active thing
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.ACTIVE)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.ACTIVE)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.ACTIVE)));
@@ -97,6 +96,8 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.ACTIVE)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.ACTIVE)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
@@ -120,8 +121,6 @@ public class Models {
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.INACTIVE)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.INACTIVE)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
@@ -131,6 +130,8 @@ public class Models {
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.INACTIVE)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.INACTIVE)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.INACTIVE)));
 
         // things Bob takes to be true of two inactive things
@@ -197,84 +198,92 @@ public class Models {
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.EVERY, Expression.YELLOW)));
 
         // things Bob takes to be true of no green thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.GREEN)));
 
         // things Bob takes to be true of a green thing
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.GREEN)));
         
         // things Bob takes to be true of two green things
         
         // things Bob takes to be true of three green things
         
         // things Bob takes to be true of every green thing
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.EVERY, Expression.GREEN)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.EVERY, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.EVERY, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.EVERY, Expression.GREEN)));
 
         // things Bob takes to be true of no blue thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.BLUE)));
 
         // things Bob takes to be true of a blue thing
-        
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.BLUE)));
+
         // things Bob takes to be true of two blue things
-        
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.BLUE)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.TWO, Expression.BLUE)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.BLUE)));
+
         // things Bob takes to be true of three blue things
         
         // things Bob takes to be true of every blue thing
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.EVERY, Expression.BLUE)));
 
         // things Bob takes to be true of no red thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.RED)));
 
         // things Bob takes to be true of a red thing
-        
+        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.RED)));
+
         // things Bob takes to be true of two red things
         
         // things Bob takes to be true of three red things
         
         // things Bob takes to be true of every red thing
+        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.EVERY, Expression.RED)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.EVERY, Expression.RED)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.EVERY, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.EVERY, Expression.RED)));
 
         // things Bob takes to be true of no in-Bob's-area thing
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
@@ -286,6 +295,7 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.IN_YOUR_AREA)));
 
@@ -359,8 +369,6 @@ public class Models {
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
@@ -371,11 +379,14 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
 
         // things Bob takes to be true of two in-blue-area things
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
 
         // things Bob takes to be true of three in-blue-area things
@@ -385,20 +396,20 @@ public class Models {
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.EVERY, Expression.IN_BLUE_AREA)));
 
         // things Bob takes to be true of no in-red-area thing
-        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
 
         // things Bob takes to be true of an in-red-area thing
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
 
@@ -437,8 +448,6 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.FOUNTAIN)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.FOUNTAIN)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.FOUNTAIN)));
@@ -448,12 +457,15 @@ public class Models {
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.FOUNTAIN)));
 
         // things Evan takes to be true of two fountains
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.FOUNTAIN)));
 
         // things Evan takes to be true of three fountains
@@ -468,7 +480,6 @@ public class Models {
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.LAMP)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.LAMP)));
@@ -477,6 +488,7 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.LAMP)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.LAMP)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.LAMP)));
 
@@ -491,8 +503,6 @@ public class Models {
         // things Evan takes to be true of no active thing
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.ACTIVE)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.ACTIVE)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.ACTIVE)));
@@ -502,6 +512,8 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.ACTIVE)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.ACTIVE)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.ACTIVE)));
@@ -524,7 +536,6 @@ public class Models {
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.INACTIVE)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.INACTIVE)));
@@ -533,6 +544,7 @@ public class Models {
         // things Evan takes to be true of an inactive thing
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.INACTIVE)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.INACTIVE)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.INACTIVE)));
 
@@ -600,35 +612,34 @@ public class Models {
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.EVERY, Expression.YELLOW)));
 
         // things Evan takes to be true of no green thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.GREEN)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.NO, Expression.GREEN)));
-        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.GREEN)));
 
         // things Evan takes to be true of a green thing
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.GREEN)));
         
         // things Evan takes to be true of two green things
         
         // things Evan takes to be true of three green things
         
         // things Evan takes to be true of every green thing
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.EVERY, Expression.GREEN)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.EVERY, Expression.GREEN)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.EVERY, Expression.GREEN)));
 
         // things Evan takes to be true of no blue thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.BLUE)));
@@ -637,42 +648,52 @@ public class Models {
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.BLUE)));
-        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.NO, Expression.BLUE)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.BLUE)));
 
         // things Evan takes to be true of a blue thing
-        
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.BLUE)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.BLUE)));
+
         // things Evan takes to be true of two blue things
-        
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.BLUE)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.BLUE)));
+
         // things Evan takes to be true of three blue things
         
         // things Evan takes to be true of every blue thing
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.EVERY, Expression.BLUE)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.EVERY, Expression.BLUE)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.EVERY, Expression.BLUE)));
 
         // things Evan takes to be true of no red thing
-        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.KING, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.RED)));
-        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.NO, Expression.RED)));
 
         // things Evan takes to be true of a red thing
+        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.RED)));
         
         // things Evan takes to be true of two red things
         
         // things Evan takes to be true of three red things
         
         // things Evan takes to be true of every red thing
+        m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.EVERY, Expression.RED)));
+        m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.EVERY, Expression.RED)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.EVERY, Expression.RED)));
+        m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.EVERY, Expression.RED)));
 
         // things Evan takes to be true of no in-Evan's-area thing
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.NO, Expression.IN_YOUR_AREA)));
@@ -760,8 +781,6 @@ public class Models {
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
-        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
-        m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_GREEN_AREA, new Phrase(Expression.NO, Expression.IN_BLUE_AREA)));
@@ -772,11 +791,14 @@ public class Models {
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.RED, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.A, Expression.IN_BLUE_AREA)));
 
         // things Evan takes to be true of two in-blue-area things
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
+        m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
         m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.TWO, Expression.IN_BLUE_AREA)));
 
         // things Evan takes to be true of three in-blue-area things
@@ -789,7 +811,6 @@ public class Models {
         m.Add(new Phrase(Expression.INACTIVE, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.KING, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.YELLOW, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
-        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.BLUE, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.RED, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.IN_YELLOW_AREA, new Phrase(Expression.NO, Expression.IN_RED_AREA)));
@@ -800,6 +821,7 @@ public class Models {
         m.Add(new Phrase(Expression.FOUNTAIN, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.LAMP, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.ACTIVE, new Phrase(Expression.A, Expression.IN_RED_AREA)));
+        m.Add(new Phrase(Expression.GREEN, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
         m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.A, Expression.IN_RED_AREA)));
 
