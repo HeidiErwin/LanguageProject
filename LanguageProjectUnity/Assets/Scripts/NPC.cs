@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class NPC : Character {
 
@@ -40,6 +40,7 @@ public class NPC : Character {
         } else {
             ReceiveExpression(selectedExpr);
             Destroy(selectedExpr.gameObject);
+            controller.HidePointer();
             controller.SetInSpeakingMode(false);
         }
     }
@@ -55,22 +56,40 @@ public class NPC : Character {
 
         if (this.model == null) {
             Debug.Log("No associated model.");
-            // TODO "Huh?" animation
+            ShowSpeechBubble("questionMark");
             return;
         }
 
         if (!utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             Debug.Log("Semantic Type of utterance is not sentence/truth value.");
-            // TODO "Huh?" animation
+            ShowSpeechBubble("questionMark");
             return;
         }
 
         if (this.model.Contains(utterance)) {
             Debug.Log("That's TRUE in their model.");
-            // TODO "Yes!" animation
+            ShowSpeechBubble("true");
         } else {
             Debug.Log("That's FALSE in their model.");
-            // TODO "No." animation
+            ShowSpeechBubble("false");
         }
+    }
+
+    /**
+     * imageName is the image to display in the speechbubble
+     */
+    public void ShowSpeechBubble (string imageName) {
+        GameObject screenCanvas = GameObject.Find("ScreenCanvas");
+        GameObject response = new GameObject();
+        response.name = "Response";
+        response.transform.SetParent(screenCanvas.transform);
+        response.transform.position = new Vector3(Camera.main.WorldToScreenPoint(this.transform.position).x, Camera.main.WorldToScreenPoint(this.transform.position).y + 35);
+        response.layer = 5;
+        Image responseImage = response.AddComponent<Image>();
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + imageName);
+        responseImage.sprite = headSprite;
+        responseImage.transform.localScale *= .25f;
+        Destroy(response, 2.0f);
+
     }
 }

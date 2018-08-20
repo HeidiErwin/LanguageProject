@@ -14,7 +14,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
-    private const float PIXELS_PER_UNIT = 40.0f;
+    public const float PIXELS_PER_UNIT = 40.0f;
     private readonly static float BUFFER_IN_PIXELS = BUFFER_IN_UNITS * PIXELS_PER_UNIT;
 
     public GameController gameController;
@@ -403,21 +403,24 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         if (this.gameController.selectedExpression == null) {
             if (!this.id.Equals("_")) {
                 this.gameController.selectedExpression = this;
+                gameController.ShowPointer();
             }
             return false;
         }
 
         // if we're selecting the same expression, then deselect it
-        if (this.gameController.selectedExpression.Equals(this)) {
+        if (this.gameController.selectedExpression.Equals(this) && !this.gameController.InSpeakingMode()) {
             this.gameController.selectedExpression = null;
+            gameController.HidePointer();
             return false;
         }
 
         // if one expression is selected and we click another, try to
         // combine the two expressions. If it works, return true.
-        if (this.parentExpressionPiece != null && this.id.Equals("_")) {
+        if (this.parentExpressionPiece != null && this.id.Equals("_") && !this.gameController.InSpeakingMode()) {
             bool toReturn = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
             this.gameController.selectedExpression = null;
+            gameController.HidePointer();
             return toReturn;
         }
 
@@ -471,5 +474,9 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
 
     public override String ToString() {
         return expression.ToString();
+    }
+
+    public int GetHeightInUnits() {
+        return heightInUnits;
     }
 }

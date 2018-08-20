@@ -9,8 +9,9 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public GameObject keyboardInstance;
-    private GameObject currentKeyboard; //the subsection of the keyboard we're currently showing (e.g. Determiners)
+    private GameObject currentKeyboard; // the subsection of the keyboard we're currently showing (e.g. Determiners)
     public GameObject canvasInstance;
+    [SerializeField] private GameObject pointer; // arrow pointing to selected expression
     [SerializeField] private GameObject individualKeyboard;
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
@@ -24,25 +25,13 @@ public class GameController : MonoBehaviour {
 	void Start () {
         SetUpCanvas();
         SetUpKeyboard();
-        SetUpPlayer();
+        //SetUpPlayer();
         currentKeyboard = individualKeyboard;
         currentKeyboard.SetActive(true);
     }
 
     public void Update()
     {
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 100.0f);
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            RaycastHit hit = hits[i];
-            if (hit.transform.GetComponent<ExpressionPiece>() != null)
-            {
-                //Debug.Log(hit.transform.GetComponent<ExpressionPiece>().expression.headString + " was hit in the raycastall");
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.Space)) {
             canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
         }
@@ -202,5 +191,16 @@ public class GameController : MonoBehaviour {
 
     public ExpressionPiece GetSelectedExpression() {
         return selectedExpression;
+    }
+
+    public void HidePointer() {
+        pointer.SetActive(false);
+    }
+
+    public void ShowPointer() {
+        pointer.SetActive(true);
+        float selectedPieceHeight = selectedExpression.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
+        pointer.transform.position = new Vector3(selectedExpression.transform.position.x,
+                                                 selectedExpression.transform.position.y + selectedPieceHeight / 2 + 15);
     }
 }
