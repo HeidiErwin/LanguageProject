@@ -16,6 +16,10 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
 
+    public AudioSource highClick;
+    public AudioSource lowClick;
+    public AudioSource combineSuccess;
+
     public const int PIECES_PER_ROW = 8;
 
     private bool inSpeakingMode = false; // true only right after user has submitted an expression (pressed checkmark button) and before user has selected an NPC to speak to
@@ -87,7 +91,7 @@ public class GameController : MonoBehaviour {
         spawnerScript.SetUpSpawner(e, this);
     }
 
-    /** Creates the keyboard (and sub-keyboards) from which the user can click on ExpressionPieceSpawners,
+    /** Creates the keyboard (and sub-keyboards) from which the user can highClick on ExpressionPieceSpawners,
     * which will create ExpressionPieces in the workspace.
     */
     public void SetUpKeyboard() {
@@ -157,12 +161,15 @@ public class GameController : MonoBehaviour {
         if (tabToDisplayIndex == 0) { //Individual
             currentKeyboard = individualKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(220, 20, 60, 255);
+            highClick.Play();
         } else if (tabToDisplayIndex == 1) { // Determiner
             currentKeyboard = determinerKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(255, 203, 0, 255);
+            highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;
             keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(9, 128, 37, 255);
+            highClick.Play();
         }
         currentKeyboard.SetActive(true);
     }

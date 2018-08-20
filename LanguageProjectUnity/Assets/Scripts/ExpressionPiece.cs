@@ -365,7 +365,10 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     public void OnClick() {
         Debug.Log(expression.headString + " just received a click");
 
-        HandleClickSelection();
+        if (HandleClickSelection()) {
+            // this means combination was a success.
+            this.gameController.combineSuccess.Play();
+        }
 
         if (this.gameController.selectedExpression == null) {
             Debug.Log("selected expression null");
@@ -404,6 +407,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
             if (!this.id.Equals("_")) {
                 this.gameController.selectedExpression = this;
                 gameController.ShowPointer();
+                this.gameController.highClick.Play();
             }
             return false;
         }
@@ -412,6 +416,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         if (this.gameController.selectedExpression.Equals(this) && !this.gameController.InSpeakingMode()) {
             this.gameController.selectedExpression = null;
             gameController.HidePointer();
+            this.gameController.lowClick.Play();
             return false;
         }
 
