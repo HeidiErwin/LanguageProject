@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject individualKeyboard;
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
+    [SerializeField] private GameObject helpScreen;
+    private bool keyboardOnBeforeHelpShown = false;
 
     public AudioSource highClick;
     public AudioSource lowClick;
@@ -38,14 +41,31 @@ public class GameController : MonoBehaviour {
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) && !helpScreen.activeInHierarchy) {
             canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
-
+            helpScreen.SetActive(helpScreen.activeInHierarchy);
             if (canvasInstance.activeInHierarchy) {
                 highClick.Play();
             } else {
                 lowClick.Play();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.H)) {
+            ShowOrHideHelpScreen();
+        }
+    }
+
+    private void ShowOrHideHelpScreen() {
+        bool helpScreenShowing = helpScreen.activeInHierarchy;
+        if (helpScreenShowing) {
+            helpScreen.SetActive(false);
+            canvasInstance.SetActive(keyboardOnBeforeHelpShown);
+            lowClick.Play();
+        } else {
+            keyboardOnBeforeHelpShown = canvasInstance.activeInHierarchy;
+            canvasInstance.SetActive(false);
+            helpScreen.SetActive(true);
+            highClick.Play();
         }
     }
 

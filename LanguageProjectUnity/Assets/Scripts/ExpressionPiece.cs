@@ -10,7 +10,7 @@ using System;
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = false; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
+    private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
@@ -356,7 +356,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
             Debug.Log("No empty argument clicked");
-            if (this.gameController.selectedExpression != null) {
+            if (this.gameController.selectedExpression != null && !this.gameController.selectedExpression.Equals(this)) {
                 this.gameController.failure.Play();
             }
             this.OnClick();
@@ -409,12 +409,16 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 this.gameController.selectedExpression = this;
                 gameController.ShowPointer();
                 this.gameController.highClick.Play();
+            } else { // clicking an empty argument, want to make the parent piece selected
+                this.gameController.selectedExpression = this.parentExpressionPiece;
+                gameController.ShowPointer();
+                this.gameController.highClick.Play();
             }
             return false;
         }
 
         // if we're selecting the same expression, then deselect it
-        if (this.gameController.selectedExpression.Equals(this) && !this.gameController.InSpeakingMode()) {
+        if (this.gameController.selectedExpression == this && !this.gameController.InSpeakingMode()) {
             this.gameController.selectedExpression = null;
             gameController.HidePointer();
             this.gameController.lowClick.Play();
