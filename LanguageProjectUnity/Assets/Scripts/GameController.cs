@@ -54,6 +54,9 @@ public class GameController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.H)) {
             ShowOrHideHelpScreen();
         }
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
     }
 
     private void ShowOrHideHelpScreen() {
