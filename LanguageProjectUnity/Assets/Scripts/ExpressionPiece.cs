@@ -127,6 +127,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
             expr = new Phrase(this.expression, inputExpression.expression, index);
         } catch (Exception e) {
             Debug.LogException(e);
+            this.gameController.failure.Play();
             return false;
         }
 
@@ -355,6 +356,9 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
             Debug.Log("No empty argument clicked");
+            if (this.gameController.selectedExpression != null) {
+                this.gameController.failure.Play();
+            }
             this.OnClick();
         } else {
             Debug.Log("empty argument clicked");
