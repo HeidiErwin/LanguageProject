@@ -9,7 +9,6 @@ using UnityEngine.UI;
  */
 public class GameController : MonoBehaviour {
 
-    public GameObject keyboardInstance;
     private GameObject currentKeyboard; // the subsection of the keyboard we're currently showing (e.g. Determiners)
     public GameObject canvasInstance;
     [SerializeField] private GameObject pointer; // arrow pointing to selected expression
@@ -78,7 +77,6 @@ public class GameController : MonoBehaviour {
      */
     public void SetUpCanvas() {
         canvasInstance.SetActive(true);
-        keyboardInstance = canvasInstance.transform.Find("Keyboard").gameObject as GameObject;
     }
 
     private void SetUpPlayer() {
@@ -192,15 +190,12 @@ public class GameController : MonoBehaviour {
         Debug.Log(tabToDisplayIndex + " was pressssssed");
         if (tabToDisplayIndex == 0) { //Individual
             currentKeyboard = individualKeyboard;
-            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(220, 20, 60, 255);
             highClick.Play();
         } else if (tabToDisplayIndex == 1) { // Determiner
             currentKeyboard = determinerKeyboard;
-            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(255, 203, 0, 255);
             highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;
-            keyboardInstance.gameObject.GetComponent<Image>().color = new Color32(9, 128, 37, 255);
             highClick.Play();
         }
         currentKeyboard.SetActive(true);

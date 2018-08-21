@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/heidi/Documents/LanguageProject.exe
+C:/Users/heidi/Documents/LanguageProjectDemo0Windows/LanguageProject.exe
 SceneListBegin?
 Assets/Scenes/DemoScene.unity
 SceneListEnd?
