@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
     [SerializeField] private GameObject helpScreen;
-    private bool keyboardOnBeforeHelpShown = false;
+    private bool keyboardOnBeforeHelpShown = true;
 
     public AudioSource highClick;
     public AudioSource lowClick;
@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
         SetUpKeyboard();
         //SetUpPlayer();
         currentKeyboard = individualKeyboard;
+        canvasInstance.SetActive(false);
         currentKeyboard.SetActive(true);
     }
 
