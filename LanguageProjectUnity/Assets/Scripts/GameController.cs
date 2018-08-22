@@ -31,9 +31,10 @@ public class GameController : MonoBehaviour {
     public ExpressionPiece selectedExpression;
 
 	void Start () {
+        Debug.Log(Screen.height/20.0f + " is the screen height");
         SetUpCanvas();
         SetUpKeyboard();
-        //SetUpPlayer();
+        SetUpPlayer();
         currentKeyboard = individualKeyboard;
         canvasInstance.SetActive(false);
         currentKeyboard.SetActive(true);

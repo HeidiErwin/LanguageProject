@@ -316,6 +316,7 @@
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\T.cs" />
     <Compile Include="Assets\Scripts\AI\Testing.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\Draggable.cs" />
     <Compile Include="Assets\Scripts\DropZone.cs" />
     <Compile Include="Assets\Scripts\ExpressionPiece.cs" />
