@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class MetaVariable : IPattern {
     protected SemanticType type;
     protected int localID;
@@ -15,8 +17,14 @@ public class MetaVariable : IPattern {
         return this.type.Equals(expr.type);
     }
 
-    public IPattern Bind(int id, Expression expr) {
-        if (id == localID && expr.type.Equals(this.type)) {
+    public HashSet<MetaVariable> GetFreeMetaVariables() {
+        HashSet<MetaVariable> xs = new HashSet<MetaVariable>();
+        xs.Add(this);
+        return xs;
+    }
+
+    public IPattern Bind(MetaVariable x, Expression expr) {
+        if (x.GetLocalID() == this.localID && x.type == this.type) {
             return expr;
         } else {
             return this;

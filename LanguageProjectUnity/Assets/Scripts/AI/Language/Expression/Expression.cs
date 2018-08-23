@@ -98,7 +98,11 @@ public abstract class Expression : IPattern {
         return this.Equals(expr);
     }
 
-    public IPattern Bind(int id, Expression expr) {
+    public HashSet<MetaVariable> GetFreeMetaVariables() {
+        return new HashSet<MetaVariable>();
+    }
+
+    public IPattern Bind(MetaVariable x, Expression expr) {
         return this;
     }
 
