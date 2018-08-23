@@ -336,7 +336,6 @@
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\ExpressionPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\IPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\MetaVariable.cs" />
-    <Compile Include="Assets\Scripts\AI\Cognition\Inference\SymbolPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\IModel.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />

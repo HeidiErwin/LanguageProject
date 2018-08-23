@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class ExpressionPattern : IPattern {
@@ -7,7 +8,7 @@ public class ExpressionPattern : IPattern {
     protected HashSet<MetaVariable> freeMetaVariables;
 
     public ExpressionPattern(String headString, IPattern[] argPattern) {
-        this.headPattern = headString;
+        this.headString = headString;
         this.argPattern = argPattern;
         this.numArgs = argPattern.Length;
 
