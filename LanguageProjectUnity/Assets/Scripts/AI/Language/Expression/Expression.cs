@@ -16,6 +16,7 @@ using System.Collections.Generic;
 public abstract class Expression : IPattern {
     public SemanticType type { get; protected set; }
     public String headString { get; protected set; }
+    public SemanticType headType { get; protected set; }
     protected Expression[] args;
 
     public Expression(SemanticType type) {
@@ -70,6 +71,10 @@ public abstract class Expression : IPattern {
             return false;
         }
 
+        if (!this.type.Equals(that.type)) {
+
+        }
+
         if (!this.headString.Equals(that.headString)) {
             return false;
         }
@@ -80,6 +85,22 @@ public abstract class Expression : IPattern {
         }
 
         for (int i = 0; i < this.GetNumArgs(); i++) {
+            if (this.GetArg(i) == null) {
+                if (that.GetArg(i) != null) {
+                    return false;
+                } else {
+                    continue;
+                }
+            }
+
+            if (that.GetArg(i) == null) {
+                if (this.GetArg(i) != null) {
+                    return false;
+                } else {
+                    continue;
+                }
+            }
+
             if (!this.GetArg(i).Equals(that.GetArg(i))) {
                 return false;
             }
@@ -89,13 +110,12 @@ public abstract class Expression : IPattern {
     }
 
     // TODO implement GetHashCode() so SimpleModel can be used
-    
-    public int GetLocalID() {
-        return -1;
-    }
-
     public bool Matches(Expression expr) {
         return this.Equals(expr);
+    }
+
+    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+        return this.Matches(expr);
     }
 
     public HashSet<MetaVariable> GetFreeMetaVariables() {
