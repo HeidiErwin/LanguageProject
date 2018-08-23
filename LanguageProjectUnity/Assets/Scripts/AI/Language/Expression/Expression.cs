@@ -13,7 +13,7 @@ using System.Collections.Generic;
 // that the second has the semantic type of the
 // first expression's input semantic type.
 // 
-public abstract class Expression {
+public abstract class Expression : IPattern {
     public SemanticType type { get; protected set; }
     public String headString { get; protected set; }
     protected Expression[] args;
@@ -89,6 +89,18 @@ public abstract class Expression {
     }
 
     // TODO implement GetHashCode() so SimpleModel can be used
+    
+    public int GetLocalID() {
+        return -1;
+    }
+
+    public bool Matches(Expression expr) {
+        return this.Equals(expr);
+    }
+
+    public IPattern Bind(int id, Expression expr) {
+        return this;
+    }
 
     // the words of the language
     public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
