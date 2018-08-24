@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+<<<<<<< HEAD
 # Visual Studio 2017
+=======
+# Visual Studio for Mac
+>>>>>>> 07f6756c261fc8242c8183b97dff00ed4cecc504
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.TextMeshPro", "Unity.TextMeshPro.csproj", "{07A21C90-D344-AE1A-8456-9910C203B41A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageProjectUnity", "LanguageProjectUnity.csproj", "{A557DCD6-9299-0CDE-9A81-F4B3EDE03F83}"
