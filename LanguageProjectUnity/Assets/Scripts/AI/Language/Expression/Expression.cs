@@ -80,7 +80,7 @@ public abstract class Expression : IPattern {
         }
 
         if (this.GetNumArgs() != that.GetNumArgs()) {
-            
+
             return false;
         }
 

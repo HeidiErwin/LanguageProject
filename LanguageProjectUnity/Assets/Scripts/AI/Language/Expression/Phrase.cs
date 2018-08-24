@@ -35,7 +35,6 @@ public class Phrase : Expression {
         }
 
         this.headString = function.headString;
-        this.headType = function.headType;
         this.args = new Expression[function.GetNumArgs()];
 
         // fills in one the old arguments for this expression.

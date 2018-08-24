@@ -32,7 +32,7 @@ public class ExpressionPattern : IPattern {
         }
 
         if (headPattern.GetType() == typeof(MetaVariable)) {
-            bindings.Add((MetaVariable) headPattern, headWord);
+            bindings.Add((MetaVariable)headPattern, headWord);
         }
 
         for (int i = 0; i < numArgs; i++) {
@@ -41,13 +41,13 @@ public class ExpressionPattern : IPattern {
             }
 
             if (this.argPattern[i].GetType() == typeof(MetaVariable)) {
-                MetaVariable x = (MetaVariable) this.argPattern[i];
+                MetaVariable x = (MetaVariable)this.argPattern[i];
                 if (!bindings.ContainsKey(x)) {
                     bindings.Add(x, expr.GetArg(i));
                 }
             }
         }
-        
+
         return true;
     }
 

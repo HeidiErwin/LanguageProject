@@ -5,7 +5,6 @@ using System;
 public class Word : Expression {
     public Word(SemanticType type, String nameString) : base(type) {
         this.headString = nameString;
-        this.headType = type;
         this.args = new Expression[type.GetNumArgs()];
     }
 

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 sceneSetups:
 - path: Assets/Scenes/DemoScene.unity
   isLoaded: 1
   isActive: 1
-=======
-sceneSetups: []
->>>>>>> 07f6756c261fc8242c8183b97dff00ed4cecc504
