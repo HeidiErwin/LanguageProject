@@ -35,6 +35,7 @@ public class Testing {
         Expression billGivesHeidiTheApple = new Phrase(billGivesHeidi, new Phrase(the, apple));
 
         Expression verum = new Word(SemanticType.TRUTH_VALUE, "T");
+        Expression falsum = new Word(SemanticType.TRUTH_VALUE, "F");
 
         // PrintInfoString(bill);
         // PrintInfoString(heidi);
@@ -82,5 +83,21 @@ public class Testing {
         System.Console.WriteLine(model.Contains(red));
         System.Console.WriteLine(model.Remove(red));
         System.Console.WriteLine(!model.Contains(red));
+
+        System.Console.WriteLine("Pattern Matching:");
+        System.Console.WriteLine(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        System.Console.WriteLine(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        System.Console.WriteLine(sentenceVariable.Matches(verum));
+        System.Console.WriteLine(sentenceVariable.Matches(falsum));
+        System.Console.WriteLine(sentenceVariable.Matches(billHelpsHeidi));
+        System.Console.WriteLine(!sentenceVariable.Matches(billGives));
+        System.Console.WriteLine(!sentenceVariable.Matches(bill));
+
+        IPattern reflexivePattern = new ExpressionPattern(helps, new IPattern[]{new MetaVariable(SemanticType.INDIVIDUAL, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0)});
+
+        System.Console.WriteLine(helps.Equals(helps));
+        System.Console.WriteLine(reflexivePattern.Matches(new Phrase(billHelps, bill)));
+        System.Console.WriteLine(!reflexivePattern.Matches(billHelpsHeidi));
     }
 }
