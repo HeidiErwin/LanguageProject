@@ -303,6 +303,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AI\Cognition\Inference\ExpressionPattern.cs" />
+    <Compile Include="Assets\Scripts\AI\Cognition\Inference\IPattern.cs" />
+    <Compile Include="Assets\Scripts\AI\Cognition\Inference\MetaVariable.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\IModel.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
@@ -322,8 +325,13 @@
     <Compile Include="Assets\Scripts\ExpressionPiece.cs" />
     <Compile Include="Assets\Scripts\ExpressionPieceSpawner.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Grid.cs" />
+    <Compile Include="Assets\Scripts\Heap.cs" />
     <Compile Include="Assets\Scripts\Keyboard.cs" />
+    <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\NPC.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding.cs" />
+    <Compile Include="Assets\Scripts\PathRequestManager.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
   </ItemGroup>
   <ItemGroup>

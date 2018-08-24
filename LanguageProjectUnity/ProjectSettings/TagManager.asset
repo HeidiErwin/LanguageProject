@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Canvas
   - Interactable
+  - Unwalkable
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Background
   - Player
-  - 
+  - Obstacle
   - 
   - 
   - 

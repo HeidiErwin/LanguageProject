@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,10 @@ public abstract class Character : MonoBehaviour {
     protected int directionFacing;
     [SerializeField] Sprite[] sprites;
 
+    public Transform target;
+    Vector3[] path;
+    int targetIndex;
+
     protected virtual void Update() {
         Move();
     }
@@ -29,4 +34,47 @@ public abstract class Character : MonoBehaviour {
         transform.Translate(velocity * speed * Time.deltaTime);
     }
 
+    public void GoToTarget() {
+        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+    }
+
+    private void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
+        if (pathSuccessful) {
+            path = newPath;
+            StopCoroutine("FollowPath");
+            StartCoroutine("FollowPath");
+        }
+    }
+
+    public void OnDrawGizmos() { // draws path
+        if (path != null) {
+            for (int i = targetIndex; i < path.Length; i++) {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(path[i], new Vector3(.5f,.5f,.5f));
+
+                if (i == targetIndex) {
+                    Gizmos.DrawLine(transform.position, path[i]);
+                } else {
+                    Gizmos.DrawLine(path[i - 1], path[i]);
+                }
+            }
+        }
+    }
+
+    IEnumerator FollowPath() {
+        Vector3 currentWaypoint = path[0];
+        while (true) {
+            if (transform.position == currentWaypoint) {
+                targetIndex++;
+                if (targetIndex >= path.Length) {
+                    yield break; //exit coroutine when finished following path
+                }
+                currentWaypoint = path[targetIndex];
+            }
+
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+            yield return null;
+
+        }
+    }
 }

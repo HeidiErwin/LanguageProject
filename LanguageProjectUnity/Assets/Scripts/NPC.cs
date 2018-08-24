@@ -15,6 +15,7 @@ public class NPC : Character {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = Models.BobModel();
+            RunToEvan();
         }
 
         if (nameString.Equals("Evan")) {
@@ -45,10 +46,6 @@ public class NPC : Character {
         }
     }
 
-    /**
-     * TODO: Bill
-     * fill in w/ how NPC responds to the received expression
-     */ 
     void ReceiveExpression (ExpressionPiece exprPiece) {
         Expression utterance = exprPiece.expression;
 
@@ -95,4 +92,15 @@ public class NPC : Character {
         Destroy(response, 2.0f);
 
     }
+
+    // method for testing that Bob will move to 
+    public void RunToEvan() {
+        GameObject evan = GameObject.Find("Evan");
+
+        target = evan.transform;
+        speed = 2;
+        GoToTarget();
+    }
 }
+
+
