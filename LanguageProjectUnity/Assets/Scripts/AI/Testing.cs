@@ -10,7 +10,9 @@ public class Testing {
         Expression bill = new Word(SemanticType.INDIVIDUAL, "Bill");
         Expression heidi = new Word(SemanticType.INDIVIDUAL, "Heidi");
         Expression apple = new Word(SemanticType.PREDICATE, "apple");
+        Expression fruit = new Word(SemanticType.PREDICATE, "fruit");
         Expression red = new Word(SemanticType.PREDICATE, "red");
+        // Expression colored = new Word(SemanticType.PREDICATE, "colored");
         Expression the = new Word(SemanticType.DETERMINER, "the");
         Expression round = new Word(SemanticType.PREDICATE, "round");
         Expression helps = new Word(SemanticType.RELATION_2, "helps");
@@ -99,5 +101,11 @@ public class Testing {
         System.Console.WriteLine(helps.Equals(helps));
         System.Console.WriteLine(reflexivePattern.Matches(new Phrase(billHelps, bill)));
         System.Console.WriteLine(!reflexivePattern.Matches(billHelpsHeidi));
+
+        System.Console.WriteLine("Inference:");
+        SubsententialRule appleEntailsFruit = new SubsententialRule(apple, fruit);
+        System.Console.WriteLine(appleEntailsFruit.InferUpward(red) == null);
+        System.Console.WriteLine(appleEntailsFruit.InferUpward(fruit) == null);
+        System.Console.WriteLine(appleEntailsFruit.InferUpward(apple));
     }
 }

@@ -6,7 +6,7 @@ public class SubsententialRule {
     
     public SubsententialRule(IPattern top, IPattern bottom) {
         this.top = top;
-        this.bottom = this.bottom;
+        this.bottom = bottom;
     }
 
     public Expression InferUpward(Expression expr) {

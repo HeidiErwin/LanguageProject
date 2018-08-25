@@ -1,1 +1,2 @@
-mcs */*/*.cs *.cs -out:Testing.exe -nowarn:CS0659,CS0414,CS0219;
+cp -r . ~/ws/AI;
+mcs ~/ws/AI/*/*/*.cs ~/ws/AI/*/*/*/*.cs ~/ws/AI/*.cs -out:Testing.exe -nowarn:CS0659,CS0414,CS0219;

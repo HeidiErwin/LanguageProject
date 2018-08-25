@@ -15,10 +15,6 @@ public class MetaVariable : IPattern {
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
-        foreach (MetaVariable x in bindings.Keys) {
-            System.Console.WriteLine(x + "=" + this);
-        }
-
         if (bindings.ContainsKey(this)) {
             return bindings[this].Equals(expr);
         } else {
