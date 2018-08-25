@@ -68,4 +68,19 @@ public class ExpressionPattern : IPattern {
 
         return new ExpressionPattern(headPattern.Bind(x, expr), newArgPattern);
     }
+
+    public Expression ToExpression() {
+        if (freeMetaVariables.Count != 0) {
+            return null;
+        }
+
+        Expression headExpression = (Expression) headPattern;
+        Expression[] argExpressions = new Expression[numArgs];
+        
+        for (int i = 0; i < numArgs; i++) {
+            argExpressions[i] = (Expression) argPattern[i];
+        }
+
+        return new Phrase(headExpression, argExpressions);
+    }
 }

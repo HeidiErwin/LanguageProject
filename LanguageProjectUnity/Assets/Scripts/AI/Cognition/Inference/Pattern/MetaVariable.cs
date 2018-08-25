@@ -52,4 +52,8 @@ public class MetaVariable : IPattern {
     public override String ToString() {
         return "{" + localID + ":" + type + "}";
     }
+
+    public Expression ToExpression() {
+        return null;
+    }
 }
