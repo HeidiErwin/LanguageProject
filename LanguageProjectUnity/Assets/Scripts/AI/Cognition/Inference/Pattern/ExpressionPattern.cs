@@ -88,4 +88,16 @@ public class ExpressionPattern : IPattern {
 
         return new Phrase(headExpression, argExpressions);
     }
+
+    public IPattern UpdateContext(EntailmentContext context) {
+        IPattern newHeadPattern = headPattern.UpdateContext(context);
+
+        IPattern[] newArgPattern = new IPattern[numArgs];
+        
+        for (int i = 0; i < numArgs; i++) {
+            newArgPattern[i] = argPattern[i].UpdateContext(context);
+        }
+
+        return new ExpressionPattern(newHeadPattern, newArgPattern);
+    }
 }

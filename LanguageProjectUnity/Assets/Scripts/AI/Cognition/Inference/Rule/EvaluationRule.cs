@@ -28,7 +28,7 @@ public class EvaluationRule {
             return null;
         }
 
-        return new EvaluationPattern(boundEvaluation,
+        return (EvaluationPattern) new EvaluationPattern(boundEvaluation,
                                      currentEvaluationPattern.context).UpdateContext(context);
     }
 }

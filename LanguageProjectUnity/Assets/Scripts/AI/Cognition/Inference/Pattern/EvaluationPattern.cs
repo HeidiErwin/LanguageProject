@@ -16,28 +16,26 @@ public class EvaluationPattern : IPattern {
         this.context = context;
     }
 
-    public EvaluationPattern UpdateContext(EntailmentContext context) {
-        if (this.context == EntailmentContext.None) {
-            return this;
-        }
+    public IPattern UpdateContext(EntailmentContext context) {
+        EntailmentContext newContext = EntailmentContext.Upward;
 
-        if (context == EntailmentContext.None) {
-            return new EvaluationPattern(pattern, EntailmentContext.None);
+        if (this.context == EntailmentContext.None || context == EntailmentContext.None) {
+            newContext = EntailmentContext.None;
         }
 
         if (this.context == EntailmentContext.Upward) {
-            return new EvaluationPattern(pattern, context);
+            newContext = context;
         }
 
         if (this.context == EntailmentContext.Downward) {
             if (context == EntailmentContext.Upward) {
-                return new EvaluationPattern(pattern, EntailmentContext.Downward);
+                newContext = EntailmentContext.Downward;
             } else {
-                return new EvaluationPattern(pattern, EntailmentContext.Upward);
+                newContext = EntailmentContext.Upward;
             } 
         }
 
-        return this; // shouldn't reach this branch
+        return new EvaluationPattern(pattern.UpdateContext(newContext), newContext);
     }
 
     public bool Matches(Expression expr) {

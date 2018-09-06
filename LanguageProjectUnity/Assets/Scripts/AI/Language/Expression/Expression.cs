@@ -130,6 +130,10 @@ public abstract class Expression : IPattern {
         return this;
     }
 
+    public IPattern UpdateContext(EntailmentContext context) {
+        return this;
+    }
+
     // the words of the language
     public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");

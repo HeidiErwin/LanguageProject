@@ -1324,7 +1324,8 @@ MonoBehaviour:
     with a blue outline are sentences, and can be true or false. The NPCs will respond
     to these; for any other kind of expression they will be confused.\r\n\r\nYou can
     figure out what a symbol means by using it in sentences and gauging the NPC\u2019s
-    responses. Sentences will be true or false depend on what the environment is like.\r\n\n"
+    responses. Sentences will be true or false depending on what the environment is
+    like.\r\n\n"
 --- !u!222 &534859188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2882,6 +2883,46 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1245071883}
   m_CullTransparentMesh: 0
+--- !u!1 &1252371702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252371704}
+  - component: {fileID: 1252371703}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1252371703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252371702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d94e95772513af41a0a8720ccef7f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1252371704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252371702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.531895, y: 28.201942, z: -0.23518106}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1274129681
 GameObject:
   m_ObjectHideFlags: 0

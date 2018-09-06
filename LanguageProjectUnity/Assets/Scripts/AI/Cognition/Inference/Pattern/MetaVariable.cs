@@ -52,4 +52,8 @@ public class MetaVariable : IPattern {
     public Expression ToExpression() {
         return null;
     }
+
+    public IPattern UpdateContext(EntailmentContext context) {
+        return this;
+    }
 }
