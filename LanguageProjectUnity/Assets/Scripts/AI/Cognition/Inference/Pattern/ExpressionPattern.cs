@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ExpressionPattern : IPattern {
     protected IPattern headPattern;
@@ -26,7 +27,11 @@ public class ExpressionPattern : IPattern {
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+        Debug.Log(expr);
+        Debug.Log(expr.headType);
+        Debug.Log(expr.headString);
         Expression headWord = new Word(expr.headType, expr.headString);
+        Debug.Log(expr);
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
         }

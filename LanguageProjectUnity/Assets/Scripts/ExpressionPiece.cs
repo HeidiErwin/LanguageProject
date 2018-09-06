@@ -355,46 +355,44 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         //if user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
         //otherwise, call OnClick() for the clicked empty arg
         if (argumentClicked == null) {
-            Debug.Log("No empty argument clicked");
             if (this.gameController.selectedExpression != null && !this.gameController.selectedExpression.Equals(this)) {
                 this.gameController.failure.Play();
             }
             this.OnClick();
         } else {
-            Debug.Log("empty argument clicked");
             argumentClicked.OnClick();
         }
     }
 
     public void OnClick() {
-        Debug.Log(expression.headString + " just received a click");
+        // Debug.Log(expression.headString + " just received a click");
 
         HandleClickSelection();
 
-        if (this.gameController.selectedExpression == null) {
-            Debug.Log("selected expression null");
-        } else {
-            Debug.Log("selected expression is " + this.gameController.selectedExpression.expression.headString);
-            if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-                Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-                int counter = 1;
-                foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-                    Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-                    counter++;
-                }
-            } else {
-                Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
-            }
-        }
+        // if (this.gameController.selectedExpression == null) {
+        //     Debug.Log("selected expression null");
+        // } else {
+        //     Debug.Log("selected expression is " + this.gameController.selectedExpression.expression.headString);
+        //     if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+        //         Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+        //         int counter = 1;
+        //         foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+        //             Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+        //             counter++;
+        //         }
+        //     } else {
+        //         Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
+        //     }
+        // }
 
-        if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-            Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-            int counter = 1;
-            foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-                Debug.Log("argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-                counter++;
-            }
-        }
+        // if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
+        //     Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
+        //     int counter = 1;
+        //     foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
+        //         Debug.Log("argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
+        //         counter++;
+        //     }
+        // }
     }
 
     /**

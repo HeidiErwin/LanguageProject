@@ -30,6 +30,7 @@
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.LocalizationModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticlesLegacyModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PhysicsModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.Physics2DModule.dll'
@@ -98,7 +99,7 @@
 -define:UNITY_2017_4_OR_NEWER
 -define:UNITY_2018_1_OR_NEWER
 -define:UNITY_2018_2_OR_NEWER
--define:UNITY_2018_2_4
+-define:UNITY_2018_2_6
 -define:UNITY_2018_2
 -define:UNITY_2018
 -define:UNITY_ANALYTICS
@@ -183,7 +184,6 @@
 -define:ENABLE_UNITY_COLLECTIONS_CHECKS
 -define:ENABLE_BURST_AOT
 -define:UNITY_TEAM_LICENSE
--define:ENABLE_VSTU
 'Assets/Scripts/AI/Cognition/Inference/Pattern/ExpressionPattern.cs'
 'Assets/Scripts/AI/Cognition/Inference/Pattern/IPattern.cs'
 'Assets/Scripts/AI/Cognition/Inference/Pattern/MetaVariable.cs'

@@ -30,8 +30,8 @@ public class GameController : MonoBehaviour {
 
     public ExpressionPiece selectedExpression;
 
-	void Start () {
-        Debug.Log(Screen.height/20.0f + " is the screen height");
+	void Start() {
+        // Debug.Log(Screen.height/20.0f + " is the screen height");
         SetUpCanvas();
         SetUpKeyboard();
         SetUpPlayer();
@@ -40,8 +40,7 @@ public class GameController : MonoBehaviour {
         currentKeyboard.SetActive(true);
     }
 
-    public void Update()
-    {
+    public void Update() {
         if (Input.GetKeyDown(KeyCode.Space) && !helpScreen.activeInHierarchy) {
             canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
             helpScreen.SetActive(helpScreen.activeInHierarchy);
@@ -108,15 +107,15 @@ public class GameController : MonoBehaviour {
         } else if (type.Equals(SemanticType.PREDICATE)) {
             GameObject firstRow = predicateKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                Debug.Log("1st row's name is " + firstRow.name);
+                // Debug.Log("1st row's name is " + firstRow.name);
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
                 GameObject secondRow = predicateKeyboard.transform.GetChild(1).gameObject;
-                Debug.Log("second row's name is " + secondRow.name);
+                // Debug.Log("second row's name is " + secondRow.name);
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else {
-            Debug.Log("invalid type");
+            // Debug.Log("invalid type");
         }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
@@ -188,7 +187,6 @@ public class GameController : MonoBehaviour {
     // and all other tabs become inactive
     public void SwitchKeyboardTab(int tabToDisplayIndex) {
         currentKeyboard.SetActive(false);
-        Debug.Log(tabToDisplayIndex + " was pressssssed");
         if (tabToDisplayIndex == 0) { //Individual
             currentKeyboard = individualKeyboard;
             highClick.Play();
@@ -215,7 +213,7 @@ public class GameController : MonoBehaviour {
 
             combineSuccess.Play();
         } else {
-            Debug.Log("no selected expression to submit!");
+            // Debug.Log("no selected expression to submit!");
             failure.Play();
         }
     }

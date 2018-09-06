@@ -11,23 +11,16 @@ public class NPC : Character {
     private IModel model;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = Models.BobModel();
-            RunToEvan();
+            // RunToEvan();
         }
 
         if (nameString.Equals("Evan")) {
             model = Models.EvanModel();
         }
-
-        Debug.Log(model.ToString());
-
-        HashSet<Expression> h = new HashSet<Expression>();
-        h.Add(new Phrase(Expression.ACTIVE, Expression.BOB));
-
-        Debug.Log(h.Contains(new Phrase(Expression.ACTIVE, Expression.BOB)));
 	}
 
     /**
@@ -46,30 +39,30 @@ public class NPC : Character {
         }
     }
 
-    void ReceiveExpression (ExpressionPiece exprPiece) {
+    void ReceiveExpression(ExpressionPiece exprPiece) {
         Expression utterance = exprPiece.expression;
 
         Debug.Log(this.nameString + " is seeing '" + utterance + "'");
 
         if (this.model == null) {
-            Debug.Log("No associated model.");
+            // Debug.Log("No associated model.");
             ShowSpeechBubble("questionMark");
             return;
         }
 
         if (!utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
-            Debug.Log("Semantic Type of utterance is not sentence/truth value.");
+            // Debug.Log("Semantic Type of utterance is not sentence/truth value.");
             ShowSpeechBubble("questionMark");
             this.controller.placeExpression.Play(); // TODO make a unique sound for this
             return;
         }
 
         if (this.model.Contains(utterance)) {
-            Debug.Log("That's TRUE in their model.");
+            // Debug.Log("That's TRUE in their model.");
             ShowSpeechBubble("true");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else {
-            Debug.Log("That's FALSE in their model.");
+            // Debug.Log("That's FALSE in their model.");
             ShowSpeechBubble("false");
             this.controller.failure.Play(); // TODO make a unique sound effect for this
         }
@@ -78,7 +71,7 @@ public class NPC : Character {
     /**
      * imageName is the image to display in the speechbubble
      */
-    public void ShowSpeechBubble (string imageName) {
+    public void ShowSpeechBubble(string imageName) {
         GameObject screenCanvas = GameObject.Find("ScreenCanvas");
         GameObject response = new GameObject();
         response.name = "Response";

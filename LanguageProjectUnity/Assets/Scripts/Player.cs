@@ -26,23 +26,22 @@ public class Player : Character {
     private void GetInput() {
         velocity = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.W))
-        {
+        if (Input.GetKey(KeyCode.W)) {
             directionFacing = NORTH;
             velocity += Vector2.up;
         }
-        if (Input.GetKey(KeyCode.D))
-        {
+
+        if (Input.GetKey(KeyCode.D)) {
             directionFacing = EAST;
             velocity += Vector2.right;
         }
-        if (Input.GetKey(KeyCode.S))
-        {
+
+        if (Input.GetKey(KeyCode.S)) {
             directionFacing = SOUTH;
             velocity += Vector2.down;
         }
-        if (Input.GetKey(KeyCode.A))
-        {
+        
+        if (Input.GetKey(KeyCode.A)) {
             directionFacing = WEST;
             velocity += Vector2.left;
         }

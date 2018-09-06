@@ -1,12 +1,13 @@
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Testing {
+public class Testing : MonoBehaviour {
     static void PrintInfoString(Expression e) {
-        System.Console.WriteLine(e + ": " + e.type);
+        Debug.Log(e + ": " + e.type);
     }
-
-    static void Main() {
+    
+    void Start() {
         Expression bill = new Word(SemanticType.INDIVIDUAL, "Bill");
         Expression heidi = new Word(SemanticType.INDIVIDUAL, "Heidi");
         Expression apple = new Word(SemanticType.PREDICATE, "apple");
@@ -50,62 +51,70 @@ public class Testing {
         PrintInfoString(theRoundThingIsRed);
         PrintInfoString(billGivesHeidiTheApple);
 
-        System.Console.WriteLine("Syntactic Equality:");
-        System.Console.WriteLine(bill.Equals(new Word(SemanticType.INDIVIDUAL, "Bill")));
-        System.Console.WriteLine(!bill.Equals(heidi));
-        System.Console.WriteLine(billIsRed.Equals(billIsRed));
-        System.Console.WriteLine(!billIsRed.Equals(billHelpsHeidi));
+        Debug.Log("Syntactic Equality:");
+        Debug.Log(bill.Equals(new Word(SemanticType.INDIVIDUAL, "Bill")));
+        Debug.Log(!bill.Equals(heidi));
+        Debug.Log(billIsRed.Equals(billIsRed));
+        Debug.Log(!billIsRed.Equals(billHelpsHeidi));
 
-        System.Console.WriteLine("Model:");
+        Debug.Log("Model:");
         IModel model = new PrefixModel();
-        System.Console.WriteLine(model.Add(billIsRed));
-        System.Console.WriteLine(!model.Add(billIsRed));
-        System.Console.WriteLine(model.Add(billGivesHeidiTheApple));
-        System.Console.WriteLine(model.Add(theRoundThingIsRed));
+        Debug.Log(model.Add(billIsRed));
+        Debug.Log(!model.Add(billIsRed));
+        Debug.Log(model.Add(billGivesHeidiTheApple));
+        Debug.Log(model.Add(theRoundThingIsRed));
 
-        System.Console.WriteLine(model.Contains(billIsRed));
-        System.Console.WriteLine(!model.Contains(billHelpsHeidi));
+        Debug.Log(model.Contains(billIsRed));
+        Debug.Log(!model.Contains(billHelpsHeidi));
 
-        System.Console.WriteLine(!model.Remove(billHelpsHeidi));
-        System.Console.WriteLine(model.Remove(billIsRed));
+        Debug.Log(!model.Remove(billHelpsHeidi));
+        Debug.Log(model.Remove(billIsRed));
 
-        System.Console.WriteLine(!model.Contains(billIsRed));
+        Debug.Log(!model.Contains(billIsRed));
 
-        System.Console.WriteLine(model.Add(verum));
-        System.Console.WriteLine(model.Contains(verum));
-        System.Console.WriteLine(model.Remove(verum));
-        System.Console.WriteLine(!model.Contains(verum));
+        Debug.Log(model.Add(verum));
+        Debug.Log(model.Contains(verum));
+        Debug.Log(model.Remove(verum));
+        Debug.Log(!model.Contains(verum));
 
-        System.Console.WriteLine(model.Add(helps));
-        System.Console.WriteLine(model.Contains(helps));
-        System.Console.WriteLine(model.Remove(helps));
-        System.Console.WriteLine(!model.Contains(helps));
+        Debug.Log(model.Add(helps));
+        Debug.Log(model.Contains(helps));
+        Debug.Log(model.Remove(helps));
+        Debug.Log(!model.Contains(helps));
 
-        System.Console.WriteLine(model.Add(red));
-        System.Console.WriteLine(model.Contains(red));
-        System.Console.WriteLine(model.Remove(red));
-        System.Console.WriteLine(!model.Contains(red));
+        Debug.Log(model.Add(red));
+        Debug.Log(model.Contains(red));
+        Debug.Log(model.Remove(red));
+        Debug.Log(!model.Contains(red));
 
-        System.Console.WriteLine("Pattern Matching:");
-        System.Console.WriteLine(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
-        System.Console.WriteLine(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        Debug.Log("Pattern Matching:");
+        Debug.Log(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        Debug.Log(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
         IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        System.Console.WriteLine(sentenceVariable.Matches(verum));
-        System.Console.WriteLine(sentenceVariable.Matches(falsum));
-        System.Console.WriteLine(sentenceVariable.Matches(billHelpsHeidi));
-        System.Console.WriteLine(!sentenceVariable.Matches(billGives));
-        System.Console.WriteLine(!sentenceVariable.Matches(bill));
+        Debug.Log(sentenceVariable.Matches(verum));
+        Debug.Log(sentenceVariable.Matches(falsum));
+        Debug.Log(sentenceVariable.Matches(billHelpsHeidi));
+        Debug.Log(!sentenceVariable.Matches(billGives));
+        Debug.Log(!sentenceVariable.Matches(bill));
 
-        IPattern reflexivePattern = new ExpressionPattern(helps, new IPattern[]{new MetaVariable(SemanticType.INDIVIDUAL, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0)});
+        IPattern reflexivePattern = new ExpressionPattern(helps,
+            new IPattern[]{
+                new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                new MetaVariable(SemanticType.INDIVIDUAL, 0)
+            });
 
-        System.Console.WriteLine(helps.Equals(helps));
-        System.Console.WriteLine(reflexivePattern.Matches(new Phrase(billHelps, bill)));
-        System.Console.WriteLine(!reflexivePattern.Matches(billHelpsHeidi));
+        Debug.Log(helps.Equals(helps));
+        Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
+        Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
 
-        System.Console.WriteLine("Inference:");
+        Debug.Log("Inference:");
         SubsententialRule appleEntailsFruit = new SubsententialRule(apple, fruit);
-        System.Console.WriteLine(appleEntailsFruit.InferUpward(red) == null);
-        System.Console.WriteLine(appleEntailsFruit.InferUpward(fruit) == null);
-        System.Console.WriteLine(appleEntailsFruit.InferUpward(apple));
+        Debug.Log(appleEntailsFruit.InferUpward(red) == null);
+        Debug.Log(appleEntailsFruit.InferUpward(fruit) == null);
+        Debug.Log(appleEntailsFruit.InferUpward(apple).Equals(fruit));
+
+        Debug.Log(appleEntailsFruit.InferDownward(red) == null);
+        Debug.Log(appleEntailsFruit.InferDownward(fruit).Equals(apple));
+        Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
     }
 }

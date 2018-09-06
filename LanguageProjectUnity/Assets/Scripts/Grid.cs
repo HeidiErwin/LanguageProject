@@ -21,7 +21,7 @@ public class Grid : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        Debug.Log("drawing gizmos");
+        // Debug.Log("drawing gizmos");
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
 
         if (grid != null && displayGridGizmos) {
