@@ -8,4 +8,27 @@ public class EvaluationRule {
         this.top = top;
         this.bottom = bottom;
     }
+
+    public EvaluationPattern Evaluate(Expression expr, EntailmentContext context) {
+        Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
+        
+        if (!top.Matches(expr, bindings)) {
+            return null;
+        }
+
+        EvaluationPattern currentEvaluationPattern = bottom;
+
+        foreach (MetaVariable x in bindings.Keys) {
+            currentEvaluationPattern = (EvaluationPattern) currentEvaluationPattern.Bind(x, bindings[x]);
+        }
+
+        Expression boundEvaluation = currentEvaluationPattern.ToExpression();
+
+        if (boundEvaluation == null) {
+            return null;
+        }
+
+        return new EvaluationPattern(boundEvaluation,
+                                     currentEvaluationPattern.context).UpdateContext(context);
+    }
 }

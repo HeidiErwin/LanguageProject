@@ -9,7 +9,7 @@ public enum EntailmentContext {
 
 public class EvaluationPattern : IPattern {
     IPattern pattern;
-    EntailmentContext context;
+    public EntailmentContext context { get; protected set; }
 
     public EvaluationPattern(IPattern pattern, EntailmentContext context) {
         this.pattern = pattern;
@@ -17,7 +17,27 @@ public class EvaluationPattern : IPattern {
     }
 
     public EvaluationPattern UpdateContext(EntailmentContext context) {
-        
+        if (this.context == EntailmentContext.None) {
+            return this;
+        }
+
+        if (context == EntailmentContext.None) {
+            return new EvaluationPattern(pattern, EntailmentContext.None);
+        }
+
+        if (this.context == EntailmentContext.Upward) {
+            return new EvaluationPattern(pattern, context);
+        }
+
+        if (this.context == EntailmentContext.Downward) {
+            if (context == EntailmentContext.Upward) {
+                return new EvaluationPattern(pattern, EntailmentContext.Downward);
+            } else {
+                return new EvaluationPattern(pattern, EntailmentContext.Upward);
+            } 
+        }
+
+        return this; // shouldn't reach this branch
     }
 
     public bool Matches(Expression expr) {
