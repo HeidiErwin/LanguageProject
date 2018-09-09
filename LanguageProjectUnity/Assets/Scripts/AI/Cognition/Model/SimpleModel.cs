@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 // a model represented as simply as possible:
 // a set of sentences.
-public class SimpleModel : IModel {
+public class SimpleModel : Model {
     private HashSet<Expression> model = new HashSet<Expression>();
 
-    public bool Contains(Expression e) {
+    public override bool Contains(Expression e) {
         return model.Contains(e);
     }
 
-    public bool Add(Expression e) {
+    public override bool Add(Expression e) {
         if (Contains(e)) {
             return false;
         }
@@ -19,7 +19,7 @@ public class SimpleModel : IModel {
         return true;
     }
 
-    public bool Remove(Expression e) {
+    public override bool Remove(Expression e) {
         if (Contains(e)) {
             model.Remove(e);
             return true;

@@ -8,7 +8,7 @@ public class NPC : Character {
 
     GameController controller;
     [SerializeField] protected String nameString;
-    private IModel model;
+    private Model model;
 
 	// Use this for initialization
 	void Start() {

@@ -15,8 +15,8 @@
 // m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.XXX, Expression.YYY)));
 
 public class Models {
-    public static IModel BobModel() {
-        IModel m = new PrefixModel();
+    public static Model BobModel() {
+        Model m = new PrefixModel();
 
         // things Bob takes to be true of Bob
         m.Add(new Phrase(Expression.KING, Expression.BOB));
@@ -431,8 +431,8 @@ public class Models {
         return m;
     }
 
-    public static IModel EvanModel() {
-        IModel m = new PrefixModel();
+    public static Model EvanModel() {
+        Model m = new PrefixModel();
 
         // things Evan takes to be true of Bob
         m.Add(new Phrase(Expression.ACTIVE, Expression.BOB));

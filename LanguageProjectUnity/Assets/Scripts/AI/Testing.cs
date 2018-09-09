@@ -58,7 +58,7 @@ public class Testing : MonoBehaviour {
         Debug.Log(!billIsRed.Equals(billHelpsHeidi));
 
         Debug.Log("Model:");
-        IModel model = new PrefixModel();
+        Model model = new PrefixModel();
         Debug.Log(model.Add(billIsRed));
         Debug.Log(!model.Add(billIsRed));
         Debug.Log(model.Add(billGivesHeidiTheApple));

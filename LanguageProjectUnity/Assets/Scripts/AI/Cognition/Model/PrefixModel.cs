@@ -4,11 +4,11 @@ using System.Collections.Generic;
 // a model which stores sentences
 // in a "prefix tree" format, which is
 // more space efficient than the simple model
-public class PrefixModel : IModel {
+public class PrefixModel : Model {
     bool hasBlank = false;
     private Dictionary<String, PrefixModel[]> entriesByHeadString = new Dictionary<String, PrefixModel[]>();
 
-    public bool Contains(Expression e) {
+    public override bool Contains(Expression e) {
         if (e == null) {
             return hasBlank;
         }
@@ -26,7 +26,7 @@ public class PrefixModel : IModel {
         return false;
     }
 
-    public bool Add(Expression e) {
+    public override bool Add(Expression e) {
         bool changed = false;
         
         if (e == null) {
@@ -67,7 +67,7 @@ public class PrefixModel : IModel {
         return true;
     }
 
-    public bool Remove(Expression e) {
+    public override bool Remove(Expression e) {
         if (e == null) {
             if (hasBlank) {
                 hasBlank = false;

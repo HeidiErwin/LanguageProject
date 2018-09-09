@@ -59,7 +59,7 @@
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\MetaVariable.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\EvaluationRule.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SubsententialRule.cs" />
-     <Compile Include="Assets\Scripts\AI\Cognition\Model\IModel.cs" />
+     <Compile Include="Assets\Scripts\AI\Cognition\Model\Model.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\SimpleModel.cs" />
