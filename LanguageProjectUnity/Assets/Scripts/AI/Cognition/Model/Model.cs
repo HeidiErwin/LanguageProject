@@ -21,7 +21,13 @@ public abstract class Model {
     // returns true if it wasn't already in the model,
     // false if it already was
     public abstract bool Add(Expression e);
-    
+
+    // removes e from this model
+    // returns true if it was already in the model,
+    // false if it wasn't in there anyway
+    public abstract bool Remove(Expression e);
+
+    // Adding rules into the model
     public void Add(EvaluationRule r) {
         evaluationRules.Add(r);
     }
@@ -30,30 +36,36 @@ public abstract class Model {
         subsententialRules.Add(r);
     }
 
-    // removes e from this model
-    // returns true if it was already in the model,
-    // false if it wasn't in there anyway
-    public abstract bool Remove(Expression e);
+    public bool Proves(Expression expr) {
+        return Proves(expr, EntailmentContext.Downward);
+    }
 
     // return true if this model proves expr.
-    public bool Proves(Expression expr) {
-
-        // the easy one!!! if the sentence is already just in this model,
-        // that means we're good to go.
+    private bool Proves(Expression expr, EntailmentContext context) {
+        // base case
         if (this.Contains(expr)) {
             return true;
         }
 
-        // Otherwise, we have to go on a fishing expedition.
-        foreach (EvaluationRule er in this.evaluationRules) {
-            // we evaluate in a downward context because we want to backtrack:
-            // we want to see if anything we believe entails this sentence.
-            EvaluationPattern evaluation = er.Evaluate(expr, EntailmentContext.Downward);
+        HashSet<Expression> provers = new HashSet<Expression>();
 
-            if (evaluation != null) {
-                // TODO
+        foreach (SubsententialRule sr in this.subsententialRules) {
+            Expression prover = sr.Infer(expr, context);
+            if (prover != null) {
+                if (this.Contains(prover)) {
+                    return true;
+                }
+                provers.Add(prover);
             }
         }
+
+        foreach (Expression next in provers) {
+            if (this.Proves(next, context)) {
+                return true;
+            }
+        }
+
+        // TODO: the rest of it lol
 
         return false;
     }

@@ -116,5 +116,29 @@ public class Testing : MonoBehaviour {
         Debug.Log(appleEntailsFruit.InferDownward(red) == null);
         Debug.Log(appleEntailsFruit.InferDownward(fruit).Equals(apple));
         Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
+
+        Debug.Log("Model Proves");
+        Model im = new PrefixModel();
+        Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "NOT");
+        Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
+        Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+        // rules
+        SubsententialRule aImpliesB = new SubsententialRule(a, b);
+        SubsententialRule dni = new SubsententialRule(xt0,
+            new ExpressionPattern(not, new IPattern[]{new ExpressionPattern(not, new IPattern[]{xt0})}));
+        
+        im.Add(aImpliesB);
+        im.Add(dni);
+
+        // sentences
+        im.Add(a);
+
+        Expression notB = new Phrase(not, new Word(SemanticType.TRUTH_VALUE, "B"));
+        Expression notNotB = new Phrase(not, notB);
+
+        Debug.Log(!im.Proves(notB));
+        Debug.Log(im.Proves(notNotB));
     }
 }

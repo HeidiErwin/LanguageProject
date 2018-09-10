@@ -9,6 +9,22 @@ public class SubsententialRule {
         this.bottom = bottom;
     }
 
+    public Expression Infer(Expression expr, EntailmentContext context) {
+        if (context == EntailmentContext.None) {
+            return null;
+        }
+
+        if (context == EntailmentContext.Upward) {
+            return InferUpward(expr);
+        }
+
+        if (context == EntailmentContext.Downward) {
+            return InferDownward(expr);
+        }
+
+        return null;
+    }
+
     public Expression InferUpward(Expression expr) {
         Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
         IPattern currentPattern = bottom;

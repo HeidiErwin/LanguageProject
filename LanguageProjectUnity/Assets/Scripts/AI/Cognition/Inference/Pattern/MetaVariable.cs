@@ -36,6 +36,10 @@ public class MetaVariable : IPattern {
         }
     }
 
+    public Expression ToExpression() {
+        return null;
+    }
+
     public override int GetHashCode() {
         return localID;
     }
@@ -47,13 +51,5 @@ public class MetaVariable : IPattern {
 
     public override String ToString() {
         return "{" + localID + ":" + type + "}";
-    }
-
-    public Expression ToExpression() {
-        return null;
-    }
-
-    public IPattern UpdateContext(EntailmentContext context) {
-        return this;
     }
 }

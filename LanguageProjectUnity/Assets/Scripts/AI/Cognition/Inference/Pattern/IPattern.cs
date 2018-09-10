@@ -8,5 +8,4 @@ public interface IPattern {
     HashSet<MetaVariable> GetFreeMetaVariables();
     IPattern Bind(MetaVariable x, Expression expr);
     Expression ToExpression();
-    IPattern UpdateContext(EntailmentContext context);
 }

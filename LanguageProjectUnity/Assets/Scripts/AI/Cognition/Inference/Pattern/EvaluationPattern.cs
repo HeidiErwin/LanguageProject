@@ -7,7 +7,7 @@ public enum EntailmentContext {
     None
 }
 
-public class EvaluationPattern : IPattern {
+public class EvaluationPattern {
     IPattern pattern;
     public EntailmentContext context { get; protected set; }
 
@@ -16,45 +16,23 @@ public class EvaluationPattern : IPattern {
         this.context = context;
     }
 
-    public IPattern UpdateContext(EntailmentContext context) {
-        EntailmentContext newContext = EntailmentContext.Upward;
-
-        if (this.context == EntailmentContext.None || context == EntailmentContext.None) {
-            newContext = EntailmentContext.None;
+    public static EntailmentContext MergeContext(EntailmentContext a, EntailmentContext b) {
+        if (a == EntailmentContext.None || b == EntailmentContext.None) {
+            return EntailmentContext.None;
         }
 
-        if (this.context == EntailmentContext.Upward) {
-            newContext = context;
+        if (a == EntailmentContext.Upward) {
+            return b;
         }
 
-        if (this.context == EntailmentContext.Downward) {
-            if (context == EntailmentContext.Upward) {
-                newContext = EntailmentContext.Downward;
+        if (a == EntailmentContext.Downward) {
+            if (b == EntailmentContext.Upward) {
+                return EntailmentContext.Downward;
             } else {
-                newContext = EntailmentContext.Upward;
+                return EntailmentContext.Upward;
             } 
         }
 
-        return new EvaluationPattern(pattern.UpdateContext(newContext), newContext);
-    }
-
-    public bool Matches(Expression expr) {
-        return pattern.Matches(expr);
-    }
-
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
-        return pattern.Matches(expr, bindings);
-    }
-
-    public HashSet<MetaVariable> GetFreeMetaVariables() {
-        return pattern.GetFreeMetaVariables();
-    }
-
-    public IPattern Bind(MetaVariable x, Expression expr) {
-        return new EvaluationPattern(pattern.Bind(x, expr), context);
-    }
-
-    public Expression ToExpression() {
-        return pattern.ToExpression();
+        return EntailmentContext.None;
     }
 }

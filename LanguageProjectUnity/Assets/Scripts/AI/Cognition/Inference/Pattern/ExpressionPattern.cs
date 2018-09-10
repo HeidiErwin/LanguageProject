@@ -27,11 +27,7 @@ public class ExpressionPattern : IPattern {
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
-        Debug.Log(expr);
-        Debug.Log(expr.headType);
-        Debug.Log(expr.headString);
         Expression headWord = new Word(expr.headType, expr.headString);
-        Debug.Log(expr);
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
         }
@@ -87,17 +83,5 @@ public class ExpressionPattern : IPattern {
         }
 
         return new Phrase(headExpression, argExpressions);
-    }
-
-    public IPattern UpdateContext(EntailmentContext context) {
-        IPattern newHeadPattern = headPattern.UpdateContext(context);
-
-        IPattern[] newArgPattern = new IPattern[numArgs];
-        
-        for (int i = 0; i < numArgs; i++) {
-            newArgPattern[i] = argPattern[i].UpdateContext(context);
-        }
-
-        return new ExpressionPattern(newHeadPattern, newArgPattern);
     }
 }

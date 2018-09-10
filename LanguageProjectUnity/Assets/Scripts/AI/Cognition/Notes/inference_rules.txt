@@ -31,6 +31,7 @@ SUBSENTENTIAL INFERENCE RULES
 (I7) every(P) |- I.P(I)
 (I8) I.P(I) |- some(P)
 (I9) R(x, x) |- itself(R, x)
+(I10) not(not(S)) |- S
 
 SYNTHETIC INFERENCE RULES
 Reflexivity(R): |- R(x, x)
@@ -40,12 +41,15 @@ Transitivity(R): R(x, y) & R(y, z) |- R(x, z)
 Exclusion(R): R(x, y) & R(z, y) |- R(x, z) v R(z, x)
 
 EVALUATION RULES
-(E0) E |- E
+(E0*) E |- E
 (E1) not(S) |- not(S-)
 (E2) every(P) |- every(P-)
 (E3) some(P) |- some(P+)
 (E4) Y(x1, ..., xn) |- Y+(x1+, ..., xn+)
 (E5) itself(R, x) |- x' := x+; R+(x', x')
+
+not(not(howls(some(dog)))) |- howls(some(animal))
+(E1) not(not(howls(some(dog)))-)
 
 
 AN EXAMPLE
@@ -76,5 +80,5 @@ every(dog)-
 
 dog+
 (E0) dog
-(E1) animal
+(I2) animal
 => dog, animal

@@ -130,8 +130,12 @@ public abstract class Expression : IPattern {
         return this;
     }
 
-    public IPattern UpdateContext(EntailmentContext context) {
-        return this;
+    public override int GetHashCode() {
+        int hash = 5381 * headString.GetHashCode();
+        for (int i = 0; i < args.Length; i++) {
+            hash = 33 * hash + (args[i] == null ? i : args[i].GetHashCode());
+        }
+        return hash;
     }
 
     // the words of the language
