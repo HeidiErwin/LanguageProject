@@ -119,7 +119,7 @@ public class Testing : MonoBehaviour {
 
         Debug.Log("Model Proves");
         Model im = new PrefixModel();
-        Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "NOT");
+        Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
         Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
         Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);

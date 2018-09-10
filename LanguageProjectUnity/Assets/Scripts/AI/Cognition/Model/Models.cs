@@ -17,6 +17,15 @@
 public class Models {
     public static Model BobModel() {
         Model m = new PrefixModel();
+        // rules
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        SubsententialRule dni = new SubsententialRule(xt0,
+            new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, new IPattern[]{xt0})}));
+
+        m.Add(tRule);
+        m.Add(dni);
 
         // things Bob takes to be true of Bob
         m.Add(new Phrase(Expression.KING, Expression.BOB));

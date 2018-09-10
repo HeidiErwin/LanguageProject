@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject individualKeyboard;
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
+    [SerializeField] private GameObject truthFunctionKeyboard;
     [SerializeField] private GameObject helpScreen;
     private bool keyboardOnBeforeHelpShown = true;
 
@@ -114,8 +115,14 @@ public class GameController : MonoBehaviour {
                 // Debug.Log("second row's name is " + secondRow.name);
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else {
-            // Debug.Log("invalid type");
+        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1)) {
+            GameObject firstRow = truthFunctionKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = truthFunctionKeyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
@@ -126,6 +133,10 @@ public class GameController : MonoBehaviour {
     */
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
+        // truth functions
+        SetUpSpawner(Expression.TRUE);
+        SetUpSpawner(Expression.NOT);
+
         // determiners
         SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.A);
@@ -195,6 +206,9 @@ public class GameController : MonoBehaviour {
             highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;
+            highClick.Play();
+        } else if (tabToDisplayIndex == 3) { // Predicate
+            currentKeyboard = truthFunctionKeyboard;
             highClick.Play();
         }
         currentKeyboard.SetActive(true);

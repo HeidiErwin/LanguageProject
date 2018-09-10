@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 // an interface for an agent's "model", an
 // internal representation of the propositional attitudes
@@ -36,12 +37,8 @@ public abstract class Model {
         subsententialRules.Add(r);
     }
 
-    public bool Proves(Expression expr) {
-        return Proves(expr, EntailmentContext.Downward);
-    }
-
     // return true if this model proves expr.
-    private bool Proves(Expression expr, EntailmentContext context) {
+    public bool Proves(Expression expr) {
         // base case
         if (this.Contains(expr)) {
             return true;
@@ -50,7 +47,7 @@ public abstract class Model {
         HashSet<Expression> provers = new HashSet<Expression>();
 
         foreach (SubsententialRule sr in this.subsententialRules) {
-            Expression prover = sr.Infer(expr, context);
+            Expression prover = sr.InferDownward(expr); // will need to be updated eventually
             if (prover != null) {
                 if (this.Contains(prover)) {
                     return true;
@@ -60,7 +57,7 @@ public abstract class Model {
         }
 
         foreach (Expression next in provers) {
-            if (this.Proves(next, context)) {
+            if (this.Proves(next)) {
                 return true;
             }
         }

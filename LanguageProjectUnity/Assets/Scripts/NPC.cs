@@ -42,7 +42,7 @@ public class NPC : Character {
     void ReceiveExpression(ExpressionPiece exprPiece) {
         Expression utterance = exprPiece.expression;
 
-        Debug.Log(this.nameString + " is seeing '" + utterance + "'");
+        // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
 
         if (this.model == null) {
             // Debug.Log("No associated model.");
@@ -57,13 +57,13 @@ public class NPC : Character {
             return;
         }
 
-        if (this.model.Contains(utterance)) {
+        if (this.model.Proves(utterance)) {
             // Debug.Log("That's TRUE in their model.");
-            ShowSpeechBubble("true");
+            ShowSpeechBubble("yes");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else {
             // Debug.Log("That's FALSE in their model.");
-            ShowSpeechBubble("false");
+            ShowSpeechBubble("nope");
             this.controller.failure.Play(); // TODO make a unique sound effect for this
         }
     }
