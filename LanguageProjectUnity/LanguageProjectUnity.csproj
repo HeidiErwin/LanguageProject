@@ -330,12 +330,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\EvaluationPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\ExpressionPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\IPattern.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\MetaVariable.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\EvaluationRule.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SubsententialRule.cs" />
-    <Compile Include="Assets\Scripts\AI\Cognition\Model\IModel.cs" />
+    <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SyntheticRule.cs" />
+    <Compile Include="Assets\Scripts\AI\Cognition\Model\Model.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\SimpleModel.cs" />

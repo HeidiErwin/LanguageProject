@@ -443,6 +443,16 @@ public class Models {
     public static Model EvanModel() {
         Model m = new PrefixModel();
 
+        // rules
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        SubsententialRule dni = new SubsententialRule(xt0,
+            new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, new IPattern[]{xt0})}));
+
+        m.Add(tRule);
+        m.Add(dni);
+
         // things Evan takes to be true of Bob
         m.Add(new Phrase(Expression.ACTIVE, Expression.BOB));
         m.Add(new Phrase(Expression.IN_YOUR_AREA, Expression.BOB));
