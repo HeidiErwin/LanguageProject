@@ -30,7 +30,7 @@ SUBSENTENTIAL INFERENCE RULES
 (I6) howls |- makes-noise
 (I7) every(P) |- I.P(I)
 (I8) I.P(I) |- some(P)
-(I9) R(x, x) |- itself(R, x)
+(I9) itself(R, x) |- R(x, x)
 (I10) not(not(S)) |- S
 
 SYNTHETIC INFERENCE RULES

@@ -26,7 +26,12 @@ public class EvaluationRule {
     public static readonly EvaluationRule NOT_RULE =
         new EvaluationRule(new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, 0)),
             new EvaluationPattern[]{new EvaluationPattern(new MetaVariable(SemanticType.TRUTH_VALUE, 0), EntailmentContext.Downward)},
-            new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, 0)));
+            new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, -1)));
+
+    public static readonly EvaluationRule NO_RULE =
+        new EvaluationRule(new ExpressionPattern(Expression.NO, new MetaVariable(SemanticType.PREDICATE, 0)),
+            new EvaluationPattern[]{new EvaluationPattern(new MetaVariable(SemanticType.PREDICATE, 0))},
+            new ExpressionPattern(Expression.NO, new MetaVariable(SemanticType.PREDICATE, -1)));
 
     // public static readonly EvaluationRule 
 }
