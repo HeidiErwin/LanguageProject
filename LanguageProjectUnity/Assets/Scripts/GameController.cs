@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.NOT);
 
         // determiners
-        SetUpSpawner(Expression.NO);
+        // SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.A);
         SetUpSpawner(Expression.TWO);
         SetUpSpawner(Expression.THREE);

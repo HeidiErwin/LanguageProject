@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 // TODO for this class: check the semantic types
@@ -85,5 +86,27 @@ public class ExpressionPattern : IPattern {
         }
 
         return new Phrase(headExpression, argExpressions);
+    }
+
+    public override String ToString() {
+        StringBuilder s = new StringBuilder();
+        s.Append(headPattern.ToString());
+        s.Append("(");
+        for (int i = 0; i < numArgs; i++) {
+            if (argPattern[i] == null) {
+                s.Append("_");
+            } else {
+                s.Append(argPattern[i].ToString());    
+            }
+            s.Append(", ");
+        }
+
+        if (s.Length > 1) {
+            s.Remove(s.Length - 2, 2);
+        }
+
+        s.Append(")");
+
+        return s.ToString();
     }
 }

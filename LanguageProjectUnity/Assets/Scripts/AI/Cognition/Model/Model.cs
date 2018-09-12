@@ -12,7 +12,7 @@ using UnityEngine;
 // is no distinction between a surface language and
 // the internal language).
 public abstract class Model {
-    private HashSet<EvaluationRule> evaluationRules = new HashSet<EvaluationRule>();
+    private List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     private HashSet<SubsententialRule> subsententialRules = new HashSet<SubsententialRule>();
 
     // returns true if e is in this model
@@ -80,6 +80,8 @@ public abstract class Model {
                     // might equal null if something is wrong with the metavariables
                     expressions.Add(partial.ToExpression());
                 }
+
+                break; // we want an expression to match only one evaluation rule
             }
         }
 

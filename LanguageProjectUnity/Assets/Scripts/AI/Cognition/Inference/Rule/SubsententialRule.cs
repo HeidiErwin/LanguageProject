@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class SubsententialRule {
@@ -53,5 +54,9 @@ public class SubsententialRule {
         }
 
         return currentPattern.ToExpression();
+    }
+
+    public override String ToString() {
+        return top.ToString() + " |- " + bottom.ToString();
     }
 }

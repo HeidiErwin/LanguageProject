@@ -104,8 +104,7 @@ public class Phrase : Expression {
             Expression currentArg = args[i];
             if (currentArg == null) {
                 s.Append("_");
-            }
-            else {
+            } else {
                 s.Append(currentArg.ToString());
             }
             s.Append(", ");

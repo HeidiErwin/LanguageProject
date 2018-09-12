@@ -165,4 +165,6 @@ public abstract class Expression : IPattern {
     public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");
     public static readonly Expression IN_BLUE_AREA = new Word(SemanticType.PREDICATE, "in-blue-area");
     public static readonly Expression IN_RED_AREA = new Word(SemanticType.PREDICATE, "in-red-area");
+
+    public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
 }
