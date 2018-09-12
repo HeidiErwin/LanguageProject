@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+
+// TODO for this class: check the semantic types
+// to see if they match
 
 public class ExpressionPattern : IPattern {
     protected IPattern headPattern;
@@ -8,7 +10,7 @@ public class ExpressionPattern : IPattern {
     protected int numArgs;
     protected HashSet<MetaVariable> freeMetaVariables;
 
-    public ExpressionPattern(IPattern headPattern, IPattern[] argPattern) {
+    public ExpressionPattern(IPattern headPattern, params IPattern[] argPattern) {
         this.headPattern = headPattern;
         this.argPattern = argPattern;
         this.numArgs = argPattern.Length;

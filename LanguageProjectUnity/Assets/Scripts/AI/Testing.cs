@@ -128,17 +128,27 @@ public class Testing : MonoBehaviour {
         SubsententialRule aImpliesB = new SubsententialRule(a, b);
         SubsententialRule dni = new SubsententialRule(xt0,
             new ExpressionPattern(not, new IPattern[]{new ExpressionPattern(not, new IPattern[]{xt0})}));
+
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        
+        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
+          new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
         
         im.Add(aImpliesB);
         im.Add(dni);
+        im.Add(ntRule);
 
         // sentences
         im.Add(a);
 
         Expression notB = new Phrase(not, new Word(SemanticType.TRUTH_VALUE, "B"));
         Expression notNotB = new Phrase(not, notB);
+        Expression trueNotB = new Phrase(Expression.TRUE, notB);
+        Expression notTrueNotB = new Phrase(not, trueNotB);
 
         Debug.Log(!im.Proves(notB));
         Debug.Log(im.Proves(notNotB));
+        Debug.Log(!im.Proves(trueNotB));
+        Debug.Log(im.Proves(notTrueNotB));
     }
 }

@@ -8,7 +8,7 @@ public enum EntailmentContext {
 }
 
 public class EvaluationPattern {
-    IPattern pattern;
+    public IPattern pattern { get; protected set; }
     public EntailmentContext context { get; protected set; }
 
     public EvaluationPattern(IPattern pattern, EntailmentContext context) {

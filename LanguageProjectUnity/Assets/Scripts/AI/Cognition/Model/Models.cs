@@ -19,13 +19,29 @@ public class Models {
         Model m = new PrefixModel();
         // rules
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
+
         SubsententialRule dni = new SubsententialRule(xt0,
-            new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, new IPattern[]{xt0})}));
+            new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.NOT, xt0)));
+
+        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, xt0),
+          new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)));
+
+        SubsententialRule activeNotInactive =
+            new SubsententialRule(new ExpressionPattern(Expression.ACTIVE, xi0),
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.INACTIVE, xi0)));
+
+        SubsententialRule inactiveNotActive =
+            new SubsententialRule(new ExpressionPattern(Expression.INACTIVE, xi0),
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xi0)));
 
         m.Add(tRule);
         m.Add(dni);
+        m.Add(ntRule);
+        m.Add(activeNotInactive);
+        m.Add(inactiveNotActive);
 
         // things Bob takes to be true of Bob
         m.Add(new Phrase(Expression.KING, Expression.BOB));
@@ -445,13 +461,29 @@ public class Models {
 
         // rules
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
+
         SubsententialRule dni = new SubsententialRule(xt0,
-            new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, new IPattern[]{xt0})}));
+            new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, xt0)}));
+
+        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, xt0),
+          new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)));
+
+        SubsententialRule activeNotInactive =
+            new SubsententialRule(new ExpressionPattern(Expression.ACTIVE, xi0),
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.INACTIVE, xt0)));
+
+        SubsententialRule inactiveNotActive =
+            new SubsententialRule(new ExpressionPattern(Expression.INACTIVE, xi0),
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xt0)));
 
         m.Add(tRule);
         m.Add(dni);
+        m.Add(ntRule);
+        m.Add(activeNotInactive);
+        m.Add(inactiveNotActive);
 
         // things Evan takes to be true of Bob
         m.Add(new Phrase(Expression.ACTIVE, Expression.BOB));

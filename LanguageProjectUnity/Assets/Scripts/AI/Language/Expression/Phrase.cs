@@ -86,6 +86,7 @@ public class Phrase : Expression {
             }
         }
 
+        this.headType = function.headType;
         this.headString = function.headString;
         this.args = new Expression[function.GetNumArgs()];
 
