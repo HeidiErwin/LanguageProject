@@ -23,14 +23,14 @@ public class Testing : MonoBehaviour {
         Expression billHelps = new Phrase(helps, bill);
         Expression helpsHeidi = new Phrase(helps, heidi, 1);
 
-        PrintInfoString(billHelps);
-        PrintInfoString(helpsHeidi);
+        // PrintInfoString(billHelps);
+        // PrintInfoString(helpsHeidi);
 
         Expression billGives = new Phrase(gives, bill, 1);
         Expression billGivesHeidi = new Phrase(billGives, heidi);
 
-        PrintInfoString(billGives);
-        PrintInfoString(billGivesHeidi);
+        // PrintInfoString(billGives);
+        // PrintInfoString(billGivesHeidi);
 
         Expression theRoundThingIsRed = new Phrase(red, new Phrase(the, round));
 
@@ -46,78 +46,75 @@ public class Testing : MonoBehaviour {
         // PrintInfoString(every);
         // PrintInfoString(the);
 
-        PrintInfoString(billIsRed);
-        PrintInfoString(billHelpsHeidi);
-        PrintInfoString(theRoundThingIsRed);
-        PrintInfoString(billGivesHeidiTheApple);
+        // PrintInfoString(billIsRed);
+        // PrintInfoString(billHelpsHeidi);
+        // PrintInfoString(theRoundThingIsRed);
+        // PrintInfoString(billGivesHeidiTheApple);
 
-        Debug.Log("Syntactic Equality:");
-        Debug.Log(bill.Equals(new Word(SemanticType.INDIVIDUAL, "Bill")));
-        Debug.Log(!bill.Equals(heidi));
-        Debug.Log(billIsRed.Equals(billIsRed));
-        Debug.Log(!billIsRed.Equals(billHelpsHeidi));
+        // Debug.Log("Syntactic Equality:");
+        // Debug.Log(bill.Equals(new Word(SemanticType.INDIVIDUAL, "Bill")));
+        // Debug.Log(!bill.Equals(heidi));
+        // Debug.Log(billIsRed.Equals(billIsRed));
+        // Debug.Log(!billIsRed.Equals(billHelpsHeidi));
 
-        Debug.Log("Model:");
-        Model model = new PrefixModel();
-        Debug.Log(model.Add(billIsRed));
-        Debug.Log(!model.Add(billIsRed));
-        Debug.Log(model.Add(billGivesHeidiTheApple));
-        Debug.Log(model.Add(theRoundThingIsRed));
+        // Debug.Log("Model:");
+        // Model model = new PrefixModel();
+        // Debug.Log(model.Add(billIsRed));
+        // Debug.Log(!model.Add(billIsRed));
+        // Debug.Log(model.Add(billGivesHeidiTheApple));
+        // Debug.Log(model.Add(theRoundThingIsRed));
 
-        Debug.Log(model.Contains(billIsRed));
-        Debug.Log(!model.Contains(billHelpsHeidi));
+        // Debug.Log(model.Contains(billIsRed));
+        // Debug.Log(!model.Contains(billHelpsHeidi));
 
-        Debug.Log(!model.Remove(billHelpsHeidi));
-        Debug.Log(model.Remove(billIsRed));
+        // Debug.Log(!model.Remove(billHelpsHeidi));
+        // Debug.Log(model.Remove(billIsRed));
 
-        Debug.Log(!model.Contains(billIsRed));
+        // Debug.Log(!model.Contains(billIsRed));
 
-        Debug.Log(model.Add(verum));
-        Debug.Log(model.Contains(verum));
-        Debug.Log(model.Remove(verum));
-        Debug.Log(!model.Contains(verum));
+        // Debug.Log(model.Add(verum));
+        // Debug.Log(model.Contains(verum));
+        // Debug.Log(model.Remove(verum));
+        // Debug.Log(!model.Contains(verum));
 
-        Debug.Log(model.Add(helps));
-        Debug.Log(model.Contains(helps));
-        Debug.Log(model.Remove(helps));
-        Debug.Log(!model.Contains(helps));
+        // Debug.Log(model.Add(helps));
+        // Debug.Log(model.Contains(helps));
+        // Debug.Log(model.Remove(helps));
+        // Debug.Log(!model.Contains(helps));
 
-        Debug.Log(model.Add(red));
-        Debug.Log(model.Contains(red));
-        Debug.Log(model.Remove(red));
-        Debug.Log(!model.Contains(red));
+        // Debug.Log(model.Add(red));
+        // Debug.Log(model.Contains(red));
+        // Debug.Log(model.Remove(red));
+        // Debug.Log(!model.Contains(red));
 
-        Debug.Log("Pattern Matching:");
-        Debug.Log(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
-        Debug.Log(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
-        IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        Debug.Log(sentenceVariable.Matches(verum));
-        Debug.Log(sentenceVariable.Matches(falsum));
-        Debug.Log(sentenceVariable.Matches(billHelpsHeidi));
-        Debug.Log(!sentenceVariable.Matches(billGives));
-        Debug.Log(!sentenceVariable.Matches(bill));
+        // Debug.Log("Pattern Matching:");
+        // Debug.Log(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        // Debug.Log(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        // IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        // Debug.Log(sentenceVariable.Matches(verum));
+        // Debug.Log(sentenceVariable.Matches(falsum));
+        // Debug.Log(sentenceVariable.Matches(billHelpsHeidi));
+        // Debug.Log(!sentenceVariable.Matches(billGives));
+        // Debug.Log(!sentenceVariable.Matches(bill));
+        
+        MetaVariable xi00 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        IPattern reflexivePattern = new ExpressionPattern(helps,
-            new IPattern[]{
-                new MetaVariable(SemanticType.INDIVIDUAL, 0),
-                new MetaVariable(SemanticType.INDIVIDUAL, 0)
-            });
+        IPattern reflexivePattern = new ExpressionPattern(helps, xi00, xi00);
 
-        Debug.Log(helps.Equals(helps));
-        Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
-        Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
+        // Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
+        // Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
 
-        Debug.Log("Inference:");
-        SubsententialRule appleEntailsFruit = new SubsententialRule(apple, fruit);
-        Debug.Log(appleEntailsFruit.InferUpward(red) == null);
-        Debug.Log(appleEntailsFruit.InferUpward(fruit) == null);
-        Debug.Log(appleEntailsFruit.InferUpward(apple).Equals(fruit));
+        // Debug.Log("Inference:");
+        // SubsententialRule appleEntailsFruit = new SubsententialRule(apple, fruit);
+        // Debug.Log(appleEntailsFruit.InferUpward(red) == null);
+        // Debug.Log(appleEntailsFruit.InferUpward(fruit) == null);
+        // Debug.Log(appleEntailsFruit.InferUpward(apple).Equals(fruit));
 
-        Debug.Log(appleEntailsFruit.InferDownward(red) == null);
-        Debug.Log(appleEntailsFruit.InferDownward(fruit).Equals(apple));
-        Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
+        // Debug.Log(appleEntailsFruit.InferDownward(red) == null);
+        // Debug.Log(appleEntailsFruit.InferDownward(fruit).Equals(apple));
+        // Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
 
-        Debug.Log("Model Proves");
+        // Debug.Log("Model Proves");
         Model im = new PrefixModel();
         Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
         Expression every = new Word(SemanticType.DETERMINER, "every");
@@ -148,21 +145,22 @@ public class Testing : MonoBehaviour {
         // rules
         SubsententialRule aImpliesB = new SubsententialRule(a, b);
         SubsententialRule dni = new SubsententialRule(xt0,
-            new ExpressionPattern(not, new IPattern[]{new ExpressionPattern(not, new IPattern[]{xt0})}));
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
-        // SubsententialRule tRule2 = new SubsententialRule(new ExpressionPattern(Expression.TRUE, xt0), xt0);
+            new ExpressionPattern(not, new ExpressionPattern(not, xt0)), EntailmentContext.Downward);
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward);
+        SubsententialRule tRule2 = new SubsententialRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward);
         
-        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
-           new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
+        // SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
+        //    new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
         
         SubsententialRule huskyDog = new SubsententialRule(husky, dog);
         SubsententialRule dogAnimal = new SubsententialRule(dog, animal);
 
-        // im.Add(aImpliesB);
-        // im.Add(dni);
-        // im.Add(tRule);
-        // im.Add(tRule2);
-        im.Add(ntRule);
+        im.Add(aImpliesB);
+        im.Add(dni);
+        im.Add(tRule);
+        im.Add(tRule2);
+        // im.Add(ntRule);
+
         im.Add(huskyDog);
         im.Add(dogAnimal);
 
@@ -181,10 +179,10 @@ public class Testing : MonoBehaviour {
         Expression trueNotB = new Phrase(Expression.TRUE, notB);
         Expression notTrueNotB = new Phrase(not, trueNotB);
 
-        // Debug.Log(!im.Proves(notB));
-        // Debug.Log(im.Proves(notNotB));
-        // Debug.Log(!im.Proves(trueNotB));
-        // Debug.Log(im.Proves(notTrueNotB));
+        Debug.Log(!im.Proves(notB));
+        Debug.Log(im.Proves(notNotB));
+        Debug.Log(!im.Proves(trueNotB));
+        Debug.Log(im.Proves(notTrueNotB));
 
         Debug.Log(im.Proves(mitkaIsAHusky));
         Debug.Log(im.Proves(mitkaIsADog));

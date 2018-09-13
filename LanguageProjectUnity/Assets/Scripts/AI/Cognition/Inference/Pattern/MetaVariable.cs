@@ -22,7 +22,13 @@ public class MetaVariable : IPattern {
         if (bindings.ContainsKey(this)) {
             return bindings[this].Equals(expr);
         } else {
-            return this.Matches(expr);
+            bool matches = this.Matches(expr);
+
+            if (matches) {
+                bindings.Add(this, expr);
+            }
+
+            return matches;
         }
     }
 

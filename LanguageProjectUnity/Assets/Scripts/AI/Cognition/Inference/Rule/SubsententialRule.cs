@@ -4,13 +4,21 @@ using System.Collections.Generic;
 public class SubsententialRule {
     protected IPattern top;
     protected IPattern bottom;
+    protected EntailmentContext? exclusiveContext;
     
-    public SubsententialRule(IPattern top, IPattern bottom) {
+    public SubsententialRule(IPattern top, IPattern bottom, EntailmentContext? exclusiveContext) {
         this.top = top;
         this.bottom = bottom;
+        this.exclusiveContext = exclusiveContext;
     }
 
+    public SubsententialRule(IPattern top, IPattern bottom): this(top, bottom, null) {}
+
     public Expression Infer(Expression expr, EntailmentContext context) {
+        if (this.exclusiveContext != null && context != this.exclusiveContext) {
+            return null;
+        }
+
         if (context == EntailmentContext.None) {
             return null;
         }
@@ -26,7 +34,7 @@ public class SubsententialRule {
         return null;
     }
 
-    public Expression InferUpward(Expression expr) {
+    private Expression InferUpward(Expression expr) {
         Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
         IPattern currentPattern = bottom;
 
@@ -41,7 +49,7 @@ public class SubsententialRule {
         return currentPattern.ToExpression();
     }
 
-    public Expression InferDownward(Expression expr) {
+    private Expression InferDownward(Expression expr) {
         Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
         IPattern currentPattern = top;
 

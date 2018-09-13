@@ -65,6 +65,7 @@ public abstract class Expression : IPattern {
     // 
     // i.e. (2 + 3) != (3 + 2)
     public override bool Equals(Object o) {
+
         Expression that = o as Expression;
 
         if (that == null) {
@@ -72,7 +73,7 @@ public abstract class Expression : IPattern {
         }
 
         if (!this.type.Equals(that.type)) {
-
+            return false;
         }
 
         if (!this.headString.Equals(that.headString)) {
@@ -83,6 +84,8 @@ public abstract class Expression : IPattern {
 
             return false;
         }
+
+
 
         for (int i = 0; i < this.GetNumArgs(); i++) {
             if (this.GetArg(i) == null) {

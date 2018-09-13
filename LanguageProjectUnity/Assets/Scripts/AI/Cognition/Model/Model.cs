@@ -41,6 +41,7 @@ public abstract class Model {
     // Don't get tried. Also, need to think of a solution to the 
     // S |- T(S) problem.
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
+        // Debug.Log(expr + (context == EntailmentContext.Upward ? "+" : "-"));
         // TODO make this more efficient
         
         HashSet<Expression> expressions = new HashSet<Expression>();
@@ -93,7 +94,7 @@ public abstract class Model {
         foreach (Expression e in expressions) {
             newExpressions.Add(e);
             foreach (SubsententialRule sr in this.subsententialRules) {
-                Expression prover = sr.Infer(expr, context);
+                Expression prover = sr.Infer(e, context);
                 if (prover != null) {
                     HashSet<Expression> inferredExpressions = GenerateSubexpressions(prover, context);
                     foreach (Expression ie in inferredExpressions) {
@@ -116,7 +117,7 @@ public abstract class Model {
         HashSet<Expression> provers = new HashSet<Expression>();
 
         foreach (SubsententialRule sr in this.subsententialRules) {
-            Expression prover = sr.InferDownward(expr); // will need to be updated eventually
+            Expression prover = sr.Infer(expr, EntailmentContext.Downward);
             if (prover != null) {
                 if (this.Contains(prover)) {
                     return true;

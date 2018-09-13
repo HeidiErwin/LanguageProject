@@ -31,24 +31,14 @@ public class ExpressionPattern : IPattern {
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
         Expression headWord = new Word(expr.headType, expr.headString);
+
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
-        }
-
-        if (headPattern.GetType() == typeof(MetaVariable)) {
-            bindings.Add((MetaVariable) headPattern, headWord);
         }
 
         for (int i = 0; i < numArgs; i++) {
             if (!this.argPattern[i].Matches(expr.GetArg(i), bindings)) {
                 return false;
-            }
-
-            if (this.argPattern[i].GetType() == typeof(MetaVariable)) {
-                MetaVariable x = (MetaVariable) this.argPattern[i];
-                if (!bindings.ContainsKey(x)) {
-                    bindings.Add(x, expr.GetArg(i));
-                }
             }
         }
 
