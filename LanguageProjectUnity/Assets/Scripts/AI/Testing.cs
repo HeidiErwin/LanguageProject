@@ -120,35 +120,80 @@ public class Testing : MonoBehaviour {
         Debug.Log("Model Proves");
         Model im = new PrefixModel();
         Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
+        Expression every = new Word(SemanticType.DETERMINER, "every");
         Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
         Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+
+        Expression animal = new Word(SemanticType.PREDICATE, "animal");
+        Expression dog = new Word(SemanticType.PREDICATE, "dog");
+        Expression husky = new Word(SemanticType.PREDICATE, "husky");
+
+        Expression mitka = new Word(SemanticType.INDIVIDUAL, "Mitka");
+        Expression rocky = new Word(SemanticType.INDIVIDUAL, "Rocky");
+
+        Expression mitkaIsAHusky = new Phrase(husky, mitka);
+        Expression mitkaIsADog = new Phrase(dog, mitka);
+        Expression mitkaIsAnAnimal = new Phrase(animal, mitka);
+
+        Expression rockyIsNotAnAnimal = new Phrase(not, new Phrase(animal, rocky));
+        Expression rockyIsNotADog = new Phrase(not, new Phrase(dog, rocky));
+        Expression rockyIsNotAHusky = new Phrase(not, new Phrase(husky, rocky));
+
+        Expression everyDogIsADog = new Phrase(dog, new Phrase(every, dog));
+        Expression everyHuskyIsADog = new Phrase(dog, new Phrase(every, husky));
+        Expression everyHuskyIsAnAnimal = new Phrase(animal, new Phrase(every, husky));
+
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
 
         // rules
         SubsententialRule aImpliesB = new SubsententialRule(a, b);
         SubsententialRule dni = new SubsententialRule(xt0,
             new ExpressionPattern(not, new IPattern[]{new ExpressionPattern(not, new IPattern[]{xt0})}));
-
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0}));
+        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
+        // SubsententialRule tRule2 = new SubsententialRule(new ExpressionPattern(Expression.TRUE, xt0), xt0);
         
         SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
-          new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
+           new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
         
-        im.Add(aImpliesB);
-        im.Add(dni);
+        SubsententialRule huskyDog = new SubsententialRule(husky, dog);
+        SubsententialRule dogAnimal = new SubsententialRule(dog, animal);
+
+        // im.Add(aImpliesB);
+        // im.Add(dni);
+        // im.Add(tRule);
+        // im.Add(tRule2);
         im.Add(ntRule);
+        im.Add(huskyDog);
+        im.Add(dogAnimal);
+
+        im.Add(EvaluationRule.NOT);
+        im.Add(EvaluationRule.EVERY);
+        im.Add(EvaluationRule.DEFAULT_PREDICATE);
 
         // sentences
         im.Add(a);
+        im.Add(mitkaIsAHusky);
+        im.Add(rockyIsNotAnAnimal);
+        im.Add(everyDogIsADog);
 
         Expression notB = new Phrase(not, new Word(SemanticType.TRUTH_VALUE, "B"));
         Expression notNotB = new Phrase(not, notB);
         Expression trueNotB = new Phrase(Expression.TRUE, notB);
         Expression notTrueNotB = new Phrase(not, trueNotB);
 
-        Debug.Log(!im.Proves(notB));
-        Debug.Log(im.Proves(notNotB));
-        Debug.Log(!im.Proves(trueNotB));
-        Debug.Log(im.Proves(notTrueNotB));
+        // Debug.Log(!im.Proves(notB));
+        // Debug.Log(im.Proves(notNotB));
+        // Debug.Log(!im.Proves(trueNotB));
+        // Debug.Log(im.Proves(notTrueNotB));
+
+        Debug.Log(im.Proves(mitkaIsAHusky));
+        Debug.Log(im.Proves(mitkaIsADog));
+        Debug.Log(im.Proves(mitkaIsAnAnimal));
+        Debug.Log(im.Proves(rockyIsNotAnAnimal));
+        Debug.Log(im.Proves(rockyIsNotADog));
+        Debug.Log(im.Proves(rockyIsNotAHusky));
+        Debug.Log(im.Proves(everyDogIsADog));
+        Debug.Log(im.Proves(everyHuskyIsADog));
+        Debug.Log(im.Proves(everyHuskyIsAnAnimal));
     }
 }

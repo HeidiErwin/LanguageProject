@@ -36,7 +36,7 @@ public class ExpressionPattern : IPattern {
         }
 
         if (headPattern.GetType() == typeof(MetaVariable)) {
-            bindings.Add((MetaVariable)headPattern, headWord);
+            bindings.Add((MetaVariable) headPattern, headWord);
         }
 
         for (int i = 0; i < numArgs; i++) {
@@ -45,7 +45,7 @@ public class ExpressionPattern : IPattern {
             }
 
             if (this.argPattern[i].GetType() == typeof(MetaVariable)) {
-                MetaVariable x = (MetaVariable)this.argPattern[i];
+                MetaVariable x = (MetaVariable) this.argPattern[i];
                 if (!bindings.ContainsKey(x)) {
                     bindings.Add(x, expr.GetArg(i));
                 }
@@ -60,9 +60,13 @@ public class ExpressionPattern : IPattern {
     }
 
     public IPattern Bind(MetaVariable x, Expression expr) {
-        if (!freeMetaVariables.Contains(x)) {
-            return this;
-        }
+        // if (!freeMetaVariables.Contains(x)) {
+        //     UnityEngine.Debug.Log(x + "AGAIN");
+        //     UnityEngine.Debug.Log(this);
+        //     return this;
+        // }
+        // 
+        // TODO: add that code in, maybe figuring out the bug.
 
         IPattern[] newArgPattern = new IPattern[numArgs];
 
@@ -78,11 +82,11 @@ public class ExpressionPattern : IPattern {
             return null;
         }
 
-        Expression headExpression = (Expression) headPattern;
+        Expression headExpression = headPattern.ToExpression();
         Expression[] argExpressions = new Expression[numArgs];
         
         for (int i = 0; i < numArgs; i++) {
-            argExpressions[i] = (Expression) argPattern[i];
+            argExpressions[i] = argPattern[i].ToExpression();
         }
 
         return new Phrase(headExpression, argExpressions);

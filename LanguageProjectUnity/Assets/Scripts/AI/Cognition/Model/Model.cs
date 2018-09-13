@@ -37,6 +37,9 @@ public abstract class Model {
         subsententialRules.Add(r);
     }
 
+    // TODO: important. Need to add a "Path" so that copies of the same sentence
+    // Don't get tried. Also, need to think of a solution to the 
+    // S |- T(S) problem.
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
         // TODO make this more efficient
         
@@ -65,15 +68,17 @@ public abstract class Model {
                 }
 
                 HashSet<IPattern> partials = new HashSet<IPattern>();
+                HashSet<IPattern> newPartials = new HashSet<IPattern>();
                 partials.Add(result);
 
                 for (int i = 0; i < subExpressions.Length; i++) {
                     foreach (IPattern partial in partials) {
                         foreach (Expression e in subExpressions[i]) {
-                            partials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
+                            newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
                         }
-                        partials.Remove(partial);
                     }
+                    partials = newPartials;
+                    newPartials = new HashSet<IPattern>();
                 }
 
                 foreach (IPattern partial in partials) {
@@ -84,20 +89,21 @@ public abstract class Model {
                 break; // we want an expression to match only one evaluation rule
             }
         }
-
+        HashSet<Expression> newExpressions = new HashSet<Expression>();
         foreach (Expression e in expressions) {
+            newExpressions.Add(e);
             foreach (SubsententialRule sr in this.subsententialRules) {
                 Expression prover = sr.Infer(expr, context);
                 if (prover != null) {
                     HashSet<Expression> inferredExpressions = GenerateSubexpressions(prover, context);
                     foreach (Expression ie in inferredExpressions) {
-                        expressions.Add(ie);
+                        newExpressions.Add(ie);
                     }
                 }
             }
         }
 
-        return expressions; // TODO
+        return newExpressions; // TODO
     }
 
     // return true if this model proves expr.
