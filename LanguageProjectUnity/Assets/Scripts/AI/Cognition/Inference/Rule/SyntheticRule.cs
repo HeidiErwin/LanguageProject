@@ -8,6 +8,4 @@ public class SyntheticRule {
         this.top = top;
         this.bottom = bottom;
     }
-
-    // TODO
 }
