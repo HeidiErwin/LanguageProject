@@ -13,7 +13,8 @@ using UnityEngine;
 // the internal language).
 public abstract class Model {
     private List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
-    private HashSet<SubsententialRule> subsententialRules = new HashSet<SubsententialRule>();
+    private HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
+    private HashSet<InferenceRule> inferenceRules = new HashSet<InferenceRule>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -33,8 +34,12 @@ public abstract class Model {
         evaluationRules.Add(r);
     }
 
-    public void Add(SubsententialRule r) {
-        subsententialRules.Add(r);
+    public void Add(SubstitutionRule r) {
+        substitutionRules.Add(r);
+    }
+
+    public void Add(InferenceRule r) {
+        inferenceRules.Add(r);
     }
 
     // TODO: important. Need to add a "Path" so that copies of the same sentence
@@ -93,18 +98,18 @@ public abstract class Model {
         HashSet<Expression> newExpressions = new HashSet<Expression>();
         foreach (Expression e in expressions) {
             newExpressions.Add(e);
-            foreach (SubsententialRule sr in this.subsententialRules) {
-                Expression prover = sr.Infer(e, context);
+            foreach (SubstitutionRule sr in this.substitutionRules) {
+                Expression prover = sr.Substitute(e, context);
                 if (prover != null) {
-                    HashSet<Expression> inferredExpressions = GenerateSubexpressions(prover, context);
-                    foreach (Expression ie in inferredExpressions) {
+                    HashSet<Expression> substitutedExpressions = GenerateSubexpressions(prover, context);
+                    foreach (Expression ie in substitutedExpressions) {
                         newExpressions.Add(ie);
                     }
                 }
             }
         }
 
-        return newExpressions; // TODO
+        return newExpressions;
     }
 
     // return true if this model proves expr.
@@ -114,10 +119,16 @@ public abstract class Model {
             return true;
         }
 
+        foreach (InferenceRule ir in this.inferenceRules) {
+            if (ir.CanInfer(this, expr, EntailmentContext.Downward)) {
+                return true;
+            }
+        }
+
         HashSet<Expression> provers = new HashSet<Expression>();
 
-        foreach (SubsententialRule sr in this.subsententialRules) {
-            Expression prover = sr.Infer(expr, EntailmentContext.Downward);
+        foreach (SubstitutionRule sr in this.substitutionRules) {
+            Expression prover = sr.Substitute(expr, EntailmentContext.Downward);
             if (prover != null) {
                 if (this.Contains(prover)) {
                     return true;

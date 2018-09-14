@@ -145,6 +145,9 @@ public abstract class Expression : IPattern {
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
 
+    public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
+    public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
+
     public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
     public static readonly Expression TWO = new Word(SemanticType.DETERMINER, "two");

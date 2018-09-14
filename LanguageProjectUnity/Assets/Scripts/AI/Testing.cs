@@ -105,7 +105,7 @@ public class Testing : MonoBehaviour {
         // Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
 
         // Debug.Log("Inference:");
-        // SubsententialRule appleEntailsFruit = new SubsententialRule(apple, fruit);
+        // SubstitutionRule appleEntailsFruit = new SubstitutionRule(apple, fruit);
         // Debug.Log(appleEntailsFruit.InferUpward(red) == null);
         // Debug.Log(appleEntailsFruit.InferUpward(fruit) == null);
         // Debug.Log(appleEntailsFruit.InferUpward(apple).Equals(fruit));
@@ -141,25 +141,41 @@ public class Testing : MonoBehaviour {
         Expression everyHuskyIsAnAnimal = new Phrase(animal, new Phrase(every, husky));
 
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
         // rules
-        SubsententialRule aImpliesB = new SubsententialRule(a, b);
-        SubsententialRule dni = new SubsententialRule(xt0,
+        SubstitutionRule aImpliesB = new SubstitutionRule(a, b);
+        SubstitutionRule dni = new SubstitutionRule(xt0,
             new ExpressionPattern(not, new ExpressionPattern(not, xt0)), EntailmentContext.Downward);
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward);
-        SubsententialRule tRule2 = new SubsententialRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward);
+        SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward);
+        SubstitutionRule tRule2 = new SubstitutionRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward);
         
-        // SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
+        // SubstitutionRule ntRule = new SubstitutionRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
         //    new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
         
-        SubsententialRule huskyDog = new SubsententialRule(husky, dog);
-        SubsententialRule dogAnimal = new SubsententialRule(dog, animal);
+        SubstitutionRule huskyDog = new SubstitutionRule(husky, dog);
+        SubstitutionRule dogAnimal = new SubstitutionRule(dog, animal);
+
+        // Inference Rules
+        InferenceRule andIntroduction = new InferenceRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction1 = new InferenceRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction2 = new InferenceRule(
+            new IPattern[]{xt1},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
 
         im.Add(aImpliesB);
         im.Add(dni);
         im.Add(tRule);
         im.Add(tRule2);
-        // im.Add(ntRule);
 
         im.Add(huskyDog);
         im.Add(dogAnimal);
@@ -167,6 +183,10 @@ public class Testing : MonoBehaviour {
         im.Add(EvaluationRule.NOT);
         im.Add(EvaluationRule.EVERY);
         im.Add(EvaluationRule.DEFAULT_PREDICATE);
+
+        im.Add(andIntroduction);
+        im.Add(orIntroduction1);
+        im.Add(orIntroduction2);
 
         // sentences
         im.Add(a);
@@ -179,19 +199,43 @@ public class Testing : MonoBehaviour {
         Expression trueNotB = new Phrase(Expression.TRUE, notB);
         Expression notTrueNotB = new Phrase(not, trueNotB);
 
-        Debug.Log(!im.Proves(notB));
-        Debug.Log(im.Proves(notNotB));
-        Debug.Log(!im.Proves(trueNotB));
-        Debug.Log(im.Proves(notTrueNotB));
+        PrintProves(im, notB, false);
+        PrintProves(im, notNotB, true);
+        PrintProves(im, trueNotB, false);
+        PrintProves(im, notTrueNotB, true);
 
-        Debug.Log(im.Proves(mitkaIsAHusky));
-        Debug.Log(im.Proves(mitkaIsADog));
-        Debug.Log(im.Proves(mitkaIsAnAnimal));
-        Debug.Log(im.Proves(rockyIsNotAnAnimal));
-        Debug.Log(im.Proves(rockyIsNotADog));
-        Debug.Log(im.Proves(rockyIsNotAHusky));
-        Debug.Log(im.Proves(everyDogIsADog));
-        Debug.Log(im.Proves(everyHuskyIsADog));
-        Debug.Log(im.Proves(everyHuskyIsAnAnimal));
+        PrintProves(im, mitkaIsAHusky, true);
+        PrintProves(im, mitkaIsADog, true);
+        PrintProves(im, mitkaIsAnAnimal, true);
+        PrintProves(im, rockyIsNotAnAnimal, true);
+        PrintProves(im, rockyIsNotADog, true);
+        PrintProves(im, rockyIsNotAHusky, true);
+        PrintProves(im, everyDogIsADog, true);
+        PrintProves(im, everyHuskyIsADog, true);
+        PrintProves(im, everyHuskyIsAnAnimal, true);
+
+        PrintProves(im, new Phrase(Expression.AND, mitkaIsAHusky, rockyIsNotAnAnimal), true);
+        PrintProves(im, new Phrase(Expression.AND, notB, rockyIsNotAnAnimal), false);
+        PrintProves(im, new Phrase(Expression.AND, notB, trueNotB), false);
+        PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
+        PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
+        PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
+    }
+
+    private void PrintProves(Model m, Expression e, bool proves) {
+        if (proves) {
+            if (m.Proves(e)) {
+                Debug.Log("SUCCESS: model proves " + e);
+            } else {
+                Debug.Log("FAILURE: model doesn't prove " + e);
+            }
+        } else {
+            if (!m.Proves(e)) {
+                Debug.Log("SUCCESS: model doesn't prove " + e);
+            } else {
+                Debug.Log("FAILURE: model proves " + e);
+            }
+        }
+
     }
 }

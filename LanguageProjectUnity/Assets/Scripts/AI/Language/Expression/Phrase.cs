@@ -73,7 +73,7 @@ public class Phrase : Expression {
         }
     }
 
-    public Phrase(Expression function, Expression[] inputs) : base(function.GetOutputType()) {
+    public Phrase(Expression function, params Expression[] inputs) : base(function.GetOutputType()) {
         if (function.GetNumArgs() != function.GetNumFreeArgs() || inputs.Length != function.GetNumArgs()) {
             // we don't want partial application for this constructor... yet.
             throw new ArgumentException();

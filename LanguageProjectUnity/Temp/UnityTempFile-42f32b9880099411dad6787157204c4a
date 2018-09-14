@@ -113,7 +113,7 @@
 -define:UNITY_2017_4_OR_NEWER
 -define:UNITY_2018_1_OR_NEWER
 -define:UNITY_2018_2_OR_NEWER
--define:UNITY_2018_2_6
+-define:UNITY_2018_2_8
 -define:UNITY_2018_2
 -define:UNITY_2018
 -define:UNITY_ANALYTICS

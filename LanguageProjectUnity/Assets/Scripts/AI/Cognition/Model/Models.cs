@@ -21,20 +21,20 @@ public class Models {
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
+        SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
 
-        SubsententialRule dni = new SubsententialRule(xt0,
+        SubstitutionRule dni = new SubstitutionRule(xt0,
             new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.NOT, xt0)));
 
-        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, xt0),
+        SubstitutionRule ntRule = new SubstitutionRule(new ExpressionPattern(Expression.NOT, xt0),
           new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)));
 
-        SubsententialRule activeNotInactive =
-            new SubsententialRule(new ExpressionPattern(Expression.ACTIVE, xi0),
+        SubstitutionRule activeNotInactive =
+            new SubstitutionRule(new ExpressionPattern(Expression.ACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.INACTIVE, xi0)));
 
-        SubsententialRule inactiveNotActive =
-            new SubsententialRule(new ExpressionPattern(Expression.INACTIVE, xi0),
+        SubstitutionRule inactiveNotActive =
+            new SubstitutionRule(new ExpressionPattern(Expression.INACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xi0)));
 
         m.Add(tRule);
@@ -463,20 +463,20 @@ public class Models {
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        SubsententialRule tRule = new SubsententialRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
+        SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
 
-        SubsententialRule dni = new SubsententialRule(xt0,
+        SubstitutionRule dni = new SubstitutionRule(xt0,
             new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.NOT, xt0)}));
 
-        SubsententialRule ntRule = new SubsententialRule(new ExpressionPattern(Expression.NOT, xt0),
+        SubstitutionRule ntRule = new SubstitutionRule(new ExpressionPattern(Expression.NOT, xt0),
           new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)));
 
-        SubsententialRule activeNotInactive =
-            new SubsententialRule(new ExpressionPattern(Expression.ACTIVE, xi0),
+        SubstitutionRule activeNotInactive =
+            new SubstitutionRule(new ExpressionPattern(Expression.ACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.INACTIVE, xt0)));
 
-        SubsententialRule inactiveNotActive =
-            new SubsententialRule(new ExpressionPattern(Expression.INACTIVE, xi0),
+        SubstitutionRule inactiveNotActive =
+            new SubstitutionRule(new ExpressionPattern(Expression.INACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xt0)));
 
         m.Add(tRule);
