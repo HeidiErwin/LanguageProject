@@ -15,7 +15,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject individualKeyboard;
     [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
-    [SerializeField] private GameObject truthFunctionKeyboard;
+    [SerializeField] private GameObject truthFunction1Keyboard;
+    [SerializeField] private GameObject truthFunction2Keyboard;
     [SerializeField] private GameObject helpScreen;
     private bool keyboardOnBeforeHelpShown = true;
 
@@ -116,11 +117,19 @@ public class GameController : MonoBehaviour {
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1)) {
-            GameObject firstRow = truthFunctionKeyboard.transform.GetChild(0).gameObject;
+            GameObject firstRow = truthFunction1Keyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
-                GameObject secondRow = truthFunctionKeyboard.transform.GetChild(1).gameObject;
+                GameObject secondRow = truthFunction1Keyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
+        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_2)) {
+            GameObject firstRow = truthFunction2Keyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         }
@@ -136,6 +145,8 @@ public class GameController : MonoBehaviour {
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
+        SetUpSpawner(Expression.AND);
+        SetUpSpawner(Expression.OR);
 
         // determiners
         // SetUpSpawner(Expression.NO);
@@ -207,8 +218,11 @@ public class GameController : MonoBehaviour {
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 3) { // Predicate
-            currentKeyboard = truthFunctionKeyboard;
+        } else if (tabToDisplayIndex == 3) { // 1-place truth function
+            currentKeyboard = truthFunction1Keyboard;
+            highClick.Play();
+        } else if (tabToDisplayIndex == 4) { // 2-place truth function
+            currentKeyboard = truthFunction2Keyboard;
             highClick.Play();
         }
         currentKeyboard.SetActive(true);

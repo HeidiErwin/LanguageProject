@@ -19,6 +19,7 @@ public class Models {
         Model m = new PrefixModel();
         // rules
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
         SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
@@ -37,11 +38,29 @@ public class Models {
             new SubstitutionRule(new ExpressionPattern(Expression.INACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xi0)));
 
+        InferenceRule andIntroduction = new InferenceRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction1 = new InferenceRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction2 = new InferenceRule(
+            new IPattern[]{xt1},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
+
         m.Add(tRule);
         m.Add(dni);
         m.Add(ntRule);
         m.Add(activeNotInactive);
         m.Add(inactiveNotActive);
+        m.Add(andIntroduction);
+        m.Add(orIntroduction1);
+        m.Add(orIntroduction2);
 
         // things Bob takes to be true of Bob
         m.Add(new Phrase(Expression.KING, Expression.BOB));
@@ -461,6 +480,7 @@ public class Models {
 
         // rules
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
         SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0));
@@ -479,11 +499,31 @@ public class Models {
             new SubstitutionRule(new ExpressionPattern(Expression.INACTIVE, xi0),
                 new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xt0)));
 
+        InferenceRule andIntroduction = new InferenceRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction1 = new InferenceRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
+
+        InferenceRule orIntroduction2 = new InferenceRule(
+            new IPattern[]{xt1},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward);
+
         m.Add(tRule);
         m.Add(dni);
         m.Add(ntRule);
         m.Add(activeNotInactive);
         m.Add(inactiveNotActive);
+
+        m.Add(andIntroduction);
+        m.Add(orIntroduction1);
+        m.Add(orIntroduction2);
+
 
         // things Evan takes to be true of Bob
         m.Add(new Phrase(Expression.ACTIVE, Expression.BOB));

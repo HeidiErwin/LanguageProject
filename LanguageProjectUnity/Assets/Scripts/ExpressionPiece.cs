@@ -5,12 +5,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
+// TODO: 
+
 /**
  * A script to be attached to any Expression objects.
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
+    private const bool DRAW_SUBEXPRESSION_TYPE = false; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
