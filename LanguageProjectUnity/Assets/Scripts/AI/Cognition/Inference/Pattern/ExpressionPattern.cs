@@ -61,7 +61,9 @@ public class ExpressionPattern : IPattern {
         IPattern[] newArgPattern = new IPattern[numArgs];
 
         for (int i = 0; i < numArgs; i++) {
-            newArgPattern[i] = argPattern[i].Bind(x, expr);
+            if (argPattern[i] != null) {
+                newArgPattern[i] = argPattern[i].Bind(x, expr);    
+            }
         }
 
         return new ExpressionPattern(headPattern.Bind(x, expr), newArgPattern);
@@ -76,7 +78,9 @@ public class ExpressionPattern : IPattern {
         Expression[] argExpressions = new Expression[numArgs];
         
         for (int i = 0; i < numArgs; i++) {
-            argExpressions[i] = argPattern[i].ToExpression();
+            if (argPattern[i] != null) {
+                argExpressions[i] = argPattern[i].ToExpression();
+            }
         }
 
         return new Phrase(headExpression, argExpressions);

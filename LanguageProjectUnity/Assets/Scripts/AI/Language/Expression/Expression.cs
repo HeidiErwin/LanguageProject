@@ -112,6 +112,10 @@ public abstract class Expression : IPattern {
         return true;
     }
 
+    public SemanticType GetSemanticType() {
+        return type;
+    }
+
     // TODO implement GetHashCode() so SimpleModel can be used
     public bool Matches(Expression expr) {
         return this.Equals(expr);

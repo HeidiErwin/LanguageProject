@@ -22,6 +22,18 @@ public class Phrase : Expression {
     public Phrase(Expression function, Expression input) : this(function, input, 0) { }
 
     public Phrase(Expression function, Expression input, int index) : base(null) {
+        if (input == null) {
+            this.type = function.type;
+            this.headString = function.headString;
+            this.headType = function.headType;
+            this.args = new Expression[function.GetNumArgs()];
+
+            for (int i = 0; i < function.GetNumArgs(); i++) {
+                this.args[i] = function.GetArg(i);
+            }
+            return;
+        }
+
         // the index has to be between 0 and (numargs - 1)
         if (index < 0 || index >= function.GetNumFreeArgs()) {
             throw new IndexOutOfRangeException();
@@ -73,25 +85,24 @@ public class Phrase : Expression {
         }
     }
 
-    public Phrase(Expression function, params Expression[] inputs) : base(function.GetOutputType()) {
-        if (function.GetNumArgs() != function.GetNumFreeArgs() || inputs.Length != function.GetNumArgs()) {
-            // we don't want partial application for this constructor... yet.
-            throw new ArgumentException();
+    public Phrase(Expression function, params Expression[] inputs) : base(null) {
+        if (inputs.Length > function.GetNumFreeArgs()) {
+            throw new ArgumentException("Too many arguments passed to a function expression");
         }
 
+        Expression newExpression = function;
+
         for (int i = 0; i < inputs.Length; i++) {
-            if (!function.GetInputType(i).Equals(inputs[i].type)) {
-                // type check
-                throw new ArgumentException();
-            }
+            newExpression = new Phrase(newExpression, inputs[i]);
         }
 
-        this.headType = function.headType;
-        this.headString = function.headString;
-        this.args = new Expression[function.GetNumArgs()];
+        this.type = newExpression.type;
+        this.headString = newExpression.headString;
+        this.headType = newExpression.headType;
+        this.args = new Expression[newExpression.GetNumArgs()];
 
-        for (int i = 0; i < inputs.Length; i++) {
-            this.args[i] = inputs[i];
+        for (int i = 0; i < newExpression.GetNumArgs(); i++) {
+            this.args[i] = newExpression.GetArg(i);
         }
     }
 
