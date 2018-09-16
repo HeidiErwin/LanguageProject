@@ -172,6 +172,8 @@ public class Testing : MonoBehaviour {
             new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
             EntailmentContext.Downward);
 
+        // TODO "or" elmination
+
         im.Add(aImpliesB);
         im.Add(dni);
         im.Add(tRule);

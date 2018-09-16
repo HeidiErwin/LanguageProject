@@ -127,7 +127,7 @@ TODO FOR DEMO:
 TODO, as of 9/14:
 Graphics:
 	- prefab for argument slots still exists (helpful for debugging but should be made invisible for actual use)
-	- drawing argument interior even when "DRAW_SUBEXPRESSION_TYPE" is set to false
+		* drawing argument interior even when "DRAW_SUBEXPRESSION_TYPE" is set to false
 	- argument alignment issues for a 2 argument expression with first argument filled in
 	- dynamic resize for expressions
 	- rescale for keyboard pieces
@@ -143,6 +143,9 @@ Reasoning system:
 	- handle parameter insertion
 Perception system:
 	- environment -> model links (how should this work?)
+	- objects trigger when an NPC (N) are within range, call EnvironmentManager.ComputePerceptualReport(N)
+	- For now, fountain color and lighting with 8 basic colors + color addition
+	- also door, areas, fountains, lamps, NPCs
 Action system:
 	- figure out format for action rules, as well as primitive action representations
 	- code procedure determining composite action from primitive ones
