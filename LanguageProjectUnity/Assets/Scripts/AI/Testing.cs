@@ -58,7 +58,7 @@ public class Testing : MonoBehaviour {
         // Debug.Log(!billIsRed.Equals(billHelpsHeidi));
 
         // Debug.Log("Model:");
-        // Model model = new PrefixModel();
+        // Model model = new SimpleModel();
         // Debug.Log(model.Add(billIsRed));
         // Debug.Log(!model.Add(billIsRed));
         // Debug.Log(model.Add(billGivesHeidiTheApple));
@@ -115,7 +115,7 @@ public class Testing : MonoBehaviour {
         // Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
 
         // Debug.Log("Model Proves");
-        Model im = new PrefixModel();
+        Model im = new SimpleModel();
         Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
         Expression every = new Word(SemanticType.DETERMINER, "every");
         Expression a = new Word(SemanticType.TRUTH_VALUE, "A");

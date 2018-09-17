@@ -126,12 +126,12 @@ TODO FOR DEMO:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TODO, as of 9/14:
 Graphics:
-	- prefab for argument slots still exists (helpful for debugging but should be made invisible for actual use)
-		* drawing argument interior even when "DRAW_SUBEXPRESSION_TYPE" is set to false
-	- argument alignment issues for a 2 argument expression with first argument filled in
+	- [DONE] prefab for argument slots still exists (helpful for debugging but should be made invisible for actual use) NOTE: to turn this back on, just turn the opacity on the piece prefab back on
+		* [DONE] drawing argument interior even when "DRAW_SUBEXPRESSION_TYPE" is set to false
+	- [DONE] argument alignment issues for a 2 argument expression with first argument filled in
 	- dynamic resize for expressions
 	- rescale for keyboard pieces
-	- Semantic type not "T" when it should be for large expressions
+	- [DONE] Semantic type not "T" when it should be for large expressions
 Reasoning system:
 	- make evaluation/substitution more efficient. BFS instead of DFS, keep track of proof path, etc.
 	- handle quantified pattern matching: F(x) |- G(y)

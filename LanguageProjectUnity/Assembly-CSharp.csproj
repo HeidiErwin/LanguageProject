@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\SimpleModel.cs" />
      <Compile Include="Assets\Scripts\AI\Language\Expression\Expression.cs" />
+     <Compile Include="Assets\Scripts\AI\Language\Expression\Parameter.cs" />
      <Compile Include="Assets\Scripts\AI\Language\Expression\Phrase.cs" />
      <Compile Include="Assets\Scripts\AI\Language\Expression\Word.cs" />
      <Compile Include="Assets\Scripts\AI\Language\SemanticType\Arrow.cs" />
@@ -108,6 +109,7 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Scripts\AI\Cognition\Notes\perception.txt" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>

@@ -196,6 +196,7 @@
 'Assets/Scripts/AI/Cognition/Model/PrefixModel.cs'
 'Assets/Scripts/AI/Cognition/Model/SimpleModel.cs'
 'Assets/Scripts/AI/Language/Expression/Expression.cs'
+'Assets/Scripts/AI/Language/Expression/Parameter.cs'
 'Assets/Scripts/AI/Language/Expression/Phrase.cs'
 'Assets/Scripts/AI/Language/Expression/Word.cs'
 'Assets/Scripts/AI/Language/SemanticType/Arrow.cs'

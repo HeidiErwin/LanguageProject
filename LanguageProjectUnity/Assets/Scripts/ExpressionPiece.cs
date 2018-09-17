@@ -198,9 +198,13 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
             if (counter == index) {
                 float originalArgLocalX = this.arguments[i].transform.localPosition.x;
                 float originalArgLocalY = this.arguments[i].transform.localPosition.y;
-                Destroy(exprPieceScript.arguments[i].gameObject, 0.0f); //need to destroy the empty arg that this piece is replacing
+
+                //need to destroy the empty arg that this piece is replacing
+                Destroy(exprPieceScript.arguments[i].gameObject, 0.0f);
+
                 exprPieceScript.arguments[i] = inputExpression.DeepCopy();
-                exprPieceScript.arguments[i].gameObject.transform.localPosition = new Vector3(originalArgLocalX, originalArgLocalY, 0);
+                exprPieceScript.arguments[i].gameObject.transform.localPosition =
+                    new Vector3(originalArgLocalX, originalArgLocalY, 0);
                 exprPieceScript.arguments[i].transform.SetParent(exprPieceInstance.transform);
 
                 counter++;
@@ -208,13 +212,30 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
             }
         }
 
+        int xPositionInUnits = 1;
+
         // this is setting the parentexpressionpiece and parent of all of the new
         // expression's arguments as the new expression. This doesn't happen in
         // deepcopy because deepcopy makes a new copy of the expression to set.
         for (int i = 0; i < arguments.Length; i++) {
+            float argLocalX = exprPieceScript.arguments[i].transform.localPosition.x;
+            float argLocalY = exprPieceScript.arguments[i].transform.localPosition.y;
+
+            float changeY = ((exprPieceScript.heightInUnits - 2) / 2f) * PIXELS_PER_UNIT;
+
+            if (exprPieceScript.arguments[i].id.Equals("_")) {
+                exprPieceScript.arguments[i].gameObject.transform.localPosition =
+                    new Vector3(
+                        ((-0.5f * exprPieceScript.widthInUnits) + xPositionInUnits + 0.5f - BUFFER_IN_UNITS) * PIXELS_PER_UNIT,
+                        argLocalY + changeY);
+            }
+
             exprPieceScript.arguments[i].SetParentExpressionPiece(exprPieceScript);
             exprPieceInstance.transform.SetParent(this.transform.parent.transform);
 
+            // Debug.Log(exprPieceScript.expression + "'s width is " + exprPieceScript.widthInUnits);
+            // Debug.Log(exprPieceScript.expression + "[" + i + "]'s width is " + arguments[i].widthInUnits);
+            xPositionInUnits += exprPieceScript.arguments[i].widthInUnits;
         }
 
         exprPieceInstance.transform.SetParent(this.transform.parent.transform);

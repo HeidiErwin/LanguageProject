@@ -10,6 +10,6 @@ public class Word : Expression {
     }
 
     public override String ToString() {
-        return headString;
+        return this.headString;
     }
 }

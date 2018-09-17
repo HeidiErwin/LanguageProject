@@ -28,6 +28,17 @@ public class SimpleModel : Model {
         return false;
     }
 
+    public override List<Dictionary<MetaVariable, Expression>> Find(IPattern pattern) {
+        List<Dictionary<MetaVariable, Expression>> possibleBindings = new List<Dictionary<MetaVariable, Expression>>();
+        foreach (Expression e in model) {
+            Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
+            if (pattern.Matches(e, bindings)) {
+                possibleBindings.Add(bindings);
+            }
+        }
+        return possibleBindings;
+    }
+
     public override String ToString() {
         StringBuilder s = new StringBuilder();
         s.Append("{\n");

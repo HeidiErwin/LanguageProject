@@ -1,0 +1,12 @@
+PECEPTION
+
+Vision photons -> retina -> pre-conscious preprocessing (sketches, etc.) -> visual field -> processing -> solid objects, contiguous events etc.
+
+
+objects/events in the game -> ? -> solid objects, contiguous events etc.
+
+? = _
+
+fountain: f, f is a foot to the right, ...
+
+(   Bob   fountain  )

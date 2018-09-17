@@ -151,4 +151,6 @@ public abstract class Model {
 
         return false;
     }
+
+    public abstract List<Dictionary<MetaVariable, Expression>> Find(IPattern pattern);
 }
