@@ -30,22 +30,23 @@ public class SubstitutionRule {
             return null;
         }
 
+        IPattern match = null;
+        IPattern substitution = null;
+
         if (context == EntailmentContext.Upward) {
-            return SubstituteUpward(expr);
+            match = this.top;
+            substitution = this.bottom;
         }
 
         if (context == EntailmentContext.Downward) {
-            return SubstituteDownward(expr);
+            match = this.bottom;
+            substitution = this.top;
         }
 
-        return null;
-    }
-
-    private Expression SubstituteUpward(Expression expr) {
         Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
         
-        if (top.Matches(expr, bindings)) {
-            IPattern currentPattern = bottom;
+        if (match.Matches(expr, bindings)) {
+            IPattern currentPattern = substitution;
             foreach (MetaVariable x in bindings.Keys) {
                 currentPattern = currentPattern.Bind(x, bindings[x]);
             }
@@ -53,20 +54,6 @@ public class SubstitutionRule {
         }
 
         return null;
-    }
-
-    private Expression SubstituteDownward(Expression expr) {
-        Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-        
-        if (bottom.Matches(expr, bindings)) {
-            IPattern currentPattern = top;
-            foreach (MetaVariable x in bindings.Keys) {
-                currentPattern = currentPattern.Bind(x, bindings[x]);
-            }
-            return currentPattern.ToExpression();
-        }
-        
-        return null;        
     }
 
     public override String ToString() {

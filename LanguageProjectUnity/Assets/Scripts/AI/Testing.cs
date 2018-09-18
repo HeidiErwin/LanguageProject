@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -222,6 +224,97 @@ public class Testing : MonoBehaviour {
         PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
         PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
         PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
+
+        // testing Find()
+        Model fm = new SimpleModel();
+        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 0)));
+        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 1)));
+        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 2)));
+        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 3)));
+
+        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 2)));
+        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 3)));
+        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 5)));
+        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 6)));
+
+        fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 7)));
+        fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 8)));
+
+        fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 9)));
+        fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 10)));
+
+        ExpressionPattern xIsRed = new ExpressionPattern(Expression.RED, new MetaVariable(SemanticType.INDIVIDUAL, 0));
+        ExpressionPattern xIsBlue = new ExpressionPattern(Expression.BLUE, new MetaVariable(SemanticType.INDIVIDUAL, 0));
+
+        Debug.Log(ContentString(fm.Find(xIsRed)));
+        Debug.Log(ContentString(fm.Find(xIsRed, xIsBlue)));
+
+        Expression contains = new Word(SemanticType.RELATION_2, "contains");
+
+        InferenceRule transitivityForContains = new InferenceRule(
+            new IPattern[]{
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1)),
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 2))
+            },
+            new IPattern[]{
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 2))
+            });
+
+        InferenceRule exclusivityForContains = new InferenceRule(
+            new IPattern[]{
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1)),
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 2),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1))
+            },
+            new IPattern[]{
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 2)),
+                new ExpressionPattern(contains,
+                    new MetaVariable(SemanticType.INDIVIDUAL, 2),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0))
+            });
+
+        fm.Add(transitivityForContains);
+        fm.Add(exclusivityForContains);
+
+        Expression elmira  = new Word(SemanticType.INDIVIDUAL, "Elmira");
+        Expression newYork = new Word(SemanticType.INDIVIDUAL, "New York");
+        Expression america = new Word(SemanticType.INDIVIDUAL, "America");
+
+        fm.Add(elmira);
+        fm.Add(newYork);
+        fm.Add(america);
+
+        Expression americaContainsNewYork = new Phrase(contains, america, newYork);
+        Expression newYorkContainsElmira = new Phrase(contains, newYork, elmira);
+
+        fm.Add(americaContainsNewYork);
+        fm.Add(newYorkContainsElmira);
+
+        Expression paris  = new Word(SemanticType.INDIVIDUAL, "Paris");
+        Expression france = new Word(SemanticType.INDIVIDUAL, "France");
+        Expression europe = new Word(SemanticType.INDIVIDUAL, "Europe");
+
+        Expression europeContainsParis = new Phrase(contains, europe, paris);
+        Expression franceContainsParis = new Phrase(contains, france, paris);
+        Expression franceDoesntContainEurope = new Phrase(Expression.NOT, new Phrase(contains, france, europe));
+
+        fm.Add(europeContainsParis);
+        fm.Add(franceContainsParis);
+        fm.Add(franceDoesntContainEurope);
+
+        PrintProves(fm, new Phrase(contains, america, elmira), true);
+        PrintProves(fm, new Phrase(contains, europe,  france), true);
     }
 
     private void PrintProves(Model m, Expression e, bool proves) {
@@ -239,5 +332,45 @@ public class Testing : MonoBehaviour {
             }
         }
 
+    }
+
+    private String ContentString(Dictionary<MetaVariable, Expression> bindings) {
+        StringBuilder s = new StringBuilder();
+        s.Append("{");
+        foreach (MetaVariable x in bindings.Keys) {
+            s.Append(x);
+            s.Append(" |-> ");
+            s.Append(bindings[x]);
+            s.Append(", ");
+        }
+
+        if (s.Length > 1) {
+            s.Remove(s.Length - 2, 2);
+        }
+
+        s.Append("}");
+
+        return s.ToString();
+    }
+
+    private String ContentString(HashSet<Dictionary<MetaVariable, Expression>> bindingSet) {
+        StringBuilder s = new StringBuilder();
+        s.Append("{\n");
+        if (bindingSet == null) {
+            return "NULL";
+        }
+        foreach (Dictionary<MetaVariable, Expression> bindings in bindingSet) {
+            s.Append("\t");
+            s.Append(ContentString(bindings));
+            s.Append(",\n");
+        }
+
+        if (s.Length > 1) {
+            s.Remove(s.Length - 2, 2);
+        }
+
+        s.Append("\n}");
+
+        return s.ToString();
     }
 }

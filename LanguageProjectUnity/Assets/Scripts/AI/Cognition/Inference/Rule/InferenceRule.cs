@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.Collections.Generic;
 
 public class InferenceRule {
@@ -12,7 +14,8 @@ public class InferenceRule {
         this.exclusiveContext = exclusiveContext;
     }
 
-    // TODO rename this
+    public InferenceRule(IPattern[] top, IPattern[] bottom): this(top, bottom, null) {}
+
     public bool CanInfer(Model m, Expression expr, EntailmentContext context) {
         if (this.exclusiveContext != null && context != this.exclusiveContext) {
             return false;
@@ -34,6 +37,7 @@ public class InferenceRule {
         for (int i = 0; i < matchRow.Length; i++) {
             Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
             if (matchRow[i].Matches(expr, bindings)) {
+                HashSet<IPattern> patterns = new HashSet<IPattern>();
                 for (int j = 0; j < matchRow.Length; j++) {
                     if (j == i) {
                         continue;
@@ -45,9 +49,9 @@ public class InferenceRule {
                     }
                     
                     Expression fullyBound = bound.ToExpression();
-                    // TODO change this to the quantified variable kind of check. This will need to be for
-                    // inferences involving sides with more free variables than the matched sentence
-                    if (fullyBound == null || !m.Proves(new Phrase(Expression.NOT, fullyBound.ToExpression()))) {
+                    if (fullyBound == null) {
+                        patterns.Add(new ExpressionPattern(Expression.NOT, bound));
+                    } else if (!m.Proves(new Phrase(Expression.NOT, fullyBound.ToExpression()))) {
                         return false;
                     }
                 }
@@ -58,15 +62,37 @@ public class InferenceRule {
                     }
 
                     Expression fullyBound = bound.ToExpression();
-                    // TODO same as line 46
-                    if (fullyBound == null || !m.Proves(fullyBound.ToExpression())) {
+                    if (fullyBound == null) {
+                        patterns.Add(bound);
+                    } else if (!m.Proves(fullyBound.ToExpression())) {
                         return false;
                     }
                 }
-                return true;
+                
+                IPattern[] patternsArray = new IPattern[patterns.Count];
+                patterns.CopyTo(patternsArray);
+                if (patternsArray.Length == 0 || m.Find(patternsArray) != null) {
+                    return true;
+                }
             }
         }
-
         return false;
+    }
+
+    public override String ToString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < top.Length; i++) {
+            s.Append(top[i]);
+            s.Append(" ");
+        }
+
+        s.Append("|- ");
+
+        for (int i = 0; i < bottom.Length; i++) {
+            s.Append(bottom[i]);
+            s.Append(" ");
+        }
+
+        return s.ToString();
     }
 }

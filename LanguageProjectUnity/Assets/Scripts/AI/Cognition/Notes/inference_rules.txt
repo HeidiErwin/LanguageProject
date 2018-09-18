@@ -21,7 +21,7 @@ No dog howls
 => No dog howls loudly
 
 
-SUBSENTENTIAL INFERENCE RULES
+SUBSTITUTION RULES
 (I1) husky |- dog
 (I2) dog |- animal
 (I3) kicks |- hits
@@ -33,7 +33,7 @@ SUBSENTENTIAL INFERENCE RULES
 (I9) itself(R, x) |- R(x, x)
 (I10) not(not(S)) |- S
 
-SYNTHETIC INFERENCE RULES
+INFERENCE RULES
 Reflexivity(R): |- R(x, x)
 Symmetry(R): R(x, y) |- R(y, x)
 Antisymmetry(R): R(x, y) |- not(R(y, x))

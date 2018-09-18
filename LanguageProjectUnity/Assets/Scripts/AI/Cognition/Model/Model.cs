@@ -43,10 +43,8 @@ public abstract class Model {
     }
 
     // TODO: important. Need to add a "Path" so that copies of the same sentence
-    // Don't get tried. Also, need to think of a solution to the 
-    // S |- T(S) problem.
+    // Don't get tried.
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
-        // Debug.Log(expr + (context == EntailmentContext.Upward ? "+" : "-"));
         // TODO make this more efficient
         
         HashSet<Expression> expressions = new HashSet<Expression>();
@@ -129,11 +127,13 @@ public abstract class Model {
 
         foreach (SubstitutionRule sr in this.substitutionRules) {
             Expression prover = sr.Substitute(expr, EntailmentContext.Downward);
+
             if (prover != null) {
                 if (this.Contains(prover)) {
                     return true;
                 }
                 provers.Add(prover);
+                continue;
             }
         }
 
@@ -152,5 +152,5 @@ public abstract class Model {
         return false;
     }
 
-    public abstract List<Dictionary<MetaVariable, Expression>> Find(IPattern pattern);
+    public abstract HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns);
 }
