@@ -134,13 +134,13 @@ Graphics:
 	- [DONE] Semantic type not "T" when it should be for large expressions
 Reasoning system:
 	- make evaluation/substitution more efficient. BFS instead of DFS, keep track of proof path, etc.
-	- handle quantified pattern matching: F(x) |- G(y)
+	- [DONE] handle quantified pattern matching: F(x) |- G(y)
 	- substitution rules with preconditions
 	- type-check patterns
 	- handling pattern matching for partially applied expressions (make variable have a parameter which specifies whether it should except "_" or not?)
 	(alternatively: make expression pattern more complicated, and "curry" the pattern matching?)
 	- type-check inference rules to be type t
-	- handle parameter insertion
+	- [DONE] handle parameter insertion
 Perception system:
 	- environment -> model links (how should this work?)
 	- objects trigger when an NPC (N) are within range, call EnvironmentManager.ComputePerceptualReport(N)
