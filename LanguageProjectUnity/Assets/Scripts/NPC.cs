@@ -61,11 +61,13 @@ public class NPC : Character {
             // Debug.Log("That's TRUE in their model.");
             ShowSpeechBubble("yes");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
-        } else {
+        } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
             // Debug.Log("That's FALSE in their model.");
             ShowSpeechBubble("nope");
             this.controller.failure.Play(); // TODO make a unique sound effect for this
-        }
+        } else {
+            ShowSpeechBubble("idk");
+            this.controller.lowClick.Play();        }
     }
 
     /**

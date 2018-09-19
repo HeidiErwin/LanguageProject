@@ -315,6 +315,19 @@ public class Testing : MonoBehaviour {
 
         PrintProves(fm, new Phrase(contains, america, elmira), true);
         PrintProves(fm, new Phrase(contains, europe,  france), true);
+
+        SubstitutionRule aIntroduction = new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0))},
+            new MetaVariable(SemanticType.INDIVIDUAL, 0),
+            new ExpressionPattern(Expression.A, new MetaVariable(SemanticType.PREDICATE, 0)),
+            EntailmentContext.Downward);
+
+        Expression aBlueThingIsRed = new Phrase(Expression.RED, new Phrase(Expression.A, Expression.BLUE));
+
+        fm.Add(EvaluationRule.DEFAULT_PREDICATE);
+        fm.Add(aIntroduction);
+    
+        PrintProves(fm, aBlueThingIsRed, true);
     }
 
     private void PrintProves(Model m, Expression e, bool proves) {

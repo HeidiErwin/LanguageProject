@@ -166,6 +166,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression ACTIVE = new Word(SemanticType.PREDICATE, "active");
     public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
     public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
+    public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
+    public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
     public static readonly Expression YELLOW = new Word(SemanticType.PREDICATE, "yellow");
     public static readonly Expression GREEN = new Word(SemanticType.PREDICATE, "green");
     public static readonly Expression BLUE = new Word(SemanticType.PREDICATE, "blue");

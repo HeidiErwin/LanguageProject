@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 public class SubstitutionRule {
@@ -21,7 +22,7 @@ public class SubstitutionRule {
 
     public SubstitutionRule(IPattern top, IPattern bottom): this(new IPattern[0], top, bottom, null) {}
 
-    public Expression Substitute(Expression expr, EntailmentContext context) {
+    public List<Expression> Substitute(Model m, Expression expr, EntailmentContext context) {
         if (this.exclusiveContext != null && context != this.exclusiveContext) {
             return null;
         }
@@ -44,19 +45,62 @@ public class SubstitutionRule {
         }
 
         Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-        
+
         if (match.Matches(expr, bindings)) {
             IPattern currentPattern = substitution;
             foreach (MetaVariable x in bindings.Keys) {
                 currentPattern = currentPattern.Bind(x, bindings[x]);
             }
-            return currentPattern.ToExpression();
-        }
+            
+            Expression ifBound = currentPattern.ToExpression();
+            if (ifBound != null) {
+                List<Expression> substitutions = new List<Expression>();
+                substitutions.Add(ifBound);
+                return substitutions;
+            }
 
+            IPattern[] conditionPartials = new IPattern[conditions.Length];
+            for (int i = 0; i < conditionPartials.Length; i++) {
+                conditionPartials[i] = conditions[i];
+                foreach (MetaVariable x in bindings.Keys) {
+                    conditionPartials[i] = conditionPartials[i].Bind(x, bindings[x]);
+                }
+            }
+
+            HashSet<Dictionary<MetaVariable, Expression>> assignments = m.Find(conditionPartials);
+            if (assignments != null) {
+                List<Expression> substitutions = new List<Expression>();
+                foreach (Dictionary<MetaVariable, Expression> assignment in assignments) {
+                    IPattern newCurrentPattern = currentPattern;
+                    foreach (MetaVariable x in assignment.Keys) {
+                        newCurrentPattern = currentPattern.Bind(x, assignment[x]);
+                    }
+                    Expression fullyAssigned = newCurrentPattern.ToExpression();
+                    if (fullyAssigned == null) {
+                        return null;
+                    }
+                    substitutions.Add(fullyAssigned);
+                }
+                return substitutions;
+            }
+        }
         return null;
     }
 
     public override String ToString() {
+        StringBuilder s = new StringBuilder();
+
+        s.Append(top.ToString());
+
+        if (conditions != null) {
+            s.Append(" [");
+
+            for (int i = 0; i < conditions.Length; i++) {
+                s.Append(conditions[i] + ", ");
+            }
+            s.Append("]");
+        }
+
         return top.ToString() + " |- " + bottom.ToString();
     }
 }

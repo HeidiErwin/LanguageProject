@@ -97,11 +97,13 @@ public abstract class Model {
         foreach (Expression e in expressions) {
             newExpressions.Add(e);
             foreach (SubstitutionRule sr in this.substitutionRules) {
-                Expression prover = sr.Substitute(e, context);
-                if (prover != null) {
-                    HashSet<Expression> substitutedExpressions = GenerateSubexpressions(prover, context);
-                    foreach (Expression ie in substitutedExpressions) {
-                        newExpressions.Add(ie);
+                List<Expression> substitutions = sr.Substitute(this, e, context);
+                if (substitutions != null) {
+                    foreach (Expression substitution in substitutions) {
+                        HashSet<Expression> substitutedExpressions = GenerateSubexpressions(substitution, context);
+                        foreach (Expression ie in substitutedExpressions) {
+                            newExpressions.Add(ie);
+                        }
                     }
                 }
             }
@@ -126,14 +128,14 @@ public abstract class Model {
         HashSet<Expression> provers = new HashSet<Expression>();
 
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            Expression prover = sr.Substitute(expr, EntailmentContext.Downward);
-
-            if (prover != null) {
-                if (this.Contains(prover)) {
-                    return true;
+            List<Expression> substitutions = sr.Substitute(this, expr, EntailmentContext.Downward);
+            if (substitutions != null) {
+                foreach (Expression substitution in substitutions) {
+                    if (this.Contains(substitution)) {
+                        return true;
+                    }
+                    provers.Add(substitution);
                 }
-                provers.Add(prover);
-                continue;
             }
         }
 

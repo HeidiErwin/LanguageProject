@@ -151,9 +151,9 @@ public class GameController : MonoBehaviour {
         // determiners
         // SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.A);
-        SetUpSpawner(Expression.TWO);
-        SetUpSpawner(Expression.THREE);
-        SetUpSpawner(Expression.EVERY);
+        // SetUpSpawner(Expression.TWO);
+        // SetUpSpawner(Expression.THREE);
+        // SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
@@ -177,7 +177,8 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.ACTIVE);
         SetUpSpawner(Expression.INACTIVE);
         SetUpSpawner(Expression.KING);
-
+        SetUpSpawner(Expression.COW);
+        SetUpSpawner(Expression.ANIMAL);
         //HELP for testing ExpressionPiece object placements, delete later:
         // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
 
