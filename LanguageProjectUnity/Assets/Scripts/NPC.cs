@@ -10,8 +10,11 @@ public class NPC : Character {
     [SerializeField] protected String nameString;
     private Model model;
 
-	// Use this for initialization
-	void Start() {
+    private EnvironmentManager envManager;
+
+    // Use this for initialization
+    void Start() {
+        envManager = GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>();
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = Models.BobModel();
@@ -21,7 +24,7 @@ public class NPC : Character {
         if (nameString.Equals("Evan")) {
             model = Models.EvanModel();
         }
-	}
+    }
 
     /**
      * if the game is in Speaking Mode (kept track of by a bool in GameController,
@@ -37,6 +40,11 @@ public class NPC : Character {
             controller.HidePointer();
             controller.SetInSpeakingMode(false);
         }
+    }
+
+    //TODO: @Bill add objects to Npc's model
+    public void Perceive(List<GameObject> objsToPerceive) {
+
     }
 
     void ReceiveExpression(ExpressionPiece exprPiece) {
@@ -67,7 +75,8 @@ public class NPC : Character {
             this.controller.failure.Play(); // TODO make a unique sound effect for this
         } else {
             ShowSpeechBubble("idk");
-            this.controller.lowClick.Play();        }
+            this.controller.lowClick.Play();
+        }
     }
 
     /**
@@ -95,5 +104,19 @@ public class NPC : Character {
         target = evan.transform;
         speed = 2;
         GoToTarget();
+    }
+
+    // called when Character enters the trigger collider of an object 
+    public void OnTriggerEnter2D(Collider2D other) {
+        if (other.GetComponent<Perceivable>() != null) {
+            envManager.ComputePerceptionalReport(this);
+        }
+    }
+
+    // NOTE: objects are perceived both when NPC enters and exits their range of perceptability
+    public void OnTriggerExit2D(Collider2D other) {
+        if (other.GetComponent<Perceivable>() != null) {
+            envManager.ComputePerceptionalReport(this);
+        }
     }
 }
