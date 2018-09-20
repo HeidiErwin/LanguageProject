@@ -14,7 +14,7 @@
 // m.Add(new Phrase(Expression.IN_BLUE_AREA, new Phrase(Expression.XXX, Expression.YYY)));
 // m.Add(new Phrase(Expression.IN_RED_AREA, new Phrase(Expression.XXX, Expression.YYY)));
 
-public class Models {
+public class CustomModels {
     public static Model BobModel() {
         Model m = new SimpleModel();
         // rules

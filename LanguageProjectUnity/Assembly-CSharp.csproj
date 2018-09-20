@@ -60,8 +60,9 @@
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\EvaluationRule.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\InferenceRule.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SubstitutionRule.cs" />
+     <Compile Include="Assets\Scripts\AI\Cognition\Model\CustomModels.cs" />
+     <Compile Include="Assets\Scripts\AI\Cognition\Model\DefaultModel.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\Model.cs" />
-     <Compile Include="Assets\Scripts\AI\Cognition\Model\Models.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\SimpleModel.cs" />
      <Compile Include="Assets\Scripts\AI\Language\Expression\Expression.cs" />
@@ -77,6 +78,7 @@
      <Compile Include="Assets\Scripts\Door.cs" />
      <Compile Include="Assets\Scripts\Draggable.cs" />
      <Compile Include="Assets\Scripts\DropZone.cs" />
+     <Compile Include="Assets\Scripts\EnvironmentManager.cs" />
      <Compile Include="Assets\Scripts\ExpressionPiece.cs" />
      <Compile Include="Assets\Scripts\ExpressionPieceSpawner.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
@@ -87,6 +89,7 @@
      <Compile Include="Assets\Scripts\NPC.cs" />
      <Compile Include="Assets\Scripts\Pathfinding.cs" />
      <Compile Include="Assets\Scripts\PathRequestManager.cs" />
+     <Compile Include="Assets\Scripts\Perceivable.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <None Include="Assets\Scripts\AI\Cognition\Notes\demo_vocabulary.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />

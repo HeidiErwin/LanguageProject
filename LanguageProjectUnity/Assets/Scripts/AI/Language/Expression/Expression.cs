@@ -167,11 +167,18 @@ public abstract class Expression : IPattern {
     public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
     public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
     public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
+    public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
     public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
-    public static readonly Expression YELLOW = new Word(SemanticType.PREDICATE, "yellow");
+    
+    public static readonly Expression BLACK = new Word(SemanticType.PREDICATE, "black");
+    public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");
     public static readonly Expression GREEN = new Word(SemanticType.PREDICATE, "green");
     public static readonly Expression BLUE = new Word(SemanticType.PREDICATE, "blue");
-    public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");
+    public static readonly Expression YELLOW = new Word(SemanticType.PREDICATE, "yellow");
+    public static readonly Expression CYAN = new Word(SemanticType.PREDICATE, "cyan");
+    public static readonly Expression MAGENTA = new Word(SemanticType.PREDICATE, "magenta");
+    public static readonly Expression WHITE = new Word(SemanticType.PREDICATE, "white");
+    
     public static readonly Expression IN_YOUR_AREA = new Word(SemanticType.PREDICATE, "in-your-area");
     public static readonly Expression IN_YELLOW_AREA = new Word(SemanticType.PREDICATE, "in-yellow-area");
     public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");

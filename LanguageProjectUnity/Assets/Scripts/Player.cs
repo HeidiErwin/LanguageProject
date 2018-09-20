@@ -11,6 +11,7 @@ public class Player : Character {
 
     protected override void Update() {
         GetInput();
+        transform.position = new Vector2(0, 4);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         base.Update();
         if(Input.GetKeyDown(INTERACT_KEY) && currentInteractObject) {

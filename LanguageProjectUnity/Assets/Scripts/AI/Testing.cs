@@ -203,27 +203,27 @@ public class Testing : MonoBehaviour {
         Expression trueNotB = new Phrase(Expression.TRUE, notB);
         Expression notTrueNotB = new Phrase(not, trueNotB);
 
-        PrintProves(im, notB, false);
-        PrintProves(im, notNotB, true);
-        PrintProves(im, trueNotB, false);
-        PrintProves(im, notTrueNotB, true);
+        // PrintProves(im, notB, false);
+        // PrintProves(im, notNotB, true);
+        // PrintProves(im, trueNotB, false);
+        // PrintProves(im, notTrueNotB, true);
 
-        PrintProves(im, mitkaIsAHusky, true);
-        PrintProves(im, mitkaIsADog, true);
-        PrintProves(im, mitkaIsAnAnimal, true);
-        PrintProves(im, rockyIsNotAnAnimal, true);
-        PrintProves(im, rockyIsNotADog, true);
-        PrintProves(im, rockyIsNotAHusky, true);
-        PrintProves(im, everyDogIsADog, true);
-        PrintProves(im, everyHuskyIsADog, true);
-        PrintProves(im, everyHuskyIsAnAnimal, true);
+        // PrintProves(im, mitkaIsAHusky, true);
+        // PrintProves(im, mitkaIsADog, true);
+        // PrintProves(im, mitkaIsAnAnimal, true);
+        // PrintProves(im, rockyIsNotAnAnimal, true);
+        // PrintProves(im, rockyIsNotADog, true);
+        // PrintProves(im, rockyIsNotAHusky, true);
+        // PrintProves(im, everyDogIsADog, true);
+        // PrintProves(im, everyHuskyIsADog, true);
+        // PrintProves(im, everyHuskyIsAnAnimal, true);
 
-        PrintProves(im, new Phrase(Expression.AND, mitkaIsAHusky, rockyIsNotAnAnimal), true);
-        PrintProves(im, new Phrase(Expression.AND, notB, rockyIsNotAnAnimal), false);
-        PrintProves(im, new Phrase(Expression.AND, notB, trueNotB), false);
-        PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
-        PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
-        PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
+        // PrintProves(im, new Phrase(Expression.AND, mitkaIsAHusky, rockyIsNotAnAnimal), true);
+        // PrintProves(im, new Phrase(Expression.AND, notB, rockyIsNotAnAnimal), false);
+        // PrintProves(im, new Phrase(Expression.AND, notB, trueNotB), false);
+        // PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
+        // PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
+        // PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
 
         // testing Find()
         Model fm = new SimpleModel();
@@ -246,8 +246,8 @@ public class Testing : MonoBehaviour {
         ExpressionPattern xIsRed = new ExpressionPattern(Expression.RED, new MetaVariable(SemanticType.INDIVIDUAL, 0));
         ExpressionPattern xIsBlue = new ExpressionPattern(Expression.BLUE, new MetaVariable(SemanticType.INDIVIDUAL, 0));
 
-        Debug.Log(ContentString(fm.Find(xIsRed)));
-        Debug.Log(ContentString(fm.Find(xIsRed, xIsBlue)));
+        // Debug.Log(ContentString(fm.Find(xIsRed)));
+        // Debug.Log(ContentString(fm.Find(xIsRed, xIsBlue)));
 
         Expression contains = new Word(SemanticType.RELATION_2, "contains");
 
@@ -313,8 +313,8 @@ public class Testing : MonoBehaviour {
         fm.Add(franceContainsParis);
         fm.Add(franceDoesntContainEurope);
 
-        PrintProves(fm, new Phrase(contains, america, elmira), true);
-        PrintProves(fm, new Phrase(contains, europe,  france), true);
+        // PrintProves(fm, new Phrase(contains, america, elmira), true);
+        // PrintProves(fm, new Phrase(contains, europe,  france), true);
 
         SubstitutionRule aIntroduction = new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0))},
@@ -327,7 +327,7 @@ public class Testing : MonoBehaviour {
         fm.Add(EvaluationRule.DEFAULT_PREDICATE);
         fm.Add(aIntroduction);
     
-        PrintProves(fm, aBlueThingIsRed, true);
+        // PrintProves(fm, aBlueThingIsRed, true);
     }
 
     private void PrintProves(Model m, Expression e, bool proves) {

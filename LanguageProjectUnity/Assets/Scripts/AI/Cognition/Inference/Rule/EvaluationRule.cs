@@ -61,8 +61,7 @@ public class EvaluationRule {
             new MetaVariable(SemanticType.TRUTH_VALUE, 1)),
         new EvaluationPattern[]{
             new EvaluationPattern(new MetaVariable(SemanticType.TRUTH_VALUE, 0), EntailmentContext.Upward),
-            new EvaluationPattern(new MetaVariable(SemanticType.TRUTH_VALUE, 1), EntailmentContext.Upward)
-        },
+            new EvaluationPattern(new MetaVariable(SemanticType.TRUTH_VALUE, 1), EntailmentContext.Upward)},
         new ExpressionPattern(new MetaVariable(SemanticType.TRUTH_FUNCTION_2, 0),
             new MetaVariable(SemanticType.TRUTH_VALUE, -1),
             new MetaVariable(SemanticType.TRUTH_VALUE, -2)));

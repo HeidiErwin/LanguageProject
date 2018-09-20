@@ -17,12 +17,12 @@ public class NPC : Character {
         envManager = GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>();
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
-            model = Models.BobModel();
+            model = DefaultModel.Make();
             // RunToEvan();
         }
 
         if (nameString.Equals("Evan")) {
-            model = Models.EvanModel();
+            model = DefaultModel.Make();
         }
     }
 
@@ -33,7 +33,7 @@ public class NPC : Character {
     private void OnMouseDown() {
         ExpressionPiece selectedExpr = controller.GetSelectedExpression();
         if (selectedExpr == null) {
-            Debug.Log("No selected expression to say to this NPC");
+            // Debug.Log("No selected expression to say to this NPC");
         } else {
             ReceiveExpression(selectedExpr);
             Destroy(selectedExpr.gameObject);
@@ -42,9 +42,10 @@ public class NPC : Character {
         }
     }
 
-    //TODO: @Bill add objects to Npc's model
-    public void Perceive(List<GameObject> objsToPerceive) {
-
+    public void ReceivePerceptualReport(params Expression[] report) {
+        foreach (Expression p in report) {
+            this.model.Add(p);
+        }
     }
 
     void ReceiveExpression(ExpressionPiece exprPiece) {
@@ -108,15 +109,16 @@ public class NPC : Character {
 
     // called when Character enters the trigger collider of an object 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (other.GetComponent<Perceivable>() != null) {
-            envManager.ComputePerceptionalReport(this);
+        Perceivable po = other.GetComponent<Perceivable>();
+        if (po != null) {
+            po.SendPerceptualReport(this);
         }
     }
 
     // NOTE: objects are perceived both when NPC enters and exits their range of perceptability
-    public void OnTriggerExit2D(Collider2D other) {
-        if (other.GetComponent<Perceivable>() != null) {
-            envManager.ComputePerceptionalReport(this);
-        }
-    }
+    // public void OnTriggerExit2D(Collider2D other) {
+    //     if (other.GetComponent<Perceivable>() != null) {
+    //         envManager.ComputePerceptionalReport(this);
+    //     }
+    // }
 }

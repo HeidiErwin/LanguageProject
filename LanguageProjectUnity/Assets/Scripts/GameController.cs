@@ -153,7 +153,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.A);
         // SetUpSpawner(Expression.TWO);
         // SetUpSpawner(Expression.THREE);
-        // SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
@@ -176,8 +176,9 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.LAMP);
         SetUpSpawner(Expression.ACTIVE);
         SetUpSpawner(Expression.INACTIVE);
-        SetUpSpawner(Expression.KING);
+        // SetUpSpawner(Expression.KING);
         SetUpSpawner(Expression.COW);
+        SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
         //HELP for testing ExpressionPiece object placements, delete later:
         // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
