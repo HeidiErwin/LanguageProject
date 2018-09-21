@@ -99,12 +99,14 @@ public class Testing : MonoBehaviour {
         // Debug.Log(!sentenceVariable.Matches(billGives));
         // Debug.Log(!sentenceVariable.Matches(bill));
         
-        MetaVariable xi00 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        // MetaVariable xi00 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        IPattern reflexivePattern = new ExpressionPattern(helps, xi00, xi00);
+        // IPattern reflexivePattern = new ExpressionPattern(helps, xi00, xi00);
 
         // Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
         // Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
+
+        Debug.Log("testing pattern matching for partially applied expressions");
 
         // Debug.Log("Inference:");
         // SubstitutionRule appleEntailsFruit = new SubstitutionRule(apple, fruit);

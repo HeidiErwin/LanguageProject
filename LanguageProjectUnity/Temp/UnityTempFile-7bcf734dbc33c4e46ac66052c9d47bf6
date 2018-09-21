@@ -184,7 +184,6 @@
 -define:ENABLE_UNITY_COLLECTIONS_CHECKS
 -define:ENABLE_BURST_AOT
 -define:UNITY_TEAM_LICENSE
--define:ENABLE_VSTU
 'Assets/Scripts/AI/Cognition/Inference/Pattern/EvaluationPattern.cs'
 'Assets/Scripts/AI/Cognition/Inference/Pattern/ExpressionPattern.cs'
 'Assets/Scripts/AI/Cognition/Inference/Pattern/IPattern.cs'

@@ -10,6 +10,10 @@ public class MetaVariable : IPattern {
         this.localID = localID;
     }
 
+    public SemanticType GetSemanticType() {
+        return type;
+    }
+
     public bool Matches(Expression expr) {
         return this.type.Equals(expr.type);
     }

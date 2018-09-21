@@ -10,8 +10,19 @@ public class ExpressionPattern : IPattern {
     protected IPattern[] argPattern;
     protected int numArgs;
     protected HashSet<MetaVariable> freeMetaVariables;
+    protected SemanticType type;
 
     public ExpressionPattern(IPattern headPattern, params IPattern[] argPattern) {
+        if (headPattern.GetSemanticType().IsAtomic()) {
+            throw new ArgumentException("head pattern of expression pattern must not be of an atomic semantic type.");
+        }
+        for (int i = 0; i < argPattern.Length; i++) {
+            if (!argPattern[i].GetSemanticType().Equals(headPattern.GetSemanticType().GetInputType(i))) {
+                throw new ArgumentException("Semantic type mismatch in expression pattern.");
+            }
+        }
+
+        this.type = headPattern.GetSemanticType().GetOutputType();
         this.headPattern = headPattern;
         this.argPattern = argPattern;
         this.numArgs = argPattern.Length;
@@ -23,6 +34,10 @@ public class ExpressionPattern : IPattern {
                 this.freeMetaVariables.Add(x);
             }
         }
+    }
+
+    public SemanticType GetSemanticType() {
+        return type;
     }
 
     public bool Matches(Expression expr) {

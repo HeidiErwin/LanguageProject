@@ -158,7 +158,7 @@ Graphics:
 Reasoning:
   - identity relation
   - model should auto-fill in parameters
-	- still need to type-check patterns
+	- [DONE] still need to type-check patterns
 	- still need to deal with pattern matching for partially applied expressions
 	- revamp rules to be inference/substitution rules and evaluation rules ONLY (no inference rules)
 	- change type of quantifier/make sub-types a thing so that there's a difference between individuals and quantifiers
