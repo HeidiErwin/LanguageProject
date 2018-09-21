@@ -142,10 +142,32 @@ Reasoning system:
 	- type-check inference rules to be type t
 	- [DONE] handle parameter insertion
 Perception system:
-	- environment -> model links (how should this work?)
-	- objects trigger when an NPC (N) are within range, call EnvironmentManager.ComputePerceptualReport(N)
-	- For now, fountain color and lighting with 8 basic colors + color addition
-	- also door, areas, fountains, lamps, NPCs
+	- [DONE] environment -> model links (how should this work?)
+	- [DONE] objects trigger when an NPC (N) are within range, call EnvironmentManager.ComputePerceptualReport(N)
+	- [DONE] For now, fountain color and lighting with 8 basic colors + color addition
+	- [DONE] also door, areas, fountains, lamps, NPCs
 Action system:
 	- figure out format for action rules, as well as primitive action representations
+	- code procedure determining composite action from primitive ones
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TODO, 9/20:
+Graphics:
+  - resize for keyboard and expressions
+	- animations
+Reasoning:
+  - identity relation
+  - model should auto-fill in parameters
+	- still need to type-check patterns
+	- still need to deal with pattern matching for partially applied expressions
+	- revamp rules to be inference/substitution rules and evaluation rules ONLY (no inference rules)
+	- change type of quantifier/make sub-types a thing so that there's a difference between individuals and quantifiers
+	- find a way to make proof-search BFS instead of DFS to speed it up
+	- store proof path to avoid cycles & save in model
+	- far off: save continuation to make reasoning happen in game time and not just in one frame
+Perception:
+	- make it so that trigger collider is perception-specific and doesn't interfere with making expressions
+	- maybe actually simulate stuff and send analog information
+Action:
+  - figure out format for action rules, as well as primitive action representations
 	- code procedure determining composite action from primitive ones

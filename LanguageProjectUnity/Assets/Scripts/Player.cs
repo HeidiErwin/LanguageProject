@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Character {
-
     int counter = 0;
     GameObject currentInteractObject; // the object you can currently interact with
     public const KeyCode INTERACT_KEY = KeyCode.E;
 
+    protected void Start() {
+        transform.position = new Vector2(-4, -4);
+        Animator anim = gameObject.AddComponent(typeof(Animator)) as Animator;
+    }
+
     protected override void Update() {
         GetInput();
-        transform.position = new Vector2(0, 4);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         base.Update();
         if(Input.GetKeyDown(INTERACT_KEY) && currentInteractObject) {

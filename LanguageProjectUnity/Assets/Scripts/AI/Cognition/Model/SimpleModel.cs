@@ -8,6 +8,11 @@ public class SimpleModel : Model {
     private HashSet<Expression> model = new HashSet<Expression>();
 
     public override bool Contains(Expression e) {
+        foreach (Expression expr in model) {
+            if (expr.Equals(e)) {
+                return true;
+            }
+        }
         return model.Contains(e);
     }
 

@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 220626928}
   - component: {fileID: 220626927}
   - component: {fileID: 220626929}
+  - component: {fileID: 220626930}
   m_Layer: 10
   m_Name: Fountain Off
   m_TagString: Untagged
@@ -693,6 +694,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4833333, y: 1.4333333}
   m_EdgeRadius: 0
+--- !u!114 &220626930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220626926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 4
+  reflectance: 000001
+  em: {fileID: 436188864}
+  isActive: 0
+  area: 1
 --- !u!1 &243939605
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 35.94995, y: -294.3}
+  m_AnchoredPosition: {x: 35.94995, y: -294.5}
   m_SizeDelta: {x: 31.68, y: 18.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &243939607
@@ -834,12 +851,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 311646790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f8d3e146a7f8eb46b96bf76fa1d4f61, type: 3}
+  m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
   reflectance: 000100
   em: {fileID: 436188864}
+  isActive: 1
+  area: 0
 --- !u!1 &319820250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,6 +1662,8 @@ GameObject:
   m_Component:
   - component: {fileID: 540919284}
   - component: {fileID: 540919283}
+  - component: {fileID: 540919285}
+  - component: {fileID: 540919286}
   m_Layer: 0
   m_Name: Cow
   m_TagString: Untagged
@@ -1709,6 +1730,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &540919285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540919282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb771755fa374a6aa5a569b6e18087c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 6
+  reflectance: 010101
+  em: {fileID: 436188864}
+  isActive: 1
+  area: 3
+--- !u!61 &540919286
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540919282}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 2.13}
+    newSize: {x: 2.56, y: 2.13}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.56, y: 2.13}
+  m_EdgeRadius: 0
 --- !u!1 &565654708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,6 +2069,7 @@ GameObject:
   - component: {fileID: 790116325}
   - component: {fileID: 790116324}
   - component: {fileID: 790116326}
+  - component: {fileID: 790116327}
   m_Layer: 10
   m_Name: Fountain On
   m_TagString: Untagged
@@ -2098,6 +2161,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4833333, y: 1.4333333}
   m_EdgeRadius: 0
+--- !u!114 &790116327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 790116323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  reflectance: 000001
+  em: {fileID: 436188864}
+  isActive: 1
+  area: 1
 --- !u!1 &824599743
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,6 +3500,7 @@ GameObject:
   - component: {fileID: 1274129683}
   - component: {fileID: 1274129682}
   - component: {fileID: 1274129684}
+  - component: {fileID: 1274129685}
   m_Layer: 10
   m_Name: StreetLampOn
   m_TagString: Untagged
@@ -3512,6 +3592,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.99443614, y: 5.12}
   m_EdgeRadius: 0
+--- !u!114 &1274129685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274129681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe74c7a2869cb41deadc7aea42b4c339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  reflectance: 000000
+  em: {fileID: 436188864}
+  isActive: 1
+  area: 0
 --- !u!1 &1285697969
 GameObject:
   m_ObjectHideFlags: 0
@@ -3791,6 +3887,7 @@ GameObject:
   - component: {fileID: 1480718092}
   - component: {fileID: 1480718093}
   - component: {fileID: 1480718094}
+  - component: {fileID: 1480718095}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3829,7 +3926,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 2.35
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3864,7 +3961,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c10e3e33dfe624227b998eae8ca440f6, type: 3}
@@ -4054,7 +4151,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5226620fdb5f84234ab3f7ddd0e448b4, type: 3}
@@ -4143,6 +4240,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1480718095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1480718088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e6b9ba436ed46f78d7c16dead0626c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToFollow: {fileID: 0}
+  speed: 2
 --- !u!1 &1492492404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5249,6 +5359,7 @@ GameObject:
   - component: {fileID: 1833950086}
   - component: {fileID: 1833950087}
   - component: {fileID: 1833950088}
+  - component: {fileID: 1833950089}
   m_Layer: 0
   m_Name: Evan
   m_TagString: Untagged
@@ -5374,7 +5485,25 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
+--- !u!95 &1833950089
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1833950083}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 32c66c53b65b44b19af50450447b5942, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1841891088
 GameObject:
   m_ObjectHideFlags: 0
@@ -5839,6 +5968,7 @@ GameObject:
   - component: {fileID: 1950673116}
   - component: {fileID: 1950673117}
   - component: {fileID: 1950673118}
+  - component: {fileID: 1950673119}
   m_Layer: 0
   m_Name: Bob
   m_TagString: Untagged
@@ -5964,7 +6094,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!58 &1950673118
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5977,9 +6107,27 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.028768085, y: 0}
+  m_Offset: {x: -0.011315522, y: 0.0029028882}
   serializedVersion: 2
-  m_Radius: 3.4224632
+  m_Radius: 1.7560927
+--- !u!95 &1950673119
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1950673112}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 585f0f1e7c13f4fb69286d418877e6df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1966932770
 GameObject:
   m_ObjectHideFlags: 0
@@ -6067,6 +6215,7 @@ GameObject:
   - component: {fileID: 2009392420}
   - component: {fileID: 2009392419}
   - component: {fileID: 2009392421}
+  - component: {fileID: 2009392422}
   m_Layer: 10
   m_Name: StreetLampOff
   m_TagString: Untagged
@@ -6158,6 +6307,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1502194, y: 5.12}
   m_EdgeRadius: 0
+--- !u!114 &2009392422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2009392418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe74c7a2869cb41deadc7aea42b4c339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 2
+  reflectance: 010000
+  em: {fileID: 436188864}
+  isActive: 0
+  area: 1
 --- !u!1 &2043366194
 GameObject:
   m_ObjectHideFlags: 0

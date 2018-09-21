@@ -53,7 +53,6 @@ public abstract class Model {
         foreach (EvaluationRule er in this.evaluationRules) {
             Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
             if (er.Matches(expr, bindings)) {
-
                 IPattern result = er.result;
 
                 foreach (MetaVariable x in bindings.Keys) {
@@ -93,6 +92,7 @@ public abstract class Model {
                 break; // we want an expression to match only one evaluation rule
             }
         }
+
         HashSet<Expression> newExpressions = new HashSet<Expression>();
         foreach (Expression e in expressions) {
             newExpressions.Add(e);
@@ -146,7 +146,7 @@ public abstract class Model {
         }
 
         foreach (Expression e in this.GenerateSubexpressions(expr, EntailmentContext.Downward)) {
-            if (this.Contains(e)) {
+            if (!e.Equals(expr) && this.Proves(e)) {
                 return true;
             }
         }

@@ -161,16 +161,20 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.EVAN);
 
         // predicates
-        SetUpSpawner(Expression.YELLOW);
+        SetUpSpawner(Expression.BLACK);
+        SetUpSpawner(Expression.RED);
         SetUpSpawner(Expression.GREEN);
         SetUpSpawner(Expression.BLUE);
-        SetUpSpawner(Expression.RED);
+        SetUpSpawner(Expression.YELLOW);
+        SetUpSpawner(Expression.MAGENTA);
+        SetUpSpawner(Expression.CYAN);
+        SetUpSpawner(Expression.WHITE);
 
-        SetUpSpawner(Expression.IN_YELLOW_AREA);
-        SetUpSpawner(Expression.IN_GREEN_AREA);
-        SetUpSpawner(Expression.IN_BLUE_AREA);
-        SetUpSpawner(Expression.IN_RED_AREA);
-        SetUpSpawner(Expression.IN_YOUR_AREA);
+        // SetUpSpawner(Expression.IN_YELLOW_AREA);
+        // SetUpSpawner(Expression.IN_GREEN_AREA);
+        // SetUpSpawner(Expression.IN_BLUE_AREA);
+        // SetUpSpawner(Expression.IN_RED_AREA);
+        // SetUpSpawner(Expression.IN_YOUR_AREA);
 
         SetUpSpawner(Expression.FOUNTAIN);
         SetUpSpawner(Expression.LAMP);

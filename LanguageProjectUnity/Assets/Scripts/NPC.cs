@@ -17,12 +17,12 @@ public class NPC : Character {
         envManager = GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>();
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
-            model = DefaultModel.Make();
-            // RunToEvan();
+            model = CustomModels.BobModel();
+            GoTo("Evan");
         }
 
         if (nameString.Equals("Evan")) {
-            model = DefaultModel.Make();
+            model = CustomModels.EvanModel();
         }
     }
 
@@ -67,13 +67,11 @@ public class NPC : Character {
         }
 
         if (this.model.Proves(utterance)) {
-            // Debug.Log("That's TRUE in their model.");
             ShowSpeechBubble("yes");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
-            // Debug.Log("That's FALSE in their model.");
             ShowSpeechBubble("nope");
-            this.controller.failure.Play(); // TODO make a unique sound effect for this
+            this.controller.failure.Play();
         } else {
             ShowSpeechBubble("idk");
             this.controller.lowClick.Play();
@@ -103,6 +101,13 @@ public class NPC : Character {
         GameObject evan = GameObject.Find("Evan");
 
         target = evan.transform;
+        speed = 2;
+        GoToTarget();
+    }
+
+    public void GoTo(String targetID) {
+        GameObject targetObject = GameObject.Find(targetID);
+        target = targetObject.transform;
         speed = 2;
         GoToTarget();
     }

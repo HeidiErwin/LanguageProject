@@ -35,4 +35,15 @@ public class EvaluationPattern {
 
         return EntailmentContext.None;
     }
+
+    public override String ToString() {
+        String contextString = ".";
+        if (context == EntailmentContext.Upward) {
+            contextString = "+";
+        }
+        if (context == EntailmentContext.Downward) {
+            contextString = "-";
+        }
+        return pattern.ToString() + contextString;
+    }
 }
