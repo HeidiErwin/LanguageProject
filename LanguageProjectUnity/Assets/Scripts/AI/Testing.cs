@@ -107,6 +107,18 @@ public class Testing : MonoBehaviour {
         // Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
 
         Debug.Log("testing pattern matching for partially applied expressions");
+        IPattern fx = new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0));
+        // F(x) matches cow(Bob)
+        Debug.Log(fx.Matches(new Phrase(Expression.COW, Expression.BOB)));
+        // F(x) doesn't match verum
+        Debug.Log(!fx.Matches(verum));
+        // F(x) doesn't match helps(_, _)
+        Debug.Log(!fx.Matches(helps));
+        // F(x) doesn't match helps(Bill, _) or helps(_, Heidi)
+        Debug.Log(!fx.Matches(billHelps));
+        Debug.Log(!fx.Matches(helpsHeidi));
+        // F(x) matches helps(Bill, Heidi)
+        Debug.Log(fx.Matches(billHelpsHeidi));
 
         // Debug.Log("Inference:");
         // SubstitutionRule appleEntailsFruit = new SubstitutionRule(apple, fruit);

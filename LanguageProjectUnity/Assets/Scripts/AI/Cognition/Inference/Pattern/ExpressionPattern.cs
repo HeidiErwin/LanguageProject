@@ -45,7 +45,16 @@ public class ExpressionPattern : IPattern {
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+        if (!this.type.Equals(expr.type)) {
+            return false;
+        }
+        
         Expression headWord = new Word(expr.headType, expr.headString);
+
+        // to handle partially applied expressions, do the following:
+        // 1. check the semantic type of the headPattern
+        // 2. need to ALL permutations for this -_-
+        // TODO this
 
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
