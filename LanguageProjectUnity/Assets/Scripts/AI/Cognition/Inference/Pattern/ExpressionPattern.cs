@@ -40,6 +40,17 @@ public class ExpressionPattern : IPattern {
         return type;
     }
 
+    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+        if (!this.type.Equals(expr.type)) {
+            return false;
+        }
+
+        // TODO pattern matching with multiple variable bindings
+        // and matching for expressions of higher semantic type
+        // e.g. F(x) matching R(a, b)
+        return false;
+    }
+
     public bool Matches(Expression expr) {
         return Matches(expr, new Dictionary<MetaVariable, Expression>());
     }
@@ -56,8 +67,12 @@ public class ExpressionPattern : IPattern {
         // 2. need to ALL permutations for this -_-
         // TODO this
         while (!headPattern.GetSemanticType().Equals(headExpression.type)) {
+            if (headExpression.type) {
 
+            }
         }
+
+
 
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
