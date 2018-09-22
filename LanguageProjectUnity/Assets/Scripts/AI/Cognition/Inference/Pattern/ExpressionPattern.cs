@@ -66,15 +66,15 @@ public class ExpressionPattern : IPattern {
         // 1. check the semantic type of the headPattern
         // 2. need to ALL permutations for this -_-
         // TODO this
-        while (!headPattern.GetSemanticType().Equals(headExpression.type)) {
-            if (headExpression.type) {
+        // while (!headPattern.GetSemanticType().Equals(headExpression.type)) {
+        //     if (headExpression.type) {
 
-            }
-        }
+        //     }
+        // }
 
 
 
-        if (!headPattern.Matches(headWord, bindings)) {
+        if (!headPattern.Matches(headExpression, bindings)) {
             return false;
         }
 
