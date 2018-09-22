@@ -49,12 +49,15 @@ public class ExpressionPattern : IPattern {
             return false;
         }
         
-        Expression headWord = new Word(expr.headType, expr.headString);
+        Expression headExpression = new Word(expr.headType, expr.headString);
 
         // to handle partially applied expressions, do the following:
         // 1. check the semantic type of the headPattern
         // 2. need to ALL permutations for this -_-
         // TODO this
+        while (!headPattern.GetSemanticType().Equals(headExpression.type)) {
+
+        }
 
         if (!headPattern.Matches(headWord, bindings)) {
             return false;
