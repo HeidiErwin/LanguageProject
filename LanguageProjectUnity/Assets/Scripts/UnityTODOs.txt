@@ -154,6 +154,7 @@ Action system:
 TODO, 9/20:
 Graphics:
   - resize for keyboard and expressions
+  - keyboard multiple pages
 	- animations
 Reasoning:
   - identity relation
