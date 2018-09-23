@@ -154,8 +154,11 @@ Action system:
 TODO, 9/20:
 Graphics:
   - resize for keyboard and expressions
+  	* "up/down" arrow for keyboard and workspace
+  	* downscale expressions + magnifying lens/viewport
   - keyboard multiple pages
 	- animations
+	- make ExpressionPiece from fully formed Expression
 Reasoning:
   - identity relation
   - model should auto-fill in parameters
@@ -168,7 +171,8 @@ Reasoning:
 	- far off: save continuation to make reasoning happen in game time and not just in one frame
 Perception:
 	- make it so that trigger collider is perception-specific and doesn't interfere with making expressions
-	- maybe actually simulate stuff and send analog information
+	- event perception
+	- far off: maybe actually simulate stuff and send analog information
 Action:
   - figure out format for action rules, as well as primitive action representations
 	- code procedure determining composite action from primitive ones
