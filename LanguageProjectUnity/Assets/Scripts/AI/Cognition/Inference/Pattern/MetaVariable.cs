@@ -18,18 +18,32 @@ public class MetaVariable : IPattern {
         return this.type.Equals(expr.type);
     }
 
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+    // public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+    //     if (expr == null) {
+    //         return false;
+    //     }
+
+    //     foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
+    //         if (this.Matches(expr, binding)) {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
+
+    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> binding) {
         if (expr == null) {
             return false;
         }
         
-        if (bindings.ContainsKey(this)) {
-            return bindings[this].Equals(expr);
+        if (binding.ContainsKey(this)) {
+            return binding[this].Equals(expr);
         } else {
             bool matches = this.Matches(expr);
 
             if (matches) {
-                bindings.Add(this, expr);
+                binding.Add(this, expr);
             }
 
             return matches;

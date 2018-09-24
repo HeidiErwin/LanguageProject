@@ -7,30 +7,30 @@ using System.Collections.Generic;
 
 public class ExpressionPattern : IPattern {
     protected IPattern headPattern;
-    protected IPattern[] argPattern;
+    protected IPattern[] argPatterns;
     protected int numArgs;
     protected HashSet<MetaVariable> freeMetaVariables;
     protected SemanticType type;
 
-    public ExpressionPattern(IPattern headPattern, params IPattern[] argPattern) {
+    public ExpressionPattern(IPattern headPattern, params IPattern[] argPatterns) {
         if (headPattern.GetSemanticType().IsAtomic()) {
             throw new ArgumentException("head pattern of expression pattern must not be of an atomic semantic type.");
         }
-        for (int i = 0; i < argPattern.Length; i++) {
-            if (!argPattern[i].GetSemanticType().Equals(headPattern.GetSemanticType().GetInputType(i))) {
+        for (int i = 0; i < argPatterns.Length; i++) {
+            if (!argPatterns[i].GetSemanticType().Equals(headPattern.GetSemanticType().GetInputType(i))) {
                 throw new ArgumentException("Semantic type mismatch in expression pattern.");
             }
         }
 
         this.type = headPattern.GetSemanticType().GetOutputType();
         this.headPattern = headPattern;
-        this.argPattern = argPattern;
-        this.numArgs = argPattern.Length;
+        this.argPatterns = argPatterns;
+        this.numArgs = argPatterns.Length;
 
         this.freeMetaVariables = new HashSet<MetaVariable>();
 
         for (int i = 0; i < numArgs; i++) {
-            foreach (MetaVariable x in this.argPattern[i].GetFreeMetaVariables()) {
+            foreach (MetaVariable x in this.argPatterns[i].GetFreeMetaVariables()) {
                 this.freeMetaVariables.Add(x);
             }
         }
@@ -38,17 +38,6 @@ public class ExpressionPattern : IPattern {
 
     public SemanticType GetSemanticType() {
         return type;
-    }
-
-    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
-        if (!this.type.Equals(expr.type)) {
-            return false;
-        }
-
-        // TODO pattern matching with multiple variable bindings
-        // and matching for expressions of higher semantic type
-        // e.g. F(x) matching R(a, b)
-        return false;
     }
 
     public bool Matches(Expression expr) {
@@ -62,24 +51,12 @@ public class ExpressionPattern : IPattern {
         
         Expression headExpression = new Word(expr.headType, expr.headString);
 
-        // to handle partially applied expressions, do the following:
-        // 1. check the semantic type of the headPattern
-        // 2. need to ALL permutations for this -_-
-        // TODO this
-        // while (!headPattern.GetSemanticType().Equals(headExpression.type)) {
-        //     if (headExpression.type) {
-
-        //     }
-        // }
-
-
-
         if (!headPattern.Matches(headExpression, bindings)) {
             return false;
         }
 
         for (int i = 0; i < numArgs; i++) {
-            if (!this.argPattern[i].Matches(expr.GetArg(i), bindings)) {
+            if (!this.argPatterns[i].Matches(expr.GetArg(i), bindings)) {
                 return false;
             }
         }
@@ -100,15 +77,15 @@ public class ExpressionPattern : IPattern {
         // 
         // TODO: add that code in, maybe figuring out the bug.
 
-        IPattern[] newArgPattern = new IPattern[numArgs];
+        IPattern[] newArgPatterns = new IPattern[numArgs];
 
         for (int i = 0; i < numArgs; i++) {
-            if (argPattern[i] != null) {
-                newArgPattern[i] = argPattern[i].Bind(x, expr);    
+            if (argPatterns[i] != null) {
+                newArgPatterns[i] = argPatterns[i].Bind(x, expr);    
             }
         }
 
-        return new ExpressionPattern(headPattern.Bind(x, expr), newArgPattern);
+        return new ExpressionPattern(headPattern.Bind(x, expr), newArgPatterns);
     }
 
     public Expression ToExpression() {
@@ -120,8 +97,8 @@ public class ExpressionPattern : IPattern {
         Expression[] argExpressions = new Expression[numArgs];
         
         for (int i = 0; i < numArgs; i++) {
-            if (argPattern[i] != null) {
-                argExpressions[i] = argPattern[i].ToExpression();
+            if (argPatterns[i] != null) {
+                argExpressions[i] = argPatterns[i].ToExpression();
             }
         }
 
@@ -133,10 +110,10 @@ public class ExpressionPattern : IPattern {
         s.Append(headPattern.ToString());
         s.Append("(");
         for (int i = 0; i < numArgs; i++) {
-            if (argPattern[i] == null) {
+            if (argPatterns[i] == null) {
                 s.Append("_");
             } else {
-                s.Append(argPattern[i].ToString());    
+                s.Append(argPatterns[i].ToString());    
             }
             s.Append(", ");
         }
