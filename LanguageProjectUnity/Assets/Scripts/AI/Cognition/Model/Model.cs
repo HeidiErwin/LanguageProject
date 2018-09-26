@@ -127,6 +127,7 @@ public abstract class Model {
         }
 
         foreach (InferenceRule ir in this.inferenceRules) {
+            UnityEngine.Debug.Log(ir);
             if (ir.CanInfer(this, expr, EntailmentContext.Downward)) {
                 return true;
             }

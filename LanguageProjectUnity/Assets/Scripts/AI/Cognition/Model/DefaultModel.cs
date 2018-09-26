@@ -4,7 +4,7 @@ public class DefaultModel {
 
         // SPECIAL EVALUATION RULES
         m.Add(EvaluationRule.NOT);
-        // m.Add(EvaluationRule.EVERY);
+        m.Add(EvaluationRule.EVERY);
 
         // DEFAULT EVALUATION RULES
         m.Add(EvaluationRule.DEFAULT_TRUTH_FUNCTION_1);
@@ -34,18 +34,18 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(new ExpressionPattern(not, new ExpressionPattern(not, xt0)), xt0, EntailmentContext.Upward));
 
         // i.[F(i)] |- a(F)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     xi0,
-        //     new ExpressionPattern(Expression.A, xp0),
-        //     EntailmentContext.Downward));
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            xi0,
+            new ExpressionPattern(Expression.A, xp0),
+            EntailmentContext.Downward));
 
         // every(F) |- i.[F(i)]
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     new ExpressionPattern(Expression.EVERY, xp0),
-        //     xi0,
-        //     EntailmentContext.Downward));
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new ExpressionPattern(Expression.EVERY, xp0),
+            xi0,
+            EntailmentContext.Downward));
 
         // cow |- animal
         m.Add(new SubstitutionRule(Expression.COW, Expression.ANIMAL));
@@ -75,15 +75,16 @@ public class DefaultModel {
         ));
 
         // |- F(every(F))
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.EVERY, xp0))}
-        // ));
+        m.Add(new InferenceRule(
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.EVERY, xp0))}
+        ));
 
         // antisymmetry for contained_within
         m.Add(new InferenceRule(
             new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))}
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
+            EntailmentContext.Downward
         ));
 
         // transitivity for contained_within
@@ -106,15 +107,15 @@ public class DefaultModel {
         ));
 
         // symmetry for overlaps_with
-        m.Add(new InferenceRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)
-            },
-            new IPattern[]{
-                new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)
-            }
-        ));
-
+        // m.Add(new InferenceRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)
+        //     },
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)
+        //     }
+        // ));
+        // BUG: causes loops
         return m;
     }
 }

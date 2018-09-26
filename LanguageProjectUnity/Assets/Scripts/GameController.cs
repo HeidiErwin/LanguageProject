@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
     public GameObject canvasInstance;
     [SerializeField] private GameObject pointer; // arrow pointing to selected expression
     [SerializeField] private GameObject individualKeyboard;
-    [SerializeField] private GameObject individualFunction1Keyboard;
+    [SerializeField] private GameObject determinerKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
     [SerializeField] private GameObject relation2Keyboard;
     [SerializeField] private GameObject truthFunction1Keyboard;
@@ -99,12 +99,12 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.INDIVIDUAL_FUNCTION_1)) {
-            GameObject firstRow = individualFunction1Keyboard.transform.GetChild(0).gameObject;
+        } else if (type.Equals(SemanticType.DETERMINER)) {
+            GameObject firstRow = determinerKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
-                GameObject secondRow = individualFunction1Keyboard.transform.GetChild(1).gameObject;
+                GameObject secondRow = determinerKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else if (type.Equals(SemanticType.PREDICATE)) {
@@ -168,12 +168,13 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.A);
         // SetUpSpawner(Expression.TWO);
         // SetUpSpawner(Expression.THREE);
-        // SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
         SetUpSpawner(Expression.BOB);
         SetUpSpawner(Expression.EVAN);
+        SetUpSpawner(Expression.WAYSIDE_PARK);
 
         // predicates
         SetUpSpawner(Expression.BLACK);
@@ -238,8 +239,8 @@ public class GameController : MonoBehaviour {
         if (tabToDisplayIndex == 0) { //Individual
             currentKeyboard = individualKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 1) { // 1-place individual function
-            currentKeyboard = individualFunction1Keyboard;
+        } else if (tabToDisplayIndex == 1) { // determiner
+            currentKeyboard = determinerKeyboard;
             highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;

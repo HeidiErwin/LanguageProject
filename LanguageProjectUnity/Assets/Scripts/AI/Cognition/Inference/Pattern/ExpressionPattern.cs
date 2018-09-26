@@ -51,31 +51,88 @@ public class ExpressionPattern : IPattern {
         return type;
     }
 
-    // public bool GenerateArgumentArrangements(int k, List<Expression[]> argumentArrangments) {
-    //     List<Expression[]> argumentArrangements = new List<Expression[]>();
+    // patternIndex is the current index of the pattern's arguments
+    // expressionIndex is the current index of the expression's arguments
+    // partialArrangment is the current argument setup
+    // e is the partially decomposed head
+    public Dictionary<Expression, Expression[]> GenerateArgumentArrangements(Expression head, int patternIndex, int expressionIndex, Expression[] partialArrangement) {
+        Dictionary<Expression, Expression[]> argumentArrangements = new Dictionary<Expression, Expression[]>();
+    
+        // if there aren't enough arguments left to match the pattern,
+        // then this arrangement is no good.
+        if (head.GetNumArgs() - expressionIndex < numArgs - patternIndex) {
+            return argumentArrangements;
+        }
 
-    //     for (int i = 0; i < argPatterns.Length; i++) {
-    //         for (int j = 0; j < expr.GetNumArgs(); j++) {
-    //             if (argPatterns[i].) {
+        // if there are no more argument patterns to fill,
+        // then this arrangement is good to go.
+        if (patternIndex == numArgs) {
+            argumentArrangements.Add(head, partialArrangement);
+            return argumentArrangements;
+        }
 
-    //             }
-    //         }
-    //     }
-    // }
+        for (int i = expressionIndex; i < head.GetNumArgs(); i++) {
+            if (this.argPatterns[patternIndex].GetSemanticType().Equals(head.GetArg(i).type)) {
+                // this means that this argument can potential match the pattern of the corresponding argument.
+                Expression[] partialArrangementCopy = new Expression[partialArrangement.Length];
+                
+                for (int j = 0; j < patternIndex; j++) {
+                    partialArrangementCopy[j] = partialArrangement[j];
+                }
+                partialArrangementCopy[patternIndex] = head.GetArg(i);
 
-    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+                Dictionary<Expression, Expression[]> filledInArrangements = GenerateArgumentArrangements(head.Remove(i), patternIndex + 1, i + 1, partialArrangementCopy);
+
+                foreach (KeyValuePair<Expression, Expression[]> kv in filledInArrangements) {
+                    argumentArrangements.Add(kv.Key, kv.Value);
+                }
+            }
+        }
+
+        return argumentArrangements;
+    }
+
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> possibleBindings) {
         // 1. check type
         if (!this.type.Equals(expr.type)) {
-            return false;
+            return null;
         }
 
         // decompose the expression into forms amenable to matching this expression pattern
+        Dictionary<Expression, Expression[]> argumentArrangements = GenerateArgumentArrangements(expr, 0, 0, new Expression[numArgs]);
 
-        return true; // TODO
+        // now that we have each decomposition, we want to go through each of them
+        // and try to match it with the pattern.
+        // More than one decomposition can match the pattern, so we want to return
+        // a list of the possible bindings for each potential match.
+        foreach (KeyValuePair<Expression, Expression[]> kv in argumentArrangements) {
+            Expression head = kv.Key;
+            Expression[] args = kv.Value;
+
+            foreach (Dictionary<MetaVariable, Expression> possibleBinding in possibleBindings) {
+                // 
+            }
+        }
+
+        return possibleBindings; // TODO
     }
 
     public bool Matches(Expression expr) {
         return Matches(expr, new Dictionary<MetaVariable, Expression>());
+    }
+
+    public bool Matches(Expression head, Expression[] args, Dictionary<MetaVariable, Expression> bindings) {
+        if (!headPattern.Matches(head, bindings)) {
+            return false;
+        }
+
+        for (int i = 0; i < numArgs; i++) {
+            if (!this.argPatterns[i].Matches(args[i], bindings)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {

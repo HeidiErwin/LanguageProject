@@ -3512,7 +3512,7 @@ GameObject:
   - component: {fileID: 1237315943}
   - component: {fileID: 1237315942}
   m_Layer: 5
-  m_Name: IndividualFunction1Tab
+  m_Name: DeterminerTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4723,7 +4723,7 @@ MonoBehaviour:
   canvasInstance: {fileID: 1393612629}
   pointer: {fileID: 1167211939}
   individualKeyboard: {fileID: 482817174}
-  individualFunction1Keyboard: {fileID: 1945076190}
+  determinerKeyboard: {fileID: 1945076190}
   predicateKeyboard: {fileID: 902842149}
   relation2Keyboard: {fileID: 1239893517}
   truthFunction1Keyboard: {fileID: 47750868}
@@ -6417,7 +6417,7 @@ GameObject:
   - component: {fileID: 1945076193}
   - component: {fileID: 1945076192}
   m_Layer: 5
-  m_Name: IndividualFunction1Keyboard
+  m_Name: DeterminerKeyboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -55,7 +55,7 @@ public abstract class SemanticType {
                 return new Color32(47, 79, 79, 255);
             }
 
-            if (this.Equals(SemanticType.INDIVIDUAL_FUNCTION_1)) {
+            if (this.Equals(SemanticType.DETERMINER)) {
                 return new Color32(255, 150, 20, 255);
             }
 

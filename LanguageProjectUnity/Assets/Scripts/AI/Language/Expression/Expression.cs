@@ -58,6 +58,29 @@ public abstract class Expression : IPattern {
         return type.GetOutputType();
     }
 
+    // returns an expression with the current argument index removed.
+    // if there is no such argument specified at index, then it simply
+    // returns this expression.
+    public Expression Remove(int index) {
+        if (index > args.Length || index < 0) {
+            throw new ArgumentException("Remove: index out of bounds.");
+        }
+
+        if (args[index] == null) {
+            return this;
+        }
+
+        Expression[] newArgs = new Expression[args.Length];
+
+        for (int i = 0; i < args.Length; i++) {
+            newArgs[i] = args[i];
+        }
+
+        newArgs[index] = null;
+
+        return new Phrase(new Word(headType, headString), newArgs);
+    }
+
     // this is syntactic equality; two expressions are equal
     // just when the expressions are identical. Two expressions
     // whose referents are identical are still considered distinct
@@ -84,8 +107,6 @@ public abstract class Expression : IPattern {
 
             return false;
         }
-
-
 
         for (int i = 0; i < this.GetNumArgs(); i++) {
             if (this.GetArg(i) == null) {
@@ -125,6 +146,10 @@ public abstract class Expression : IPattern {
         return this.Matches(expr);
     }
 
+    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+        return this.Matches(expr);
+    }
+
     public HashSet<MetaVariable> GetFreeMetaVariables() {
         return new HashSet<MetaVariable>();
     }
@@ -152,14 +177,15 @@ public abstract class Expression : IPattern {
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
 
-    public static readonly Expression NO = new Word(SemanticType.TRUTH_FUNCTION_2, "no");
-    public static readonly Expression A = new Word(SemanticType.TRUTH_FUNCTION_2, "a");
-    public static readonly Expression TWO = new Word(SemanticType.TRUTH_FUNCTION_2, "two");
-    public static readonly Expression THREE = new Word(SemanticType.TRUTH_FUNCTION_2, "three");
-    public static readonly Expression EVERY = new Word(SemanticType.TRUTH_FUNCTION_2, "every");
+    public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
+    public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
+    public static readonly Expression TWO = new Word(SemanticType.DETERMINER, "two");
+    public static readonly Expression THREE = new Word(SemanticType.DETERMINER, "three");
+    public static readonly Expression EVERY = new Word(SemanticType.DETERMINER, "every");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
+    public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");

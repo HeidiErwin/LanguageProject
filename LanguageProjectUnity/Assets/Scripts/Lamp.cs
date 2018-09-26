@@ -16,16 +16,16 @@ public class Lamp : Perceivable {
 
     private Expression GetArea() {
         if (this.area == 0) {
-            return Expression.IN_RED_AREA;
+            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 7), 1);
         }
         if (this.area == 1) {
-            return Expression.IN_BLUE_AREA;
+            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 8), 1);
         }
         if (this.area == 2) {
-            return Expression.IN_YELLOW_AREA;
+            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 9), 1);
         }
         if (this.area == 3) {
-            return Expression.IN_GREEN_AREA;
+            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 10), 1);
         }
 
         return null;
