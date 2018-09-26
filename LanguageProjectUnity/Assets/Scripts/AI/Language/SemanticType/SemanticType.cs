@@ -55,8 +55,8 @@ public abstract class SemanticType {
                 return new Color32(47, 79, 79, 255);
             }
 
-            if (this.Equals(SemanticType.DETERMINER)) {
-                return new Color32(255, 203, 0, 255);
+            if (this.Equals(SemanticType.INDIVIDUAL_FUNCTION_1)) {
+                return new Color32(255, 150, 20, 255);
             }
 
             if (this.Equals(SemanticType.QUANTIFIER)) {
@@ -111,8 +111,12 @@ public abstract class SemanticType {
         return null;
     }
 
+    // public abstract bool Matches(SemanticType t);
+
     public static readonly SemanticType INDIVIDUAL = new E();
     public static readonly SemanticType TRUTH_VALUE = new T();
+    public static readonly SemanticType INDIVIDUAL_FUNCTION_1 = new Arrow(new List<SemanticType> { INDIVIDUAL }, INDIVIDUAL);
+    public static readonly SemanticType INDIVIDUAL_FUNCTION_2 = new Arrow(new List<SemanticType> { INDIVIDUAL, INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType PREDICATE  = new Arrow(new List<SemanticType> { INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2 = new Arrow(new List<SemanticType> { INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_3 = new Arrow(new List<SemanticType> { INDIVIDUAL, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);

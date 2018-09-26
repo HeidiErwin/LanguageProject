@@ -13,8 +13,9 @@ public class GameController : MonoBehaviour {
     public GameObject canvasInstance;
     [SerializeField] private GameObject pointer; // arrow pointing to selected expression
     [SerializeField] private GameObject individualKeyboard;
-    [SerializeField] private GameObject determinerKeyboard;
+    [SerializeField] private GameObject individualFunction1Keyboard;
     [SerializeField] private GameObject predicateKeyboard;
+    [SerializeField] private GameObject relation2Keyboard;
     [SerializeField] private GameObject truthFunction1Keyboard;
     [SerializeField] private GameObject truthFunction2Keyboard;
     [SerializeField] private GameObject helpScreen;
@@ -98,12 +99,12 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.DETERMINER)) {
-            GameObject firstRow = determinerKeyboard.transform.GetChild(0).gameObject;
+        } else if (type.Equals(SemanticType.INDIVIDUAL_FUNCTION_1)) {
+            GameObject firstRow = individualFunction1Keyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
-                GameObject secondRow = determinerKeyboard.transform.GetChild(1).gameObject;
+                GameObject secondRow = individualFunction1Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else if (type.Equals(SemanticType.PREDICATE)) {
@@ -113,6 +114,16 @@ public class GameController : MonoBehaviour {
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
                 GameObject secondRow = predicateKeyboard.transform.GetChild(1).gameObject;
+                // Debug.Log("second row's name is " + secondRow.name);
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
+        } else if (type.Equals(SemanticType.RELATION_2)) {
+            GameObject firstRow = relation2Keyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                // Debug.Log("1st row's name is " + firstRow.name);
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = relation2Keyboard.transform.GetChild(1).gameObject;
                 // Debug.Log("second row's name is " + secondRow.name);
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
@@ -148,12 +159,16 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
 
-        // determiners
+        // variables and variable functions
+        SetUpSpawner(Expression.INDIVIDUAL_VARIABLE);
+        SetUpSpawner(Expression.NEXT_VARIABLE);
+
+        // quantifiers
         // SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.A);
         // SetUpSpawner(Expression.TWO);
         // SetUpSpawner(Expression.THREE);
-        SetUpSpawner(Expression.EVERY);
+        // SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
         // proper names
@@ -169,6 +184,11 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.MAGENTA);
         SetUpSpawner(Expression.CYAN);
         SetUpSpawner(Expression.WHITE);
+
+        // 2-place relations
+        SetUpSpawner(Expression.HELP);
+        SetUpSpawner(Expression.CONTAINED_WITHIN);
+        SetUpSpawner(Expression.OVERLAPS_WITH);
 
         // SetUpSpawner(Expression.IN_YELLOW_AREA);
         // SetUpSpawner(Expression.IN_GREEN_AREA);
@@ -218,16 +238,19 @@ public class GameController : MonoBehaviour {
         if (tabToDisplayIndex == 0) { //Individual
             currentKeyboard = individualKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 1) { // Determiner
-            currentKeyboard = determinerKeyboard;
+        } else if (tabToDisplayIndex == 1) { // 1-place individual function
+            currentKeyboard = individualFunction1Keyboard;
             highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 3) { // 1-place truth function
+        } else if (tabToDisplayIndex == 3) { // 2-Place Relation
+            currentKeyboard = relation2Keyboard;
+            highClick.Play();
+        } else if (tabToDisplayIndex == 4) { // 1-place truth function
             currentKeyboard = truthFunction1Keyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 4) { // 2-place truth function
+        } else if (tabToDisplayIndex == 5) { // 2-place truth function
             currentKeyboard = truthFunction2Keyboard;
             highClick.Play();
         }

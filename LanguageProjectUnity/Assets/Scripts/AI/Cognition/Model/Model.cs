@@ -72,12 +72,19 @@ public abstract class Model {
 
                 HashSet<IPattern> partials = new HashSet<IPattern>();
                 HashSet<IPattern> newPartials = new HashSet<IPattern>();
-                partials.Add(result);
 
+                if (result == null) {
+                    UnityEngine.Debug.Log("the rule that caused this: " + er);
+                    continue;
+                }
+                
+                partials.Add(result);
                 for (int i = 0; i < subExpressions.Length; i++) {
                     foreach (IPattern partial in partials) {
                         foreach (Expression e in subExpressions[i]) {
-                            newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
+                            if (e != null) {
+                                newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
+                            }
                         }
                     }
                     partials = newPartials;

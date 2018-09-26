@@ -36,8 +36,42 @@ public class ExpressionPattern : IPattern {
         }
     }
 
+    private int choose(int n, int k) {
+        int result = 1;
+        int limit = k <= n - k ? k : n - k;
+
+        for (int i = 1; i <= k; i++) {
+            result *= (n + 1 - i) / i;
+        }
+
+        return result;
+    }
+
     public SemanticType GetSemanticType() {
         return type;
+    }
+
+    // public bool GenerateArgumentArrangements(int k, List<Expression[]> argumentArrangments) {
+    //     List<Expression[]> argumentArrangements = new List<Expression[]>();
+
+    //     for (int i = 0; i < argPatterns.Length; i++) {
+    //         for (int j = 0; j < expr.GetNumArgs(); j++) {
+    //             if (argPatterns[i].) {
+
+    //             }
+    //         }
+    //     }
+    // }
+
+    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+        // 1. check type
+        if (!this.type.Equals(expr.type)) {
+            return false;
+        }
+
+        // decompose the expression into forms amenable to matching this expression pattern
+
+        return true; // TODO
     }
 
     public bool Matches(Expression expr) {
@@ -45,6 +79,10 @@ public class ExpressionPattern : IPattern {
     }
 
     public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+        if (expr == null) {
+            return false;
+        }
+
         if (!this.type.Equals(expr.type)) {
             return false;
         }

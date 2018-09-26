@@ -15,7 +15,7 @@ public class MetaVariable : IPattern {
     }
 
     public bool Matches(Expression expr) {
-        return this.type.Equals(expr.type);
+        return expr != null && this.type.Equals(expr.type);
     }
 
     // public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
@@ -32,11 +32,7 @@ public class MetaVariable : IPattern {
     //     return false;
     // }
 
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> binding) {
-        if (expr == null) {
-            return false;
-        }
-        
+    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> binding) {        
         if (binding.ContainsKey(this)) {
             return binding[this].Equals(expr);
         } else {

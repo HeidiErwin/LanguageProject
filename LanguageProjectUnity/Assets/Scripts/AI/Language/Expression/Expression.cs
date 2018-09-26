@@ -152,14 +152,17 @@ public abstract class Expression : IPattern {
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
 
-    public static readonly Expression NO = new Word(SemanticType.DETERMINER, "no");
-    public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
-    public static readonly Expression TWO = new Word(SemanticType.DETERMINER, "two");
-    public static readonly Expression THREE = new Word(SemanticType.DETERMINER, "three");
-    public static readonly Expression EVERY = new Word(SemanticType.DETERMINER, "every");
+    public static readonly Expression NO = new Word(SemanticType.TRUTH_FUNCTION_2, "no");
+    public static readonly Expression A = new Word(SemanticType.TRUTH_FUNCTION_2, "a");
+    public static readonly Expression TWO = new Word(SemanticType.TRUTH_FUNCTION_2, "two");
+    public static readonly Expression THREE = new Word(SemanticType.TRUTH_FUNCTION_2, "three");
+    public static readonly Expression EVERY = new Word(SemanticType.TRUTH_FUNCTION_2, "every");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
+
+    public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
+    public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
 
     public static readonly Expression FOUNTAIN = new Word(SemanticType.PREDICATE, "fountain");
     public static readonly Expression LAMP = new Word(SemanticType.PREDICATE, "lamp");
@@ -184,6 +187,10 @@ public abstract class Expression : IPattern {
     public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");
     public static readonly Expression IN_BLUE_AREA = new Word(SemanticType.PREDICATE, "in-blue-area");
     public static readonly Expression IN_RED_AREA = new Word(SemanticType.PREDICATE, "in-red-area");
+
+    public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
+    public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
+    public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
 
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
 }
