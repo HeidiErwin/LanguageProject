@@ -14,6 +14,35 @@ public class MetaVariable : IPattern {
         return type;
     }
 
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> inputBindings) {
+        if (expr == null || !expr.type.Equals(this.type)) {
+            return null;
+        }
+
+        List<Dictionary<MetaVariable, Expression>> outputBindings = new List<Dictionary<MetaVariable, Expression>>();
+
+        bool matchedOne = false;
+        
+        foreach (Dictionary<MetaVariable, Expression> binding in inputBindings) {
+            if (!binding.ContainsKey(this) || binding[this].Equals(expr)) {
+                matchedOne = true;
+                Dictionary<MetaVariable, Expression> newBinding = new Dictionary<MetaVariable, Expression>();
+                
+                foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
+                    newBinding.Add(kv.Key, kv.Value);
+                }
+
+                newBinding.Add(this, expr);
+            }
+        }
+
+        return matchedOne ? outputBindings : null;
+    }
+
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
+        return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
+    }
+
     public bool Matches(Expression expr) {
         return expr != null && this.type.Equals(expr.type);
     }
@@ -62,6 +91,26 @@ public class MetaVariable : IPattern {
         } else {
             return this;
         }
+    }
+
+    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+        List<IPattern> output = new List<IPattern>();
+        foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
+            bool bound = false;
+            foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
+                MetaVariable x = kv.Key;
+                Expression e = kv.Value;
+
+                if (x.localID == this.localID && x.type == this.type) {
+                    output.Add(e);
+                    bound = true;
+                }
+            }
+            if (!bound) {
+                output.Add(this);    
+            }
+        }
+        return output;
     }
 
     public Expression ToExpression() {

@@ -44,46 +44,46 @@ public class SubstitutionRule {
             substitution = this.top;
         }
 
-        Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-
-        if (match.Matches(expr, bindings)) {
-            IPattern currentPattern = substitution;
-            foreach (MetaVariable x in bindings.Keys) {
-                currentPattern = currentPattern.Bind(x, bindings[x]);
-            }
+        // Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
+        //
+        // if (match.Matches(expr, bindings)) {
+        //     IPattern currentPattern = substitution;
+        //     foreach (MetaVariable x in bindings.Keys) {
+        //         currentPattern = currentPattern.Bind(x, bindings[x]);
+        //     }
             
-            Expression ifBound = currentPattern.ToExpression();
-            if (ifBound != null) {
-                List<Expression> substitutions = new List<Expression>();
-                substitutions.Add(ifBound);
-                return substitutions;
-            }
+        //     Expression ifBound = currentPattern.ToExpression();
+        //     if (ifBound != null) {
+        //         List<Expression> substitutions = new List<Expression>();
+        //         substitutions.Add(ifBound);
+        //         return substitutions;
+        //     }
 
-            IPattern[] conditionPartials = new IPattern[conditions.Length];
-            for (int i = 0; i < conditionPartials.Length; i++) {
-                conditionPartials[i] = conditions[i];
-                foreach (MetaVariable x in bindings.Keys) {
-                    conditionPartials[i] = conditionPartials[i].Bind(x, bindings[x]);
-                }
-            }
+        //     IPattern[] conditionPartials = new IPattern[conditions.Length];
+        //     for (int i = 0; i < conditionPartials.Length; i++) {
+        //         conditionPartials[i] = conditions[i];
+        //         foreach (MetaVariable x in bindings.Keys) {
+        //             conditionPartials[i] = conditionPartials[i].Bind(x, bindings[x]);
+        //         }
+        //     }
 
-            HashSet<Dictionary<MetaVariable, Expression>> assignments = m.Find(conditionPartials);
-            if (assignments != null) {
-                List<Expression> substitutions = new List<Expression>();
-                foreach (Dictionary<MetaVariable, Expression> assignment in assignments) {
-                    IPattern newCurrentPattern = currentPattern;
-                    foreach (MetaVariable x in assignment.Keys) {
-                        newCurrentPattern = currentPattern.Bind(x, assignment[x]);
-                    }
-                    Expression fullyAssigned = newCurrentPattern.ToExpression();
-                    if (fullyAssigned == null) {
-                        return null;
-                    }
-                    substitutions.Add(fullyAssigned);
-                }
-                return substitutions;
-            }
-        }
+        //     HashSet<Dictionary<MetaVariable, Expression>> assignments = m.Find(conditionPartials);
+        //     if (assignments != null) {
+        //         List<Expression> substitutions = new List<Expression>();
+        //         foreach (Dictionary<MetaVariable, Expression> assignment in assignments) {
+        //             IPattern newCurrentPattern = currentPattern;
+        //             foreach (MetaVariable x in assignment.Keys) {
+        //                 newCurrentPattern = currentPattern.Bind(x, assignment[x]);
+        //             }
+        //             Expression fullyAssigned = newCurrentPattern.ToExpression();
+        //             if (fullyAssigned == null) {
+        //                 return null;
+        //             }
+        //             substitutions.Add(fullyAssigned);
+        //         }
+        //         return substitutions;
+        //     }
+        // }
         return null;
     }
 

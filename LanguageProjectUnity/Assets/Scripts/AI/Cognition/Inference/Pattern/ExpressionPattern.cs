@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class ExpressionPattern : IPattern {
     protected IPattern headPattern;
     protected IPattern[] argPatterns;
-    protected int numArgs;
     protected HashSet<MetaVariable> freeMetaVariables;
     protected SemanticType type;
 
@@ -25,26 +24,14 @@ public class ExpressionPattern : IPattern {
         this.type = headPattern.GetSemanticType().GetOutputType();
         this.headPattern = headPattern;
         this.argPatterns = argPatterns;
-        this.numArgs = argPatterns.Length;
 
         this.freeMetaVariables = new HashSet<MetaVariable>();
 
-        for (int i = 0; i < numArgs; i++) {
+        for (int i = 0; i < argPatterns.Length; i++) {
             foreach (MetaVariable x in this.argPatterns[i].GetFreeMetaVariables()) {
                 this.freeMetaVariables.Add(x);
             }
         }
-    }
-
-    private int choose(int n, int k) {
-        int result = 1;
-        int limit = k <= n - k ? k : n - k;
-
-        for (int i = 1; i <= k; i++) {
-            result *= (n + 1 - i) / i;
-        }
-
-        return result;
     }
 
     public SemanticType GetSemanticType() {
@@ -60,13 +47,13 @@ public class ExpressionPattern : IPattern {
     
         // if there aren't enough arguments left to match the pattern,
         // then this arrangement is no good.
-        if (head.GetNumArgs() - expressionIndex < numArgs - patternIndex) {
+        if (head.GetNumArgs() - expressionIndex < argPatterns.Length - patternIndex) {
             return argumentArrangements;
         }
 
         // if there are no more argument patterns to fill,
         // then this arrangement is good to go.
-        if (patternIndex == numArgs) {
+        if (patternIndex == argPatterns.Length) {
             argumentArrangements.Add(head, partialArrangement);
             return argumentArrangements;
         }
@@ -92,14 +79,16 @@ public class ExpressionPattern : IPattern {
         return argumentArrangements;
     }
 
-    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> possibleBindings) {
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> inputBindings) {
         // 1. check type
         if (!this.type.Equals(expr.type)) {
             return null;
         }
 
+        List<Dictionary<MetaVariable, Expression>> outputBindings = new List<Dictionary<MetaVariable, Expression>>();
+
         // decompose the expression into forms amenable to matching this expression pattern
-        Dictionary<Expression, Expression[]> argumentArrangements = GenerateArgumentArrangements(expr, 0, 0, new Expression[numArgs]);
+        Dictionary<Expression, Expression[]> argumentArrangements = GenerateArgumentArrangements(expr, 0, 0, new Expression[argPatterns.Length]);
 
         // now that we have each decomposition, we want to go through each of them
         // and try to match it with the pattern.
@@ -109,55 +98,76 @@ public class ExpressionPattern : IPattern {
             Expression head = kv.Key;
             Expression[] args = kv.Value;
 
-            foreach (Dictionary<MetaVariable, Expression> possibleBinding in possibleBindings) {
-                // 
+            List<Dictionary<MetaVariable, Expression>> currentBindings = headPattern.GetBindings(head, inputBindings);
+
+            if (currentBindings == null) {
+                continue;
+            }
+
+            for (int i = 0; i < args.Length; i++) {
+                currentBindings = argPatterns[i].GetBindings(args[i], currentBindings);
+                if (currentBindings == null) {
+                    break;
+                }
+            }
+
+            if (currentBindings == null) {
+                continue;
+            }
+
+            foreach (Dictionary<MetaVariable, Expression> binding in currentBindings) {
+                outputBindings.Add(binding);
             }
         }
 
-        return possibleBindings; // TODO
+        return outputBindings;
+    }
+
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
+        return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
     }
 
     public bool Matches(Expression expr) {
-        return Matches(expr, new Dictionary<MetaVariable, Expression>());
+        return GetBindings(expr) != null;
     }
 
-    public bool Matches(Expression head, Expression[] args, Dictionary<MetaVariable, Expression> bindings) {
-        if (!headPattern.Matches(head, bindings)) {
-            return false;
-        }
+    // public bool Matches(Expression head, Expression[] args, Dictionary<MetaVariable, Expression> bindings) {
+    //     if (!headPattern.Matches(head, bindings)) {
+    //         return false;
+    //     }
 
-        for (int i = 0; i < numArgs; i++) {
-            if (!this.argPatterns[i].Matches(args[i], bindings)) {
-                return false;
-            }
-        }
+    //     for (int i = 0; i < argPatterns.Length; i++) {
+    //         if (!this.argPatterns[i].Matches(args[i], bindings)) {
+    //             return false;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
-        if (expr == null) {
-            return false;
-        }
+    // public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+    //     if (expr == null) {
+    //         return false;
+    //     }
 
-        if (!this.type.Equals(expr.type)) {
-            return false;
-        }
+    //     if (!this.type.Equals(expr.type)) {
+    //         return false;
+    //     }
         
-        Expression headExpression = new Word(expr.headType, expr.headString);
+    //     Expression headExpression = new Word(expr.headType, expr.headString);
 
-        if (!headPattern.Matches(headExpression, bindings)) {
-            return false;
-        }
+    //     if (!headPattern.Matches(headExpression, bindings)) {
+    //         return false;
+    //     }
 
-        for (int i = 0; i < numArgs; i++) {
-            if (!this.argPatterns[i].Matches(expr.GetArg(i), bindings)) {
-                return false;
-            }
-        }
+    //     for (int i = 0; i < argPatterns.Length; i++) {
+    //         if (!this.argPatterns[i].Matches(expr.GetArg(i), bindings)) {
+    //             return false;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public HashSet<MetaVariable> GetFreeMetaVariables() {
         return freeMetaVariables;
@@ -172,9 +182,9 @@ public class ExpressionPattern : IPattern {
         // 
         // TODO: add that code in, maybe figuring out the bug.
 
-        IPattern[] newArgPatterns = new IPattern[numArgs];
+        IPattern[] newArgPatterns = new IPattern[argPatterns.Length];
 
-        for (int i = 0; i < numArgs; i++) {
+        for (int i = 0; i < argPatterns.Length; i++) {
             if (argPatterns[i] != null) {
                 newArgPatterns[i] = argPatterns[i].Bind(x, expr);    
             }
@@ -183,15 +193,26 @@ public class ExpressionPattern : IPattern {
         return new ExpressionPattern(headPattern.Bind(x, expr), newArgPatterns);
     }
 
+    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+        List<IPattern> output = new List<IPattern>();
+        foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
+            foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
+                output.Add(Bind(kv.Key, kv.Value));
+            }
+        }
+
+        return output;
+    }
+
     public Expression ToExpression() {
         if (freeMetaVariables.Count != 0) {
             return null;
         }
 
         Expression headExpression = headPattern.ToExpression();
-        Expression[] argExpressions = new Expression[numArgs];
+        Expression[] argExpressions = new Expression[argPatterns.Length];
         
-        for (int i = 0; i < numArgs; i++) {
+        for (int i = 0; i < argPatterns.Length; i++) {
             if (argPatterns[i] != null) {
                 argExpressions[i] = argPatterns[i].ToExpression();
             }
@@ -204,7 +225,7 @@ public class ExpressionPattern : IPattern {
         StringBuilder s = new StringBuilder();
         s.Append(headPattern.ToString());
         s.Append("(");
-        for (int i = 0; i < numArgs; i++) {
+        for (int i = 0; i < argPatterns.Length; i++) {
             if (argPatterns[i] == null) {
                 s.Append("_");
             } else {

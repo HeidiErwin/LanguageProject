@@ -13,8 +13,8 @@ public class EvaluationRule {
         this.result = result;
     }
 
-    public bool Matches(Expression e, Dictionary<MetaVariable, Expression> bindings) {
-        return this.top.Matches(e, bindings);
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression e) {
+        return this.top.GetBindings(e, new List<Dictionary<MetaVariable, Expression>>());
     }
 
     public int Length() {

@@ -34,48 +34,55 @@ public class InferenceRule {
 
         int matchIndex = -1;
 
-        for (int i = 0; i < matchRow.Length; i++) {
-            Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-            if (matchRow[i].Matches(expr, bindings)) {
-                HashSet<IPattern> patterns = new HashSet<IPattern>();
-                for (int j = 0; j < matchRow.Length; j++) {
-                    if (j == i) {
-                        continue;
-                    }
+        // for (int i = 0; i < matchRow.Length; i++) {
+        //     List<Dictionary<MetaVariable, Expression>> bindings = matchRow[i].GetBindings(expr);
+        //     if (bindings != null) {
+        //         HashSet<IPattern> patterns = new HashSet<IPattern>();
+        //         for (int j = 0; j < matchRow.Length; j++) {
+        //             if (j == i) {
+        //                 continue;
+        //             }
 
-                    IPattern bound = matchRow[j];
-                    foreach (MetaVariable x in bindings.Keys) {
-                        bound = bound.Bind(x, bindings[x]);
-                    }
+        //             List<IPattern> bound = matchRow[j].BindAll(bindings);
+        //             List<Expression> fullyBound = new List<Expression>();
+
+        //             foreach (IPattern p in bound) {
+        //                 Expression e = bound.ToExpression();
+        //                 if (e == null) {
+        //                     fullyBound == null;
+        //                     break;
+        //                 }
+        //                 fullyBound.Add(e);
+        //             }
                     
-                    Expression fullyBound = bound.ToExpression();
-                    if (fullyBound == null) {
-                        patterns.Add(new ExpressionPattern(Expression.NOT, bound));
-                    } else if (!m.Proves(new Phrase(Expression.NOT, fullyBound.ToExpression()))) {
-                        return false;
-                    }
-                }
-                for (int j = 0; j < otherRow.Length; j++) {
-                    IPattern bound = otherRow[j];
-                    foreach (MetaVariable x in bindings.Keys) {
-                        bound = bound.Bind(x, bindings[x]);
-                    }
+        //             if (fullyBound == null) {
+        //                 patterns.Add(new ExpressionPattern(Expression.NOT, bound));
+        //             } else if (!m.Proves(new Phrase(Expression.NOT, fullyBound.ToExpression()))) {
+        //                 return false;
+        //             }
+        //         }
 
-                    Expression fullyBound = bound.ToExpression();
-                    if (fullyBound == null) {
-                        patterns.Add(bound);
-                    } else if (!m.Proves(fullyBound.ToExpression())) {
-                        return false;
-                    }
-                }
+        //         for (int j = 0; j < otherRow.Length; j++) {
+        //             IPattern bound = otherRow[j];
+        //             foreach (MetaVariable x in bindings.Keys) {
+        //                 bound = bound.Bind(x, bindings[x]);
+        //             }
+
+        //             Expression fullyBound = bound.ToExpression();
+        //             if (fullyBound == null) {
+        //                 patterns.Add(bound);
+        //             } else if (!m.Proves(fullyBound.ToExpression())) {
+        //                 return false;
+        //             }
+        //         }
                 
-                IPattern[] patternsArray = new IPattern[patterns.Count];
-                patterns.CopyTo(patternsArray);
-                if (patternsArray.Length == 0 || m.Find(patternsArray) != null) {
-                    return true;
-                }
-            }
-        }
+        //         IPattern[] patternsArray = new IPattern[patterns.Count];
+        //         patterns.CopyTo(patternsArray);
+        //         if (patternsArray.Length == 0 || m.Find(patternsArray) != null) {
+        //             return true;
+        //         }
+        //     }
+        // }
         return false;
     }
 

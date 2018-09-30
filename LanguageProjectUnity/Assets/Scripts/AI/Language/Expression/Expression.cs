@@ -137,6 +137,18 @@ public abstract class Expression : IPattern {
         return type;
     }
 
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+        if (this.Equals(expr)) {
+            return bindings;
+        } else {
+            return null;
+        }
+    }
+
+    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
+        return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
+    }
+
     // TODO implement GetHashCode() so SimpleModel can be used
     public bool Matches(Expression expr) {
         return this.Equals(expr);
@@ -156,6 +168,12 @@ public abstract class Expression : IPattern {
 
     public IPattern Bind(MetaVariable x, Expression expr) {
         return this;
+    }
+
+    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+        List<IPattern> output = new List<IPattern>();
+        output.Add(this);
+        return output;
     }
 
     public Expression ToExpression() {
