@@ -21,8 +21,15 @@ public class MetaVariable : IPattern {
 
         List<Dictionary<MetaVariable, Expression>> outputBindings = new List<Dictionary<MetaVariable, Expression>>();
 
+        if (inputBindings.Count == 0) {
+            Dictionary<MetaVariable, Expression> newBinding = new Dictionary<MetaVariable, Expression>();
+            newBinding.Add(this, expr);
+            outputBindings.Add(newBinding);
+            return outputBindings;
+        }
+
         bool matchedOne = false;
-        
+
         foreach (Dictionary<MetaVariable, Expression> binding in inputBindings) {
             if (!binding.ContainsKey(this) || binding[this].Equals(expr)) {
                 matchedOne = true;
@@ -32,7 +39,10 @@ public class MetaVariable : IPattern {
                     newBinding.Add(kv.Key, kv.Value);
                 }
 
-                newBinding.Add(this, expr);
+                if (!binding.ContainsKey(this)) {
+                    newBinding.Add(this, expr);    
+                }
+                outputBindings.Add(newBinding);
             }
         }
 

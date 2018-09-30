@@ -92,8 +92,13 @@ public class Phrase : Expression {
 
         Expression newExpression = function;
 
+
+        int counter = 0;
         for (int i = 0; i < inputs.Length; i++) {
-            newExpression = new Phrase(newExpression, inputs[i]);
+            if (inputs[i] == null) {
+                counter++;
+            }
+            newExpression = new Phrase(newExpression, inputs[i], counter);
         }
 
         this.type = newExpression.type;

@@ -89,22 +89,23 @@ public class Testing : MonoBehaviour {
         // Debug.Log(model.Remove(red));
         // Debug.Log(!model.Contains(red));
 
-        // Debug.Log("Pattern Matching:");
-        // Debug.Log(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
-        // Debug.Log(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
-        // IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        // Debug.Log(sentenceVariable.Matches(verum));
-        // Debug.Log(sentenceVariable.Matches(falsum));
-        // Debug.Log(sentenceVariable.Matches(billHelpsHeidi));
-        // Debug.Log(!sentenceVariable.Matches(billGives));
-        // Debug.Log(!sentenceVariable.Matches(bill));
-        
-        // MetaVariable xi00 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        Debug.Log("Pattern Matching:");
+        Debug.Log(verum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        Debug.Log(!falsum.Matches(new Word(SemanticType.TRUTH_VALUE, "T")));
+        IPattern sentenceVariable = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        Debug.Log(sentenceVariable.Matches(verum));
+        Debug.Log(sentenceVariable.Matches(falsum));
+        Debug.Log(sentenceVariable.Matches(billHelpsHeidi));
+        Debug.Log(!sentenceVariable.Matches(billGives));
+        Debug.Log(!sentenceVariable.Matches(bill));
 
-        // IPattern reflexivePattern = new ExpressionPattern(helps, xi00, xi00);
+        MetaVariable xi00 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        // Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
-        // Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
+        IPattern reflexivePattern = new ExpressionPattern(helps, xi00, xi00);
+
+        Debug.Log(reflexivePattern.Matches(new Phrase(billHelps, bill)));
+
+        Debug.Log(!reflexivePattern.Matches(billHelpsHeidi));
 
         Debug.Log("testing pattern matching for partially applied expressions");
         IPattern fx = new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0));
@@ -380,12 +381,13 @@ public class Testing : MonoBehaviour {
         return s.ToString();
     }
 
-    private String ContentString(HashSet<Dictionary<MetaVariable, Expression>> bindingSet) {
+    private String ContentString(List<Dictionary<MetaVariable, Expression>> bindingSet) {
         StringBuilder s = new StringBuilder();
         s.Append("{\n");
         if (bindingSet == null) {
             return "NULL";
         }
+
         foreach (Dictionary<MetaVariable, Expression> bindings in bindingSet) {
             s.Append("\t");
             s.Append(ContentString(bindings));

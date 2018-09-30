@@ -90,6 +90,7 @@ public class ExpressionPattern : IPattern {
         // decompose the expression into forms amenable to matching this expression pattern
         Dictionary<Expression, Expression[]> argumentArrangements = GenerateArgumentArrangements(expr, 0, 0, new Expression[argPatterns.Length]);
 
+        bool oneMatched = false;
         // now that we have each decomposition, we want to go through each of them
         // and try to match it with the pattern.
         // More than one decomposition can match the pattern, so we want to return
@@ -118,9 +119,11 @@ public class ExpressionPattern : IPattern {
             foreach (Dictionary<MetaVariable, Expression> binding in currentBindings) {
                 outputBindings.Add(binding);
             }
+
+            oneMatched = true;
         }
 
-        return outputBindings;
+        return oneMatched ? outputBindings : null;
     }
 
     public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
