@@ -132,217 +132,217 @@ public class Testing : MonoBehaviour {
         // Debug.Log(appleEntailsFruit.InferDownward(apple) == null);
 
         // Debug.Log("Model Proves");
-        Model im = new SimpleModel();
-        Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
-        Expression every = new Word(SemanticType.DETERMINER, "every");
-        Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
-        Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+    //     Model im = new SimpleModel();
+    //     Expression not = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
+    //     Expression every = new Word(SemanticType.DETERMINER, "every");
+    //     Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
+    //     Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
 
-        Expression animal = new Word(SemanticType.PREDICATE, "animal");
-        Expression dog = new Word(SemanticType.PREDICATE, "dog");
-        Expression husky = new Word(SemanticType.PREDICATE, "husky");
+    //     Expression animal = new Word(SemanticType.PREDICATE, "animal");
+    //     Expression dog = new Word(SemanticType.PREDICATE, "dog");
+    //     Expression husky = new Word(SemanticType.PREDICATE, "husky");
 
-        Expression mitka = new Word(SemanticType.INDIVIDUAL, "Mitka");
-        Expression rocky = new Word(SemanticType.INDIVIDUAL, "Rocky");
+    //     Expression mitka = new Word(SemanticType.INDIVIDUAL, "Mitka");
+    //     Expression rocky = new Word(SemanticType.INDIVIDUAL, "Rocky");
 
-        Expression mitkaIsAHusky = new Phrase(husky, mitka);
-        Expression mitkaIsADog = new Phrase(dog, mitka);
-        Expression mitkaIsAnAnimal = new Phrase(animal, mitka);
+    //     Expression mitkaIsAHusky = new Phrase(husky, mitka);
+    //     Expression mitkaIsADog = new Phrase(dog, mitka);
+    //     Expression mitkaIsAnAnimal = new Phrase(animal, mitka);
 
-        Expression rockyIsNotAnAnimal = new Phrase(not, new Phrase(animal, rocky));
-        Expression rockyIsNotADog = new Phrase(not, new Phrase(dog, rocky));
-        Expression rockyIsNotAHusky = new Phrase(not, new Phrase(husky, rocky));
+    //     Expression rockyIsNotAnAnimal = new Phrase(not, new Phrase(animal, rocky));
+    //     Expression rockyIsNotADog = new Phrase(not, new Phrase(dog, rocky));
+    //     Expression rockyIsNotAHusky = new Phrase(not, new Phrase(husky, rocky));
 
-        Expression everyDogIsADog = new Phrase(dog, new Phrase(every, dog));
-        Expression everyHuskyIsADog = new Phrase(dog, new Phrase(every, husky));
-        Expression everyHuskyIsAnAnimal = new Phrase(animal, new Phrase(every, husky));
+    //     Expression everyDogIsADog = new Phrase(dog, new Phrase(every, dog));
+    //     Expression everyHuskyIsADog = new Phrase(dog, new Phrase(every, husky));
+    //     Expression everyHuskyIsAnAnimal = new Phrase(animal, new Phrase(every, husky));
 
-        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+    //     MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+    //     MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
-        // rules
-        SubstitutionRule aImpliesB = new SubstitutionRule(a, b);
-        SubstitutionRule dni = new SubstitutionRule(xt0,
-            new ExpressionPattern(not, new ExpressionPattern(not, xt0)), EntailmentContext.Downward);
-        SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward);
-        SubstitutionRule tRule2 = new SubstitutionRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward);
+    //     // rules
+    //     SubstitutionRule aImpliesB = new SubstitutionRule(a, b);
+    //     SubstitutionRule dni = new SubstitutionRule(xt0,
+    //         new ExpressionPattern(not, new ExpressionPattern(not, xt0)), EntailmentContext.Downward);
+    //     SubstitutionRule tRule = new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward);
+    //     SubstitutionRule tRule2 = new SubstitutionRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward);
         
-        // SubstitutionRule ntRule = new SubstitutionRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
-        //    new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
+    //     // SubstitutionRule ntRule = new SubstitutionRule(new ExpressionPattern(Expression.NOT, new IPattern[]{xt0}),
+    //     //    new ExpressionPattern(Expression.NOT, new IPattern[]{new ExpressionPattern(Expression.TRUE, new IPattern[]{xt0})}));
         
-        SubstitutionRule huskyDog = new SubstitutionRule(husky, dog);
-        SubstitutionRule dogAnimal = new SubstitutionRule(dog, animal);
+    //     SubstitutionRule huskyDog = new SubstitutionRule(husky, dog);
+    //     SubstitutionRule dogAnimal = new SubstitutionRule(dog, animal);
 
-        // Inference Rules
-        InferenceRule andIntroduction = new InferenceRule(
-            new IPattern[]{xt0, xt1},
-            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-            EntailmentContext.Downward);
+    //     // Inference Rules
+    //     InferenceRule andIntroduction = new InferenceRule(
+    //         new IPattern[]{xt0, xt1},
+    //         new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+    //         EntailmentContext.Downward);
 
-        InferenceRule orIntroduction1 = new InferenceRule(
-            new IPattern[]{xt0},
-            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-            EntailmentContext.Downward);
+    //     InferenceRule orIntroduction1 = new InferenceRule(
+    //         new IPattern[]{xt0},
+    //         new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+    //         EntailmentContext.Downward);
 
-        InferenceRule orIntroduction2 = new InferenceRule(
-            new IPattern[]{xt1},
-            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-            EntailmentContext.Downward);
+    //     InferenceRule orIntroduction2 = new InferenceRule(
+    //         new IPattern[]{xt1},
+    //         new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+    //         EntailmentContext.Downward);
 
-        // TODO "or" elmination
+    //     // TODO "or" elmination
 
-        im.Add(aImpliesB);
-        im.Add(dni);
-        im.Add(tRule);
-        im.Add(tRule2);
+    //     im.Add(aImpliesB);
+    //     im.Add(dni);
+    //     im.Add(tRule);
+    //     im.Add(tRule2);
 
-        im.Add(huskyDog);
-        im.Add(dogAnimal);
+    //     im.Add(huskyDog);
+    //     im.Add(dogAnimal);
 
-        im.Add(EvaluationRule.NOT);
-        // im.Add(EvaluationRule.EVERY);
-        im.Add(EvaluationRule.DEFAULT_PREDICATE);
+    //     im.Add(EvaluationRule.NOT);
+    //     // im.Add(EvaluationRule.EVERY);
+    //     im.Add(EvaluationRule.DEFAULT_PREDICATE);
 
-        im.Add(andIntroduction);
-        im.Add(orIntroduction1);
-        im.Add(orIntroduction2);
+    //     im.Add(andIntroduction);
+    //     im.Add(orIntroduction1);
+    //     im.Add(orIntroduction2);
 
-        // sentences
-        im.Add(a);
-        im.Add(mitkaIsAHusky);
-        im.Add(rockyIsNotAnAnimal);
-        im.Add(everyDogIsADog);
+    //     // sentences
+    //     im.Add(a);
+    //     im.Add(mitkaIsAHusky);
+    //     im.Add(rockyIsNotAnAnimal);
+    //     im.Add(everyDogIsADog);
 
-        Expression notB = new Phrase(not, new Word(SemanticType.TRUTH_VALUE, "B"));
-        Expression notNotB = new Phrase(not, notB);
-        Expression trueNotB = new Phrase(Expression.TRUE, notB);
-        Expression notTrueNotB = new Phrase(not, trueNotB);
+    //     Expression notB = new Phrase(not, new Word(SemanticType.TRUTH_VALUE, "B"));
+    //     Expression notNotB = new Phrase(not, notB);
+    //     Expression trueNotB = new Phrase(Expression.TRUE, notB);
+    //     Expression notTrueNotB = new Phrase(not, trueNotB);
 
-        // PrintProves(im, notB, false);
-        // PrintProves(im, notNotB, true);
-        // PrintProves(im, trueNotB, false);
-        // PrintProves(im, notTrueNotB, true);
+    //     // PrintProves(im, notB, false);
+    //     // PrintProves(im, notNotB, true);
+    //     // PrintProves(im, trueNotB, false);
+    //     // PrintProves(im, notTrueNotB, true);
 
-        // PrintProves(im, mitkaIsAHusky, true);
-        // PrintProves(im, mitkaIsADog, true);
-        // PrintProves(im, mitkaIsAnAnimal, true);
-        // PrintProves(im, rockyIsNotAnAnimal, true);
-        // PrintProves(im, rockyIsNotADog, true);
-        // PrintProves(im, rockyIsNotAHusky, true);
-        // PrintProves(im, everyDogIsADog, true);
-        // PrintProves(im, everyHuskyIsADog, true);
-        // PrintProves(im, everyHuskyIsAnAnimal, true);
+    //     // PrintProves(im, mitkaIsAHusky, true);
+    //     // PrintProves(im, mitkaIsADog, true);
+    //     // PrintProves(im, mitkaIsAnAnimal, true);
+    //     // PrintProves(im, rockyIsNotAnAnimal, true);
+    //     // PrintProves(im, rockyIsNotADog, true);
+    //     // PrintProves(im, rockyIsNotAHusky, true);
+    //     // PrintProves(im, everyDogIsADog, true);
+    //     // PrintProves(im, everyHuskyIsADog, true);
+    //     // PrintProves(im, everyHuskyIsAnAnimal, true);
 
-        // PrintProves(im, new Phrase(Expression.AND, mitkaIsAHusky, rockyIsNotAnAnimal), true);
-        // PrintProves(im, new Phrase(Expression.AND, notB, rockyIsNotAnAnimal), false);
-        // PrintProves(im, new Phrase(Expression.AND, notB, trueNotB), false);
-        // PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
-        // PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
-        // PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
+    //     // PrintProves(im, new Phrase(Expression.AND, mitkaIsAHusky, rockyIsNotAnAnimal), true);
+    //     // PrintProves(im, new Phrase(Expression.AND, notB, rockyIsNotAnAnimal), false);
+    //     // PrintProves(im, new Phrase(Expression.AND, notB, trueNotB), false);
+    //     // PrintProves(im, new Phrase(Expression.OR, notB, rockyIsNotAnAnimal), true);
+    //     // PrintProves(im, new Phrase(Expression.OR, mitkaIsAHusky, notB), true);
+    //     // PrintProves(im, new Phrase(Expression.OR, notB, trueNotB), false);
 
-        // testing Find()
-        Model fm = new SimpleModel();
-        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 0)));
-        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 1)));
-        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 2)));
-        fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 3)));
+    //     // testing Find()
+    //     Model fm = new SimpleModel();
+    //     fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 0)));
+    //     fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 1)));
+    //     fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 2)));
+    //     fm.Add(new Phrase(Expression.BLUE, new Parameter(SemanticType.INDIVIDUAL, 3)));
 
-        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 2)));
-        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 3)));
-        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 5)));
-        fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 6)));
+    //     fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 2)));
+    //     fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 3)));
+    //     fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 5)));
+    //     fm.Add(new Phrase(Expression.RED, new Parameter(SemanticType.INDIVIDUAL, 6)));
 
-        fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 7)));
-        fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 8)));
+    //     fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 7)));
+    //     fm.Add(new Phrase(Expression.GREEN, new Parameter(SemanticType.INDIVIDUAL, 8)));
 
-        fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 9)));
-        fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 10)));
+    //     fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 9)));
+    //     fm.Add(new Phrase(Expression.YELLOW, new Parameter(SemanticType.INDIVIDUAL, 10)));
 
-        ExpressionPattern xIsRed = new ExpressionPattern(Expression.RED, new MetaVariable(SemanticType.INDIVIDUAL, 0));
-        ExpressionPattern xIsBlue = new ExpressionPattern(Expression.BLUE, new MetaVariable(SemanticType.INDIVIDUAL, 0));
+    //     ExpressionPattern xIsRed = new ExpressionPattern(Expression.RED, new MetaVariable(SemanticType.INDIVIDUAL, 0));
+    //     ExpressionPattern xIsBlue = new ExpressionPattern(Expression.BLUE, new MetaVariable(SemanticType.INDIVIDUAL, 0));
 
-        // Debug.Log(ContentString(fm.Find(xIsRed)));
-        // Debug.Log(ContentString(fm.Find(xIsRed, xIsBlue)));
+    //     // Debug.Log(ContentString(fm.Find(xIsRed)));
+    //     // Debug.Log(ContentString(fm.Find(xIsRed, xIsBlue)));
 
-        Expression contains = new Word(SemanticType.RELATION_2, "contains");
+    //     Expression contains = new Word(SemanticType.RELATION_2, "contains");
 
-        InferenceRule transitivityForContains = new InferenceRule(
-            new IPattern[]{
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 1)),
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 1),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 2))
-            },
-            new IPattern[]{
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 2))
-            });
+    //     InferenceRule transitivityForContains = new InferenceRule(
+    //         new IPattern[]{
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 1)),
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 1),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 2))
+    //         },
+    //         new IPattern[]{
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 2))
+    //         });
 
-        InferenceRule exclusivityForContains = new InferenceRule(
-            new IPattern[]{
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 1)),
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 2),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 1))
-            },
-            new IPattern[]{
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 2)),
-                new ExpressionPattern(contains,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 2),
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0))
-            });
+    //     InferenceRule exclusivityForContains = new InferenceRule(
+    //         new IPattern[]{
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 1)),
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 2),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 1))
+    //         },
+    //         new IPattern[]{
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 2)),
+    //             new ExpressionPattern(contains,
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 2),
+    //                 new MetaVariable(SemanticType.INDIVIDUAL, 0))
+    //         });
 
-        fm.Add(transitivityForContains);
-        fm.Add(exclusivityForContains);
+    //     fm.Add(transitivityForContains);
+    //     fm.Add(exclusivityForContains);
 
-        Expression elmira  = new Word(SemanticType.INDIVIDUAL, "Elmira");
-        Expression newYork = new Word(SemanticType.INDIVIDUAL, "New York");
-        Expression america = new Word(SemanticType.INDIVIDUAL, "America");
+    //     Expression elmira  = new Word(SemanticType.INDIVIDUAL, "Elmira");
+    //     Expression newYork = new Word(SemanticType.INDIVIDUAL, "New York");
+    //     Expression america = new Word(SemanticType.INDIVIDUAL, "America");
 
-        fm.Add(elmira);
-        fm.Add(newYork);
-        fm.Add(america);
+    //     fm.Add(elmira);
+    //     fm.Add(newYork);
+    //     fm.Add(america);
 
-        Expression americaContainsNewYork = new Phrase(contains, america, newYork);
-        Expression newYorkContainsElmira = new Phrase(contains, newYork, elmira);
+    //     Expression americaContainsNewYork = new Phrase(contains, america, newYork);
+    //     Expression newYorkContainsElmira = new Phrase(contains, newYork, elmira);
 
-        fm.Add(americaContainsNewYork);
-        fm.Add(newYorkContainsElmira);
+    //     fm.Add(americaContainsNewYork);
+    //     fm.Add(newYorkContainsElmira);
 
-        Expression paris  = new Word(SemanticType.INDIVIDUAL, "Paris");
-        Expression france = new Word(SemanticType.INDIVIDUAL, "France");
-        Expression europe = new Word(SemanticType.INDIVIDUAL, "Europe");
+    //     Expression paris  = new Word(SemanticType.INDIVIDUAL, "Paris");
+    //     Expression france = new Word(SemanticType.INDIVIDUAL, "France");
+    //     Expression europe = new Word(SemanticType.INDIVIDUAL, "Europe");
 
-        Expression europeContainsParis = new Phrase(contains, europe, paris);
-        Expression franceContainsParis = new Phrase(contains, france, paris);
-        Expression franceDoesntContainEurope = new Phrase(Expression.NOT, new Phrase(contains, france, europe));
+    //     Expression europeContainsParis = new Phrase(contains, europe, paris);
+    //     Expression franceContainsParis = new Phrase(contains, france, paris);
+    //     Expression franceDoesntContainEurope = new Phrase(Expression.NOT, new Phrase(contains, france, europe));
 
-        fm.Add(europeContainsParis);
-        fm.Add(franceContainsParis);
-        fm.Add(franceDoesntContainEurope);
+    //     fm.Add(europeContainsParis);
+    //     fm.Add(franceContainsParis);
+    //     fm.Add(franceDoesntContainEurope);
 
-        // PrintProves(fm, new Phrase(contains, america, elmira), true);
-        // PrintProves(fm, new Phrase(contains, europe,  france), true);
+    //     // PrintProves(fm, new Phrase(contains, america, elmira), true);
+    //     // PrintProves(fm, new Phrase(contains, europe,  france), true);
 
-        SubstitutionRule aIntroduction = new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0))},
-            new MetaVariable(SemanticType.INDIVIDUAL, 0),
-            new ExpressionPattern(Expression.A, new MetaVariable(SemanticType.PREDICATE, 0)),
-            EntailmentContext.Downward);
+    //     SubstitutionRule aIntroduction = new SubstitutionRule(
+    //         new IPattern[]{new ExpressionPattern(new MetaVariable(SemanticType.PREDICATE, 0), new MetaVariable(SemanticType.INDIVIDUAL, 0))},
+    //         new MetaVariable(SemanticType.INDIVIDUAL, 0),
+    //         new ExpressionPattern(Expression.A, new MetaVariable(SemanticType.PREDICATE, 0)),
+    //         EntailmentContext.Downward);
 
-        Expression aBlueThingIsRed = new Phrase(Expression.RED, new Phrase(Expression.A, Expression.BLUE));
+    //     Expression aBlueThingIsRed = new Phrase(Expression.RED, new Phrase(Expression.A, Expression.BLUE));
 
-        fm.Add(EvaluationRule.DEFAULT_PREDICATE);
-        fm.Add(aIntroduction);
+    //     fm.Add(EvaluationRule.DEFAULT_PREDICATE);
+    //     fm.Add(aIntroduction);
     
-        // PrintProves(fm, aBlueThingIsRed, true);
+    //     // PrintProves(fm, aBlueThingIsRed, true);
     }
 
     private void PrintProves(Model m, Expression e, bool proves) {

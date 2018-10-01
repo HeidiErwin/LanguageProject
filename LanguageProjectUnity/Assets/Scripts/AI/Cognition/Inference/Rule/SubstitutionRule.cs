@@ -4,25 +4,25 @@ using System.Collections.Generic;
 
 public class SubstitutionRule {
     protected IPattern[] conditions;
-    protected IPattern top;
-    protected IPattern bottom;
+    protected IPattern[] top;
+    protected IPattern[] bottom;
     protected EntailmentContext? exclusiveContext;
     
-    public SubstitutionRule(IPattern[] conditions, IPattern top, IPattern bottom, EntailmentContext? exclusiveContext) {
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext) {
         this.conditions = conditions;
         this.top = top;
         this.bottom = bottom;
         this.exclusiveContext = exclusiveContext;
     }
 
-    public SubstitutionRule(IPattern[] conditions, IPattern top, IPattern bottom): this(conditions, top, bottom, null) {}
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom): this(conditions, top, bottom, null) {}
 
-    public SubstitutionRule(IPattern top, IPattern bottom, EntailmentContext? exclusiveContext):
+    public SubstitutionRule(IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext):
         this(new IPattern[0], top, bottom, exclusiveContext) {}
 
-    public SubstitutionRule(IPattern top, IPattern bottom): this(new IPattern[0], top, bottom, null) {}
+    public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
-    public List<Expression> Substitute(Model m, Expression expr, EntailmentContext context) {
+    public List<List<Expression>> Substitute(Model m, Expression expr, EntailmentContext context) {
         if (this.exclusiveContext != null && context != this.exclusiveContext) {
             return null;
         }
@@ -31,8 +31,8 @@ public class SubstitutionRule {
             return null;
         }
 
-        IPattern match = null;
-        IPattern substitution = null;
+        IPattern[] match = null;
+        IPattern[] substitution = null;
 
         if (context == EntailmentContext.Upward) {
             match = this.top;
@@ -43,6 +43,50 @@ public class SubstitutionRule {
             match = this.bottom;
             substitution = this.top;
         }
+
+        List<List<Expression>> admissibleSubstitutions = new List<List<Expression>>();
+
+        // go through the match row, and act on the patterns
+        // that match expr.
+        for (int i = 0; i < match.Length; i++) {
+            List<Dictionary<MetaVariable, Expression>> bindings = match[i].GetBindings(expr);
+            if (bindings == null) {
+                continue;
+            }
+
+            if (bindings.Count == 0) {
+                // edge case: successful match but no bindings
+            }
+
+            foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
+                // for each binding, check conditions and gather substitutions individually
+            }
+
+            List<IPattern>[] conditionPartials = new List<IPattern>[conditions.Length];
+            for (int j = 0; j < conditions.Length; j++) {
+                conditionPartials[i] = conditions[i].BindAll(bindings);
+            }
+
+            for (int j = 0; j < match.Length; j++) {
+                if (j == i) {
+                    continue;
+                }
+
+                List<IPattern> partials = match[j].BindAll(bindings);
+                
+                foreach (IPattern p in partials) {
+                    Expression fullyBound = p.ToExpression();
+                    if (fullyBound == null) {
+                        // TODO: something with m.Find()
+                    } else {
+
+                    }
+                }
+            }
+        }
+
+        return admissibleSubstitutions; // TODO
+
 
         // Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
         //
