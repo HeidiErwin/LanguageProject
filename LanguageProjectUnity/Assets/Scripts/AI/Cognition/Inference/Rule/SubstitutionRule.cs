@@ -56,6 +56,15 @@ public class SubstitutionRule {
 
             if (bindings.Count == 0) {
                 // edge case: successful match but no bindings
+                List<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);
+
+                for (int j = 0; j < match.Length; j++) {
+                    if (j == i) {
+                        continue;
+                    }
+
+                    // TODO
+                }
             }
 
             foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
