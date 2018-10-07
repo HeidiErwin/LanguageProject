@@ -191,9 +191,9 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.CONTAINED_WITHIN);
         SetUpSpawner(Expression.OVERLAPS_WITH);
 
-        // SetUpSpawner(Expression.IN_YELLOW_AREA);
+       // SetUpSpawner(Expression.IN_YELLOW_AREA);
         // SetUpSpawner(Expression.IN_GREEN_AREA);
-        // SetUpSpawner(Expression.IN_BLUE_AREA);
+         //SetUpSpawner(Expression.IN_BLUE_AREA);
         // SetUpSpawner(Expression.IN_RED_AREA);
         // SetUpSpawner(Expression.IN_YOUR_AREA);
 

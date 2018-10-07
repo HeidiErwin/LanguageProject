@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NPC : Character {
@@ -31,14 +32,16 @@ public class NPC : Character {
      * and this NPC is clicked, say the expression to the NPC.
      */
     private void OnMouseDown() {
-        ExpressionPiece selectedExpr = controller.GetSelectedExpression();
-        if (selectedExpr == null) {
-            // Debug.Log("No selected expression to say to this NPC");
-        } else {
-            ReceiveExpression(selectedExpr);
-            Destroy(selectedExpr.gameObject);
-            controller.HidePointer();
-            controller.SetInSpeakingMode(false);
+        if (!EventSystem.current.IsPointerOverGameObject()) { // make sure not clicking canvas
+            ExpressionPiece selectedExpr = controller.GetSelectedExpression(); 
+            if (selectedExpr == null) {
+                // Debug.Log("No selected expression to say to this NPC");
+            } else {
+                ReceiveExpression(selectedExpr);
+                Destroy(selectedExpr.gameObject);
+                controller.HidePointer();
+                controller.SetInSpeakingMode(false);
+            }
         }
     }
 

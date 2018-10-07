@@ -56,7 +56,7 @@ public class SubstitutionRule {
 
             if (bindings.Count == 0) {
                 // edge case: successful match but no bindings
-                List<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);
+               // List<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);  //commented out so game will run
 
                 for (int j = 0; j < match.Length; j++) {
                     if (j == i) {
