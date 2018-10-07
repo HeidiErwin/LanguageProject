@@ -19,7 +19,7 @@ public class NPC : Character {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = CustomModels.BobModel();
-            // GoTo("Evan");
+            GoTo("Evan");
         }
 
         if (nameString.Equals("Evan")) {
