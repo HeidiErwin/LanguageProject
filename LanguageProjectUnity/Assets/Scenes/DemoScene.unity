@@ -705,11 +705,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  reflectance: 
-  em: {fileID: 0}
+  id: 4
+  reflectance: 000001
+  em: {fileID: 436188864}
   isActive: 0
-  area: 0
+  area: 1
 --- !u!1 &243939605
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,10 +854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  reflectance: 
-  em: {fileID: 0}
-  isActive: 0
+  id: 1
+  reflectance: 000100
+  em: {fileID: 436188864}
+  isActive: 1
   area: 0
 --- !u!1 &319820250
 GameObject:
@@ -1142,7 +1142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9870268bddf9704c94cb1f4060ced55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lighting: 
+  lighting: 010101
 --- !u!4 &436188865
 Transform:
   m_ObjectHideFlags: 0
@@ -1741,11 +1741,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb771755fa374a6aa5a569b6e18087c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  reflectance: 
-  em: {fileID: 0}
-  isActive: 0
-  area: 0
+  id: 6
+  reflectance: 010101
+  em: {fileID: 436188864}
+  isActive: 1
+  area: 3
 --- !u!61 &540919286
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2172,11 +2172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ec1ae3b14bd42fca140eab68f757ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  reflectance: 
-  em: {fileID: 0}
-  isActive: 0
-  area: 0
+  id: 3
+  reflectance: 000001
+  em: {fileID: 436188864}
+  isActive: 1
+  area: 1
 --- !u!1 &800289232
 GameObject:
   m_ObjectHideFlags: 0
@@ -4037,9 +4037,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  reflectance: 
-  em: {fileID: 0}
-  isActive: 0
+  reflectance: 000000
+  em: {fileID: 436188864}
+  isActive: 1
   area: 0
 --- !u!1 &1285697969
 GameObject:
@@ -5556,9 +5556,9 @@ MonoBehaviour:
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 0
-  displayGridGizmos: 0
-  gridWorldSize: {x: 0, y: 0}
-  nodeRadius: 0
+  displayGridGizmos: 1
+  gridWorldSize: {x: 21, y: 12}
+  nodeRadius: 5
 --- !u!114 &1647106006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6867,11 +6867,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe74c7a2869cb41deadc7aea42b4c339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  reflectance: 
-  em: {fileID: 0}
+  id: 2
+  reflectance: 010000
+  em: {fileID: 436188864}
   isActive: 0
-  area: 0
+  area: 1
 --- !u!1 &2043366194
 GameObject:
   m_ObjectHideFlags: 0
