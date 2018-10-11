@@ -11,7 +11,7 @@ public class Perceivable : MonoBehaviour {
 
     public virtual void SendPerceptualReport(NPC npc) {
         bool[] reflectedLight = new bool[3];
-
+        
         reflectedLight[0] = em.lighting[0] && reflectance[0];
         reflectedLight[1] = em.lighting[1] && reflectance[1];
         reflectedLight[2] = em.lighting[2] && reflectance[2];
