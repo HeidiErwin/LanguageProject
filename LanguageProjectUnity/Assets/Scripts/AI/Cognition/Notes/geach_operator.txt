@@ -1,0 +1,17 @@
+Geach Operator
+
+something: (e -> t) -> t
+G(something): (e, e -> t), e -> t
+G(G(something)): (e, e, e -> t), e, e -> t
+
+solution to quanifier problem!
+requires either: variable-type expressions
+
+(would also include for "and", "or", "not")
+and: (t, t) -> t
+G(and): (e, t), (e, t), e -> t
+
+Bill runs and leaps => Bill runs and Bill leaps
+
+something is green
+G(something) 

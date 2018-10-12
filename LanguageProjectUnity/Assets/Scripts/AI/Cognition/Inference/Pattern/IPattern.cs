@@ -10,6 +10,7 @@ public interface IPattern {
     // bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings);
     HashSet<MetaVariable> GetFreeMetaVariables();
     IPattern Bind(MetaVariable x, Expression expr);
-    List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings);
+    IPattern Bind(Dictionary<MetaVariable, Expression> bindings);
+    List<IPattern> Bind(List<Dictionary<MetaVariable, Expression>> bindings);
     Expression ToExpression();
 }

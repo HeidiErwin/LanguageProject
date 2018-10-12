@@ -22,7 +22,7 @@ public class SubstitutionRule {
 
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
-    public List<List<Expression>> Substitute(Model m, Expression expr, EntailmentContext context) {
+    public List<List<Expression>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
         if (this.exclusiveContext != null && context != this.exclusiveContext) {
             return null;
         }
@@ -44,7 +44,7 @@ public class SubstitutionRule {
             substitution = this.top;
         }
 
-        List<List<Expression>> admissibleSubstitutions = new List<List<Expression>>();
+        List<List<Expression>[]> admissibleSubstitutions = new List<List<Expression>[]>();
 
         // go through the match row, and act on the patterns
         // that match expr.
@@ -63,12 +63,23 @@ public class SubstitutionRule {
                     continue;
                 }
 
+                List<IPattern>[] conjunctPatterns = new List<IPattern>[2];
+                List<IPattern>[] conjunctExpressions = new List<Expression>[2];
+
+                for (int j = 0; j < substitution.Length; j++) {
+                    conjunctPatterns[0].Add(substitution[j]);
+                }
+
                 for (int j = 0; j < match.Length; j++) {
                     if (j == i) {
                         continue;
                     }
 
-                    
+                    conjunctPatterns[1].Add(match[j]);
+                }
+
+                foreach (Dictionary<MetaVariable, Expression> binding in domain) {
+                    // conjunctExpressions();
                 }
             }
 

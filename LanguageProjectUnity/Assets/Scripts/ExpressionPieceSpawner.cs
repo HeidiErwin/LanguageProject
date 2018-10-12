@@ -55,7 +55,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * Set up the visual for this spawner
      */
     public void SetUpSpawnerVisual() {
-        RectTransform pieceRect = gameObject.GetComponent<RectTransform>();
+        // RectTransform pieceRect = gameObject.GetComponent<RectTransform>();
         GameObject nameObject = new GameObject();
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
@@ -67,6 +67,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
         //set color
         Image[] bgImage = gameObject.GetComponents<Image>();
+        bgImage[0].rectTransform.sizeDelta = new Vector2(40f, 40f);
         bgImage[0].color = this.expression.type.color - (new Color(0, 0, 0, 0.5f));
     }
 }

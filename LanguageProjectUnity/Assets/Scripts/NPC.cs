@@ -104,19 +104,11 @@ public class NPC : Character {
 
     }
 
-    // method for testing that Bob will move to 
-    public void RunToEvan() {
-        GameObject evan = GameObject.Find("Evan");
-
-        target = evan.transform;
-        speed = 2;
-        GoToTarget();
-    }
-
     public void GoTo(String targetID) {
         GameObject targetObject = GameObject.Find(targetID);
         target = targetObject.transform;
         speed = 2;
+        Debug.Log(target);
         GoToTarget();
     }
 

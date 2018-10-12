@@ -25,13 +25,12 @@ public class Grid : MonoBehaviour {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
 
         if (grid != null && displayGridGizmos) {
-            //Node playerNode = NodeFromWorldPoint(GameObject.Find("Player(Clone)").transform.position);
+            Node playerNode = NodeFromWorldPoint(GameObject.Find("Player(Clone)").transform.position);
             foreach(Node n in grid) {
                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                //if (n == playerNode)
-                //    Gizmos.color = Color.green;
+                if (n == playerNode)
+                Gizmos.color = Color.green;
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-
             }
         }
     }
