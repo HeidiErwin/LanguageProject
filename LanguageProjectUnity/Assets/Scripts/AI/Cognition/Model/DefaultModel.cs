@@ -14,26 +14,99 @@ public class DefaultModel {
         // m.Add(EvaluationRule.DEFAULT_RELATION_2);
         // m.Add(EvaluationRule.DEFAULT_RELATION_3);
 
-        // MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        // MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
-        // MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
-        // MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
-        // MetaVariable xi2 = new MetaVariable(SemanticType.INDIVIDUAL, 2);
-        // MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
+        MetaVariable xi2 = new MetaVariable(SemanticType.INDIVIDUAL, 2);
+        MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
 
-        // Expression not = Expression.NOT;
+        Expression not = Expression.NOT;
 
-        // // SUBSTITUTION RULES
-        // // S |- T(S)
-        // m.Add(new SubstitutionRule(xt0, new ExpressionPattern(Expression.TRUE, xt0), EntailmentContext.Downward));
-        // // T(S) |- S
-        // m.Add(new SubstitutionRule(new ExpressionPattern(Expression.TRUE, xt0), xt0, EntailmentContext.Upward));
-        // // S |- ~~S
-        // m.Add(new SubstitutionRule(xt0, new ExpressionPattern(not, new ExpressionPattern(not, xt0)), EntailmentContext.Downward));
-        // // ~~S |- S
-        // m.Add(new SubstitutionRule(new ExpressionPattern(not, new ExpressionPattern(not, xt0)), xt0, EntailmentContext.Upward));
+        // SUBSTITUTION RULES
+        // S |- T(S)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.TRUE, xt0)},
+            EntailmentContext.Downward));
 
-        // // i.[F(i)] |- a(F)
+        // T(S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.TRUE, xt0)},
+            new IPattern[]{xt0},
+            EntailmentContext.Upward));
+
+        // S |- ~~S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
+            EntailmentContext.Downward));
+
+        // ~~S |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
+            new IPattern[]{xt0},
+            EntailmentContext.Upward));
+
+        // A, B |- A & B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            EntailmentContext.Downward));
+
+        // A |- A v B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward));
+
+        // B |- A v B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt1},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            EntailmentContext.Downward));
+
+        // // |- F(every(F))
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.EVERY, xp0))}
+        // ));
+
+        // antisymmetry for contained_within
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
+            EntailmentContext.Downward));
+
+        // transitivity for contained_within
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)
+            },
+            new IPattern[]{
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
+
+        // // reflexivity for overlaps_with
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)
+        //     }
+        // ));
+
+        // symmetry for overlaps_with
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)
+        //     },
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)
+        //     }
+        // ));
+        // BUG: causes loops
+
+        // i.[F(i)] |- a(F)
         // m.Add(new SubstitutionRule(
         //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
         //     xi0,
@@ -51,71 +124,6 @@ public class DefaultModel {
         // m.Add(new SubstitutionRule(Expression.COW, Expression.ANIMAL));
         // // person |- animal
         // m.Add(new SubstitutionRule(Expression.PERSON, Expression.ANIMAL));
-
-        // // INFERENCE RULES
-        // // A, B |- A & B
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{xt0, xt1},
-        //     new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-        //     EntailmentContext.Downward
-        // ));
-
-        // // A |- A v B
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{xt0},
-        //     new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-        //     EntailmentContext.Downward
-        // ));
-
-        // // B |- A v B
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{xt1},
-        //     new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-        //     EntailmentContext.Downward
-        // ));
-
-        // // |- F(every(F))
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.EVERY, xp0))}
-        // ));
-
-        // // antisymmetry for contained_within
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
-        //     new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
-        //     EntailmentContext.Downward
-        // ));
-
-        // // transitivity for contained_within
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)
-        //     },
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2),
-        //     }
-        // ));
-
-        // // reflexivity for overlaps_with
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)
-        //     }
-        // ));
-
-        // symmetry for overlaps_with
-        // m.Add(new InferenceRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)
-        //     },
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)
-        //     }
-        // ));
-        // BUG: causes loops
         return m;
     }
 }

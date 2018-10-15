@@ -170,7 +170,11 @@ public abstract class Expression : IPattern {
         return this;
     }
 
-    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+    public IPattern Bind(Dictionary<MetaVariable, Expression> binding) {
+        return this;
+    }
+
+    public List<IPattern> Bind(List<Dictionary<MetaVariable, Expression>> bindings) {
         List<IPattern> output = new List<IPattern>();
         output.Add(this);
         return output;

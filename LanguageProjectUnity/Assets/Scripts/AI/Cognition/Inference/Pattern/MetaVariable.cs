@@ -96,14 +96,22 @@ public class MetaVariable : IPattern {
     }
 
     public IPattern Bind(MetaVariable x, Expression expr) {
-        if (x.localID == this.localID && x.type == this.type) {
+        if (this.Equals(x)) {
             return expr;
         } else {
             return this;
         }
     }
 
-    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+    public IPattern Bind(Dictionary<MetaVariable, Expression> binding) {
+        if (binding.ContainsKey(this)) {
+            return binding[this];
+        } else {
+            return this;
+        }
+    }
+
+    public List<IPattern> Bind(List<Dictionary<MetaVariable, Expression>> bindings) {
         List<IPattern> output = new List<IPattern>();
         foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
             bool bound = false;

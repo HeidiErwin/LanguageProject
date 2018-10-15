@@ -19,7 +19,7 @@ public class NPC : Character {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = CustomModels.BobModel();
-            GoTo("Evan");
+            // GoTo("Evan");
         }
 
         if (nameString.Equals("Evan")) {
@@ -75,6 +75,7 @@ public class NPC : Character {
         }
 
         if (this.model.Proves(utterance)) {
+            Debug.Log(utterance);
             ShowSpeechBubble("yes");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {

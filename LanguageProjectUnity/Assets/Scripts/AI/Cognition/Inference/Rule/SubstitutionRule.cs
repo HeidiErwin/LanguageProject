@@ -22,7 +22,7 @@ public class SubstitutionRule {
 
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
-    public List<List<Expression>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
+    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
         if (this.exclusiveContext != null && context != this.exclusiveContext) {
             return null;
         }
@@ -44,19 +44,20 @@ public class SubstitutionRule {
             substitution = this.top;
         }
 
-        List<List<Expression>[]> admissibleSubstitutions = new List<List<Expression>[]>();
+        List<List<IPattern>[]> admissibleSubstitutions = new List<List<IPattern>[]>();
 
         // go through the match row, and act on the patterns
         // that match expr.
         for (int i = 0; i < match.Length; i++) {
             List<Dictionary<MetaVariable, Expression>> bindings = match[i].GetBindings(expr);
             if (bindings == null) {
+
                 continue;
             }
 
             if (bindings.Count == 0) {
                 // edge case: successful match but no bindings
-                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);  //commented out so game will run
+                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);
 
                 if (domain == null) {
                     // this means nothing satisfied the specified conditions.
@@ -64,7 +65,8 @@ public class SubstitutionRule {
                 }
 
                 List<IPattern>[] conjunctPatterns = new List<IPattern>[2];
-                List<IPattern>[] conjunctExpressions = new List<Expression>[2];
+                conjunctPatterns[0] = new List<IPattern>();
+                conjunctPatterns[1] = new List<IPattern>();
 
                 for (int j = 0; j < substitution.Length; j++) {
                     conjunctPatterns[0].Add(substitution[j]);
@@ -78,88 +80,90 @@ public class SubstitutionRule {
                     conjunctPatterns[1].Add(match[j]);
                 }
 
+                if (domain.Count == 0) {
+                    admissibleSubstitutions.Add(conjunctPatterns);
+                }
+
                 foreach (Dictionary<MetaVariable, Expression> binding in domain) {
-                    // conjunctExpressions();
+                    List<IPattern>[] conditionBoundConjunctPatterns = new List<IPattern>[2];
+                    conditionBoundConjunctPatterns[0] = new List<IPattern>();
+                    conditionBoundConjunctPatterns[1] = new List<IPattern>();
+                    
+                    foreach (IPattern pattern in conjunctPatterns[0]) {
+                        conditionBoundConjunctPatterns[0].Add(pattern.Bind(binding));
+                    }
+
+                    foreach (IPattern pattern in conjunctPatterns[1]) {
+                        conditionBoundConjunctPatterns[0].Add(pattern.Bind(binding));
+                    }
+
+                    admissibleSubstitutions.Add(conditionBoundConjunctPatterns);
                 }
             }
 
+            // CAREFUL: this code isn't (entirely) redundant
             foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
-                // for each binding, check conditions and gather substitutions individually
-            }
+                // each of these bindings is a separate match.
+                IPattern[] boundConditions = new IPattern[conditions.Length];
+                
+                for (int j = 0; j < conditions.Length; j++) {
+                    boundConditions[j] = conditions[j].Bind(binding);
+                }
 
-            List<IPattern>[] conditionPartials = new List<IPattern>[conditions.Length];
-            for (int j = 0; j < conditions.Length; j++) {
-                conditionPartials[i] = conditions[i].BindAll(bindings);
-            }
+                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(boundConditions);
 
-            for (int j = 0; j < match.Length; j++) {
-                if (j == i) {
+                if (domain == null) {
+                    // this means nothing satisfied the specified conditions.
                     continue;
                 }
 
-                List<IPattern> partials = match[j].BindAll(bindings);
-                
-                foreach (IPattern p in partials) {
-                    Expression fullyBound = p.ToExpression();
-                    if (fullyBound == null) {
-                        // TODO: something with m.Find()
-                    } else {
+                List<IPattern>[] conjunctPatterns = new List<IPattern>[2];
+                conjunctPatterns[0] = new List<IPattern>();
+                conjunctPatterns[1] = new List<IPattern>();
 
+                for (int j = 0; j < substitution.Length; j++) {
+                    conjunctPatterns[0].Add(substitution[j].Bind(binding));
+                }
+
+                for (int j = 0; j < match.Length; j++) {
+                    if (j == i) {
+                        continue;
                     }
+                    conjunctPatterns[1].Add(match[j].Bind(binding));
+                }
+
+                if (domain.Count == 0) {
+                    admissibleSubstitutions.Add(conjunctPatterns);
+                }
+
+                foreach (Dictionary<MetaVariable, Expression> assignment in domain) {
+                    List<IPattern>[] conditionBoundConjunctPatterns = new List<IPattern>[2];
+                    conditionBoundConjunctPatterns[0] = new List<IPattern>();
+                    conditionBoundConjunctPatterns[1] = new List<IPattern>();
+                    
+                    foreach (IPattern pattern in conjunctPatterns[0]) {
+                        conditionBoundConjunctPatterns[0].Add(pattern.Bind(assignment));
+                    }
+
+                    foreach (IPattern pattern in conjunctPatterns[1]) {
+                        conditionBoundConjunctPatterns[1].Add(pattern.Bind(assignment));
+                    }
+
+                    admissibleSubstitutions.Add(conditionBoundConjunctPatterns);
                 }
             }
         }
 
-        return admissibleSubstitutions; // TODO
-
-
-        // Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-        //
-        // if (match.Matches(expr, bindings)) {
-        //     IPattern currentPattern = substitution;
-        //     foreach (MetaVariable x in bindings.Keys) {
-        //         currentPattern = currentPattern.Bind(x, bindings[x]);
-        //     }
-            
-        //     Expression ifBound = currentPattern.ToExpression();
-        //     if (ifBound != null) {
-        //         List<Expression> substitutions = new List<Expression>();
-        //         substitutions.Add(ifBound);
-        //         return substitutions;
-        //     }
-
-        //     IPattern[] conditionPartials = new IPattern[conditions.Length];
-        //     for (int i = 0; i < conditionPartials.Length; i++) {
-        //         conditionPartials[i] = conditions[i];
-        //         foreach (MetaVariable x in bindings.Keys) {
-        //             conditionPartials[i] = conditionPartials[i].Bind(x, bindings[x]);
-        //         }
-        //     }
-
-        //     HashSet<Dictionary<MetaVariable, Expression>> assignments = m.Find(conditionPartials);
-        //     if (assignments != null) {
-        //         List<Expression> substitutions = new List<Expression>();
-        //         foreach (Dictionary<MetaVariable, Expression> assignment in assignments) {
-        //             IPattern newCurrentPattern = currentPattern;
-        //             foreach (MetaVariable x in assignment.Keys) {
-        //                 newCurrentPattern = currentPattern.Bind(x, assignment[x]);
-        //             }
-        //             Expression fullyAssigned = newCurrentPattern.ToExpression();
-        //             if (fullyAssigned == null) {
-        //                 return null;
-        //             }
-        //             substitutions.Add(fullyAssigned);
-        //         }
-        //         return substitutions;
-        //     }
-        // }
-        return null;
+        return admissibleSubstitutions;
     }
 
     public override String ToString() {
         StringBuilder s = new StringBuilder();
 
-        s.Append(top.ToString());
+        for (int i = 0; i < top.Length; i++) {
+            s.Append(top[i]);
+            s.Append(", ");
+        }
 
         if (conditions != null) {
             s.Append(" [");
@@ -170,6 +174,13 @@ public class SubstitutionRule {
             s.Append("]");
         }
 
-        return top.ToString() + " |- " + bottom.ToString();
+        s.Append(" |- ");
+
+        for (int i = 0; i < bottom.Length; i++) {
+            s.Append(bottom[i]);
+            s.Append(", ");
+        }
+
+        return s.ToString();
     }
 }

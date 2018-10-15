@@ -196,12 +196,21 @@ public class ExpressionPattern : IPattern {
         return new ExpressionPattern(headPattern.Bind(x, expr), newArgPatterns);
     }
 
-    public List<IPattern> BindAll(List<Dictionary<MetaVariable, Expression>> bindings) {
+    public IPattern Bind(Dictionary<MetaVariable, Expression> binding) {
+        IPattern currentPattern = this;
+
+        foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
+            currentPattern = currentPattern.Bind(kv.Key, kv.Value);
+        }
+
+        return currentPattern;
+    }
+
+    public List<IPattern> Bind(List<Dictionary<MetaVariable, Expression>> bindings) {
         List<IPattern> output = new List<IPattern>();
+        
         foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
-            foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
-                output.Add(Bind(kv.Key, kv.Value));
-            }
+            output.Add(Bind(binding));
         }
 
         return output;

@@ -14,7 +14,6 @@ using UnityEngine;
 public abstract class Model {
     private List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     private HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
-    private HashSet<InferenceRule> inferenceRules = new HashSet<InferenceRule>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -38,12 +37,8 @@ public abstract class Model {
         substitutionRules.Add(r);
     }
 
-    public void Add(InferenceRule r) {
-        inferenceRules.Add(r);
-    }
-
-    // TODO: important. Need to add a "Path" so that copies of the same sentence
-    // Don't get tried.
+    // TODO: important. Need to add a "Path" so that
+    // copies of the same sentence don't get retried.
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
         return null;
         
@@ -126,32 +121,68 @@ public abstract class Model {
             return true;
         }
 
-        // foreach (InferenceRule ir in this.inferenceRules) {
-        //     UnityEngine.Debug.Log(ir);
-        //     if (ir.CanInfer(this, expr, EntailmentContext.Downward)) {
-        //         return true;
-        //     }
-        // }
+        // TODO: make this BFS instead of DFS
 
-        // HashSet<Expression> provers = new HashSet<Expression>();
+        // this should do it for inference chains not involving evaluation
+        foreach (SubstitutionRule sr in this.substitutionRules) {
+            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, EntailmentContext.Downward);
+            
+            if (admissibleSubstitutions == null) {
+                continue;
+            }
 
-        // foreach (SubstitutionRule sr in this.substitutionRules) {
-        //     List<Expression> substitutions = sr.Substitute(this, expr, EntailmentContext.Downward);
-        //     if (substitutions != null) {
-        //         foreach (Expression substitution in substitutions) {
-        //             if (this.Contains(substitution)) {
-        //                 return true;
-        //             }
-        //             provers.Add(substitution);
-        //         }
-        //     }
-        // }
+            foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
+                bool proved = true;
 
-        // foreach (Expression next in provers) {
-        //     if (this.Proves(next)) {
-        //         return true;
-        //     }
-        // }
+                List<IPattern> toFindList = new List<IPattern>();
+
+                foreach (IPattern p in conjunctSubstitution[0]) {
+                    Expression e = p.ToExpression();
+                    if (e == null) {
+                        toFindList.Add(p);
+                    } else if (!this.Proves(e)) {
+                        proved = false;
+                        break;
+                    }
+                }
+
+                if (!proved) {
+                    continue;
+                }
+
+                foreach (IPattern p in conjunctSubstitution[1]) {
+                    Expression e = p.ToExpression();
+                    if (e == null) {
+                        toFindList.Add(new ExpressionPattern(Expression.NOT, p));
+                    } else if (!this.Proves(new Phrase(Expression.NOT, e))) {
+                        proved = false;
+                        break;
+                    }
+                }
+
+                if (!proved) {
+                    continue;
+                }
+
+                if (toFindList.Count == 0) {
+                    if (proved) {
+                        return true;
+                    }
+                } else {
+                    IPattern[] toFindArray = new IPattern[toFindList.Count];
+                        
+                    int counter = 0;
+                    foreach (IPattern p in toFindList) {
+                        toFindArray[counter] = p;
+                        counter++;
+                    }
+
+                    if (this.Find(toFindArray) != null) {
+                        return true;
+                    }
+                }
+            }
+        }
 
         // foreach (Expression e in this.GenerateSubexpressions(expr, EntailmentContext.Downward)) {
         //     if (!e.Equals(expr) && this.Proves(e)) {
