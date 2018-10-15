@@ -121,7 +121,7 @@ public abstract class SemanticType {
     public static readonly SemanticType RELATION_2 = new Arrow(new List<SemanticType> { INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_3 = new Arrow(new List<SemanticType> { INDIVIDUAL, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType DETERMINER = new Arrow(new List<SemanticType> { PREDICATE }, INDIVIDUAL);
-    public static readonly SemanticType QUANTIFIER = new Arrow(new List<SemanticType> { PREDICATE }, TRUTH_VALUE);
+    public static readonly SemanticType QUANTIFIER = new Arrow(new List<SemanticType> { PREDICATE, PREDICATE }, TRUTH_VALUE);
     public static readonly SemanticType TRUTH_FUNCTION_1 = new Arrow(new List<SemanticType> { TRUTH_VALUE }, TRUTH_VALUE );
     public static readonly SemanticType TRUTH_FUNCTION_2 = new Arrow(new List<SemanticType> { TRUTH_VALUE, TRUTH_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2_REDUCER = new Arrow(new List<SemanticType> { RELATION_2, INDIVIDUAL }, TRUTH_VALUE);

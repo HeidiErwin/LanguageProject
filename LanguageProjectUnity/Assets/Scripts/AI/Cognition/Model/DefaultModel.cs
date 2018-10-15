@@ -20,6 +20,7 @@ public class DefaultModel {
         MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
         MetaVariable xi2 = new MetaVariable(SemanticType.INDIVIDUAL, 2);
         MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
+        MetaVariable xp1 = new MetaVariable(SemanticType.PREDICATE, 1);
 
         Expression not = Expression.NOT;
 
@@ -66,11 +67,41 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
             EntailmentContext.Downward));
 
-        // // |- F(every(F))
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.EVERY, xp0))}
-        // ));
+        // It's not the case that some bird flies
+        // ~some(bird, flies)
+        // no bird flies
+
+        // reflexivity for identity
+        m.Add(new SubstitutionRule(
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
+
+        // // symmetry for identity (commented out so it doesn't loop)
+        // m.Add(new SubstituionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
+
+        // transitivity for identity
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
+                new ExpressionPattern(Expression.IDENTITY, xi1, xi2)
+            },
+            new IPattern[]{
+                new ExpressionPattern(Expression.IDENTITY, xi0, xi2)
+            }));
+
+        // [F(x)] G(x) |- some(F, G) TODO determine correct proof semantics
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(xp1, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
+
+        // [F(x)] every(F, G) |- G(x) TODO determine correct proof semantics
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp1)},
+            new IPattern[]{new ExpressionPattern(xp1, xi0)}));
 
         // antisymmetry for contained_within
         m.Add(new SubstitutionRule(
@@ -105,20 +136,6 @@ public class DefaultModel {
         //     }
         // ));
         // BUG: causes loops
-
-        // i.[F(i)] |- a(F)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     xi0,
-        //     new ExpressionPattern(Expression.A, xp0),
-        //     EntailmentContext.Downward));
-
-        // // every(F) |- i.[F(i)]
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     new ExpressionPattern(Expression.EVERY, xp0),
-        //     xi0,
-        //     EntailmentContext.Downward));
 
         // // cow |- animal
         // m.Add(new SubstitutionRule(Expression.COW, Expression.ANIMAL));

@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
     public GameObject canvasInstance;
     [SerializeField] private GameObject pointer; // arrow pointing to selected expression
     [SerializeField] private GameObject individualKeyboard;
-    [SerializeField] private GameObject determinerKeyboard;
+    [SerializeField] private GameObject quantifierKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
     [SerializeField] private GameObject relation2Keyboard;
     [SerializeField] private GameObject truthFunction1Keyboard;
@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour {
     public AudioSource placeExpression;
     public AudioSource failure;
 
-    public const int PIECES_PER_ROW = 8;
+    public const int PIECES_PER_ROW = 10;
 
     private bool inSpeakingMode = false; // true only right after user has submitted an expression (pressed checkmark button) and before user has selected an NPC to speak to
 
@@ -99,12 +99,12 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.DETERMINER)) {
-            GameObject firstRow = determinerKeyboard.transform.GetChild(0).gameObject;
+        } else if (type.Equals(SemanticType.QUANTIFIER)) {
+            GameObject firstRow = quantifierKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
             } else {
-                GameObject secondRow = determinerKeyboard.transform.GetChild(1).gameObject;
+                GameObject secondRow = quantifierKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else if (type.Equals(SemanticType.PREDICATE)) {
@@ -160,14 +160,14 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.OR);
 
         // variables and variable functions
-        SetUpSpawner(Expression.INDIVIDUAL_VARIABLE);
-        SetUpSpawner(Expression.NEXT_VARIABLE);
+        // SetUpSpawner(Expression.INDIVIDUAL_VARIABLE);
+        // SetUpSpawner(Expression.NEXT_VARIABLE);
 
         // quantifiers
-        // SetUpSpawner(Expression.NO);
-        SetUpSpawner(Expression.A);
-        // SetUpSpawner(Expression.TWO);
-        // SetUpSpawner(Expression.THREE);
+        SetUpSpawner(Expression.NO);
+        SetUpSpawner(Expression.SOME);
+        SetUpSpawner(Expression.TWO);
+        SetUpSpawner(Expression.THREE);
         SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
@@ -185,62 +185,32 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.MAGENTA);
         SetUpSpawner(Expression.CYAN);
         SetUpSpawner(Expression.WHITE);
-
-        // 2-place relations
-        SetUpSpawner(Expression.HELP);
-        SetUpSpawner(Expression.CONTAINED_WITHIN);
-        SetUpSpawner(Expression.OVERLAPS_WITH);
-
-       // SetUpSpawner(Expression.IN_YELLOW_AREA);
-        // SetUpSpawner(Expression.IN_GREEN_AREA);
-         //SetUpSpawner(Expression.IN_BLUE_AREA);
-        // SetUpSpawner(Expression.IN_RED_AREA);
-        // SetUpSpawner(Expression.IN_YOUR_AREA);
-
         SetUpSpawner(Expression.FOUNTAIN);
         SetUpSpawner(Expression.LAMP);
         SetUpSpawner(Expression.ACTIVE);
         SetUpSpawner(Expression.INACTIVE);
-        // SetUpSpawner(Expression.KING);
+        SetUpSpawner(Expression.KING);
         SetUpSpawner(Expression.COW);
         SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
-        //HELP for testing ExpressionPiece object placements, delete later:
-        // SetUpSpawner(new Word(SemanticType.RELATION_2, "help"));
 
-
-        /** BELOW ARE PIECES TO BE USED LATER, NOT IN DEMO:
-          // truth value constants
-              SetUpSpawner(Expression.VERUM);
-
-          // truth function contstants
-              SetUpSpawner(Expression.NOT);
-              SetUpSpawner(Expression.OR);
-
-          // quantifiers
-              SetUpSpawner(Expression.SOME);
-
-          // 2-place relation reducers
-              SetUpSpawner(Expression.ITSELF);
-
-          // 2-place relations
-          SetUpSpawner(Expression.HELP);
-
-          // 3-place relations
-              SetUpSpawner(Expression.GIVE);
-
-          */
+        // 2-place relations
+        SetUpSpawner(Expression.IDENTITY);
+        SetUpSpawner(Expression.CONTAINED_WITHIN);
+        SetUpSpawner(Expression.HELP);
+        
+        // SetUpSpawner(Expression.OVERLAPS_WITH);
     }
 
     // updates the keyboard so that the tabToDisplayIndex-th tab is active,
     // and all other tabs become inactive
     public void SwitchKeyboardTab(int tabToDisplayIndex) {
         currentKeyboard.SetActive(false);
-        if (tabToDisplayIndex == 0) { //Individual
+        if (tabToDisplayIndex == 0) { // Individual
             currentKeyboard = individualKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 1) { // determiner
-            currentKeyboard = determinerKeyboard;
+        } else if (tabToDisplayIndex == 1) { // Quantifier
+            currentKeyboard = quantifierKeyboard;
             highClick.Play();
         } else if (tabToDisplayIndex == 2) { // Predicate
             currentKeyboard = predicateKeyboard;

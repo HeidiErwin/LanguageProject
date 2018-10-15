@@ -75,7 +75,6 @@ public class NPC : Character {
         }
 
         if (this.model.Proves(utterance)) {
-            Debug.Log(utterance);
             ShowSpeechBubble("yes");
             this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
         } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {

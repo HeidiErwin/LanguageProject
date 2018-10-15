@@ -160,11 +160,6 @@ public class SubstitutionRule {
     public override String ToString() {
         StringBuilder s = new StringBuilder();
 
-        for (int i = 0; i < top.Length; i++) {
-            s.Append(top[i]);
-            s.Append(", ");
-        }
-
         if (conditions != null) {
             s.Append(" [");
 
@@ -172,6 +167,11 @@ public class SubstitutionRule {
                 s.Append(conditions[i] + ", ");
             }
             s.Append("]");
+        }
+
+        for (int i = 0; i < top.Length; i++) {
+            s.Append(top[i]);
+            s.Append(", ");
         }
 
         s.Append(" |- ");
