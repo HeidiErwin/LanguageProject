@@ -3817,7 +3817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1252371703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5921,8 +5921,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   sprites: []
-  target: {fileID: 0}
-  nameString: 
+  target: {fileID: 1833950085}
+  nameString: Evan
 --- !u!61 &1833950087
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6532,7 +6532,7 @@ MonoBehaviour:
   speed: 0
   sprites: []
   target: {fileID: 0}
-  nameString: 
+  nameString: Bob
 --- !u!61 &1950673116
 BoxCollider2D:
   m_ObjectHideFlags: 0
