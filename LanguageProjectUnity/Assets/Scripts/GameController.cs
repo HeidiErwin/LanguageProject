@@ -193,6 +193,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.COW);
         SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
+        SetUpSpawner(Expression.EXISTS);
 
         // 2-place relations
         SetUpSpawner(Expression.IDENTITY);

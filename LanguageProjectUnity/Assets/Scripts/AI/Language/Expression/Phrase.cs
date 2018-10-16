@@ -92,7 +92,6 @@ public class Phrase : Expression {
 
         Expression newExpression = function;
 
-
         int counter = 0;
         for (int i = 0; i < inputs.Length; i++) {
             if (inputs[i] == null) {

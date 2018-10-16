@@ -222,6 +222,11 @@ public class ExpressionPattern : IPattern {
         }
 
         Expression headExpression = headPattern.ToExpression();
+        
+        if (headExpression == null) {
+            return null;
+        }
+
         Expression[] argExpressions = new Expression[argPatterns.Length];
         
         for (int i = 0; i < argPatterns.Length; i++) {

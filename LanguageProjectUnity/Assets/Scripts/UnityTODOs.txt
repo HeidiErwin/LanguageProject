@@ -159,21 +159,23 @@ Graphics:
   - keyboard multiple pages
 	- animations
 	- make ExpressionPiece from fully formed Expression
+  - Bug: Argument(Clone) not being destroyed when a function expression is given as input to another expression
 Reasoning:
-  - identity relation
+  - [DONE] identity relation
   - model should auto-fill in parameters
 	- [DONE] still need to type-check patterns
 	- [DONE] still need to deal with pattern matching for partially applied expressions
-	- revamp rules to be inference/substitution rules and evaluation rules ONLY (no inference rules)
+	- [DONE] revamp rules to be substitution rules and evaluation rules ONLY (no inference rules)
 	- [DONE] change type of quantifier/make sub-types a thing so that there's a difference between individuals and quantifiers
 		* solution: add Geach operator. Requires multi-type expressions.
 	- find a way to make proof-search BFS instead of DFS to speed it up
-	- store proof path to avoid cycles & save in model
+	- [DONE] store proof path to avoid cycles & save in model
 	- far off: save continuation to make reasoning happen in game time and not just in one frame
 Perception:
-	- make it so that trigger collider is perception-specific and doesn't interfere with making expressions
+	- [DONE] make it so that trigger collider is perception-specific and doesn't interfere with making expressions
 	- event perception
 	- far off: maybe actually simulate stuff and send analog information
 Action:
   - figure out format for action rules, as well as primitive action representations
 	- code procedure determining composite action from primitive ones
+  - walking is broken again

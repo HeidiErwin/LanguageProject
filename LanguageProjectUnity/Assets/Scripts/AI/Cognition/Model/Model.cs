@@ -114,11 +114,29 @@ public abstract class Model {
         // return newExpressions;
     }
 
-    // return true if this model proves expr.
+    private static HashSet<Expression> Add(HashSet<Expression> path, Expression expr) {
+        HashSet<Expression> newPath = new HashSet<Expression>();
+        foreach (Expression e in path) {
+            newPath.Add(e);
+        }
+        newPath.Add(expr);
+        return newPath;
+    }
+
     public bool Proves(Expression expr) {
+        return Proves(expr, new HashSet<Expression>());
+    }
+
+    // return true if this model proves expr.
+    protected bool Proves(Expression expr, HashSet<Expression> path) {
+
         // base case
         if (this.Contains(expr)) {
             return true;
+        }
+
+        if (path.Contains(expr)) {
+            return false;
         }
 
         // TODO: make this BFS instead of DFS
@@ -140,7 +158,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
-                    } else if (!this.Proves(e)) {
+                    } else if (!this.Proves(e, Add(path, expr))) {
                         proved = false;
                         break;
                     }
@@ -154,7 +172,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
-                    } else if (!this.Proves(new Phrase(Expression.NOT, e))) {
+                    } else if (!this.Proves(new Phrase(Expression.NOT, e), Add(path, expr))) {
                         proved = false;
                         break;
                     }
@@ -176,7 +194,8 @@ public abstract class Model {
                         toFindArray[counter] = p;
                         counter++;
                     }
-
+                    // TODO: find a way for Find() or something else to RECURSIVELY prove
+                    // the potential bindings for use
                     if (this.Find(toFindArray) != null) {
                         return true;
                     }
@@ -185,7 +204,7 @@ public abstract class Model {
         }
 
         // foreach (Expression e in this.GenerateSubexpressions(expr, EntailmentContext.Downward)) {
-        //     if (!e.Equals(expr) && this.Proves(e)) {
+        //     if (!e.Equals(expr) && this.Proves(e, path.Add(expr))) {
         //         return true;
         //     }
         // }

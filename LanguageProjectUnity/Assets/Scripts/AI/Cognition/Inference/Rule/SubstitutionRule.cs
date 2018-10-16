@@ -23,11 +23,7 @@ public class SubstitutionRule {
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
     public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
-        if (this.exclusiveContext != null && context != this.exclusiveContext) {
-            return null;
-        }
-
-        if (context == EntailmentContext.None) {
+        if (context != this.exclusiveContext || context == EntailmentContext.None) {
             return null;
         }
 
@@ -51,7 +47,6 @@ public class SubstitutionRule {
         for (int i = 0; i < match.Length; i++) {
             List<Dictionary<MetaVariable, Expression>> bindings = match[i].GetBindings(expr);
             if (bindings == null) {
-
                 continue;
             }
 
@@ -154,6 +149,10 @@ public class SubstitutionRule {
             }
         }
 
+        if (admissibleSubstitutions.Count == 0) {
+            return null;
+        }
+        
         return admissibleSubstitutions;
     }
 

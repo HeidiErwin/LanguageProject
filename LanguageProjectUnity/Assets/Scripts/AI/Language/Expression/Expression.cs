@@ -212,6 +212,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
 
+    public static readonly Expression EXISTS = new Word(SemanticType.PREDICATE, "exists");
     public static readonly Expression FOUNTAIN = new Word(SemanticType.PREDICATE, "fountain");
     public static readonly Expression LAMP = new Word(SemanticType.PREDICATE, "lamp");
     public static readonly Expression ACTIVE = new Word(SemanticType.PREDICATE, "active");

@@ -12,11 +12,11 @@ using System;
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = true; // DRAW_SUB_TYPE & DRAW_OPEN_ARG_TYPE always true given current visuals
+    private const bool DRAW_SUBEXPRESSION_TYPE = false;
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
-    public const float PIXELS_PER_UNIT = 40.0f;//(float) Screen.height / 20;// 40.0f;
+    public const float PIXELS_PER_UNIT = 40.0f;
     private readonly static float BUFFER_IN_PIXELS = BUFFER_IN_UNITS * PIXELS_PER_UNIT;
 
     public GameController gameController;
