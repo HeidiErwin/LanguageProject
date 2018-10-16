@@ -167,7 +167,9 @@ Reasoning:
 	- [DONE] still need to deal with pattern matching for partially applied expressions
 	- [DONE] revamp rules to be substitution rules and evaluation rules ONLY (no inference rules)
 	- [DONE] change type of quantifier/make sub-types a thing so that there's a difference between individuals and quantifiers
-		* solution: add Geach operator. Requires multi-type expressions.
+		* solution: add Geach operator. Requires variable-type expressions.
+  - reimplement GenerateExpressions()
+    * requires doing something about variables. Either add pattern matching a pattern, or a domain for variables.
 	- find a way to make proof-search BFS instead of DFS to speed it up
 	- [DONE] store proof path to avoid cycles & save in model
 	- far off: save continuation to make reasoning happen in game time and not just in one frame

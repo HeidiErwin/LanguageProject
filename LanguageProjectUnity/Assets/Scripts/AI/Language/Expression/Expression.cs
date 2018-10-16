@@ -230,12 +230,6 @@ public abstract class Expression : IPattern {
     public static readonly Expression CYAN = new Word(SemanticType.PREDICATE, "cyan");
     public static readonly Expression MAGENTA = new Word(SemanticType.PREDICATE, "magenta");
     public static readonly Expression WHITE = new Word(SemanticType.PREDICATE, "white");
-    
-    public static readonly Expression IN_YOUR_AREA = new Word(SemanticType.PREDICATE, "in-your-area");
-    public static readonly Expression IN_YELLOW_AREA = new Word(SemanticType.PREDICATE, "in-yellow-area");
-    public static readonly Expression IN_GREEN_AREA = new Word(SemanticType.PREDICATE, "in-green-area");
-    public static readonly Expression IN_BLUE_AREA = new Word(SemanticType.PREDICATE, "in-blue-area");
-    public static readonly Expression IN_RED_AREA = new Word(SemanticType.PREDICATE, "in-red-area");
 
     public static readonly Expression IDENTITY = new Word(SemanticType.RELATION_2, "=");
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");

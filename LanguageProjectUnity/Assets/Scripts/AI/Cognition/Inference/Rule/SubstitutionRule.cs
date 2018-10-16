@@ -23,7 +23,7 @@ public class SubstitutionRule {
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
     public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
-        if (context != this.exclusiveContext || context == EntailmentContext.None) {
+        if ((this.exclusiveContext != null && context != this.exclusiveContext) || context == EntailmentContext.None) {
             return null;
         }
 
