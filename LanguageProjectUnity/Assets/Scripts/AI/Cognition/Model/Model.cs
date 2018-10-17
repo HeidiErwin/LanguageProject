@@ -233,5 +233,18 @@ public abstract class Model {
         return false;
     }
 
-    public abstract HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns);
+    public virtual HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
+        // for (int i = 0; i < patterns.Length; i++) {
+        //     HashSet<MetaVariable> freeMetaVariables = patterns[i].GetFreeMetaVariables();
+        //     foreach (MetaVariable x in freeMetaVariables) {
+        //         foreach(Expression e in this.domain[x.type]) {
+        //             Bind(e)
+        //         }
+        //     }
+        // }
+
+        // GetFreeMetaVariables();
+
+        return null;
+    }
 }

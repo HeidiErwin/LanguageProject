@@ -54,6 +54,26 @@ public class SubstitutionRule {
             substitution = this.top;
         }
 
+        // BEGIN NEW CODE
+        // List<List<Expression>[]> admissibleSubstitutions = new List<List<Expression>[]>();
+        // for (int i = 0; i < match.Length; i++) {
+        //     List<Dictionary<MetaVariable, Expression>> bindings = match[i].GetBindings(expr);
+        //     if (bindings == null) {
+        //         continue;
+        //     }
+
+        //     if (bindings.Count == 0) {
+        //         HashSet<>
+        //     }
+
+        //     foreach () {
+
+        //     }
+        // }
+
+        // END NEW CODE
+        // BEGIN OLD CODE
+
         List<List<IPattern>[]> admissibleSubstitutions = new List<List<IPattern>[]>();
 
         // go through the match row, and act on the patterns
