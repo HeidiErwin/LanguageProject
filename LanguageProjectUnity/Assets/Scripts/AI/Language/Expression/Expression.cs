@@ -28,6 +28,10 @@ public abstract class Expression : IPattern {
         return args[i];
     }
 
+    public Expression GetHead() {
+        return new Word(headType, headString);
+    }
+
     // returns the total number of arguments of this expression,
     // if any. If not, it returns 0.
     public int GetNumArgs() {
@@ -182,6 +186,10 @@ public abstract class Expression : IPattern {
 
     public Expression ToExpression() {
         return this;
+    }
+
+    public void AddToDomain(Model m) {
+        m.AddToDomain(this);
     }
 
     public override int GetHashCode() {

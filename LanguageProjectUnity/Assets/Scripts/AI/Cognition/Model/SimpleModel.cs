@@ -21,6 +21,9 @@ public class SimpleModel : Model {
             return false;
         }
         model.Add(e);
+
+        e.AddToDomain(this);
+        
         return true;
     }
 

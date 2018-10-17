@@ -139,6 +139,8 @@ public class MetaVariable : IPattern {
         return localID;
     }
 
+    public void AddToDomain(Model m) {}
+
     public override bool Equals(Object o) {
         MetaVariable that = o as MetaVariable;
         return this.type.Equals(that.type) && this.localID == that.localID;

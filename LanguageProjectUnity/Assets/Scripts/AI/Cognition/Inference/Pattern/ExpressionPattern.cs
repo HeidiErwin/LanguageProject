@@ -13,8 +13,9 @@ public class ExpressionPattern : IPattern {
 
     public ExpressionPattern(IPattern headPattern, params IPattern[] argPatterns) {
         if (headPattern.GetSemanticType().IsAtomic()) {
-            throw new ArgumentException("head pattern of expression pattern must not be of an atomic semantic type.");
+            throw new ArgumentException("Head pattern of expression pattern must not be of an atomic semantic type.");
         }
+
         for (int i = 0; i < argPatterns.Length; i++) {
             if (!argPatterns[i].GetSemanticType().Equals(headPattern.GetSemanticType().GetInputType(i))) {
                 throw new ArgumentException("Semantic type mismatch in expression pattern.");
@@ -36,6 +37,20 @@ public class ExpressionPattern : IPattern {
 
     public SemanticType GetSemanticType() {
         return type;
+    }
+
+    public void AddToDomain(Model m) {
+        Expression headExpression = headPattern.ToExpression();
+        if (headExpression != null) {
+            headExpression.AddToDomain(m);
+        }
+
+        for (int i = 0; i < argPatterns.Length; i++) {
+            IPattern argPattern = argPatterns[i];
+            if (argPattern != null) {
+                argPattern.AddToDomain(m);
+            }
+        }
     }
 
     // patternIndex is the current index of the pattern's arguments
@@ -133,44 +148,6 @@ public class ExpressionPattern : IPattern {
     public bool Matches(Expression expr) {
         return GetBindings(expr) != null;
     }
-
-    // public bool Matches(Expression head, Expression[] args, Dictionary<MetaVariable, Expression> bindings) {
-    //     if (!headPattern.Matches(head, bindings)) {
-    //         return false;
-    //     }
-
-    //     for (int i = 0; i < argPatterns.Length; i++) {
-    //         if (!this.argPatterns[i].Matches(args[i], bindings)) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
-    // public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
-    //     if (expr == null) {
-    //         return false;
-    //     }
-
-    //     if (!this.type.Equals(expr.type)) {
-    //         return false;
-    //     }
-        
-    //     Expression headExpression = new Word(expr.headType, expr.headString);
-
-    //     if (!headPattern.Matches(headExpression, bindings)) {
-    //         return false;
-    //     }
-
-    //     for (int i = 0; i < argPatterns.Length; i++) {
-    //         if (!this.argPatterns[i].Matches(expr.GetArg(i), bindings)) {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
 
     public HashSet<MetaVariable> GetFreeMetaVariables() {
         return freeMetaVariables;

@@ -12,8 +12,9 @@ using UnityEngine;
 // is no distinction between a surface language and
 // the internal language).
 public abstract class Model {
-    private List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
-    private HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
+    protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
+    protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
+    protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -35,11 +36,31 @@ public abstract class Model {
 
     public void Add(SubstitutionRule r) {
         substitutionRules.Add(r);
+        r.AddToDomain(this);
+    }
+
+    public void AddToDomain(Expression e) {
+        if (e == null) {
+            return;
+        }
+
+        if (!domain.ContainsKey(e.type)) {
+            domain.Add(e.type, new HashSet<Expression>());
+        }
+
+        domain[e.type].Add(e);
+        
+        for (int i = 0; i < e.GetNumArgs(); i++) {
+            AddToDomain(e.GetArg(i));
+            AddToDomain(e.Remove(i));
+        }
     }
 
     // TODO: important. Need to add a "Path" so that
     // copies of the same sentence don't get retried.
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
+        // HashSet<Expression> expressions = new HashSet<Expression>();
+        // expressions.Add(expr);
         return null;
         
         // HashSet<Expression> expressions = new HashSet<Expression>();

@@ -22,6 +22,20 @@ public class SubstitutionRule {
 
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 
+    public void AddToDomain(Model m) {
+        for (int i = 0; i < conditions.Length; i++) {
+            conditions[i].AddToDomain(m);
+        }
+
+        for (int i = 0; i < top.Length; i++) {
+            top[i].AddToDomain(m);
+        }
+        
+        for (int i = 0; i < bottom.Length; i++) {
+            bottom[i].AddToDomain(m);
+        }
+    }
+
     public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
         if ((this.exclusiveContext != null && context != this.exclusiveContext) || context == EntailmentContext.None) {
             return null;
