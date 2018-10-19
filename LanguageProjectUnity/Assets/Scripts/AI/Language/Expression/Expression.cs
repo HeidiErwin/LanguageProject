@@ -50,12 +50,6 @@ public abstract class Expression : IPattern {
         return type.GetInputType(index);
     }
 
-    // returns the list of types corresponding to the
-    // input type of this expression.
-    public List<SemanticType> GetInputType() {
-        return type.GetInputType();
-    }
-
     // returns the output type of this expression's semantic type,
     // if it is a functional type. If not, it returns null.
     public SemanticType GetOutputType() {

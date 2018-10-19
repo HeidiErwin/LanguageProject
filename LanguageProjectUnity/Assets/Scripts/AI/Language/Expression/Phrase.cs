@@ -75,11 +75,16 @@ public class Phrase : Expression {
             // e.g. if your function had a type (A, B, C -> O) and the input type was B,
             // then the new type would be (A, C -> D)
 
-            List<SemanticType> oldInput = function.GetInputType();
-            List<SemanticType> newInput = new List<SemanticType>();
+            SemanticType[] newInput = new SemanticType[function.GetNumArgs() - 1];
 
-            newInput.AddRange(oldInput);
-            newInput.RemoveAt(index);
+            counter = 0;
+            for (int i = 0; i < function.GetNumArgs(); i++) {
+                if (i == index) {
+                    continue;
+                }
+                newInput[counter] = function.GetInputType(i);
+                counter++;
+            }
 
             this.type = new Arrow(newInput, function.GetOutputType());
         }

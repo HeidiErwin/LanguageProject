@@ -6,10 +6,10 @@ using System.Text;
 
 // see "SemanticType.cs" for more info
 public class Arrow : SemanticType {
-    private List<SemanticType> input;
+    private SemanticType[] input;
     private SemanticType output;
 
-    public Arrow(List<SemanticType> input, SemanticType output) {
+    public Arrow(SemanticType[] input, SemanticType output) {
         // require that the output has an atomic semantic type. (for now)
         if (!output.IsAtomic()) {
             throw new ArgumentException();    
@@ -24,15 +24,11 @@ public class Arrow : SemanticType {
     }
 
     public override int GetNumArgs() {
-        return input.Count;
+        return input.Length;
     }
 
     public override SemanticType GetInputType(int index) {
         return input[index];
-    }
-
-    public override List<SemanticType> GetInputType() {
-        return input;
     }
 
     public override SemanticType GetOutputType() {
@@ -46,16 +42,25 @@ public class Arrow : SemanticType {
 
         Arrow that = (Arrow) o;
 
-        return this.input.SequenceEqual(that.input)
-            && this.output.Equals(that.output);
+        if (input.Length != that.GetNumArgs()) {
+            return false;
+        }
+        
+        for (int i = 0; i < input.Length; i++) {
+            if (input[i] != that.GetInputType(i)) {
+                return false;
+            }
+        }
+
+        return output.Equals(that.GetOutputType());
     }
 
     public override string ToString() {
         StringBuilder s = new StringBuilder();
         s.Append("(");
 
-        foreach (SemanticType t in input) {
-            s.Append(t.ToString());
+        for (int i = 0; i < input.Length; i++) {
+            s.Append(input[i].ToString());
             s.Append(", ");
         }
 

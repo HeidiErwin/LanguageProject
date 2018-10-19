@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,8 +17,6 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
-    private int counter = 0;
-    private HashSet<Expression> currentPath = new HashSet<Expression>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -46,16 +46,12 @@ public abstract class Model {
             return;
         }
 
-        if (e.Equals(Expression.EXISTS)) {
-            return;
-        }
-
         if (!domain.ContainsKey(e.type)) {
             domain.Add(e.type, new HashSet<Expression>());
         }
 
         domain[e.type].Add(e);
-        
+
         for (int i = 0; i < e.GetNumArgs(); i++) {
             AddToDomain(e.GetArg(i));
             Expression partial = e.Remove(i);
@@ -65,84 +61,7 @@ public abstract class Model {
         }
     }
 
-    // TODO: important. Need to add a "Path" so that
-    // copies of the same sentence don't get retried.
-    protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
-        // HashSet<Expression> expressions = new HashSet<Expression>();
-        // expressions.Add(expr);
-        return null;
-        
-        // HashSet<Expression> expressions = new HashSet<Expression>();
-        // expressions.Add(expr);
 
-        // foreach (EvaluationRule er in this.evaluationRules) {
-        //     Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-        //     if (er.Matches(expr, bindings)) {
-        //         IPattern result = er.result;
-
-        //         foreach (MetaVariable x in bindings.Keys) {
-        //             result = result.Bind(x, bindings[x]);
-        //         }
-
-        //         HashSet<Expression>[] subExpressions = new HashSet<Expression>[er.Length()];
-        //         for (int i = 0; i < er.Length(); i++) {
-        //             IPattern pattern = er.Get(i).pattern;
-
-        //             foreach (MetaVariable x in bindings.Keys) {
-        //                 pattern = pattern.Bind(x, bindings[x]);
-        //             }
-
-        //             subExpressions[i] = GenerateSubexpressions(pattern.ToExpression(), EvaluationPattern.MergeContext(context, er.Get(i).context));
-        //         }
-
-        //         HashSet<IPattern> partials = new HashSet<IPattern>();
-        //         HashSet<IPattern> newPartials = new HashSet<IPattern>();
-
-        //         if (result == null) {
-        //             UnityEngine.Debug.Log("the rule that caused this: " + er);
-        //             continue;
-        //         }
-                
-        //         partials.Add(result);
-        //         for (int i = 0; i < subExpressions.Length; i++) {
-        //             foreach (IPattern partial in partials) {
-        //                 foreach (Expression e in subExpressions[i]) {
-        //                     if (e != null) {
-        //                         newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
-        //                     }
-        //                 }
-        //             }
-        //             partials = newPartials;
-        //             newPartials = new HashSet<IPattern>();
-        //         }
-
-        //         foreach (IPattern partial in partials) {
-        //             // might equal null if something is wrong with the metavariables
-        //             expressions.Add(partial.ToExpression());
-        //         }
-
-        //         break; // we want an expression to match only one evaluation rule
-        //     }
-        // }
-
-        // HashSet<Expression> newExpressions = new HashSet<Expression>();
-        // foreach (Expression e in expressions) {
-        //     newExpressions.Add(e);
-        //     foreach (SubstitutionRule sr in this.substitutionRules) {
-        //         List<Expression> substitutions = sr.Substitute(this, e, context);
-        //         if (substitutions != null) {
-        //             foreach (Expression substitution in substitutions) {
-        //                 HashSet<Expression> substitutedExpressions = GenerateSubexpressions(substitution, context);
-        //                 foreach (Expression ie in substitutedExpressions) {
-        //                     newExpressions.Add(ie);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // return newExpressions;
-    }
 
     private static HashSet<Expression> Add(HashSet<Expression> path, Expression expr) {
         HashSet<Expression> newPath = new HashSet<Expression>();
@@ -154,17 +73,12 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
-        counter = 0;
         return Proves(expr, new HashSet<Expression>());
     }
 
     // return true if this model proves expr.
     protected bool Proves(Expression expr, HashSet<Expression> path) {
-        if (counter > 2000) {
-            Debug.Log(expr);
-            return false;
-        }
-        counter++;
+
         // base case
         if (this.Contains(expr)) {
             return true;
@@ -264,6 +178,10 @@ public abstract class Model {
                 foreach (MetaVariable x in currentPattern.GetFreeMetaVariables()) {
                     HashSet<Dictionary<MetaVariable, Expression>> newAttemptedBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
 
+                    if (!domain.ContainsKey(x.GetSemanticType())) {
+                        return null;
+                    }
+
                     foreach (Expression e in domain[x.GetSemanticType()]) {
                         foreach (Dictionary<MetaVariable, Expression> oldAttemptedBinding in oldAttemptedBindings) {
                             Dictionary<MetaVariable, Expression> newAttemptedBinding = new Dictionary<MetaVariable, Expression>();
@@ -283,7 +201,7 @@ public abstract class Model {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
 
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
-                    if (e != null && this.Contains(e)) {
+                    if (e != null && this.Proves(e)) {
                         provedOne = true;
                         Dictionary<MetaVariable, Expression> newSuccessfulBinding = new Dictionary<MetaVariable, Expression>();
                         foreach (KeyValuePair<MetaVariable, Expression> kv in successfulBinding) {
@@ -303,5 +221,100 @@ public abstract class Model {
         }
 
         return successfulBindings;
+    }
+
+    public String DomainString() {
+        StringBuilder s = new StringBuilder();
+
+        s.Append("BEGIN DOMAIN\n");
+
+        foreach (SemanticType t in domain.Keys) {
+            s.Append(t);
+            s.Append(":\n");
+            foreach (Expression e in domain[t]) {
+                s.Append("\t" + e + "\n");
+            }
+        }
+        s.Append("END DOMAIN\n");
+        return s.ToString();
+    }
+
+    // TODO: important. Need to add a "Path" so that
+    // copies of the same sentence don't get retried.
+    protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
+        // HashSet<Expression> expressions = new HashSet<Expression>();
+        // expressions.Add(expr);
+        return null;
+        
+        // HashSet<Expression> expressions = new HashSet<Expression>();
+        // expressions.Add(expr);
+
+        // foreach (EvaluationRule er in this.evaluationRules) {
+        //     Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
+        //     if (er.Matches(expr, bindings)) {
+        //         IPattern result = er.result;
+
+        //         foreach (MetaVariable x in bindings.Keys) {
+        //             result = result.Bind(x, bindings[x]);
+        //         }
+
+        //         HashSet<Expression>[] subExpressions = new HashSet<Expression>[er.Length()];
+        //         for (int i = 0; i < er.Length(); i++) {
+        //             IPattern pattern = er.Get(i).pattern;
+
+        //             foreach (MetaVariable x in bindings.Keys) {
+        //                 pattern = pattern.Bind(x, bindings[x]);
+        //             }
+
+        //             subExpressions[i] = GenerateSubexpressions(pattern.ToExpression(), EvaluationPattern.MergeContext(context, er.Get(i).context));
+        //         }
+
+        //         HashSet<IPattern> partials = new HashSet<IPattern>();
+        //         HashSet<IPattern> newPartials = new HashSet<IPattern>();
+
+        //         if (result == null) {
+        //             UnityEngine.Debug.Log("the rule that caused this: " + er);
+        //             continue;
+        //         }
+                
+        //         partials.Add(result);
+        //         for (int i = 0; i < subExpressions.Length; i++) {
+        //             foreach (IPattern partial in partials) {
+        //                 foreach (Expression e in subExpressions[i]) {
+        //                     if (e != null) {
+        //                         newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
+        //                     }
+        //                 }
+        //             }
+        //             partials = newPartials;
+        //             newPartials = new HashSet<IPattern>();
+        //         }
+
+        //         foreach (IPattern partial in partials) {
+        //             // might equal null if something is wrong with the metavariables
+        //             expressions.Add(partial.ToExpression());
+        //         }
+
+        //         break; // we want an expression to match only one evaluation rule
+        //     }
+        // }
+
+        // HashSet<Expression> newExpressions = new HashSet<Expression>();
+        // foreach (Expression e in expressions) {
+        //     newExpressions.Add(e);
+        //     foreach (SubstitutionRule sr in this.substitutionRules) {
+        //         List<Expression> substitutions = sr.Substitute(this, e, context);
+        //         if (substitutions != null) {
+        //             foreach (Expression substitution in substitutions) {
+        //                 HashSet<Expression> substitutedExpressions = GenerateSubexpressions(substitution, context);
+        //                 foreach (Expression ie in substitutedExpressions) {
+        //                     newExpressions.Add(ie);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // return newExpressions;
     }
 }

@@ -19,6 +19,8 @@ public class CustomModels {
         m.Add(new Phrase(Expression.KING, bob));
 
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, bob, redArea));
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, evan, bob)));
 
         return m;
     }
@@ -36,6 +38,7 @@ public class CustomModels {
         m.Add(new Phrase(Expression.KING, evan));
 
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, evan, greenArea));
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
 
         return m;
     }
