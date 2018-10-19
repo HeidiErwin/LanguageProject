@@ -106,8 +106,4 @@ public class PrefixModel : Model {
         }
         return false;
     }
-
-    public override HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
-        return null; // TODO: figure out how to do this eventually I guess
-    }
 }

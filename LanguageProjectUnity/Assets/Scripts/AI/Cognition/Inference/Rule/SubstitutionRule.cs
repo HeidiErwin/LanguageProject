@@ -36,7 +36,7 @@ public class SubstitutionRule {
         }
     }
 
-    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
+    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context, HashSet<Expression> path) {
         if ((this.exclusiveContext != null && context != this.exclusiveContext) || context == EntailmentContext.None) {
             return null;
         }
@@ -54,26 +54,6 @@ public class SubstitutionRule {
             substitution = this.top;
         }
 
-        // BEGIN NEW CODE
-        // List<List<Expression>[]> admissibleSubstitutions = new List<List<Expression>[]>();
-        // for (int i = 0; i < match.Length; i++) {
-        //     List<Dictionary<MetaVariable, Expression>> bindings = match[i].GetBindings(expr);
-        //     if (bindings == null) {
-        //         continue;
-        //     }
-
-        //     if (bindings.Count == 0) {
-        //         HashSet<>
-        //     }
-
-        //     foreach () {
-
-        //     }
-        // }
-
-        // END NEW CODE
-        // BEGIN OLD CODE
-
         List<List<IPattern>[]> admissibleSubstitutions = new List<List<IPattern>[]>();
 
         // go through the match row, and act on the patterns
@@ -86,7 +66,7 @@ public class SubstitutionRule {
 
             if (bindings.Count == 0) {
                 // edge case: successful match but no bindings
-                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(conditions);
+                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(path, conditions);
 
                 if (domain == null) {
                     // this means nothing satisfied the specified conditions.
@@ -139,7 +119,7 @@ public class SubstitutionRule {
                     boundConditions[j] = conditions[j].Bind(binding);
                 }
 
-                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(boundConditions);
+                HashSet<Dictionary<MetaVariable, Expression>> domain = m.Find(path, boundConditions);
 
                 if (domain == null) {
                     // this means nothing satisfied the specified conditions.

@@ -15,6 +15,8 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
+    private int counter = 0;
+    private HashSet<Expression> currentPath = new HashSet<Expression>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -44,6 +46,10 @@ public abstract class Model {
             return;
         }
 
+        if (e.Equals(Expression.EXISTS)) {
+            return;
+        }
+
         if (!domain.ContainsKey(e.type)) {
             domain.Add(e.type, new HashSet<Expression>());
         }
@@ -52,7 +58,10 @@ public abstract class Model {
         
         for (int i = 0; i < e.GetNumArgs(); i++) {
             AddToDomain(e.GetArg(i));
-            AddToDomain(e.Remove(i));
+            Expression partial = e.Remove(i);
+            if (!partial.Equals(e)) {
+                AddToDomain(partial);
+            }
         }
     }
 
@@ -145,12 +154,17 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
+        counter = 0;
         return Proves(expr, new HashSet<Expression>());
     }
 
     // return true if this model proves expr.
     protected bool Proves(Expression expr, HashSet<Expression> path) {
-
+        if (counter > 2000) {
+            Debug.Log(expr);
+            return false;
+        }
+        counter++;
         // base case
         if (this.Contains(expr)) {
             return true;
@@ -164,7 +178,7 @@ public abstract class Model {
 
         // this should do it for inference chains not involving evaluation
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, EntailmentContext.Downward);
+            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, EntailmentContext.Downward, path);
             
             if (admissibleSubstitutions == null) {
                 continue;
@@ -217,7 +231,7 @@ public abstract class Model {
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
-                    if (this.Find(toFindArray) != null) {
+                    if (this.Find(path, toFindArray) != null) {
                         return true;
                     }
                 }
@@ -233,18 +247,61 @@ public abstract class Model {
         return false;
     }
 
-    public virtual HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
-        // for (int i = 0; i < patterns.Length; i++) {
-        //     HashSet<MetaVariable> freeMetaVariables = patterns[i].GetFreeMetaVariables();
-        //     foreach (MetaVariable x in freeMetaVariables) {
-        //         foreach(Expression e in this.domain[x.type]) {
-        //             Bind(e)
-        //         }
-        //     }
-        // }
+    public HashSet<Dictionary<MetaVariable, Expression>> Find(HashSet<Expression> path, params IPattern[] patterns) {
+        HashSet<Dictionary<MetaVariable, Expression>> successfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+        successfulBindings.Add(new Dictionary<MetaVariable, Expression>());
+        for (int i = 0; i < patterns.Length; i++) {
+            HashSet<Dictionary<MetaVariable, Expression>> newSuccessfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+            // 1. for this IPattern, bind all the successful bindings.
+            foreach (Dictionary<MetaVariable, Expression> successfulBinding in successfulBindings) {
+                // 2. for each possible successful binding, try to supplement it with successful bindings
+                // at this current pattern.
+                IPattern currentPattern = patterns[i].Bind(successfulBinding);
+                
+                HashSet<Dictionary<MetaVariable, Expression>> oldAttemptedBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+                oldAttemptedBindings.Add(new Dictionary<MetaVariable, Expression>());
 
-        // GetFreeMetaVariables();
+                foreach (MetaVariable x in currentPattern.GetFreeMetaVariables()) {
+                    HashSet<Dictionary<MetaVariable, Expression>> newAttemptedBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
 
-        return null;
+                    foreach (Expression e in domain[x.GetSemanticType()]) {
+                        foreach (Dictionary<MetaVariable, Expression> oldAttemptedBinding in oldAttemptedBindings) {
+                            Dictionary<MetaVariable, Expression> newAttemptedBinding = new Dictionary<MetaVariable, Expression>();
+                            foreach (KeyValuePair<MetaVariable, Expression> oldPair in oldAttemptedBinding) {
+                                newAttemptedBinding.Add(oldPair.Key, oldPair.Value);
+                            }
+                            newAttemptedBinding.Add(x, e);
+                            newAttemptedBindings.Add(newAttemptedBinding);
+                        }
+                    }
+
+                    oldAttemptedBindings = newAttemptedBindings;
+                }                
+
+                bool provedOne = false;
+                foreach (Dictionary<MetaVariable, Expression> attemptedBinding in oldAttemptedBindings) {
+                    Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
+
+                    // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
+                    if (e != null && this.Contains(e)) {
+                        provedOne = true;
+                        Dictionary<MetaVariable, Expression> newSuccessfulBinding = new Dictionary<MetaVariable, Expression>();
+                        foreach (KeyValuePair<MetaVariable, Expression> kv in successfulBinding) {
+                            newSuccessfulBinding.Add(kv.Key, kv.Value);
+                        }
+                        foreach (KeyValuePair<MetaVariable, Expression> kv in attemptedBinding) {
+                            newSuccessfulBinding.Add(kv.Key, kv.Value);
+                        }
+                        newSuccessfulBindings.Add(newSuccessfulBinding);
+                    }
+                }
+                if (!provedOne) {
+                    return null;
+                }
+            }
+            successfulBindings = newSuccessfulBindings;
+        }
+
+        return successfulBindings;
     }
 }
