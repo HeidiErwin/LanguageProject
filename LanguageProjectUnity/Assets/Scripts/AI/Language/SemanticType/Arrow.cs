@@ -55,6 +55,14 @@ public class Arrow : SemanticType {
         return output.Equals(that.GetOutputType());
     }
 
+    public override int GetHashCode() {
+        int hash = 5381 * output.GetHashCode();
+        for (int i = 0; i < input.Length; i++) {
+            hash = 33 * hash + (input[i] == null ? i : input[i].GetHashCode());
+        }
+        return hash;
+    }
+
     public override string ToString() {
         StringBuilder s = new StringBuilder();
         s.Append("(");

@@ -8,11 +8,12 @@ public class Testing : MonoBehaviour {
     void Start() {
         Model bm = CustomModels.BobModel();
         Debug.Log(bm.DomainString());
-        PrintProves(bm, new Phrase(Expression.ANIMAL, Expression.BOB), true);
-        PrintProves(bm, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE), true);
+        PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
+        PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));
+        PrintProves(bm, true, new Phrase(Expression.SOME, new Phrase(Expression.IDENTITY, Expression.BOB), Expression.ACTIVE));
     }
 
-    private void PrintProves(Model m, Expression e, bool proves) {
+    private void PrintProves(Model m, bool proves, Expression e) {
         if (proves) {
             if (m.Proves(e)) {
                 Debug.Log("SUCCESS: model proves '" + e + "'");

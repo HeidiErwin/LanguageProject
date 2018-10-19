@@ -118,6 +118,9 @@ public abstract class Model {
                 }
 
                 foreach (IPattern p in conjunctSubstitution[1]) {
+                    if (p == null) {
+                        continue;
+                    }
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
@@ -140,8 +143,10 @@ public abstract class Model {
                         
                     int counter = 0;
                     foreach (IPattern p in toFindList) {
-                        toFindArray[counter] = p;
-                        counter++;
+                        if (p != null) {
+                            toFindArray[counter] = p;
+                            counter++;
+                        }
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
@@ -161,7 +166,22 @@ public abstract class Model {
         return false;
     }
 
+    private String ConditionsString(params IPattern[] patterns) {
+        StringBuilder s = new StringBuilder();
+        s.Append("BEGIN CONDITIONS\n");
+
+        foreach (IPattern pattern in patterns) {
+            s.Append("\t" + pattern + "\n");
+        }
+
+        s.Append("END CONDITIONS");
+
+        return s.ToString();
+    }
+
     public HashSet<Dictionary<MetaVariable, Expression>> Find(HashSet<Expression> path, params IPattern[] patterns) {
+        Debug.Log("Calling Find() on:");
+        Debug.Log(ConditionsString(patterns));
         HashSet<Dictionary<MetaVariable, Expression>> successfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
         successfulBindings.Add(new Dictionary<MetaVariable, Expression>());
         for (int i = 0; i < patterns.Length; i++) {

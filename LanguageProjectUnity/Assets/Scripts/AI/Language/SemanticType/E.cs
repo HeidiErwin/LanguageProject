@@ -14,4 +14,8 @@ public class E : SemanticType {
     public override bool Equals(Object o) {
         return o.GetType() == typeof(E);
     }
+
+    public override int GetHashCode() {
+        return 31;
+    }
 }
