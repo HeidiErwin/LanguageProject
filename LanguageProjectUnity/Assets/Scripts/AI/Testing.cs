@@ -13,6 +13,13 @@ public class Testing : MonoBehaviour {
         PrintProves(bm, true, new Phrase(Expression.SOME, new Phrase(Expression.IDENTITY, Expression.BOB), Expression.ACTIVE));
         PrintProves(bm, true, new Phrase(Expression.EXISTS, Expression.BOB));
         PrintProves(bm, true, new Phrase(Expression.CONTAINED_WITHIN, Expression.BOB, Expression.WAYSIDE_PARK));
+        PrintProves(bm, true, new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        PrintProves(bm, true,
+            new Phrase(Expression.NOT,
+                new Phrase(Expression.AND, 
+                    new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN),
+                    new Phrase(Expression.ACTIVE, Expression.BOB))));
+        PrintProves(bm, true, new Phrase(Expression.NOT, new Phrase(Expression.KING, Expression.EVAN)));
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {

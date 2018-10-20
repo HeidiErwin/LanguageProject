@@ -71,7 +71,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(conditions);
+                    domain = m.Find(EntailmentContext.Downward, null, conditions);
                 }
 
                 if (domain == null) {
@@ -129,7 +129,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(boundConditions);
+                    domain = m.Find(EntailmentContext.Downward, null, boundConditions);
                 }
 
                 if (domain == null) {

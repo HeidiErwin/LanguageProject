@@ -17,10 +17,13 @@ public class CustomModels {
         m.Add(new Phrase(Expression.PERSON, bob));
         m.Add(new Phrase(Expression.ACTIVE, bob));
         m.Add(new Phrase(Expression.KING, bob));
-
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, bob, redArea));
+
+        m.Add(new Phrase(Expression.PERSON, evan));
+        m.Add(new Phrase(Expression.ACTIVE, evan));
+        m.Add(new Phrase(Expression.CONTAINED_WITHIN, evan, greenArea));
+
         m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, evan, bob)));
 
         return m;
     }
