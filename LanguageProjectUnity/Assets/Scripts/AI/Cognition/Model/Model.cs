@@ -17,7 +17,7 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
-    protected HashSet<Expression> triedExpressions;
+    protected Dictionary<Expression, bool> triedExpressions;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -87,19 +87,20 @@ public abstract class Model {
     // return true if this model proves expr.
     protected bool Proves(Expression expr, bool isFirstCall) {
         if (isFirstCall) {
-            triedExpressions = new HashSet<Expression>();
+            triedExpressions = new Dictionary<Expression, bool>();
         }
+
+        if (triedExpressions.ContainsKey(expr)) {
+            return triedExpressions[expr];
+        }
+
+        triedExpressions.Add(expr, false);
 
         // base case
         if (this.Contains(expr)) {
+            triedExpressions[expr] = true;
             return true;
         }
-
-        if (triedExpressions.Contains(expr)) {
-            return false;
-        }
-
-        triedExpressions.Add(expr);
 
         // TODO: make this BFS instead of DFS
 
@@ -149,6 +150,7 @@ public abstract class Model {
 
                 if (toFindList.Count == 0) {
                     if (proved) {
+                        triedExpressions[expr] = true;
                         return true;
                     }
                 } else {
@@ -164,6 +166,7 @@ public abstract class Model {
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
                     if (this.Find(toFindArray) != null) {
+                        triedExpressions[expr] = true;
                         return true;
                     }
                 }
@@ -288,6 +291,26 @@ public abstract class Model {
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
         // HashSet<Expression> expressions = new HashSet<Expression>();
         // expressions.Add(expr);
+
+        foreach (EvaluationRule er in this.evaluationRules) {
+            Dictionary<MetaVariable, Expression> bindings = er.GetBindings(expr);
+            if (bindings != null) {
+                IPattern result = er.result.Bind(bindings);
+
+                for (int i = 0; i < er.Length(); i++) {
+                    Expression argument = er.Get(i).pattern.Bind(bindings).ToExpression();
+
+                    if (argument == null) {
+                        break;
+                    }
+
+                    foreach (SubstitutionRule sr in this.substitutionRules) {
+                        List<List<IPattern>[]> substitution = 
+                            sr.Substitute(this, argument, EvaluationPattern.MergeContext(context, er.Get(i).context));
+                    }
+                }
+            }
+        }
 
         return null;
         

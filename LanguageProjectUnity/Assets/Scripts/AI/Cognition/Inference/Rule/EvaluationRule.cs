@@ -13,8 +13,13 @@ public class EvaluationRule {
         this.result = result;
     }
 
-    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression e) {
-        return this.top.GetBindings(e, new List<Dictionary<MetaVariable, Expression>>());
+    public Dictionary<MetaVariable, Expression> GetBindings(Expression e) {
+        List<Dictionary<MetaVariable, Expression>> bindings = top.GetBindings(e, new List<Dictionary<MetaVariable, Expression>>());
+        if (bindings.Count > 1) {
+            return null;
+        }
+
+        return bindings[0];
     }
 
     public int Length() {
