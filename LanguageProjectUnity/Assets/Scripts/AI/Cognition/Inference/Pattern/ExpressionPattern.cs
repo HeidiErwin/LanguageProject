@@ -28,6 +28,10 @@ public class ExpressionPattern : IPattern {
 
         this.freeMetaVariables = new HashSet<MetaVariable>();
 
+        foreach (MetaVariable x in headPattern.GetFreeMetaVariables()) {
+            this.freeMetaVariables.Add(x);    
+        }
+
         for (int i = 0; i < argPatterns.Length; i++) {
             foreach (MetaVariable x in this.argPatterns[i].GetFreeMetaVariables()) {
                 this.freeMetaVariables.Add(x);
@@ -154,13 +158,9 @@ public class ExpressionPattern : IPattern {
     }
 
     public IPattern Bind(MetaVariable x, Expression expr) {
-        // if (!freeMetaVariables.Contains(x)) {
-        //     UnityEngine.Debug.Log(x + "AGAIN");
-        //     UnityEngine.Debug.Log(this);
-        //     return this;
-        // }
-        // 
-        // TODO: add that code in, maybe figuring out the bug.
+        if (!freeMetaVariables.Contains(x)) {
+            return this;
+        }
 
         IPattern[] newArgPatterns = new IPattern[argPatterns.Length];
 

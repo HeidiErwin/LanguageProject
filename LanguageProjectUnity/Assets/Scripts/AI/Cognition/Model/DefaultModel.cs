@@ -86,9 +86,9 @@ public class DefaultModel {
             EntailmentContext.Downward));
 
         // reflexivity for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
+        m.Add(new SubstitutionRule(
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
 
         // // symmetry for identity
         // m.Add(new SubstitutionRule(
@@ -139,19 +139,19 @@ public class DefaultModel {
         //     new IPattern[]{},
         //     new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
 
-        // // antisymmetry for contained_within
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
-        //     new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
-        //     EntailmentContext.Downward));
+        // antisymmetry for contained_within
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
+            EntailmentContext.Downward));
 
-        // // transitivity for contained_within
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
+        // transitivity for contained_within
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)},
+            new IPattern[]{
+                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
 
         // uniqueness of king
         // king(i), king(j) |- i = j
@@ -190,10 +190,10 @@ public class DefaultModel {
         //     new IPattern[]{xp0},
         //     new IPattern[]{Expression.EXISTS}));
 
-        // // F(x) |- exists(x)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
+        // F(x) |- exists(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
 
         return m;
     }

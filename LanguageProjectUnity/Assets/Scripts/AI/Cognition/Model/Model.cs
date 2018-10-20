@@ -17,6 +17,7 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
+    protected HashSet<Expression> triedExpressions;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -50,6 +51,13 @@ public abstract class Model {
             domain.Add(e.type, new HashSet<Expression>());
         }
 
+        // the existence predicate is banned from being a part of the domain,
+        // for now. Not sure if this is necessary to prevent loops, or if something
+        // else is going on.
+        // if (e.Equals(Expression.EXISTS)) {
+        //     return;
+        // }
+
         domain[e.type].Add(e);
 
         for (int i = 0; i < e.GetNumArgs(); i++) {
@@ -73,26 +81,31 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
-        return Proves(expr, new HashSet<Expression>());
+        return Proves(expr, true);
     }
 
     // return true if this model proves expr.
-    protected bool Proves(Expression expr, HashSet<Expression> path) {
+    protected bool Proves(Expression expr, bool isFirstCall) {
+        if (isFirstCall) {
+            triedExpressions = new HashSet<Expression>();
+        }
 
         // base case
         if (this.Contains(expr)) {
             return true;
         }
 
-        if (path.Contains(expr)) {
+        if (triedExpressions.Contains(expr)) {
             return false;
         }
+
+        triedExpressions.Add(expr);
 
         // TODO: make this BFS instead of DFS
 
         // this should do it for inference chains not involving evaluation
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, EntailmentContext.Downward, path);
+            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, EntailmentContext.Downward);
             
             if (admissibleSubstitutions == null) {
                 continue;
@@ -107,7 +120,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
-                    } else if (!this.Proves(e, Add(path, expr))) {
+                    } else if (!this.Proves(e, false)) {
                         proved = false;
                         break;
                     }
@@ -124,7 +137,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
-                    } else if (!this.Proves(new Phrase(Expression.NOT, e), Add(path, expr))) {
+                    } else if (!this.Proves(new Phrase(Expression.NOT, e), false)) {
                         proved = false;
                         break;
                     }
@@ -150,7 +163,7 @@ public abstract class Model {
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
-                    if (this.Find(path, toFindArray) != null) {
+                    if (this.Find(toFindArray) != null) {
                         return true;
                     }
                 }
@@ -158,7 +171,7 @@ public abstract class Model {
         }
 
         // foreach (Expression e in this.GenerateSubexpressions(expr, EntailmentContext.Downward)) {
-        //     if (!e.Equals(expr) && this.Proves(e, path.Add(expr))) {
+        //     if (!e.Equals(expr) && this.Proves(e, false)) {
         //         return true;
         //     }
         // }
@@ -166,7 +179,7 @@ public abstract class Model {
         return false;
     }
 
-    private String ConditionsString(params IPattern[] patterns) {
+    private static String ConditionsString(params IPattern[] patterns) {
         StringBuilder s = new StringBuilder();
         s.Append("BEGIN CONDITIONS\n");
 
@@ -179,15 +192,26 @@ public abstract class Model {
         return s.ToString();
     }
 
-    public HashSet<Dictionary<MetaVariable, Expression>> Find(HashSet<Expression> path, params IPattern[] patterns) {
-        Debug.Log("Calling Find() on:");
-        Debug.Log(ConditionsString(patterns));
+    private static String BindingString(Dictionary<MetaVariable, Expression> bindings) {
+        StringBuilder s = new StringBuilder();
+        s.Append("{\n");
+        foreach (KeyValuePair<MetaVariable, Expression> kv in bindings) {
+            s.Append("\t" + kv.Key + " |-> " + kv.Value + "\n");
+        }
+        s.Append("}\n");
+
+        return s.ToString();
+    }
+
+    public HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
+
         HashSet<Dictionary<MetaVariable, Expression>> successfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
         successfulBindings.Add(new Dictionary<MetaVariable, Expression>());
         for (int i = 0; i < patterns.Length; i++) {
             HashSet<Dictionary<MetaVariable, Expression>> newSuccessfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
             // 1. for this IPattern, bind all the successful bindings.
             foreach (Dictionary<MetaVariable, Expression> successfulBinding in successfulBindings) {
+
                 // 2. for each possible successful binding, try to supplement it with successful bindings
                 // at this current pattern.
                 IPattern currentPattern = patterns[i].Bind(successfulBinding);
@@ -221,7 +245,7 @@ public abstract class Model {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
 
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
-                    if (e != null && this.Proves(e)) {
+                    if (e != null && this.Proves(e, false)) {
                         provedOne = true;
                         Dictionary<MetaVariable, Expression> newSuccessfulBinding = new Dictionary<MetaVariable, Expression>();
                         foreach (KeyValuePair<MetaVariable, Expression> kv in successfulBinding) {
@@ -264,6 +288,7 @@ public abstract class Model {
     protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
         // HashSet<Expression> expressions = new HashSet<Expression>();
         // expressions.Add(expr);
+
         return null;
         
         // HashSet<Expression> expressions = new HashSet<Expression>();

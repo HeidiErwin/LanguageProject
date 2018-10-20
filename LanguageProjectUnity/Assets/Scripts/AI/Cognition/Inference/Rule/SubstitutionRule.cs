@@ -36,7 +36,7 @@ public class SubstitutionRule {
         }
     }
 
-    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context, HashSet<Expression> path) {
+    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
         if ((this.exclusiveContext != null && context != this.exclusiveContext) || context == EntailmentContext.None) {
             return null;
         }
@@ -71,7 +71,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(path, conditions);
+                    domain = m.Find(conditions);
                 }
 
                 if (domain == null) {
@@ -129,7 +129,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(path, boundConditions);
+                    domain = m.Find(boundConditions);
                 }
 
                 if (domain == null) {

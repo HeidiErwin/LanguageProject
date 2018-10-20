@@ -11,6 +11,8 @@ public class Testing : MonoBehaviour {
         PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
         PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));
         PrintProves(bm, true, new Phrase(Expression.SOME, new Phrase(Expression.IDENTITY, Expression.BOB), Expression.ACTIVE));
+        PrintProves(bm, true, new Phrase(Expression.EXISTS, Expression.BOB));
+        PrintProves(bm, true, new Phrase(Expression.CONTAINED_WITHIN, Expression.BOB, Expression.WAYSIDE_PARK));
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {
