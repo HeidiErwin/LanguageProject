@@ -7,18 +7,18 @@ using UnityEngine;
 public class Testing : MonoBehaviour {
     void Start() {
         Model bm = CustomModels.BobModel();
-        Debug.Log(bm.DomainString());
-        PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
-        PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));
-        PrintProves(bm, true, new Phrase(Expression.SOME, new Phrase(Expression.IDENTITY, Expression.BOB), Expression.ACTIVE));
-        PrintProves(bm, true, new Phrase(Expression.EXISTS, Expression.BOB));
-        PrintProves(bm, true, new Phrase(Expression.CONTAINED_WITHIN, Expression.BOB, Expression.WAYSIDE_PARK));
-        PrintProves(bm, true, new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
-        PrintProves(bm, true,
-            new Phrase(Expression.NOT,
-                new Phrase(Expression.AND, 
-                    new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN),
-                    new Phrase(Expression.ACTIVE, Expression.BOB))));
+        // Debug.Log(bm.DomainString());
+        // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
+        // PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));
+        // PrintProves(bm, true, new Phrase(Expression.SOME, new Phrase(Expression.IDENTITY, Expression.BOB), Expression.ACTIVE));
+        // PrintProves(bm, true, new Phrase(Expression.EXISTS, Expression.BOB));
+        // PrintProves(bm, true, new Phrase(Expression.CONTAINED_WITHIN, Expression.BOB, Expression.WAYSIDE_PARK));
+        // PrintProves(bm, true, new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        // PrintProves(bm, true,
+        //     new Phrase(Expression.NOT,
+        //         new Phrase(Expression.AND, 
+        //             new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN),
+        //             new Phrase(Expression.ACTIVE, Expression.BOB))));
         PrintProves(bm, true, new Phrase(Expression.NOT, new Phrase(Expression.KING, Expression.EVAN)));
     }
 

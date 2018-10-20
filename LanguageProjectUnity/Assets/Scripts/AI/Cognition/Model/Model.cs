@@ -87,14 +87,13 @@ public abstract class Model {
 
     // return true if this model proves expr.
     protected bool Proves(Expression expr, EntailmentContext entailmentContext, IPattern sententialContext) {
+        // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {
             return triedExpressions[expr];
         }
-
         triedExpressions.Add(expr, false);
 
         Expression fullExpression = expr;
-
         if (sententialContext != null) {
             Expression bound = sententialContext.Bind(new MetaVariable(expr.type, 0), expr).ToExpression();
             if (bound != null) {
@@ -102,21 +101,22 @@ public abstract class Model {
             }
         }
 
-        // base case
+        // this should be Proves(), not Contains().
+        // looping problem needs to be resolved, however.
         if (this.Contains(fullExpression)) {
-            triedExpressions[expr] = true;
+            triedExpressions[fullExpression] = true;
             return true;
         }
 
-        // TODO: make this BFS instead of DFS
-
-        // this should do it for inference chains not involving evaluation
+        // RECURSIVE CASES
         foreach (SubstitutionRule sr in this.substitutionRules) {
             List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, entailmentContext);
             
             if (admissibleSubstitutions == null) {
                 continue;
             }
+
+            Debug.Log(sr);
 
             foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
                 bool proved = true;
@@ -128,6 +128,7 @@ public abstract class Model {
                     if (e == null) {
                         toFindList.Add(p);
                     } else if (!this.Proves(e, entailmentContext, sententialContext)) {
+                        Debug.Log("didn't prove " + e);
                         proved = false;
                         break;
                     }
@@ -145,6 +146,7 @@ public abstract class Model {
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
                     } else if (!this.Proves(new Phrase(Expression.NOT, e), entailmentContext, sententialContext)) {
+                        Debug.Log("didn't prove " + new Phrase(Expression.NOT, e));
                         proved = false;
                         break;
                     }
@@ -181,7 +183,6 @@ public abstract class Model {
 
         if (expr.GetHead().Equals(Expression.NOT)) {
             Expression subsentence = expr.GetArg(0);
-
             if (subsentence != null && Proves(
                     subsentence,
                     EvaluationPattern.MergeContext(entailmentContext, EntailmentContext.Downward),
