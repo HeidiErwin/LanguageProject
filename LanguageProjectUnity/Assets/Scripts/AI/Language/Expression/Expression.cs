@@ -210,6 +210,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
+    public static readonly Expression THE_GREAT_DOOR = new Word(SemanticType.INDIVIDUAL, "the_great_door");
+    //public static readonly Expression I = new Word(SemanticType.INDIVIDUAL, "I");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
@@ -221,8 +223,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
     public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
     public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
-    public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
-    public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
+
     
     public static readonly Expression BLACK = new Word(SemanticType.PREDICATE, "black");
     public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");
@@ -237,6 +238,11 @@ public abstract class Expression : IPattern {
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
     public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
+    public static readonly Expression GO_TO = new Word(SemanticType.RELATION_2, "go_to");
+    public static readonly Expression PERSON = new Word(SemanticType.RELATION_2, "person");
+    public static readonly Expression ANIMAL = new Word(SemanticType.RELATION_2, "animal");
+    public static readonly Expression CLOSE = new Word(SemanticType.RELATION_2, "close");
+    public static readonly Expression OPEN = new Word(SemanticType.RELATION_2, "open");
 
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
 }

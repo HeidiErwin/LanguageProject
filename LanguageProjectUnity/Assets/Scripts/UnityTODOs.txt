@@ -117,7 +117,8 @@ TODO FOR DEMO:
 	- [DONE] piecespawners added to keyboard
 	- [DONE] expressions when clicked add to workspace
 	- button on workspace (check mark type thing) that makes current made expression remain while keyboard & workspace disappear
-	- [DONE] key to open/close keyboard+workspace
+	- [DONE] key to 
+	/close keyboard+workspace
 - ability to say something to an NPC by clicking the NPC
 - if say something to NPC, yes, no, idk, confused responses
 - fill NPC models

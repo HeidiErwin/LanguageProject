@@ -10,6 +10,7 @@ public class NPC : Character {
     GameController controller;
     [SerializeField] protected String nameString;
     private Model model;
+    [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
 
     private EnvironmentManager envManager;
 
@@ -19,12 +20,68 @@ public class NPC : Character {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         if (nameString.Equals("Bob")) {
             model = CustomModels.BobModel();
-            GoTo("Evan");
         }
 
         if (nameString.Equals("Evan")) {
             model = CustomModels.EvanModel();
         }
+    }
+
+    public bool Do(Expression e) {
+        if (this.nameString.Equals("Bob")) {
+            if (e.Equals(new Phrase(Expression.GO_TO, Expression.BOB, Expression.EVAN))) {
+                GoTo("Evan");
+                return true;
+            }
+            if (e.Equals(new Phrase(Expression.GO_TO, Expression.BOB, Expression.THE_GREAT_DOOR))) {
+                GoTo("DoorFront");
+                return true;
+            }
+            if (e.Equals(new Phrase(Expression.OPEN, Expression.BOB, Expression.THE_GREAT_DOOR))) {
+                if (currentInteractObject.name.Equals("DoorFront")) {
+                    GameObject.Find("Door").GetComponent<Door>().Open();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (e.Equals(new Phrase(Expression.CLOSE, Expression.BOB, Expression.THE_GREAT_DOOR))) {
+                if (currentInteractObject.name.Equals("DoorFront")) {
+                    GameObject.Find("Door").GetComponent<Door>().Close();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+          
+        }
+        else if (this.nameString.Equals("Evan")) {
+            if (e.Equals(new Phrase(Expression.GO_TO, Expression.EVAN, Expression.BOB))) {
+                GoTo("Bob");
+                return true;
+
+            } else if (e.Equals(new Phrase(Expression.GO_TO, Expression.EVAN, Expression.THE_GREAT_DOOR))) {
+                GoTo("DoorFront");
+                return true;
+            }
+            if (e.Equals(new Phrase(Expression.OPEN, Expression.EVAN, Expression.THE_GREAT_DOOR))) {
+                if (currentInteractObject.name.Equals("DoorFront")) {
+                    GameObject.Find("Door").GetComponent<Door>().Open();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (e.Equals(new Phrase(Expression.CLOSE, Expression.EVAN, Expression.THE_GREAT_DOOR))) {
+                if (currentInteractObject.name.Equals("DoorFront")) {
+                    GameObject.Find("Door").GetComponent<Door>().Close();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+
+        // currentInteractObject.SendMessage("Interact"); --> call Interact of Door to open/close
     }
 
     /**
@@ -59,6 +116,7 @@ public class NPC : Character {
         Expression utterance = exprPiece.expression;
 
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
+        Do(utterance);
 
         if (this.model == null) {
             // Debug.Log("No associated model.");
@@ -117,6 +175,9 @@ public class NPC : Character {
         Perceivable po = other.GetComponent<Perceivable>();
         if (po != null) {
             po.SendPerceptualReport(this);
+        }
+        if (other.CompareTag("Interactable")) {
+            currentInteractObject = other.gameObject;
         }
     }
 

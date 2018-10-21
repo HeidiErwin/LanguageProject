@@ -175,6 +175,8 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.BOB);
         SetUpSpawner(Expression.EVAN);
         SetUpSpawner(Expression.WAYSIDE_PARK);
+        SetUpSpawner(Expression.THE_GREAT_DOOR);
+        //SetUpSpawner(Expression.I);
 
         // predicates
         SetUpSpawner(Expression.BLACK);
@@ -195,11 +197,15 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.ANIMAL);
         SetUpSpawner(Expression.EXISTS);
 
+
         // 2-place relations
         SetUpSpawner(Expression.IDENTITY);
         SetUpSpawner(Expression.CONTAINED_WITHIN);
         SetUpSpawner(Expression.HELP);
-        
+        SetUpSpawner(Expression.GO_TO);
+        SetUpSpawner(Expression.OPEN);
+        SetUpSpawner(Expression.CLOSE);
+
         // SetUpSpawner(Expression.OVERLAPS_WITH);
     }
 
