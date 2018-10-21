@@ -8,6 +8,5 @@ using UnityEngine;
 // There must be an object with an EnvironmentManager script in the scene in order
 // for objects to be able to communicate with the Environment Manager.
 public class EnvironmentManager : MonoBehaviour {
-
     [SerializeField] public bool[] lighting;
 }

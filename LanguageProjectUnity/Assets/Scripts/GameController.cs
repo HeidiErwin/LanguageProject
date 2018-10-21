@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject relation2Keyboard;
     [SerializeField] private GameObject truthFunction1Keyboard;
     [SerializeField] private GameObject truthFunction2Keyboard;
+    [SerializeField] private GameObject individualTruthRelationKeyboard;
     [SerializeField] private GameObject helpScreen;
     private bool keyboardOnBeforeHelpShown = true;
 
@@ -143,6 +144,14 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
+        } else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
+            GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
@@ -196,15 +205,17 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
         SetUpSpawner(Expression.EXISTS);
-
+        SetUpSpawner(Expression.OPEN);
+        SetUpSpawner(Expression.CLOSED);
 
         // 2-place relations
         SetUpSpawner(Expression.IDENTITY);
         SetUpSpawner(Expression.CONTAINED_WITHIN);
         SetUpSpawner(Expression.HELP);
-        SetUpSpawner(Expression.GO_TO);
-        SetUpSpawner(Expression.OPEN);
-        SetUpSpawner(Expression.CLOSE);
+        SetUpSpawner(Expression.GOES_TO);
+
+        // individual-truth relations
+        SetUpSpawner(Expression.MAKE);
 
         // SetUpSpawner(Expression.OVERLAPS_WITH);
     }
@@ -213,23 +224,26 @@ public class GameController : MonoBehaviour {
     // and all other tabs become inactive
     public void SwitchKeyboardTab(int tabToDisplayIndex) {
         currentKeyboard.SetActive(false);
-        if (tabToDisplayIndex == 0) { // Individual
+        if (tabToDisplayIndex == 0) { // e
             currentKeyboard = individualKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 1) { // Quantifier
+        } else if (tabToDisplayIndex == 1) { // (e -> t), (e -> t) -> t
             currentKeyboard = quantifierKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 2) { // Predicate
+        } else if (tabToDisplayIndex == 2) { // e -> t
             currentKeyboard = predicateKeyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 3) { // 2-Place Relation
+        } else if (tabToDisplayIndex == 3) { // e, e -> t
             currentKeyboard = relation2Keyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 4) { // 1-place truth function
+        } else if (tabToDisplayIndex == 4) { // t -> t
             currentKeyboard = truthFunction1Keyboard;
             highClick.Play();
-        } else if (tabToDisplayIndex == 5) { // 2-place truth function
+        } else if (tabToDisplayIndex == 5) { // t, t -> t
             currentKeyboard = truthFunction2Keyboard;
+            highClick.Play();
+        } else if (tabToDisplayIndex == 6) { // e, t -> t
+            currentKeyboard = individualTruthRelationKeyboard;
             highClick.Play();
         }
         currentKeyboard.SetActive(true);

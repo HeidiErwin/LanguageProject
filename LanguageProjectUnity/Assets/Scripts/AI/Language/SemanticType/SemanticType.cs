@@ -67,6 +67,14 @@ public abstract class SemanticType {
                 return new Color32(180, 180, 180, 255);
             }
 
+            if (this.Equals(SemanticType.TRUTH_FUNCTION_2)) {
+                return new Color32(41, 222, 215, 255);
+            }
+
+            if (this.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
+                return new Color32(137, 134, 54,255);
+            }
+
             return new Color32(255, 255, 255, 255);
         }
     }
@@ -120,5 +128,6 @@ public abstract class SemanticType {
     public static readonly SemanticType QUANTIFIER = new Arrow(new SemanticType[]{ PREDICATE, PREDICATE }, TRUTH_VALUE);
     public static readonly SemanticType TRUTH_FUNCTION_1 = new Arrow(new SemanticType[]{ TRUTH_VALUE }, TRUTH_VALUE );
     public static readonly SemanticType TRUTH_FUNCTION_2 = new Arrow(new SemanticType[]{ TRUTH_VALUE, TRUTH_VALUE }, TRUTH_VALUE);
+    public static readonly SemanticType INDIVIDUAL_TRUTH_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, TRUTH_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2_REDUCER = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL }, TRUTH_VALUE);
 }
