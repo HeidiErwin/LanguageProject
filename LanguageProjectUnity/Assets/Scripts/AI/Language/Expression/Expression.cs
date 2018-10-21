@@ -225,6 +225,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
     public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
     public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
+    public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
+    public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
 
     public static readonly Expression CLOSED = new Word(SemanticType.PREDICATE, "closed");
     public static readonly Expression OPEN = new Word(SemanticType.PREDICATE, "open");
@@ -243,8 +245,6 @@ public abstract class Expression : IPattern {
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
     public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
     public static readonly Expression GOES_TO = new Word(SemanticType.RELATION_2, "goes_to");
-    public static readonly Expression PERSON = new Word(SemanticType.RELATION_2, "person");
-    public static readonly Expression ANIMAL = new Word(SemanticType.RELATION_2, "animal");
 
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
 }
