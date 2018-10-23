@@ -3554,7 +3554,7 @@ GameObject:
   - component: {fileID: 1151260383}
   m_Layer: 10
   m_Name: DoorObstacle
-  m_TagString: Untagged
+  m_TagString: Unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3584,7 +3584,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.6088265, y: 0.9466126}
+  m_Offset: {x: 1.5910642, y: 0.7223792}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3595,7 +3595,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.95416474, y: 1.544487}
+  m_Size: {x: 0.5976614, y: 0.6891031}
   m_EdgeRadius: 0
 --- !u!1 &1167211939
 GameObject:
@@ -4451,7 +4451,7 @@ GameObject:
   - component: {fileID: 1393612630}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4946,7 +4946,7 @@ GameObject:
   - component: {fileID: 1492492411}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5716,7 +5716,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.029892566, y: -0.08711991}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5727,7 +5727,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0633223, y: 0.2294572}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &1547050887
 Transform:
@@ -5735,13 +5735,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1547050885}
-  m_LocalRotation: {x: -0.022920461, y: -0, z: -0, w: 0.9997373}
-  m_LocalPosition: {x: -1.9306574, y: -0.89, z: 0.19117096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.85, y: -0.85, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: -2.627, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1624689483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5867,10 +5867,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   displayGridGizmos: 1
   gridWorldSize: {x: 21, y: 12}
-  nodeRadius: 0.1
+  nodeRadius: 0.2
 --- !u!114 &1647106006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7002,7 +7002,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1950673112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.59, y: 5.01, z: 0.028}
+  m_LocalPosition: {x: -10.5, y: 5.01, z: 0.028}
   m_LocalScale: {x: 1.1831884, y: 1.1754661, z: 0.995}
   m_Children:
   - {fileID: 2132138548}
