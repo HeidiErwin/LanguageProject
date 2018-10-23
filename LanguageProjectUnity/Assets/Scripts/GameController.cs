@@ -212,7 +212,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.IDENTITY);
         SetUpSpawner(Expression.CONTAINED_WITHIN);
         SetUpSpawner(Expression.HELP);
-        SetUpSpawner(Expression.GOES_TO);
+        SetUpSpawner(Expression.NEAR);
 
         // individual-truth relations
         SetUpSpawner(Expression.MAKE);

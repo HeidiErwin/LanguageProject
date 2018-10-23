@@ -90,18 +90,18 @@ public class DefaultModel {
             new IPattern[]{},
             new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
 
-        // // symmetry for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
+        // symmetry for identity
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
 
-        // // transitivity for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
-        //         new ExpressionPattern(Expression.IDENTITY, xi1, xi2)},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
+        // transitivity for identity
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
+                new ExpressionPattern(Expression.IDENTITY, xi1, xi2)},
+            new IPattern[]{
+                new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
 
         // // substitution of identiticals
         // // [i = j] i |- j
@@ -110,10 +110,10 @@ public class DefaultModel {
         //     new IPattern[]{xi0},
         //     new IPattern[]{xi1}));
 
-        // // F(x), G(x) |- some(F, G)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
-        //     new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
+        // [F(x)], G(x) |- some(F, G)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
 
         // // [i != j, F(i), F(j)] G(i), G(j) |- Two(F, G)
         // m.Add(new SubstitutionRule(
@@ -166,11 +166,12 @@ public class DefaultModel {
             new IPattern[]{
                 new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
 
-        //uniqueness of king
-        // king(i), king(j) |- i = j
+        // uniqueness of king
+        // [king(i)] king(j) |- i = j
         m.Add(new SubstitutionRule(
             new IPattern[]{
-                new ExpressionPattern(Expression.KING, xi0),
+                new ExpressionPattern(Expression.KING, xi0)},
+            new IPattern[]{
                 new ExpressionPattern(Expression.KING, xi1)},
             new IPattern[]{
                 new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));
@@ -204,9 +205,9 @@ public class DefaultModel {
         //     new IPattern[]{Expression.EXISTS}));
 
         // F(x) |- exists(x)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
 
         return m;
     }

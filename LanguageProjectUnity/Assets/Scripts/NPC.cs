@@ -29,18 +29,18 @@ public class NPC : Character {
 
     public bool Do(Expression e) {
         if (this.nameString.Equals("Bob")) {
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.GOES_TO, Expression.BOB, Expression.EVAN)))) {
+            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN)))) {
                 GoTo("Evan");
                 return true;
             }
 
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.GOES_TO, Expression.BOB, Expression.THE_GREAT_DOOR)))) {
+            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR)))) {
                 GoTo("DoorFront");
                 return true;
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject.name.Equals("DoorFront")) {
+                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
                 } else {
@@ -49,7 +49,7 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject.name.Equals("DoorFront")) {
+                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
                 } else {
@@ -59,18 +59,18 @@ public class NPC : Character {
         }
 
         if (this.nameString.Equals("Evan")) {
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.GOES_TO, Expression.EVAN, Expression.BOB)))) {
+            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB)))) {
                 GoTo("Bob");
                 return true;
             }
 
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.GOES_TO, Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
+            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
                 GoTo("DoorFront");
                 return true;
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject.name.Equals("DoorFront")) {
+                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
                 } else {
@@ -79,7 +79,7 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject.name.Equals("DoorFront")) {
+                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
                 } else {
@@ -175,7 +175,6 @@ public class NPC : Character {
         GameObject targetObject = GameObject.Find(targetID);
         target = targetObject.transform;
         speed = 2;
-        Debug.Log(target);
         GoToTarget();
     }
 

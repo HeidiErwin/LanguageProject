@@ -243,7 +243,12 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
 
         int indexToOccupy = this.gameObject.transform.GetSiblingIndex();
 
+        // foreach (ExpressionPiece arg in this.arguments) {
+        //     Destroy(arg.gameObject, 0.0f);
+        // }
+
         Destroy(this.gameObject, 0.0f);
+        // the arguments to the input expression aren't being destroyed properly. They're just floating around
         Destroy(inputExpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);

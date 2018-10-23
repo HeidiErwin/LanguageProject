@@ -51,13 +51,6 @@ public abstract class Model {
             domain.Add(e.type, new HashSet<Expression>());
         }
 
-        // the existence predicate is banned from being a part of the domain,
-        // for now. Not sure if this is necessary to prevent loops, or if something
-        // else is going on.
-        // if (e.Equals(Expression.EXISTS)) {
-        //     return;
-        // }
-
         domain[e.type].Add(e);
 
         for (int i = 0; i < e.GetNumArgs(); i++) {
@@ -116,8 +109,6 @@ public abstract class Model {
                 continue;
             }
 
-            Debug.Log(sr);
-
             foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
                 bool proved = true;
 
@@ -128,7 +119,6 @@ public abstract class Model {
                     if (e == null) {
                         toFindList.Add(p);
                     } else if (!this.Proves(e, entailmentContext, sententialContext)) {
-                        Debug.Log("didn't prove " + e);
                         proved = false;
                         break;
                     }
@@ -146,7 +136,6 @@ public abstract class Model {
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
                     } else if (!this.Proves(new Phrase(Expression.NOT, e), entailmentContext, sententialContext)) {
-                        Debug.Log("didn't prove " + new Phrase(Expression.NOT, e));
                         proved = false;
                         break;
                     }
@@ -239,7 +228,6 @@ public abstract class Model {
                 bool provedOne = false;
                 foreach (Dictionary<MetaVariable, Expression> attemptedBinding in oldAttemptedBindings) {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
-
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
                     if (e != null && this.Proves(e, entailmentContext, sententialcontext)) {
                         provedOne = true;
