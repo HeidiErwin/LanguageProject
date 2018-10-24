@@ -173,8 +173,8 @@ public class GameController : MonoBehaviour {
         // SetUpSpawner(Expression.NEXT_VARIABLE);
 
         // quantifiers
-        SetUpSpawner(Expression.NO);
-        // SetUpSpawner(Expression.SOME);
+        // SetUpSpawner(Expression.NO);
+        SetUpSpawner(Expression.SOME);
         // SetUpSpawner(Expression.TWO);
         // SetUpSpawner(Expression.THREE);
         SetUpSpawner(Expression.EVERY);

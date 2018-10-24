@@ -56,15 +56,15 @@ public abstract class SemanticType {
             }
 
             if (this.Equals(SemanticType.DETERMINER)) {
-                return new Color32(255, 150, 20, 255);
-            }
-
-            if (this.Equals(SemanticType.QUANTIFIER)) {
                 return new Color32(137, 28, 232, 255);
             }
 
+            if (this.Equals(SemanticType.QUANTIFIER)) {
+                return new Color32(255, 150, 20, 255);
+            }
+
             if (this.Equals(SemanticType.TRUTH_FUNCTION_1)) {
-                return new Color32(180, 180, 180, 255);
+                return new Color32(59, 47, 67, 255);
             }
 
             if (this.Equals(SemanticType.TRUTH_FUNCTION_2)) {

@@ -140,17 +140,17 @@ public class DefaultModel {
         //         new ExpressionPattern(xp1, xi0),
         //         new ExpressionPattern(xp1, xi1))}));
 
-        // // every(F, G), F(x) |- G(x)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.EVERY, xp0, xp1),
-        //         new ExpressionPattern(xp0, xi0)},
-        //     new IPattern[]{new ExpressionPattern(xp1, xi0)}));
+        // every(F, G), F(x) |- G(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.EVERY, xp0, xp1),
+                new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(xp1, xi0)}));
 
-        // // |- every(F, F)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
+        // |- every(F, F)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
 
         // antisymmetry for contained_within
         m.Add(new SubstitutionRule(
