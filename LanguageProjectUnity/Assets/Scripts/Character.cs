@@ -12,6 +12,7 @@ public abstract class Character : MonoBehaviour {
     public const int EAST = 1;
     public const int SOUTH = 2;
     public const int WEST = 3;
+    protected bool walking = false;
 
     [SerializeField] protected float speed;
     protected Vector2 velocity;
@@ -80,10 +81,12 @@ public abstract class Character : MonoBehaviour {
 
     IEnumerator FollowPath() {
         Vector3 currentWaypoint = path[0];
+        walking = true;
         while (true) {
             if (transform.position == currentWaypoint) {
                 targetIndex++;
                 if (targetIndex >= path.Length) {
+                    walking = false;
                     yield break; //exit coroutine when finished following path
                 }
                 currentWaypoint = path[targetIndex];

@@ -40,6 +40,8 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
+                GoTo("DoorFront");
+                while (walking) {};
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
@@ -49,6 +51,8 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
+                GoTo("DoorFront");
+                while (walking) {};
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
@@ -70,6 +74,9 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
+                GoTo("DoorFront");
+                new WaitForSeconds(20);
+                Debug.Log("pop");
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
@@ -79,6 +86,8 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
+                GoTo("DoorFront");
+                new WaitForSeconds(20);
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
