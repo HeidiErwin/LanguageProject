@@ -40,8 +40,6 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                while (walking) {};
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
@@ -51,8 +49,6 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                while (walking) {};
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
@@ -74,9 +70,6 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                new WaitForSeconds(20);
-                Debug.Log("pop");
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     return true;
@@ -86,8 +79,6 @@ public class NPC : Character {
             }
 
             if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                new WaitForSeconds(20);
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     return true;
@@ -126,6 +117,7 @@ public class NPC : Character {
         }
 
         foreach (Expression p in report) {
+            Debug.Log(p);
             this.model.Add(p);
         }
     }
@@ -134,7 +126,10 @@ public class NPC : Character {
         Expression utterance = exprPiece.expression;
 
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
-        Do(utterance);
+        if (Do(utterance)) {
+            this.controller.combineSuccess.Play();
+            return;
+        }
 
         if (this.model == null) {
             // Debug.Log("No associated model.");

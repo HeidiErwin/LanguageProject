@@ -199,6 +199,26 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
             new IPattern[]{new ExpressionPattern(Expression.ANIMAL, xi0)}));
 
+        // active(x) |- ~inactive(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.ACTIVE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.INACTIVE, xi0))}));
+
+        // inactive(x) |- ~active(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.INACTIVE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.ACTIVE, xi0))}));
+
+        // open(x) |- ~closed(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.OPEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CLOSED, xi0))}));
+
+        // closed(x) |- ~open(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CLOSED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.OPEN, xi0))}));
+
         // F |- exists
         // m.Add(new SubstitutionRule(
         //     new IPattern[]{xp0},

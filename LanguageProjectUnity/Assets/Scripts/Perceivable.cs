@@ -9,6 +9,8 @@ public class Perceivable : MonoBehaviour {
     [SerializeField] bool[] reflectance;
     [SerializeField] EnvironmentManager em;
 
+    protected Expression name;
+
     public virtual void SendPerceptualReport(NPC npc) {
         bool[] reflectedLight = new bool[3];
         
@@ -16,57 +18,62 @@ public class Perceivable : MonoBehaviour {
         reflectedLight[1] = em.lighting[1] && reflectance[1];
         reflectedLight[2] = em.lighting[2] && reflectance[2];
 
-        Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
+        Expression currentName = null; 
+        if (name == null) {
+            currentName = new Parameter(SemanticType.INDIVIDUAL, id);
+        } else {
+            currentName = name;
+        }
 
         Expression[] reports = new Expression[]{
-            new Phrase(Expression.NOT, new Phrase(Expression.BLACK, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.RED, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.GREEN, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.BLUE, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.YELLOW, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.MAGENTA, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.CYAN, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.WHITE, param)),
+            new Phrase(Expression.NOT, new Phrase(Expression.BLACK, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.RED, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.GREEN, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.BLUE, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.YELLOW, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.MAGENTA, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.CYAN, currentName)),
+            new Phrase(Expression.NOT, new Phrase(Expression.WHITE, currentName)),
         };
 
         // black/no light reflected off an object
         if (!reflectedLight[0] && !reflectedLight[1] && !reflectedLight[2]) {
-            reports[0] = new Phrase(Expression.BLACK, param);
+            reports[0] = new Phrase(Expression.BLACK, currentName);
         }
 
         // red light reflected off an object
         if (reflectedLight[0] && !reflectedLight[1] && !reflectedLight[2]) {
-            reports[1] = new Phrase(Expression.RED, param);
+            reports[1] = new Phrase(Expression.RED, currentName);
         }
 
         // green light reflected off an object
         if (!reflectedLight[0] && reflectedLight[1] && !reflectedLight[2]) {
-            reports[2] = new Phrase(Expression.GREEN, param);
+            reports[2] = new Phrase(Expression.GREEN, currentName);
         }
 
         // blue light reflected off an object
         if (!reflectedLight[0] && !reflectedLight[1] && reflectedLight[2]) {
-            reports[3] = new Phrase(Expression.BLUE, param);
+            reports[3] = new Phrase(Expression.BLUE, currentName);
         }
 
         // yellow light reflected off an object
         if (reflectedLight[0] && reflectedLight[1] && !reflectedLight[2]) {
-            reports[4] = new Phrase(Expression.YELLOW, param);
+            reports[4] = new Phrase(Expression.YELLOW, currentName);
         }
 
         // magenta light reflected off an object
         if (reflectedLight[0] && !reflectedLight[1] && reflectedLight[2]) {
-            reports[5] = new Phrase(Expression.MAGENTA, param);
+            reports[5] = new Phrase(Expression.MAGENTA, currentName);
         }
 
         // cyan light reflected off an object
         if (!reflectedLight[0] && reflectedLight[1] && reflectedLight[2]) {
-            reports[6] = new Phrase(Expression.CYAN, param);
+            reports[6] = new Phrase(Expression.CYAN, currentName);
         }
 
         // white light reflected off an object
         if (reflectedLight[0] && reflectedLight[1] && reflectedLight[2]) {
-            reports[7] = new Phrase(Expression.WHITE, param);
+            reports[7] = new Phrase(Expression.WHITE, currentName);
         }
 
         npc.ReceivePerceptualReport(reports);
