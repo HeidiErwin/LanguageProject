@@ -62,8 +62,6 @@ public abstract class Model {
         }
     }
 
-
-
     private static HashSet<Expression> Add(HashSet<Expression> path, Expression expr) {
         HashSet<Expression> newPath = new HashSet<Expression>();
         foreach (Expression e in path) {
@@ -74,6 +72,8 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
+        // Debug.Log("Proving " + expr + "in:");
+        // Debug.Log(this);
         triedExpressions = new Dictionary<Expression, bool>();
         return Proves(expr, EntailmentContext.Downward, null);
     }

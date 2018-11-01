@@ -40,7 +40,7 @@ public class SimpleModel : Model {
         StringBuilder s = new StringBuilder();
         s.Append("{\n");
         foreach (Expression e in this.model) {
-            s.Append("    " + e + "\n");
+            s.Append("\t" + e + "\n");
         }
         s.Append("}");
         return s.ToString();

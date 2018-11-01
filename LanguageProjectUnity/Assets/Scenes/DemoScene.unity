@@ -708,6 +708,7 @@ MonoBehaviour:
   id: 4
   reflectance: 000001
   em: {fileID: 436188864}
+  nameString: 
   isActive: 0
   area: 1
 --- !u!1 &243939605
@@ -857,6 +858,7 @@ MonoBehaviour:
   id: 1
   reflectance: 000100
   em: {fileID: 436188864}
+  nameString: 
   isActive: 1
   area: 0
 --- !u!1 &319820250
@@ -1929,6 +1931,7 @@ MonoBehaviour:
   id: 6
   reflectance: 010101
   em: {fileID: 436188864}
+  nameString: 
   isActive: 1
   area: 3
 --- !u!61 &540919286
@@ -2459,6 +2462,7 @@ MonoBehaviour:
   id: 3
   reflectance: 000001
   em: {fileID: 436188864}
+  nameString: 
   isActive: 1
   area: 1
 --- !u!1 &800289232
@@ -3448,6 +3452,7 @@ MonoBehaviour:
   id: 5
   reflectance: 000001
   em: {fileID: 436188864}
+  nameString: the_great_door
   open: 0
   locked: 0
   area: 0
@@ -4327,6 +4332,7 @@ MonoBehaviour:
   id: 0
   reflectance: 000000
   em: {fileID: 436188864}
+  nameString: 
   isActive: 1
   area: 0
 --- !u!1 &1285697969
@@ -4686,7 +4692,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c10e3e33dfe624227b998eae8ca440f6, type: 3}
@@ -4781,7 +4787,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e59d1d2885d4f40ba9e197cb806c5eee, type: 3}
@@ -4876,7 +4882,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5226620fdb5f84234ab3f7ddd0e448b4, type: 3}
@@ -7457,6 +7463,7 @@ MonoBehaviour:
   id: 2
   reflectance: 010000
   em: {fileID: 436188864}
+  nameString: 
   isActive: 0
   area: 1
 --- !u!1 &2043366194

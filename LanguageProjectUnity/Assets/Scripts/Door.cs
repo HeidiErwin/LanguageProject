@@ -31,7 +31,6 @@ public class Door : Perceivable {
     }
 
     public override void SendPerceptualReport(NPC npc) {
-        name = Expression.THE_GREAT_DOOR;
         base.SendPerceptualReport(npc);
         npc.ReceivePerceptualReport(
             new Phrase(locked ? Expression.INACTIVE : Expression.ACTIVE, Expression.THE_GREAT_DOOR),

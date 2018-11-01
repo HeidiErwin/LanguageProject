@@ -176,18 +176,18 @@ public class DefaultModel {
             new IPattern[]{
                 new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));
 
-        // // reflexivity for overlaps_with
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)}));
+        // reflexivity for overlaps_with
+        m.Add(new SubstitutionRule(
+            new IPattern[]{},
+            new IPattern[]{
+                new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)}));
 
-        // // symmetry for overlaps_with
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)}));
+        // symmetry for overlaps_with
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)},
+            new IPattern[]{
+                new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)}));
 
         // cow(x) |- animal(x)
         m.Add(new SubstitutionRule(

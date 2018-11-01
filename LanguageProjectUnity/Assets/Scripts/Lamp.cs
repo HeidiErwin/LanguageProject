@@ -6,7 +6,8 @@ public class Lamp : Perceivable {
 
     public override void SendPerceptualReport(NPC npc) {
         base.SendPerceptualReport(npc);
-        Expression param = new Parameter(SemanticType.INDIVIDUAL, this.id);
+
+        Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
 
         npc.ReceivePerceptualReport(
             new Phrase(Expression.LAMP, param),

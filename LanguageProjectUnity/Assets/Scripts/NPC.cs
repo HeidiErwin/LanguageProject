@@ -117,7 +117,6 @@ public class NPC : Character {
         }
 
         foreach (Expression p in report) {
-            Debug.Log(p);
             this.model.Add(p);
         }
     }
