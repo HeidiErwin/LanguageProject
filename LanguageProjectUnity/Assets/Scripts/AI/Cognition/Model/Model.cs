@@ -48,11 +48,13 @@ public abstract class Model {
         }
 
         if (!domain.ContainsKey(e.type)) {
-            domain.Add(e.type, new HashSet<Expression>());
+            domain.Add(e.type, new HashSet<Expression>());    
         }
 
-        domain[e.type].Add(e);
-
+        if (!e.type.Equals(SemanticType.TRUTH_VALUE)) {
+            domain[e.type].Add(e);
+        }
+        
         for (int i = 0; i < e.GetNumArgs(); i++) {
             AddToDomain(e.GetArg(i));
             Expression partial = e.Remove(i);

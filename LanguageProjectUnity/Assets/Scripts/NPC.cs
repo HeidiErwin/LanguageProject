@@ -112,6 +112,8 @@ public class NPC : Character {
     }
 
     public void ReceivePerceptualReport(params Expression[] report) {
+        Debug.Log(nameString + " is receiving a perceptual report");
+
         if (this.model == null) {
             return;
         }
