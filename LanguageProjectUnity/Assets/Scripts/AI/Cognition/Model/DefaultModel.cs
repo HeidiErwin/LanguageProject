@@ -21,6 +21,8 @@ public class DefaultModel {
         MetaVariable xi2 = new MetaVariable(SemanticType.INDIVIDUAL, 2);
         MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
         MetaVariable xp1 = new MetaVariable(SemanticType.PREDICATE, 1);
+        MetaVariable xr20 = new MetaVariable(SemanticType.RELATION_2, 0);
+        MetaVariable xitr0 = new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0);
 
         Expression not = Expression.NOT;
 
@@ -104,13 +106,39 @@ public class DefaultModel {
                 new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
 
         // // substitution of identiticals
+        // the rule if subsentential substitution was a thing
         // // [i = j] i |- j
         // m.Add(new SubstitutionRule(
         //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
         //     new IPattern[]{xi0},
         //     new IPattern[]{xi1}));
+        //     
+        // the cheat for now
+        // [i = j] F(i) |- F(j)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(xp0, xi1)}));
 
-        // [F(x)], G(x) |- some(F, G)
+        // [i = j] R(i, k) |- R(j, k)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(xr20, xi0, xi2)},
+            new IPattern[]{new ExpressionPattern(xr20, xi1, xi2)}));
+
+        // [i = j] R(k, i) |- R(k, j)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(xr20, xi2, xi0)},
+            new IPattern[]{new ExpressionPattern(xr20, xi2, xi1)}));
+
+        // [i = j] A(i, S) |- A(j, S)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+            new IPattern[]{new ExpressionPattern(xitr0, xi0, xt0)},
+            new IPattern[]{new ExpressionPattern(xitr0, xi1, xt1)}));
+
+        // F(x), G(x) |- some(F, G)
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
             new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));

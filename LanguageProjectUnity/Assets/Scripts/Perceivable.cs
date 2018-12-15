@@ -74,7 +74,6 @@ public class Perceivable : MonoBehaviour {
             reports[7] = new Phrase(Expression.WHITE, param);
         }
 
-        Debug.Log("yeah");
         npc.ReceivePerceptualReport(reports);
     }
 }

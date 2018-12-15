@@ -210,6 +210,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
+    public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_DOOR = new Word(SemanticType.INDIVIDUAL, "the_great_door");

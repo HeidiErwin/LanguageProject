@@ -23,8 +23,13 @@ public class CustomModels {
         m.Add(new Phrase(Expression.ACTIVE, evan));
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, evan, greenArea));
 
+        m.Add(new Phrase(Expression.IDENTITY, bob, Expression.BOB_2));
+
         m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
         m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, evan, bob)));
+
+        m.Add(new Phrase(Expression.HELP, evan, Expression.BOB_2));
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.HELP, Expression.BOB_2, evan)));
 
         return m;
     }

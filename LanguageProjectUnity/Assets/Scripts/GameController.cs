@@ -180,8 +180,9 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.EVERY);
 
         // CONTENT WORDS   
-        // proper names
+        // names
         SetUpSpawner(Expression.BOB);
+        SetUpSpawner(Expression.BOB_2);
         SetUpSpawner(Expression.EVAN);
         SetUpSpawner(Expression.WAYSIDE_PARK);
         SetUpSpawner(Expression.THE_GREAT_DOOR);
