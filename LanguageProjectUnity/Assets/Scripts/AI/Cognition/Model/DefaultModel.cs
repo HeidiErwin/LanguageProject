@@ -247,11 +247,6 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.CLOSED, xi0)},
             new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.OPEN, xi0))}));
 
-        // F |- exists
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{xp0},
-        //     new IPattern[]{Expression.EXISTS}));
-
         // F(x) |- exists(x)
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(xp0, xi0)},
