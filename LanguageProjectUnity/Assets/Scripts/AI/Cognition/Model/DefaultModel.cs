@@ -175,10 +175,10 @@ public class DefaultModel {
                 new ExpressionPattern(xp0, xi0)},
             new IPattern[]{new ExpressionPattern(xp1, xi0)}));
 
-        // |- every(F, F)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{},
-            new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
+        // // |- every(F, F)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
 
         // antisymmetry for contained_within
         m.Add(new SubstitutionRule(
@@ -195,11 +195,10 @@ public class DefaultModel {
                 new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
 
         // uniqueness of king
-        // [king(i)] king(j) |- i = j
+        // king(i), king(j) |- i = j
         m.Add(new SubstitutionRule(
             new IPattern[]{
-                new ExpressionPattern(Expression.KING, xi0)},
-            new IPattern[]{
+                new ExpressionPattern(Expression.KING, xi0),
                 new ExpressionPattern(Expression.KING, xi1)},
             new IPattern[]{
                 new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));

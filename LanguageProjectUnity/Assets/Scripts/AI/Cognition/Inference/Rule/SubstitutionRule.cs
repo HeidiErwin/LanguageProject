@@ -181,6 +181,26 @@ public class SubstitutionRule {
         return admissibleSubstitutions;
     }
 
+    public SubstitutionRule Contrapositive() {
+        IPattern[] newTop = new IPattern[this.bottom.Length];
+        IPattern[] newBottom = new IPattern[this.top.Length];
+
+        for (int i = 0; i < bottom.Length; i++) {
+            newTop[i] = new ExpressionPattern(Expression.NOT, bottom[i]);
+        }
+
+        for (int i = 0; i < top.Length; i++) {
+            newBottom[i] = new ExpressionPattern(Expression.NOT, top[i]);
+        }
+
+        if (exclusiveContext == null) {
+            return new SubstitutionRule(conditions, newTop, newBottom, null);
+        }
+
+        return new SubstitutionRule(conditions, newTop, newBottom,
+            EvaluationPattern.MergeContext(exclusiveContext.GetValueOrDefault(), EntailmentContext.Downward));
+    }
+
     public override String ToString() {
         StringBuilder s = new StringBuilder();
 

@@ -40,6 +40,8 @@ public abstract class Model {
     public void Add(SubstitutionRule r) {
         substitutionRules.Add(r);
         r.AddToDomain(this);
+
+        substitutionRules.Add(r.Contrapositive());
     }
 
     public void AddToDomain(Expression e) {
@@ -172,20 +174,20 @@ public abstract class Model {
             }
         }
 
-        if (expr.GetHead().Equals(Expression.NOT)) {
-            Expression subsentence = expr.GetArg(0);
-            if (subsentence != null && Proves(
-                    subsentence,
-                    EvaluationPattern.MergeContext(entailmentContext, EntailmentContext.Downward),
-                    (sententialContext == null) ?
-                    new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, 0)) :
-                    new ExpressionPattern(Expression.NOT, sententialContext))) {
-                // note: the new sententialcontext should actually be: search for the only metavariable
-                // and wrap a not around IT. But it doesn't matter so long as negation is the only thing
-                // happening.
-                return true;
-            }
-        }
+        // if (expr.GetHead().Equals(Expression.NOT)) {
+        //     Expression subsentence = expr.GetArg(0);
+        //     if (subsentence != null && Proves(
+        //             subsentence,
+        //             EvaluationPattern.MergeContext(entailmentContext, EntailmentContext.Downward),
+        //             (sententialContext == null) ?
+        //             new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, 0)) :
+        //             new ExpressionPattern(Expression.NOT, sententialContext))) {
+        //         // note: the new sententialcontext should actually be: search for the only metavariable
+        //         // and wrap a not around IT. But it doesn't matter so long as negation is the only thing
+        //         // happening.
+        //         return true;
+        //     }
+        // }
 
         return false;
     }
