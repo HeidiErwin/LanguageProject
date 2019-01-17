@@ -157,7 +157,7 @@ Graphics:
   - resize for keyboard and expressions
   	* "up/down" arrow for keyboard and workspace
   	* downscale expressions + magnifying lens/viewport
-  - keyboard multiple pages
+  - [DONE] keyboard multiple pages
 	- animations
 	- make ExpressionPiece from fully formed Expression
   - Bug: Argument(Clone) not being destroyed when a function expression is given as input to another expression
@@ -179,6 +179,8 @@ Perception:
 	- event perception
 	- far off: maybe actually simulate stuff and send analog information
 Action:
-  - figure out format for action rules, as well as primitive action representations
-	- code procedure determining composite action from primitive ones
+  - [DONE] figure out format for action rules, as well as primitive action representations
+	- [DONE] code procedure determining composite action from primitive ones
   - walking is broken again
+  - in NPC make it so action sequence waits on action to complete before executing next action
+

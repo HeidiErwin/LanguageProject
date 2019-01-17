@@ -26,7 +26,12 @@ public class DefaultModel {
 
         Expression not = Expression.NOT;
 
+        // verum and falsum
+        m.Add(Expression.VERUM);
+        m.Add(new Phrase(not, Expression.FALSUM));
+
         // SUBSTITUTION RULES
+
         // S |- T(S)
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0},
@@ -169,16 +174,21 @@ public class DefaultModel {
         //         new ExpressionPattern(xp1, xi1))}));
 
         // every(F, G), F(x) |- G(x)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.EVERY, xp0, xp1),
-                new ExpressionPattern(xp0, xi0)},
-            new IPattern[]{new ExpressionPattern(xp1, xi0)}));
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.EVERY, xp0, xp1),
+        //         new ExpressionPattern(xp0, xi0)},
+        //     new IPattern[]{new ExpressionPattern(xp1, xi0)}));
 
         // // |- every(F, F)
         // m.Add(new SubstitutionRule(
         //     new IPattern[]{},
         //     new IPattern[]{new ExpressionPattern(Expression.EVERY, xp0, xp0)}));
+        
+        // // F(x) |- exists(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
+        //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
 
         // antisymmetry for contained_within
         m.Add(new SubstitutionRule(
@@ -246,10 +256,325 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.CLOSED, xi0)},
             new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.OPEN, xi0))}));
 
-        // F(x) |- exists(x)
+        // person(x) |- ~fountain(x)
         m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(xp0, xi0)},
-            new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}));
+            new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.FOUNTAIN, xi0))}));
+
+        // person(x) |- ~lamp(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.LAMP, xi0))}));
+
+        // person(x) |- ~cow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.COW, xi0))}));
+
+        // person(x) |- ~open(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.OPEN, xi0))}));
+
+        // person(x) |- ~closed(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CLOSED, xi0))}));
+
+        // COLOR EXCLUSION
+        // black(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // black(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // black(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // black(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // black(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // black(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // black(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLACK, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        // red(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // red(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // red(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // red(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // red(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // red(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // red(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.RED, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        // green(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // green(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // green(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // green(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // green(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // green(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // green(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.GREEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        
+        // blue(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // blue(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // blue(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // blue(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // blue(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // blue(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // blue(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BLUE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        
+        // cyan(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // cyan(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // cyan(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // cyan(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // cyan(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // cyan(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // cyan(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.CYAN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        
+        // magenta(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // magenta(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // magenta(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // magenta(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // magenta(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // magenta(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // magenta(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAGENTA, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        
+        // yellow(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // yellow(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // yellow(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // yellow(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // yellow(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // yellow(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // yellow(x) |- ~white(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.YELLOW, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.WHITE, xi0))}));
+
+        // =======================================================================================================
+        
+        // white(x) |- ~black(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLACK, xi0))}));
+
+        // white(x) |- ~red(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.RED, xi0))}));
+
+        // white(x) |- ~green(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.GREEN, xi0))}));
+
+        // white(x) |- ~blue(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BLUE, xi0))}));
+
+        // white(x) |- ~cyan(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CYAN, xi0))}));
+
+        // white(x) |- ~magenta(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.MAGENTA, xi0))}));
+
+        // white(x) |- ~yellow(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.WHITE, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.YELLOW, xi0))}));
+
+        // =======================================================================================================
 
         return m;
     }

@@ -16,6 +16,7 @@ using UnityEngine;
 public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
+    protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, bool> triedExpressions;
 
@@ -42,6 +43,10 @@ public abstract class Model {
         r.AddToDomain(this);
 
         substitutionRules.Add(r.Contrapositive());
+    }
+
+    public void Add(ActionRule r) {
+        actionRules.Add(r);
     }
 
     public void AddToDomain(Expression e) {
@@ -80,6 +85,34 @@ public abstract class Model {
         // Debug.Log(this);
         triedExpressions = new Dictionary<Expression, bool>();
         return Proves(expr, EntailmentContext.Downward, null);
+    }
+
+    // naive, non-schematic action planner
+    public List<Expression> Plan(Expression goal, List<Expression> actionSequence) {
+        // in this case, we've reach a point where the goal has been satisfied
+        if (Proves(goal)) {
+            return actionSequence;
+        }
+
+        // search through action rules and recur on their preconditions as subgoals.
+        foreach (ActionRule r in this.actionRules) {
+            if (r.result.Equals(goal)) {
+                List<Expression> newActionSequence = new List<Expression>();
+                
+                newActionSequence.Add(r.action);
+                foreach (Expression a in actionSequence) {
+                    newActionSequence.Add(a);
+                }
+
+                List<Expression> solvedSequence = Plan(r.condition, newActionSequence);
+                if (solvedSequence != null) {
+                    return solvedSequence;
+                }
+            }
+        }
+
+        // no known courses of action bring about the intended result.
+        return null;
     }
 
     // return true if this model proves expr.

@@ -144,15 +144,16 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
-            GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
         }
+        // else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
+        //     GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
+        //     if (firstRow.transform.childCount < PIECES_PER_ROW) {
+        //         spawnerInstance.transform.SetParent(firstRow.transform);
+        //     } else {
+        //         GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
+        //         spawnerInstance.transform.SetParent(secondRow.transform);
+        //     }
+        // }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
     }
@@ -165,6 +166,8 @@ public class GameController : MonoBehaviour {
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
+        SetUpSpawner(Expression.WOULD);
+        
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
 

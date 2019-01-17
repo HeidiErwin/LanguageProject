@@ -195,11 +195,17 @@ public abstract class Expression : IPattern {
     }
 
     // the words of the language
+    public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
+    public static readonly Expression FALSUM = new Word(SemanticType.TRUTH_VALUE, "falsum");
+
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
+    public static readonly Expression WOULD = new Word(SemanticType.TRUTH_FUNCTION_1, "would");
 
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
+
+    public static readonly Expression NOMINALIZE = new Word(SemanticType.DETERMINER, "nominalize");
 
     public static readonly Expression NO = new Word(SemanticType.QUANTIFIER, "no");
     public static readonly Expression SOME = new Word(SemanticType.QUANTIFIER, "some");

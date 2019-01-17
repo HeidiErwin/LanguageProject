@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,69 +29,64 @@ public class NPC : Character {
     }
 
     public bool Do(Expression e) {
-        if (this.nameString.Equals("Bob")) {
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN)))) {
-                GoTo("Evan");
-                return true;
-            }
+        if (!e.headString.Equals("would")) {
+            return false;    
+        }
 
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                return true;
-            }
+        Expression goal = e.GetArg(0);
 
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
-                    GameObject.Find("Door").GetComponent<Door>().Open();
-                    return true;
+        List<Expression> actionSequence = model.Plan(goal, new List<Expression>());
+
+        if (actionSequence == null) {
+            ShowSpeechBubble("idk");
+            this.controller.lowClick.Play();
+            return true;
+        }
+
+        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+
+        // Debug.Log(s.ToString());
+
+        bool isBob = nameString.Equals("Bob");
+
+        // TODO: make the next action in the sequence wait until the previous
+        // action has been completed.
+        foreach (Expression action in actionSequence) {
+            if (action.Equals(new Phrase(Expression.WOULD,
+                new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN,
+                            isBob ? Expression.EVAN : Expression.BOB)))) {
+                if (isBob) {
+                    GoTo("Evan");
                 } else {
-                    return false;
+                    GoTo("Bob");
                 }
             }
 
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.BOB, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR,
+                isBob ? Expression.BOB : Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
+                GoTo("DoorFront");
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
+                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+                    GameObject.Find("Door").GetComponent<Door>().Open();
+                }
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
                 if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                     GameObject.Find("Door").GetComponent<Door>().Close();
-                    return true;
-                } else {
-                    return false;
                 }
             }
         }
 
-        if (this.nameString.Equals("Evan")) {
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB)))) {
-                GoTo("Bob");
-                return true;
-            }
-
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
-                return true;
-            }
-
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
-                    GameObject.Find("Door").GetComponent<Door>().Open();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            if (e.Equals(new Phrase(Expression.MAKE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
-                    GameObject.Find("Door").GetComponent<Door>().Close();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return false;
-
-        // currentInteractObject.SendMessage("Interact"); --> call Interact of Door to open/close
+        this.controller.combineSuccess.Play();
+        return true;
     }
 
     /**
@@ -126,7 +122,6 @@ public class NPC : Character {
 
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
         if (Do(utterance)) {
-            this.controller.combineSuccess.Play();
             return;
         }
 
