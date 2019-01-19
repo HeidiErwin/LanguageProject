@@ -57,6 +57,7 @@ public class NPC : Character {
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
+
             if (action.Equals(new Phrase(Expression.WOULD,
                 new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN,
                             isBob ? Expression.EVAN : Expression.BOB)))) {

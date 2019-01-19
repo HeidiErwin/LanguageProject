@@ -7,18 +7,30 @@ public class SubstitutionRule {
     protected IPattern[] top;
     protected IPattern[] bottom;
     protected EntailmentContext? exclusiveContext;
+    public bool isTransposable {get; protected set;}
     
-    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext) {
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext, bool isTransposable) {
         this.conditions = conditions;
         this.top = top;
         this.bottom = bottom;
         this.exclusiveContext = exclusiveContext;
+        this.isTransposable = isTransposable;
     }
+
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext):
+        this(conditions, top, bottom, exclusiveContext, true) {}
 
     public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom): this(conditions, top, bottom, null) {}
 
+        public SubstitutionRule(IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext, bool isTransposable):
+        this(new IPattern[0], top, bottom, exclusiveContext, isTransposable) {}
+
     public SubstitutionRule(IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext):
         this(new IPattern[0], top, bottom, exclusiveContext) {}
+
+    public SubstitutionRule(IPattern[] top, IPattern[] bottom, bool isTransposable):
+        this(new IPattern[0], top, bottom, null, isTransposable) {}
+
 
     public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
 

@@ -144,16 +144,15 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
+        } else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
+            GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
+            if (firstRow.transform.childCount < PIECES_PER_ROW) {
+                spawnerInstance.transform.SetParent(firstRow.transform);
+            } else {
+                GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
+                spawnerInstance.transform.SetParent(secondRow.transform);
+            }
         }
-        // else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
-        //     GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
-        //     if (firstRow.transform.childCount < PIECES_PER_ROW) {
-        //         spawnerInstance.transform.SetParent(firstRow.transform);
-        //     } else {
-        //         GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
-        //         spawnerInstance.transform.SetParent(secondRow.transform);
-        //     }
-        // }
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
     }
@@ -189,6 +188,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.EVAN);
         SetUpSpawner(Expression.WAYSIDE_PARK);
         SetUpSpawner(Expression.THE_GREAT_DOOR);
+        SetUpSpawner(Expression.THE_GREAT_KEY);
         //SetUpSpawner(Expression.I);
 
         // predicates
@@ -215,11 +215,13 @@ public class GameController : MonoBehaviour {
         // 2-place relations
         SetUpSpawner(Expression.IDENTITY);
         SetUpSpawner(Expression.CONTAINED_WITHIN);
-        SetUpSpawner(Expression.HELP);
+        // SetUpSpawner(Expression.HELP);
         SetUpSpawner(Expression.NEAR);
+        SetUpSpawner(Expression.POSSESS);
 
         // individual-truth relations
         SetUpSpawner(Expression.MAKE);
+        SetUpSpawner(Expression.BELIEVE);
 
         // SetUpSpawner(Expression.OVERLAPS_WITH);
     }

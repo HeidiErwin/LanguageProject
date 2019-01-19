@@ -36,7 +36,7 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0},
             new IPattern[]{new ExpressionPattern(Expression.TRUE, xt0)},
-            EntailmentContext.Downward));
+            EntailmentContext.Downward, false));
 
         // T(S) |- S
         m.Add(new SubstitutionRule(
@@ -48,13 +48,13 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0},
             new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
-            EntailmentContext.Downward));
+            EntailmentContext.Downward, false));
 
         // ~~S |- S
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
             new IPattern[]{xt0},
-            EntailmentContext.Upward));
+            EntailmentContext.Upward, false));
 
         // A, B |- A & B
         m.Add(new SubstitutionRule(

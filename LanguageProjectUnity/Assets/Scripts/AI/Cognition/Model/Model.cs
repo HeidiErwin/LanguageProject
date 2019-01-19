@@ -42,7 +42,9 @@ public abstract class Model {
         substitutionRules.Add(r);
         r.AddToDomain(this);
 
-        substitutionRules.Add(r.Contrapositive());
+        if (r.isTransposable) {
+            substitutionRules.Add(r.Contrapositive());
+        }
     }
 
     public void Add(ActionRule r) {

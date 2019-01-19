@@ -214,12 +214,14 @@ public abstract class Expression : IPattern {
     public static readonly Expression EVERY = new Word(SemanticType.QUANTIFIER, "every");
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
+    public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_DOOR = new Word(SemanticType.INDIVIDUAL, "the_great_door");
+    public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     //public static readonly Expression I = new Word(SemanticType.INDIVIDUAL, "I");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
@@ -250,8 +252,9 @@ public abstract class Expression : IPattern {
     public static readonly Expression IDENTITY = new Word(SemanticType.RELATION_2, "=");
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
-    public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
+    // public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
     public static readonly Expression NEAR = new Word(SemanticType.RELATION_2, "near");
+    public static readonly Expression POSSESS = new Word(SemanticType.RELATION_2, "possess");
 
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
 }
