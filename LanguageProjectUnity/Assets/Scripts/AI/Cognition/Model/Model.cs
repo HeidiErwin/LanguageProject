@@ -17,6 +17,7 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
+    // protected HashSet<Expression> primitiveAbilites = new HashSet<ActionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, bool> triedExpressions;
 
@@ -50,6 +51,10 @@ public abstract class Model {
     public void Add(ActionRule r) {
         actionRules.Add(r);
     }
+
+    // public void AddPrimitiveAbility(Expression ability) {
+    //     this.primitiveAbilites.Add(ability);
+    // }
 
     public void AddToDomain(Expression e) {
         if (e == null) {

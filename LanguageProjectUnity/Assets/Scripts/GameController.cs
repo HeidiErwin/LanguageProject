@@ -222,6 +222,7 @@ public class GameController : MonoBehaviour {
         // individual-truth relations
         SetUpSpawner(Expression.MAKE);
         SetUpSpawner(Expression.BELIEVE);
+        SetUpSpawner(Expression.DESIRE);
 
         // SetUpSpawner(Expression.OVERLAPS_WITH);
     }

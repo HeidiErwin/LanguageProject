@@ -12,7 +12,6 @@ public class NPC : Character {
     [SerializeField] protected String nameString;
     private Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
-
     private EnvironmentManager envManager;
 
     // Use this for initialization
@@ -28,11 +27,7 @@ public class NPC : Character {
         }
     }
 
-    public bool Do(Expression e) {
-        if (!e.headString.Equals("would")) {
-            return false;    
-        }
-
+    private IEnumerator Do(Expression e) {
         Expression goal = e.GetArg(0);
 
         List<Expression> actionSequence = model.Plan(goal, new List<Expression>());
@@ -40,7 +35,7 @@ public class NPC : Character {
         if (actionSequence == null) {
             ShowSpeechBubble("idk");
             this.controller.lowClick.Play();
-            return true;
+            yield return false;
         }
 
         // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
@@ -84,10 +79,14 @@ public class NPC : Character {
                     GameObject.Find("Door").GetComponent<Door>().Close();
                 }
             }
+
+            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))))) {
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+            }
         }
 
         this.controller.combineSuccess.Play();
-        return true;
+        yield return true;
     }
 
     /**
@@ -100,7 +99,7 @@ public class NPC : Character {
             if (selectedExpr == null) {
                 // Debug.Log("No selected expression to say to this NPC");
             } else {
-                ReceiveExpression(selectedExpr);
+                ReceiveExpression(selectedExpr.expression);
                 Destroy(selectedExpr.gameObject);
                 controller.HidePointer();
                 controller.SetInSpeakingMode(false);
@@ -118,11 +117,10 @@ public class NPC : Character {
         }
     }
 
-    void ReceiveExpression(ExpressionPiece exprPiece) {
-        Expression utterance = exprPiece.expression;
-
+    void ReceiveExpression(Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
-        if (Do(utterance)) {
+        if (utterance.headString.Equals("would")) {
+            StartCoroutine(Do(utterance));
             return;
         }
 

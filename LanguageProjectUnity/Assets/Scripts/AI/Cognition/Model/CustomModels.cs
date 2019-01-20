@@ -15,24 +15,31 @@ public class CustomModels {
             new IPattern[]{new ExpressionPattern(Expression.BELIEVE, bob, new MetaVariable(SemanticType.TRUTH_VALUE, 0))},
             false));
 
+        // primitive abilities
+
         // Action Rules
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR)),
-            new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, bob, Expression.THE_GREAT_DOOR)),
+            new Phrase(Expression.NEAR, bob, Expression.THE_GREAT_DOOR)));
 
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN)),
-            new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, bob, evan)),
+            new Phrase(Expression.NEAR, bob, Expression.EVAN)));
 
         m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR),
-            new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)),
+            new Phrase(Expression.NEAR, bob, evan),
+            new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, evan, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))),
             new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
 
-        m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR),
-            new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)),
-            new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+        // m.Add(new ActionRule(
+        //     new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR),
+        //     new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)),
+        //     new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+
+        // m.Add(new ActionRule(
+        //     new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR),
+        //     new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)),
+        //     new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
 
         // particular beliefs
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, redArea, Expression.WAYSIDE_PARK));
