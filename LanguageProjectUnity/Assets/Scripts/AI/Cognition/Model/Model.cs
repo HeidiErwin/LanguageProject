@@ -87,6 +87,10 @@ public abstract class Model {
         return newPath;
     }
 
+    public IEnumerator<bool> CoProves(Expression expr) {
+        yield return Proves(expr);
+    }
+
     public bool Proves(Expression expr) {
         // Debug.Log("Proving " + expr + "in:");
         // Debug.Log(this);
