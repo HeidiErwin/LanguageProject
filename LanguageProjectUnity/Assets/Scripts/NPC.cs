@@ -107,7 +107,7 @@ public class NPC : Character {
         }
     }
 
-    public void ReceivePerceptualReport(params Expression[] report) {
+    public void ReceivePercept(params Expression[] report) {
         if (this.model == null) {
             return;
         }
@@ -179,7 +179,7 @@ public class NPC : Character {
     public void OnTriggerEnter2D(Collider2D other) {
         Perceivable po = other.GetComponent<Perceivable>();
         if (po != null) {
-            po.SendPerceptualReport(this);
+            po.SendPercept(this);
         }
         if (other.CompareTag("Interactable")) {
             currentInteractObject = other.gameObject;

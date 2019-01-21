@@ -10,7 +10,7 @@ public class Perceivable : MonoBehaviour {
     [SerializeField] EnvironmentManager em;
     [SerializeField] protected String nameString;
 
-    public virtual void SendPerceptualReport(NPC npc) {
+    public virtual void SendPercept(NPC npc) {
         bool[] reflectedLight = new bool[3];
         
         reflectedLight[0] = em.lighting[0] && reflectance[0];
@@ -74,6 +74,6 @@ public class Perceivable : MonoBehaviour {
             reports[7] = new Phrase(Expression.WHITE, param);
         }
 
-        npc.ReceivePerceptualReport(reports);
+        npc.ReceivePercept(reports);
     }
 }
