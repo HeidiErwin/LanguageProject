@@ -42,12 +42,12 @@ public class NPC : Character {
         yield return ShowSpeechBubble("yes");
 
         // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        StringBuilder s = new StringBuilder();
-        foreach (Expression a in actionSequence) {
-            s.Append(a);
-            s.Append("; ");
-        }
-        Debug.Log(s.ToString());
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+        // Debug.Log(s.ToString());
 
         bool isBob = nameString.Equals("Bob");
 
@@ -99,6 +99,8 @@ public class NPC : Character {
                 yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                ReceivePercept(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))))) {
@@ -106,6 +108,8 @@ public class NPC : Character {
                 yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                ReceivePercept(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
             }
         }
         // this.controller.combineSuccess.Play();
@@ -144,7 +148,6 @@ public class NPC : Character {
     void ReceiveExpression(Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
         if (utterance.headString.Equals("would")) {
-            Debug.Log("here");
             StopCoroutine("Do");
             StartCoroutine(Do(utterance));
             return;

@@ -32,7 +32,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #endregion
 
 
-    // TODO fill this in so we can display the sentence an NPC is saying!
+    // TODO HEIDI 1/27 fill this in so we can display the sentence an NPC is saying over their head!
     // public void FromScratch(Expression expr, Vector3 position) {
     //     this.expression = expr;
     //     this.arguments = new ExpressionPiece[expr.GetNumArgs()];

@@ -4910,7 +4910,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.35
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5235,7 +5235,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480718088}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9e6b9ba436ed46f78d7c16dead0626c, type: 3}
   m_Name: 
@@ -6782,6 +6782,7 @@ MonoBehaviour:
   speed: 0
   sprites: []
   target: {fileID: 1833950085}
+  walkingComplete: 0
   nameString: Evan
   currentInteractObject: {fileID: 0}
 --- !u!61 &1833950087
@@ -7427,6 +7428,7 @@ MonoBehaviour:
   speed: 0
   sprites: []
   target: {fileID: 0}
+  walkingComplete: 0
   nameString: Bob
   currentInteractObject: {fileID: 0}
 --- !u!61 &1950673116
