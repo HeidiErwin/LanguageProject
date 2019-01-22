@@ -20,6 +20,7 @@ public class SimpleModel : Model {
         if (Contains(e)) {
             return false;
         }
+
         model.Add(e);
 
         e.AddToDomain(this);

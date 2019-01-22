@@ -14,10 +14,12 @@ public class Pathfinding : MonoBehaviour {
     }
 
     public void StartFindPath(Vector3 startPos, Vector3 targetPos) {
-        StartCoroutine(FindPath(startPos, targetPos));
+        // StartCoroutine(FindPath(startPos, targetPos));
+        FindPath(startPos, targetPos);
     }
 
-    IEnumerator FindPath (Vector3 startPos, Vector3 targetPos) {
+    // TODO change this back to an ienumerator
+    void FindPath (Vector3 startPos, Vector3 targetPos) {
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false; //whether or not pathfinding is success
 
@@ -61,7 +63,7 @@ public class Pathfinding : MonoBehaviour {
                 }
             }
         }
-        yield return null; // wait 1 frame
+        // yield return null; // wait 1 frame
         if (pathSuccess) {
             waypoints = RetracePath(startNode, targetNode);
         }

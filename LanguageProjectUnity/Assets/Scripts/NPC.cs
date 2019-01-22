@@ -38,14 +38,16 @@ public class NPC : Character {
             yield return false;
         }
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        // StringBuilder s = new StringBuilder();
-        // foreach (Expression a in actionSequence) {
-        //     s.Append(a);
-        //     s.Append("; ");
-        // }
+        this.controller.combineSuccess.Play();
+        yield return ShowSpeechBubble("yes");
 
-        // Debug.Log(s.ToString());
+        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        StringBuilder s = new StringBuilder();
+        foreach (Expression a in actionSequence) {
+            s.Append(a);
+            s.Append("; ");
+        }
+        Debug.Log(s.ToString());
 
         bool isBob = nameString.Equals("Bob");
 
@@ -57,35 +59,57 @@ public class NPC : Character {
                 new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN,
                             isBob ? Expression.EVAN : Expression.BOB)))) {
                 if (isBob) {
-                    GoTo("Evan");
+                    yield return StartCoroutine(GoTo("Evan"));
+                    ReceivePercept(new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN));
                 } else {
-                    GoTo("Bob");
+                    yield return StartCoroutine(GoTo("Bob"));
+                    ReceivePercept(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
                 }
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR,
                 isBob ? Expression.BOB : Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
-                GoTo("DoorFront");
+                yield return StartCoroutine(GoTo("DoorFront"));
+                ReceivePercept(new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN, Expression.THE_GREAT_DOOR));
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+            // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
+            // TODO Uncomment when coroutine stuff is sorted out.
+
+            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
+            //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+                    this.controller.lowClick.Play();
                     GameObject.Find("Door").GetComponent<Door>().Open();
-                }
+                    this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                    ReceivePercept(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+            //     }
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-                if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
+            //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+                    this.controller.lowClick.Play();
                     GameObject.Find("Door").GetComponent<Door>().Close();
-                }
+                    this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                    ReceivePercept(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+            //     }
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))))) {
+                this.controller.placeExpression.Play();
+                yield return ShowSpeechBubble("would");
+                // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
             }
-        }
 
-        this.controller.combineSuccess.Play();
+            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))))) {
+                this.controller.placeExpression.Play();
+                yield return ShowSpeechBubble("would");
+                // yield return new WaitForSeconds(2.0f);
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+            }
+        }
+        // this.controller.combineSuccess.Play();
+        // yield return ShowSpeechBubble("yes");
         yield return true;
     }
 
@@ -120,40 +144,47 @@ public class NPC : Character {
     void ReceiveExpression(Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
         if (utterance.headString.Equals("would")) {
+            Debug.Log("here");
+            StopCoroutine("Do");
             StartCoroutine(Do(utterance));
             return;
         }
 
         if (this.model == null) {
             // Debug.Log("No associated model.");
-            ShowSpeechBubble("questionMark");
             this.controller.placeExpression.Play();
+            StartCoroutine(ShowSpeechBubble("questionMark"));
+            
             return;
         }
 
         if (!utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             // Debug.Log("Semantic Type of utterance is not sentence/truth value.");
-            ShowSpeechBubble("questionMark");
-            this.controller.placeExpression.Play(); // TODO make a unique sound for this
+            this.controller.placeExpression.Play();
+            StartCoroutine(ShowSpeechBubble("questionMark"));
+             // TODO make a unique sound for this
             return;
         }
 
         if (this.model.Proves(utterance)) {
-            ShowSpeechBubble("yes");
-            this.controller.combineSuccess.Play(); // TODO make a unique sound effect for this
+            this.controller.combineSuccess.Play();
+            StartCoroutine(ShowSpeechBubble("yes"));
+             // TODO make a unique sound effect for this
         } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
-            ShowSpeechBubble("nope");
             this.controller.failure.Play();
+            StartCoroutine(ShowSpeechBubble("nope"));
+            
         } else {
-            ShowSpeechBubble("idk");
             this.controller.lowClick.Play();
+            StartCoroutine(ShowSpeechBubble("idk"));
+            
         }
     }
 
     /**
      * imageName is the image to display in the speechbubble
      */
-    public void ShowSpeechBubble(string imageName) {
+    public IEnumerator ShowSpeechBubble(string imageName) {
         GameObject screenCanvas = GameObject.Find("ScreenCanvas");
         GameObject response = new GameObject();
         response.name = "Response";
@@ -165,14 +196,20 @@ public class NPC : Character {
         responseImage.sprite = headSprite;
         responseImage.transform.localScale *= .25f;
         Destroy(response, 2.0f);
-
+        yield return new WaitForSeconds(2.0f);
     }
 
-    public void GoTo(String targetID) {
+    public IEnumerator GoTo(String targetID) {
         GameObject targetObject = GameObject.Find(targetID);
         target = targetObject.transform;
         speed = 2;
         GoToTarget();
+
+        while (!walkingComplete) {
+            yield return null;
+        }
+
+        yield break;
     }
 
     // called when Character enters the trigger collider of an object 

@@ -23,6 +23,8 @@ public abstract class Character : MonoBehaviour {
     Vector3[] path;
     int targetIndex;
 
+    public bool walkingComplete = false;
+
     protected virtual void Update() {
         Move();
     }
@@ -59,8 +61,10 @@ public abstract class Character : MonoBehaviour {
     private void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
         if (pathSuccessful) {
             path = newPath;
+
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
+            // FollowPath();
         }
     }
 
@@ -79,6 +83,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
+    // TODO change this back to an IEnumerator
     IEnumerator FollowPath() {
         Vector3 currentWaypoint = path[0];
         walking = true;
@@ -87,6 +92,7 @@ public abstract class Character : MonoBehaviour {
                 targetIndex++;
                 if (targetIndex >= path.Length) {
                     walking = false;
+                    walkingComplete = true;
                     yield break; //exit coroutine when finished following path
                 }
                 currentWaypoint = path[targetIndex];

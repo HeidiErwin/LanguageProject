@@ -31,6 +31,11 @@ public class CustomModels {
             new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, evan, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))),
             new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
 
+        m.Add(new ActionRule(
+            new Phrase(Expression.NEAR, bob, evan),
+            new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, evan, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))),
+            new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+
         // m.Add(new ActionRule(
         //     new Phrase(Expression.NEAR, Expression.BOB, Expression.THE_GREAT_DOOR),
         //     new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)),
