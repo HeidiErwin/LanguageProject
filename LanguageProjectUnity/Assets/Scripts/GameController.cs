@@ -128,7 +128,8 @@ public class GameController : MonoBehaviour {
                 // Debug.Log("second row's name is " + secondRow.name);
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1) || type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_1)) {
+        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1) ||
+                   type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_1)) {
             GameObject firstRow = truthFunction1Keyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
@@ -144,7 +145,7 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
+        } else /* if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) */ {
             GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);

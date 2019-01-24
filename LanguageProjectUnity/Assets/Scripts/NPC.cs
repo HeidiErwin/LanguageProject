@@ -54,6 +54,9 @@ public class NPC : Character {
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
+            // StopCoroutine(GoTo("Bob"));
+            // StopCoroutine(GoTo("Evan"));
+            // StopCoroutine(GoTo("DoorFront"));
 
             if (action.Equals(new Phrase(Expression.WOULD,
                 new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN,
@@ -147,8 +150,8 @@ public class NPC : Character {
 
     void ReceiveExpression(Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
-        if (utterance.headString.Equals("would")) {
-            StopCoroutine("Do");
+        if (utterance.type.Equals(SemanticType.CONFORMITY_VALUE)) {
+            // StopCoroutine("Do");
             StartCoroutine(Do(utterance));
             return;
         }

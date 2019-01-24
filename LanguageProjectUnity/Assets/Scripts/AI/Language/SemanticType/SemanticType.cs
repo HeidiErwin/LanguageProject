@@ -18,12 +18,14 @@ using UnityEngine;
 // 
 // semantictype := e
 // semantictype := t
-// semantictype := (semantictype, ..., semantictype -> e|t)
+// semantictype := c
+// semantictype := (semantictype, ..., semantictype -> e|t|c)
 // 
 // the third is implemented in "Arrow.cs".
 // 
 // "e" is used to restrict to expressions which refer to an individual
 // "t" is used to restrict to expressions which refer to a truth value
+// "c" is used to restrict to expressions which refer to a conformity value
 // "X1, X2, ... Xn -> Y" is used to restrict to expressions which refer to
 // n-argument functions from (X1, X2, ..., Xn)s to Ys.
 // 
@@ -37,6 +39,10 @@ public abstract class SemanticType {
 
             if (this.Equals(SemanticType.TRUTH_VALUE)) {
                 return new Color32(23, 108, 255,  255);
+            }
+
+            if (this.Equals(SemanticType.CONFORMITY_VALUE)) {
+                return new Color32(0, 0, 0, 255);
             }
 
             if (this.Equals(SemanticType.PREDICATE)) {
@@ -67,12 +73,20 @@ public abstract class SemanticType {
                 return new Color32(59, 47, 67, 255);
             }
 
+            if (this.Equals(SemanticType.GEACH_TRUTH_FUNCTION_1)) {
+                return new Color32(59, 80, 67, 255);
+            }
+
             if (this.Equals(SemanticType.TRUTH_FUNCTION_2)) {
                 return new Color32(41, 222, 215, 255);
             }
 
+            if (this.Equals(SemanticType.TRUTH_CONFORMITY_FUNCTION)) {
+                return new Color32(23, 50, 125, 255);
+            }
+
             if (this.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
-                return new Color32(137, 134, 54,255);
+                return new Color32(137, 134, 54, 255);
             }
 
             return new Color32(255, 255, 255, 255);
@@ -119,6 +133,8 @@ public abstract class SemanticType {
 
     public static readonly SemanticType INDIVIDUAL = new E();
     public static readonly SemanticType TRUTH_VALUE = new T();
+    public static readonly SemanticType CONFORMITY_VALUE = new C();
+    public static readonly SemanticType TRUTH_CONFORMITY_FUNCTION = new Arrow(new SemanticType[]{ TRUTH_VALUE }, CONFORMITY_VALUE);
     public static readonly SemanticType INDIVIDUAL_FUNCTION_1 = new Arrow(new SemanticType[]{ INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType INDIVIDUAL_FUNCTION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType PREDICATE  = new Arrow(new SemanticType[]{ INDIVIDUAL }, TRUTH_VALUE);
