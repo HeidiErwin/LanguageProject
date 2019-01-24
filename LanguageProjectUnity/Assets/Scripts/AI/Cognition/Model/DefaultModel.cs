@@ -56,6 +56,12 @@ public class DefaultModel {
             new IPattern[]{xt0},
             EntailmentContext.Upward, false));
 
+        // ~F(x) |- !(~, F, x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(xp0, xi0))},
+            new IPattern[]{new ExpressionPattern(Expression.GEACH_TF1, not, xp0, xi0)},
+            EntailmentContext.Downward, false));
+
         // A, B |- A & B
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0, xt1},

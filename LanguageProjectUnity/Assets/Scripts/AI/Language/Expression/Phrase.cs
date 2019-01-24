@@ -75,10 +75,10 @@ public class Phrase : Expression {
             // e.g. if your function had a type (A, B, C -> O) and the input type was B,
             // then the new type would be (A, C -> D)
 
-            SemanticType[] newInput = new SemanticType[function.GetNumArgs() - 1];
+            SemanticType[] newInput = new SemanticType[function.GetNumFreeArgs() - 1];
 
             counter = 0;
-            for (int i = 0; i < function.GetNumArgs(); i++) {
+            for (int i = 0; i < function.GetNumFreeArgs(); i++) {
                 if (i == index) {
                     continue;
                 }
@@ -90,7 +90,7 @@ public class Phrase : Expression {
         }
     }
 
-    public Phrase(Expression function, params Expression[] inputs) : base(null) {
+    public Phrase(Expression function, params Expression[] inputs) : base(null) {        
         if (inputs.Length > function.GetNumFreeArgs()) {
             throw new ArgumentException("Too many arguments passed to a function expression");
         }

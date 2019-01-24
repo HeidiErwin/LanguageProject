@@ -130,4 +130,6 @@ public abstract class SemanticType {
     public static readonly SemanticType TRUTH_FUNCTION_2 = new Arrow(new SemanticType[]{ TRUTH_VALUE, TRUTH_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType INDIVIDUAL_TRUTH_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, TRUTH_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2_REDUCER = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL }, TRUTH_VALUE);
+    public static readonly SemanticType GEACH_TRUTH_FUNCTION_1 =
+        new Arrow(new SemanticType[]{ TRUTH_FUNCTION_1, PREDICATE, INDIVIDUAL }, TRUTH_VALUE);
 }

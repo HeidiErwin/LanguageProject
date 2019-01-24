@@ -253,9 +253,13 @@ public abstract class Expression : IPattern {
     public static readonly Expression IDENTITY = new Word(SemanticType.RELATION_2, "=");
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
-    // public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
+    public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
     public static readonly Expression NEAR = new Word(SemanticType.RELATION_2, "near");
     public static readonly Expression POSSESS = new Word(SemanticType.RELATION_2, "possess");
 
+    public static readonly Expression GIVE = new Word(SemanticType.RELATION_3, "give");
+
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
+
+    public static readonly Expression GEACH_TF1 = new Word(SemanticType.GEACH_TRUTH_FUNCTION_1, "geach");
 }

@@ -128,7 +128,7 @@ public class GameController : MonoBehaviour {
                 // Debug.Log("second row's name is " + secondRow.name);
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1)) {
+        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1) || type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_1)) {
             GameObject firstRow = truthFunction1Keyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
@@ -165,6 +165,7 @@ public class GameController : MonoBehaviour {
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
+        SetUpSpawner(Expression.GEACH_TF1);
         SetUpSpawner(Expression.WOULD);
         
         SetUpSpawner(Expression.AND);
@@ -220,7 +221,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.POSSESS);
 
         // individual-truth relations
-        SetUpSpawner(Expression.MAKE);
+        // SetUpSpawner(Expression.MAKE);
         SetUpSpawner(Expression.BELIEVE);
         SetUpSpawner(Expression.DESIRE);
 
