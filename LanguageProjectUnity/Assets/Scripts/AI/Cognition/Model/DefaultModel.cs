@@ -31,7 +31,22 @@ public class DefaultModel {
         m.Add(Expression.VERUM);
         m.Add(new Phrase(not, Expression.FALSUM));
 
+        // SELF-KNOWLEDGE
+        m.Add(new Phrase(Expression.PERSON, Expression.SELF));
+        m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
+
+        // ACTION RULES
+        m.Add(new ActionRule(Expression.VERUM,
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)));
+
         // SUBSTITUTION RULES
+        
+        // S |- believes(self, S)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new MetaVariable(SemanticType.TRUTH_VALUE, 0)},
+            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, Expression.SELF, new MetaVariable(SemanticType.TRUTH_VALUE, 0))},
+            false));
 
         // S |- T(S)
         m.Add(new SubstitutionRule(

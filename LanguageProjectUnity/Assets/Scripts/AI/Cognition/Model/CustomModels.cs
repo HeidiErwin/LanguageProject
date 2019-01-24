@@ -10,29 +10,25 @@ public class CustomModels {
         Model m = DefaultModel.Make();
 
         // Substitution Rules
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new MetaVariable(SemanticType.TRUTH_VALUE, 0)},
-            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, bob, new MetaVariable(SemanticType.TRUTH_VALUE, 0))},
-            false));
 
         // primitive abilities
 
         // Action Rules
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, bob, Expression.THE_GREAT_DOOR)),
-            new Phrase(Expression.NEAR, bob, Expression.THE_GREAT_DOOR)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)));
 
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, bob, evan)),
-            new Phrase(Expression.NEAR, bob, Expression.EVAN)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, evan)),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)));
 
         m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, bob, evan),
+            new Phrase(Expression.NEAR, Expression.SELF, evan),
             new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, evan, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))),
             new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
 
         m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, bob, evan),
+            new Phrase(Expression.NEAR, Expression.SELF, evan),
             new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, evan, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))),
             new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
 
@@ -53,12 +49,13 @@ public class CustomModels {
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, greenArea, Expression.WAYSIDE_PARK));
 
         // self-knowledge
-        m.Add(new Phrase(Expression.PERSON, bob));
-        m.Add(new Phrase(Expression.ACTIVE, bob));
-        m.Add(new Phrase(Expression.KING, bob));
-        m.Add(new Phrase(Expression.CONTAINED_WITHIN, bob, redArea));
+        m.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
+        // m.Add(new Phrase(Expression.PERSON, bob));
+        // m.Add(new Phrase(Expression.ACTIVE, bob));
+        m.Add(new Phrase(Expression.KING, Expression.SELF));
+        m.Add(new Phrase(Expression.CONTAINED_WITHIN, Expression.SELF, redArea));
         m.Add(new Phrase(Expression.IDENTITY, bob, Expression.BOB_2));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.SELF, evan)));
 
         // beliefs about Evan
         m.Add(new Phrase(Expression.PERSON, evan));
@@ -73,27 +70,23 @@ public class CustomModels {
         Model m = DefaultModel.Make();
 
         // Substitution Rules
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new MetaVariable(SemanticType.TRUTH_VALUE, 0)},
-            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, evan, new MetaVariable(SemanticType.TRUTH_VALUE, 0))},
-            false));
 
         // Action Rules
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR)),
-            new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)));
 
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB)),
-            new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)));
 
         m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR),
             new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)),
             new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
 
         m.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.EVAN, Expression.THE_GREAT_DOOR),
+            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR),
             new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)),
             new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
 
@@ -105,10 +98,11 @@ public class CustomModels {
         m.Add(new Phrase(Expression.CONTAINED_WITHIN, yellowArea, Expression.WAYSIDE_PARK));
 
         // self-knowledge
-        m.Add(new Phrase(Expression.PERSON, evan));
-        m.Add(new Phrase(Expression.ACTIVE, evan));
-        m.Add(new Phrase(Expression.KING, evan));
-        m.Add(new Phrase(Expression.CONTAINED_WITHIN, evan, greenArea));
+        // m.Add(new Phrase(Expression.PERSON, evan));
+        // m.Add(new Phrase(Expression.ACTIVE, evan));
+        
+        m.Add(new Phrase(Expression.KING, Expression.SELF));
+        m.Add(new Phrase(Expression.CONTAINED_WITHIN, Expression.SELF, greenArea));
         m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, bob, evan)));
 
         // beliefs about Bob

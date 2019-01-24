@@ -191,7 +191,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.WAYSIDE_PARK);
         SetUpSpawner(Expression.THE_GREAT_DOOR);
         SetUpSpawner(Expression.THE_GREAT_KEY);
-        //SetUpSpawner(Expression.I);
+        SetUpSpawner(Expression.SELF);
 
         // predicates
         SetUpSpawner(Expression.BLACK);

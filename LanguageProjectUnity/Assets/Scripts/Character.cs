@@ -8,6 +8,8 @@ using UnityEngine;
  */
 public abstract class Character : MonoBehaviour {
 
+    protected int counter = 0;
+
     public const int NORTH = 0;
     public const int EAST = 1;
     public const int SOUTH = 2;
@@ -61,10 +63,9 @@ public abstract class Character : MonoBehaviour {
     private void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
         if (pathSuccessful) {
             path = newPath;
-
+            walkingComplete = false;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
-            // FollowPath();
         }
     }
 

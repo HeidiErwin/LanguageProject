@@ -58,22 +58,20 @@ public class NPC : Character {
             // StopCoroutine(GoTo("Evan"));
             // StopCoroutine(GoTo("DoorFront"));
 
-            if (action.Equals(new Phrase(Expression.WOULD,
-                new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN,
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF,
                             isBob ? Expression.EVAN : Expression.BOB)))) {
                 if (isBob) {
                     yield return StartCoroutine(GoTo("Evan"));
-                    ReceivePercept(new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN));
+                    // this.model.Add(new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN));
                 } else {
                     yield return StartCoroutine(GoTo("Bob"));
-                    ReceivePercept(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
                 }
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR,
-                isBob ? Expression.BOB : Expression.EVAN, Expression.THE_GREAT_DOOR)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
-                ReceivePercept(new Phrase(Expression.NEAR, isBob ? Expression.BOB : Expression.EVAN, Expression.THE_GREAT_DOOR));
+                this.model.Add(new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR));
             }
 
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
@@ -84,7 +82,7 @@ public class NPC : Character {
                     this.controller.lowClick.Play();
                     GameObject.Find("Door").GetComponent<Door>().Open();
                     this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-                    ReceivePercept(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                    this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
             //     }
             }
 
@@ -93,7 +91,7 @@ public class NPC : Character {
                     this.controller.lowClick.Play();
                     GameObject.Find("Door").GetComponent<Door>().Close();
                     this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                    ReceivePercept(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                    this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
             //     }
             }
 
@@ -102,8 +100,11 @@ public class NPC : Character {
                 yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
-                this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
-                ReceivePercept(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+
+                this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))))) {
@@ -111,8 +112,11 @@ public class NPC : Character {
                 yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
-                this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
-                ReceivePercept(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+
+                this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
             }
         }
         // this.controller.combineSuccess.Play();

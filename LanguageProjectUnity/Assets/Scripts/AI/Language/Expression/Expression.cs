@@ -224,7 +224,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_DOOR = new Word(SemanticType.INDIVIDUAL, "the_great_door");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
-    //public static readonly Expression I = new Word(SemanticType.INDIVIDUAL, "I");
+    public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
