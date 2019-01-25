@@ -182,6 +182,7 @@ public class GameController : MonoBehaviour {
         // SetUpSpawner(Expression.TWO);
         // SetUpSpawner(Expression.THREE);
         SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.GEACH_QP);
 
         // CONTENT WORDS   
         // names
