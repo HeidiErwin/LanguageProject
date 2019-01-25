@@ -143,6 +143,7 @@ public abstract class SemanticType {
     public static readonly SemanticType INDIVIDUAL_FUNCTION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType PREDICATE  = new Arrow(new SemanticType[]{ INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
+    public static readonly SemanticType RELATION_FUNCTION_2 = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_3 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType DETERMINER = new Arrow(new SemanticType[]{ PREDICATE }, INDIVIDUAL);
     public static readonly SemanticType QUANTIFIER = new Arrow(new SemanticType[]{ PREDICATE, PREDICATE }, TRUTH_VALUE);

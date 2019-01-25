@@ -157,8 +157,6 @@ public abstract class Model {
                 continue;
             }
 
-            Debug.Log(sr);
-
             foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
                 bool proved = true;
 

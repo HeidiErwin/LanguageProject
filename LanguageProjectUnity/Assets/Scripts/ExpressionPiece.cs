@@ -12,7 +12,7 @@ using System;
  */
 public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = true;
+    private const bool DRAW_SUBEXPRESSION_TYPE = false;
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
@@ -193,6 +193,16 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         if (this.parentExpressionPiece != null) {
             exprPieceScript.SetParentExpressionPiece(this.parentExpressionPiece.DeepCopy()); // DeepCopy here bc 'this' will get destroyed
         }
+
+        // int noArgInputWidth = 1;
+        // int noArgInputHeight = 1;
+
+        // for (int i = 0; i < inputExpression.arguments.Legth; i++) {
+        //     if (!inputExpression[i].id.Equals("_")) {
+        //         noArgInputWidth += inputExpression[i].widthInUnits;
+        //         noArgInputHeight = Max(noArgInputHeight, inputExpression.heightInUnits + 1);
+        //     }
+        // }
 
         exprPieceScript.widthInUnits = 1;
         exprPieceScript.widthInUnits += inputExpression.widthInUnits;
@@ -378,15 +388,17 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
             } else {
                 currentX += arg.widthInUnits;
 
-                if (!arg.id.Equals("_") || isFirstLevel) {
-                    float positionX = pieceTopLeftX + PIXELS_PER_UNIT * (currentX - ((.5f * arg.widthInUnits) + BUFFER_IN_UNITS));
-                    float valToTopAlignArgs = (((this.heightInUnits - 1) - arg.heightInUnits)) * (PIXELS_PER_UNIT / 2);
-                    float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
+                float positionX = pieceTopLeftX + PIXELS_PER_UNIT * (currentX - ((.5f * arg.widthInUnits) + BUFFER_IN_UNITS));
+                float valToTopAlignArgs = (((this.heightInUnits - 1) - arg.heightInUnits)) * (PIXELS_PER_UNIT / 2);
+                float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
 
-                    GameObject argVisual = arg.GenerateVisual(false);
-                    argVisual.transform.SetParent(visualContainer.transform);
-                    argVisual.transform.position = new Vector3(positionX, positionY);
+                if (!arg.id.Equals("_") || isFirstLevel) {
+                } else {
+                    arg.expression = new Word(arg.expression.type, "blank");
                 }
+                GameObject argVisual = arg.GenerateVisual(false);
+                argVisual.transform.SetParent(visualContainer.transform);
+                argVisual.transform.position = new Vector3(positionX, positionY);
             }
         }
         return visualContainer;

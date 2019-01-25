@@ -24,6 +24,7 @@ public class DefaultModel {
         MetaVariable xr20 = new MetaVariable(SemanticType.RELATION_2, 0);
         MetaVariable xitr0 = new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0);
         MetaVariable xtf10 = new MetaVariable(SemanticType.TRUTH_FUNCTION_1, 0);
+        MetaVariable xqp0 = new MetaVariable(SemanticType.QUANTIFIER_PHRASE, 0);
 
         Expression not = Expression.NOT;
 
@@ -72,11 +73,17 @@ public class DefaultModel {
             new IPattern[]{xt0},
             EntailmentContext.Upward, false));
 
+        // t -> t
         // !F(x) |- G(!, F, x)
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0))},
             new IPattern[]{new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0)},
             EntailmentContext.Downward, false));
+        
+        // Q(R(x, _)) |- G(Q, R, x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(xqp0, new ExpressionPattern(xr20, xi0))},
+        //     new IPattern[]{new ExpressionPattern(xqp0, xr20, xi0)}));
 
         // A, B |- A & B
         m.Add(new SubstitutionRule(

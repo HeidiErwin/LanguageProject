@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Character {
-    int counter = 0;
     GameObject currentInteractObject; // the object you can currently interact with
     public const KeyCode INTERACT_KEY = KeyCode.E;
 

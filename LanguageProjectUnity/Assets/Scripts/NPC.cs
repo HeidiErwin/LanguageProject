@@ -33,9 +33,9 @@ public class NPC : Character {
         List<Expression> actionSequence = model.Plan(goal, new List<Expression>());
 
         if (actionSequence == null) {
-            ShowSpeechBubble("idk");
             this.controller.lowClick.Play();
-            yield return false;
+            yield return StartCoroutine(ShowSpeechBubble("idk"));
+            yield break;
         }
 
         this.controller.combineSuccess.Play();
@@ -187,8 +187,9 @@ public class NPC : Character {
         } else {
             this.controller.lowClick.Play();
             StartCoroutine(ShowSpeechBubble("idk"));
-            
         }
+
+        return;
     }
 
     /**

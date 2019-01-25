@@ -100,7 +100,8 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.QUANTIFIER)) {
+        } else if (type.Equals(SemanticType.QUANTIFIER) ||
+                   type.Equals(SemanticType.GEACH_QUANTIFIER_PHRASE)) {
             GameObject firstRow = quantifierKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
@@ -228,6 +229,9 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.DESIRE);
 
         // SetUpSpawner(Expression.OVERLAPS_WITH);
+        // 
+        SetUpSpawner(Expression.ITSELF);
+        SetUpSpawner(Expression.INVERSE);
     }
 
     // updates the keyboard so that the tabToDisplayIndex-th tab is active,

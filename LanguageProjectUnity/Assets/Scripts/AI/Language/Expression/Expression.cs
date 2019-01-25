@@ -262,6 +262,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression GIVE = new Word(SemanticType.RELATION_3, "give");
 
     public static readonly Expression ITSELF = new Word(SemanticType.RELATION_2_REDUCER, "itself");
+    public static readonly Expression INVERSE = new Word(SemanticType.RELATION_FUNCTION_2, "inverse");
 
     public static readonly Expression GEACH_TF1 = new Word(SemanticType.GEACH_TRUTH_FUNCTION_1, "geach");
 }
