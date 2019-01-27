@@ -78,26 +78,41 @@ public class NPC : Character {
             // TODO Uncomment when coroutine stuff is sorted out.
 
             if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
-            //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
-                    this.controller.lowClick.Play();
-                    GameObject.Find("Door").GetComponent<Door>().Open();
-                    this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-                    this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-            //     }
+                //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+                this.controller.lowClick.Play();
+                GameObject.Find("Door").GetComponent<Door>().Open();
+                this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                //     }
             }
 
             if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
-            //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
-                    this.controller.lowClick.Play();
-                    GameObject.Find("Door").GetComponent<Door>().Close();
-                    this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                    this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-            //     }
+                //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
+                this.controller.lowClick.Play();
+                GameObject.Find("Door").GetComponent<Door>().Close();
+                this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                //     }
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))))) {
                 this.controller.placeExpression.Play();
+                // the below code works with fromScratch, to a degree
+                //Expression expr = new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                //GameObject exprPiece = Resources.Load("Piece") as GameObject;
+                //GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+                //exprPieceInstance.name = "LIONKING";
+                //ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+                //exprPieceScript.FromScratch(expr, new Vector3(0, 0, 0));
+                //exprPieceScript.transform.SetParent(GameObject.Find("Canvas").transform);
+                //Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+                //exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
+
+                //exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
+                //Debug.Log(exprPieceScript.expression == null);
+
                 yield return ShowSpeechBubble("would");
+
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
                 // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));

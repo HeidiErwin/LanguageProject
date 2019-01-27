@@ -31,41 +31,42 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     private ExpressionPiece parentExpressionPiece;
     #endregion
 
-
     // TODO HEIDI 1/27 fill this in so we can display the sentence an NPC is saying over their head!
-    // public void FromScratch(Expression expr, Vector3 position) {
-    //     this.expression = expr;
-    //     this.arguments = new ExpressionPiece[expr.GetNumArgs()];
-    //     this.gameObject.transform.position = position;
-    //     GameObject tabletop = GameObject.Find("Tabletop");
-    //     // this.gameObject.transform.SetParent = this.parent.transform;
+    public void FromScratch(Expression expr, Vector3 position) {
+        this.expression = expr;
+        Debug.Log(expr);
+        this.arguments = new ExpressionPiece[expr.GetNumArgs()];
+        this.gameObject.transform.position = position;
+        GameObject tabletop = GameObject.Find("Tabletop");
+        this.gameObject.transform.position = new Vector3(0,0,0);
+        // this.gameObject.transform.SetParent = this.parent.transform;
 
-    //     if (arguments.Length > 0) {
-    //         this.heightInUnits = 2;
-    //     }
+        if (arguments.Length > 0) {
+            this.heightInUnits = 2;
+        }
 
-    //     int currentXInUnits = 1;
+        int currentXInUnits = 1;
 
-    //     for (int i = 0; i < arguments.Length; i++) {
-    //         Expression argExpression = expr.GetArg(i);
+        for (int i = 0; i < arguments.Length; i++) {
+            Expression argExpression = expr.GetArg(i);
 
-    //         if (argExpression == null) {
-    //             this.widthInUnits++;
-    //             currentXInUnits++;
-    //         } else {
-    //             GameObject exprPiece = Resources.Load("Piece") as GameObject;
-    //             GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
-    //             ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-    //             // exprPieceScript.gameObject.parent = this;
-    //             exprPieceScript.FromScratch(argExpression, new Vector3(currentXInUnits * PIXELS_PER_UNIT, PIXELS_PER_UNIT));
-    //             arguments[i] = exprPieceScript;
+            if (argExpression == null) {
+                this.widthInUnits++;
+                currentXInUnits++;
+            } else {
+                GameObject exprPiece = Resources.Load("Piece") as GameObject;
+                GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+                ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+                // exprPieceScript.gameObject.parent = this;
+                exprPieceScript.FromScratch(argExpression, new Vector3(currentXInUnits * PIXELS_PER_UNIT, PIXELS_PER_UNIT));
+                arguments[i] = exprPieceScript;
 
-    //             currentXInUnits += arguments[i].widthInUnits;
-    //             this.widthInUnits++;
-    //             this.heightInUnits = (arguments[i].heightInUnits + 1 > this.heightInUnits) ? arguments[i].heightInUnits + 1 : this.heightInUnits;
-    //         }
-    //     }
-    // }
+                currentXInUnits += arguments[i].widthInUnits;
+                this.widthInUnits++;
+                this.heightInUnits = (arguments[i].heightInUnits + 1 > this.heightInUnits) ? arguments[i].heightInUnits + 1 : this.heightInUnits;
+            }
+        }
+    }
 
     /**
      * Called after an ExpressionPiece is created for the first time (all
@@ -100,6 +101,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                     Instantiate(argumentPiece, this.transform.position, Quaternion.identity) as GameObject;
                 ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
                 argumentPieceScript.gameController = gameController;
+                Debug.Log(expr == null);
                 argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
                 argumentPieceScript.arguments = new ExpressionPiece[0];
 
