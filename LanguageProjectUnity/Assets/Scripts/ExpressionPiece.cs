@@ -23,8 +23,8 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     public string id; // string representation of the expression (e.g. key, the(run), helps(_, bob) etc.)
     public Expression expression;
 
-    private int widthInUnits = 1;
-    private int heightInUnits = 1;
+    public int widthInUnits = 1;
+    public int heightInUnits = 1;
 
     private ExpressionPiece[] arguments;
     private int index = -1;
@@ -34,7 +34,6 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     // TODO HEIDI 1/27 fill this in so we can display the sentence an NPC is saying over their head!
     public void FromScratch(Expression expr, Vector3 position) {
         this.expression = expr;
-        Debug.Log(expr);
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
         this.gameObject.transform.position = position;
         GameObject tabletop = GameObject.Find("Tabletop");
@@ -62,7 +61,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 arguments[i] = exprPieceScript;
 
                 currentXInUnits += arguments[i].widthInUnits;
-                this.widthInUnits++;
+                this.widthInUnits += exprPieceScript.widthInUnits;
                 this.heightInUnits = (arguments[i].heightInUnits + 1 > this.heightInUnits) ? arguments[i].heightInUnits + 1 : this.heightInUnits;
             }
         }

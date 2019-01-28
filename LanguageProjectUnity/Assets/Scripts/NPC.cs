@@ -83,6 +83,7 @@ public class NPC : Character {
                 GameObject.Find("Door").GetComponent<Door>().Open();
                 this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
                 this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                // ShowSpeechBubble(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
                 //     }
             }
 
@@ -92,26 +93,16 @@ public class NPC : Character {
                 GameObject.Find("Door").GetComponent<Door>().Close();
                 this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
                 this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                // ShowSpeechBubble(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
                 //     }
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))))) {
                 this.controller.placeExpression.Play();
                 // the below code works with fromScratch, to a degree
-                //Expression expr = new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                //GameObject exprPiece = Resources.Load("Piece") as GameObject;
-                //GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
-                //exprPieceInstance.name = "LIONKING";
-                //ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-                //exprPieceScript.FromScratch(expr, new Vector3(0, 0, 0));
-                //exprPieceScript.transform.SetParent(GameObject.Find("Canvas").transform);
-                //Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-                //exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
+                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
 
-                //exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
-                //Debug.Log(exprPieceScript.expression == null);
-
-                yield return ShowSpeechBubble("would");
+                // yield return ShowSpeechBubble("would");
 
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
@@ -120,11 +111,14 @@ public class NPC : Character {
 
                 this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
                 this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+
+                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
             }
 
             if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))))) {
                 this.controller.placeExpression.Play();
-                yield return ShowSpeechBubble("would");
+                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
                 // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
@@ -132,6 +126,8 @@ public class NPC : Character {
 
                 this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
                 this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+
+                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
             }
         }
         // this.controller.combineSuccess.Play();
@@ -193,15 +189,15 @@ public class NPC : Character {
 
         if (this.model.Proves(utterance)) {
             this.controller.combineSuccess.Play();
-            StartCoroutine(ShowSpeechBubble("yes"));
+            StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
              // TODO make a unique sound effect for this
         } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
             this.controller.failure.Play();
-            StartCoroutine(ShowSpeechBubble("nope"));
+            StartCoroutine(ShowSpeechBubble(Expression.DENY));
             
         } else {
             this.controller.lowClick.Play();
-            StartCoroutine(ShowSpeechBubble("idk"));
+            StartCoroutine(ShowSpeechBubble(new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY)));
         }
 
         return;
@@ -222,6 +218,21 @@ public class NPC : Character {
         responseImage.sprite = headSprite;
         responseImage.transform.localScale *= .25f;
         Destroy(response, 2.0f);
+        yield return new WaitForSeconds(2.0f);
+    }
+
+    public IEnumerator ShowSpeechBubble(Expression expr) {
+        GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        exprPieceInstance.name = "LIONKING";
+        ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        exprPieceScript.FromScratch(expr, new Vector3(0, 0, 0));
+        exprPieceScript.transform.SetParent(GameObject.Find("Canvas").transform);
+        Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
+        exprPieceScript.transform.position = new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * 40) + 16);
+        exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
+        Destroy(exprPieceInstance, 2.0f);
         yield return new WaitForSeconds(2.0f);
     }
 
