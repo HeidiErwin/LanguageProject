@@ -8,10 +8,11 @@ using UnityEngine.UI;
  * The main Controller class. Sets up the Scene, creates ExpressionPieces, etc.
  */
 public class GameController : MonoBehaviour {
-
-    private GameObject currentKeyboard; // the subsection of the keyboard we're currently showing (e.g. Determiners)
+    // the subsection of the keyboard we're currently showing (e.g. Determiners)
+    private GameObject currentKeyboard;
     public GameObject canvasInstance;
-    [SerializeField] private GameObject pointer; // arrow pointing to selected expression
+    // arrow pointing to selected expression
+    [SerializeField] private GameObject pointer;
     [SerializeField] private GameObject individualKeyboard;
     [SerializeField] private GameObject quantifierKeyboard;
     [SerializeField] private GameObject predicateKeyboard;
@@ -30,7 +31,9 @@ public class GameController : MonoBehaviour {
 
     public const int PIECES_PER_ROW = 10;
 
-    private bool inSpeakingMode = false; // true only right after user has submitted an expression (pressed checkmark button) and before user has selected an NPC to speak to
+    // true only right after user has submitted an expression (pressed checkmark button)
+    // and before user has selected an NPC to speak to
+    private bool inSpeakingMode = false;
 
     public ExpressionPiece selectedExpression;
 
@@ -169,6 +172,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.NOT);
         SetUpSpawner(Expression.GEACH_TF1);
         SetUpSpawner(Expression.WOULD);
+        SetUpSpawner(Expression.QUERY);
         
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
@@ -187,13 +191,13 @@ public class GameController : MonoBehaviour {
 
         // CONTENT WORDS   
         // names
+        SetUpSpawner(Expression.SELF);
         SetUpSpawner(Expression.BOB);
-        SetUpSpawner(Expression.BOB_2);
         SetUpSpawner(Expression.EVAN);
+        // SetUpSpawner(Expression.BOB_2);
         SetUpSpawner(Expression.WAYSIDE_PARK);
         SetUpSpawner(Expression.THE_GREAT_DOOR);
         SetUpSpawner(Expression.THE_GREAT_KEY);
-        SetUpSpawner(Expression.SELF);
 
         // predicates
         SetUpSpawner(Expression.BLACK);

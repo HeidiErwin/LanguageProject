@@ -92,10 +92,26 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
-        // Debug.Log("Proving " + expr + "in:");
-        // Debug.Log(this);
         triedExpressions = new Dictionary<Expression, bool>();
         return Proves(expr, EntailmentContext.Downward, null);
+    }
+
+    // returns true if the belief is accepted
+    // returns false if the belief is rejected
+    // current update policy: credulous conservative
+    // (reject any belief inconsistent with the model as is; accept anything else)
+    // TODO: make a more sophicated update policy
+    public bool UpdateBelief(Expression input) {
+        if (this.Proves(input)) {
+            return true;
+        }
+
+        if (this.Proves(new Phrase(Expression.NOT, input))) {
+            return false;
+        }
+
+        this.Add(input);
+        return true;
     }
 
     // naive, non-schematic action planner

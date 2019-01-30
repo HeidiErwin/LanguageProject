@@ -100,7 +100,6 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                     Instantiate(argumentPiece, this.transform.position, Quaternion.identity) as GameObject;
                 ExpressionPiece argumentPieceScript = argumentPieceInstance.GetComponent<ExpressionPiece>();
                 argumentPieceScript.gameController = gameController;
-                Debug.Log(expr == null);
                 argumentPieceScript.expression = new Word(expr.GetInputType(counter), "_");
                 argumentPieceScript.arguments = new ExpressionPiece[0];
 

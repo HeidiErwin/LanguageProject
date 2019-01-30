@@ -73,6 +73,16 @@ public class DefaultModel {
             new IPattern[]{xt0},
             EntailmentContext.Upward, false));
 
+        // R(x, x) |- itself(R, x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)}));
+
+        // itself(R, x) |- R(x, x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)},
+            new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)}));
+
         // t -> t
         // !F(x) |- G(!, F, x)
         m.Add(new SubstitutionRule(

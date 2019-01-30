@@ -200,9 +200,14 @@ public abstract class Expression : IPattern {
     public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
     public static readonly Expression DENY = new Word(SemanticType.TRUTH_VALUE, "deny");
 
+    public static readonly Expression ACCEPT = new Word(SemanticType.TRUTH_VALUE, "accept");
+    public static readonly Expression REFUSE = new Word(SemanticType.TRUTH_VALUE, "refuse");
+
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
     
+    public static readonly Expression QUERY = new Word(SemanticType.TRUTH_QUESTION_FUNCTION, "query");
+
     public static readonly Expression WOULD = new Word(SemanticType.TRUTH_CONFORMITY_FUNCTION, "would");
 
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");

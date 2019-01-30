@@ -34,12 +34,12 @@ public class NPC : Character {
 
         if (actionSequence == null) {
             this.controller.lowClick.Play();
-            yield return StartCoroutine(ShowSpeechBubble("idk"));
+            yield return StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
             yield break;
         }
 
         this.controller.combineSuccess.Play();
-        yield return ShowSpeechBubble("yes");
+        yield return ShowSpeechBubble(Expression.ACCEPT);
 
         // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
         // StringBuilder s = new StringBuilder();
@@ -165,41 +165,48 @@ public class NPC : Character {
 
     void ReceiveExpression(Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
+        if (this.model == null) {
+            // Debug.Log("No associated model.");
+            this.controller.placeExpression.Play();
+            StartCoroutine(ShowSpeechBubble("questionMark"));
+            return;
+        }
+
         if (utterance.type.Equals(SemanticType.CONFORMITY_VALUE)) {
             // StopCoroutine("Do");
             StartCoroutine(Do(utterance));
             return;
         }
 
-        if (this.model == null) {
-            // Debug.Log("No associated model.");
-            this.controller.placeExpression.Play();
-            StartCoroutine(ShowSpeechBubble("questionMark"));
-            
+        if (utterance.type.Equals(SemanticType.QUESTION)) {
+            Expression content = utterance.GetArg(0);
+            if (this.model.Proves(content)) {
+                this.controller.combineSuccess.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
+            } else if (this.model.Proves(new Phrase(Expression.NOT, content))) {
+                this.controller.failure.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.DENY));
+            } else {
+                this.controller.lowClick.Play();
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY)));
+            }
             return;
         }
 
-        if (!utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
-            // Debug.Log("Semantic Type of utterance is not sentence/truth value.");
-            this.controller.placeExpression.Play();
-            StartCoroutine(ShowSpeechBubble("questionMark"));
-             // TODO make a unique sound for this
+        if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
+            if (this.model.UpdateBelief(utterance)) {
+                this.controller.combineSuccess.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
+            } else {
+                this.controller.failure.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.DENY));
+            }
             return;
         }
-
-        if (this.model.Proves(utterance)) {
-            this.controller.combineSuccess.Play();
-            StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
-             // TODO make a unique sound effect for this
-        } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
-            this.controller.failure.Play();
-            StartCoroutine(ShowSpeechBubble(Expression.DENY));
-            
-        } else {
-            this.controller.lowClick.Play();
-            StartCoroutine(ShowSpeechBubble(new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY)));
-        }
-
+        
+        // Debug.Log("Semantic Type of utterance is not sentence/truth value.");
+        this.controller.placeExpression.Play();
+        StartCoroutine(ShowSpeechBubble("query"));
         return;
     }
 
