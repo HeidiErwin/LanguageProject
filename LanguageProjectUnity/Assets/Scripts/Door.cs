@@ -31,11 +31,12 @@ public class Door : Perceivable {
     }
 
     public override void SendPercept(NPC npc) {
-        // base.SendPercept(npc);
+        base.SendPercept(npc);
+        // Expression param = new Phrase(Expression.THE, Expression.DOOR);
         npc.ReceivePercept(
-            // new Phrase(locked ? Expression.INACTIVE : Expression.ACTIVE, Expression.THE_GREAT_DOOR),
-            new Phrase(open ? Expression.OPEN : Expression.CLOSED, Expression.THE_GREAT_DOOR));
-            //new Phrase(GetArea(), Expression.THE_GREAT_DOOR));
+            new Phrase(locked ? Expression.INACTIVE : Expression.ACTIVE, param),
+            new Phrase(open ? Expression.OPEN : Expression.CLOSED, param),
+            new Phrase(GetArea(), param));
     }
 
     private Expression GetArea() {

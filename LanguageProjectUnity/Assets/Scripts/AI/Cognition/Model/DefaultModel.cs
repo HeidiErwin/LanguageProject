@@ -113,8 +113,8 @@ public class DefaultModel {
 
         // ACTION RULES
         m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)),
-            new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)));
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
+            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
 
         // SUBSTITUTION RULES
         
@@ -154,7 +154,14 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0)},
             false));
         
-        // Q(R(x, _)) |- G(Q, R, x)
+        // t, t -> t
+        // C(F(x), H(x)) |- G(C, F, H, x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0))},
+            new IPattern[]{new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0)},
+            false));
+
+        // // Q(R(x, _)) |- G(Q, R, x)
         // m.Add(new SubstitutionRule(
         //     new IPattern[]{new ExpressionPattern(xqp0, new ExpressionPattern(xr20, xi0))},
         //     new IPattern[]{new ExpressionPattern(xqp0, xr20, xi0)}));
@@ -234,34 +241,34 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(xitr0, xi0, xt0)},
             new IPattern[]{new ExpressionPattern(xitr0, xi1, xt1)}));
 
-        // F(x), G(x) |- some(F, G)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
-            new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
+        // // F(x), G(x) |- some(F, G)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
+        //     new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
 
-        // [i != j, F(i), F(j)] G(i), G(j) |- Two(F, G)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)),
-                new ExpressionPattern(xp0, xi0),
-                new ExpressionPattern(xp0, xi1)},
-            new IPattern[]{
-                new ExpressionPattern(xp1, xi0),
-                new ExpressionPattern(xp1, xi1)},
-            new IPattern[]{
-                new ExpressionPattern(Expression.TWO, xp0, xp1)}));
+        // // [i != j, F(i), F(j)] G(i), G(j) |- Two(F, G)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)),
+        //         new ExpressionPattern(xp0, xi0),
+        //         new ExpressionPattern(xp0, xi1)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(xp1, xi0),
+        //         new ExpressionPattern(xp1, xi1)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.TWO, xp0, xp1)}));
 
-        // all(F, G), F(x) |- G(x)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.ALL, xp0, xp1),
-                new ExpressionPattern(xp0, xi0)},
-            new IPattern[]{new ExpressionPattern(xp1, xi0)}));
+        // // all(F, G), F(x) |- G(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.ALL, xp0, xp1),
+        //         new ExpressionPattern(xp0, xi0)},
+        //     new IPattern[]{new ExpressionPattern(xp1, xi0)}));
 
-        // |- all(F, F)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{},
-            new IPattern[]{new ExpressionPattern(Expression.ALL, xp0, xp0)}));
+        // // |- all(F, F)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{new ExpressionPattern(Expression.ALL, xp0, xp0)}));
         
         // F(x) |- exists(x)
         // m.Add(new SubstitutionRule(

@@ -69,65 +69,65 @@ public class NPC : Character {
                 }
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
-                this.model.Add(new Phrase(Expression.NEAR, Expression.SELF, Expression.THE_GREAT_DOOR));
+                this.model.UpdateBelief(new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
             }
 
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
             // TODO Uncomment when coroutine stuff is sorted out.
 
-            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)))) {
+            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Open();
-                this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-                this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                // ShowSpeechBubble(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
+                this.model.UpdateBelief(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                // ShowSpeechBubble(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
             }
 
-            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)))) {
+            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Close();
-                this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-                // ShowSpeechBubble(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
+                this.model.UpdateBelief(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                // ShowSpeechBubble(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
             }
 
-            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR))))) {
+            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
                 // the below code works with fromScratch, to a degree
-                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // yield return ShowSpeechBubble("would");
 
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
-                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
-                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
-                this.model.Remove(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
-                this.model.Add(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
+                // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
+                this.model.UpdateBelief(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
 
-                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
+                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
             }
 
-            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR))))) {
+            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
-                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
-                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR)));
-                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
-                this.model.Remove(new Phrase(Expression.OPEN, Expression.THE_GREAT_DOOR));
-                this.model.Add(new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR));
+                // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
+                this.model.UpdateBelief(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
 
-                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, Expression.THE_GREAT_DOOR)));
+                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
             }
         }
         // this.controller.combineSuccess.Play();
@@ -178,12 +178,11 @@ public class NPC : Character {
             return;
         }
 
-        if (utterance.type.Equals(SemanticType.QUESTION)) {
-            Expression content = utterance.GetArg(0);
-            if (this.model.Proves(content)) {
+        if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
+            if (this.model.Proves(utterance)) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
-            } else if (this.model.Proves(new Phrase(Expression.NOT, content))) {
+            } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
                 this.controller.failure.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.DENY));
             } else {
@@ -193,8 +192,9 @@ public class NPC : Character {
             return;
         }
 
-        if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
-            if (this.model.UpdateBelief(utterance, EvidentialSource.Testimony)) {
+        if (utterance.type.Equals(SemanticType.ASSERTION)) {
+            Expression content = utterance.GetArg(0);
+            if (this.model.UpdateBelief(content, EvidentialSource.Testimony)) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
             } else {

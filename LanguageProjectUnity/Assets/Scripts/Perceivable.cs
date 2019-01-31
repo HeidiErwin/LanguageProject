@@ -9,6 +9,7 @@ public class Perceivable : MonoBehaviour {
     [SerializeField] bool[] reflectance;
     [SerializeField] EnvironmentManager em;
     [SerializeField] protected String nameString;
+    protected Expression param;
 
     public virtual void SendPercept(NPC npc) {
         bool[] reflectedLight = new bool[3];
@@ -17,7 +18,34 @@ public class Perceivable : MonoBehaviour {
         reflectedLight[1] = em.lighting[1] && reflectance[1];
         reflectedLight[2] = em.lighting[2] && reflectance[2];
 
-        Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
+        param = new Parameter(SemanticType.INDIVIDUAL, id);
+
+        if (id == 0) {
+            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.BLACK, Expression.LAMP));
+        }
+
+        if (id == 1) {
+            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.GREEN, Expression.FOUNTAIN));
+        }
+
+        if (id == 2) {
+            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.RED, Expression.LAMP));
+        }
+
+        if (id == 3) {
+            param = new Phrase(Expression.THE,
+                new Phrase(Expression.GEACH_TF2, Expression.AND,
+                    new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.BLUE, Expression.ACTIVE),
+                    Expression.FOUNTAIN));
+        }
+
+        if (id == 4) {
+            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.INACTIVE, Expression.FOUNTAIN));
+        }
+
+        if (id == 5) {
+            param = new Phrase(Expression.THE, Expression.DOOR);
+        }
 
         if (nameString != null && !nameString.Equals("")) {
             param = new Word(SemanticType.INDIVIDUAL, nameString);

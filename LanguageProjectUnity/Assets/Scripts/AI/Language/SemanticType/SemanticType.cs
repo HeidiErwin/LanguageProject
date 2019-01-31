@@ -138,9 +138,9 @@ public abstract class SemanticType {
     public static readonly SemanticType INDIVIDUAL = new E();
     public static readonly SemanticType TRUTH_VALUE = new T();
     public static readonly SemanticType CONFORMITY_VALUE = new C();
-    public static readonly SemanticType QUESTION = new Q();
+    public static readonly SemanticType ASSERTION = new A();
     public static readonly SemanticType TRUTH_CONFORMITY_FUNCTION = new Arrow(new SemanticType[]{ TRUTH_VALUE }, CONFORMITY_VALUE);
-    public static readonly SemanticType TRUTH_QUESTION_FUNCTION = new Arrow(new SemanticType[]{ TRUTH_VALUE }, QUESTION);
+    public static readonly SemanticType TRUTH_ASSERTION_FUNCTION = new Arrow(new SemanticType[]{ TRUTH_VALUE }, ASSERTION);
     public static readonly SemanticType INDIVIDUAL_FUNCTION_1 = new Arrow(new SemanticType[]{ INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType INDIVIDUAL_FUNCTION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType PREDICATE  = new Arrow(new SemanticType[]{ INDIVIDUAL }, TRUTH_VALUE);
@@ -157,4 +157,6 @@ public abstract class SemanticType {
     public static readonly SemanticType RELATION_2_REDUCER = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType GEACH_TRUTH_FUNCTION_1 =
         new Arrow(new SemanticType[]{ TRUTH_FUNCTION_1, PREDICATE, INDIVIDUAL }, TRUTH_VALUE);
+    public static readonly SemanticType GEACH_TRUTH_FUNCTION_2 =
+        new Arrow(new SemanticType[]{ TRUTH_FUNCTION_2, PREDICATE, PREDICATE, INDIVIDUAL }, TRUTH_VALUE);
 }

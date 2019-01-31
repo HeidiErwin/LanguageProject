@@ -104,7 +104,8 @@ public class GameController : MonoBehaviour {
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
         } else if (type.Equals(SemanticType.QUANTIFIER) ||
-                   type.Equals(SemanticType.GEACH_QUANTIFIER_PHRASE)) {
+                   type.Equals(SemanticType.GEACH_QUANTIFIER_PHRASE) ||
+                   type.Equals(SemanticType.DETERMINER)) {
             GameObject firstRow = quantifierKeyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
@@ -141,7 +142,8 @@ public class GameController : MonoBehaviour {
                 GameObject secondRow = truthFunction1Keyboard.transform.GetChild(1).gameObject;
                 spawnerInstance.transform.SetParent(secondRow.transform);
             }
-        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_2)) {
+        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_2) ||
+                   type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_2)) {
             GameObject firstRow = truthFunction2Keyboard.transform.GetChild(0).gameObject;
             if (firstRow.transform.childCount < PIECES_PER_ROW) {
                 spawnerInstance.transform.SetParent(firstRow.transform);
@@ -169,12 +171,13 @@ public class GameController : MonoBehaviour {
         // LOGIC/FUNCTION WORDS
         // aspect functions
         SetUpSpawner(Expression.WOULD);
-        SetUpSpawner(Expression.QUERY);
+        SetUpSpawner(Expression.ASSERT);
 
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
         SetUpSpawner(Expression.GEACH_TF1);
+        SetUpSpawner(Expression.GEACH_TF2);
         // 2-place
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
@@ -185,11 +188,14 @@ public class GameController : MonoBehaviour {
 
         // quantifiers
         // SetUpSpawner(Expression.NO);
-        SetUpSpawner(Expression.SOME);
-        SetUpSpawner(Expression.TWO);
-        SetUpSpawner(Expression.THREE);
-        SetUpSpawner(Expression.ALL);
-        SetUpSpawner(Expression.GEACH_QP);
+        // SetUpSpawner(Expression.SOME);
+        // SetUpSpawner(Expression.TWO);
+        // SetUpSpawner(Expression.THREE);
+        // SetUpSpawner(Expression.ALL);
+        // SetUpSpawner(Expression.GEACH_QP);
+
+        // determiners
+        SetUpSpawner(Expression.THE);
 
         // CONTENT WORDS   
         // names
@@ -198,7 +204,6 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.EVAN);
         // SetUpSpawner(Expression.BOB_2);
         SetUpSpawner(Expression.WAYSIDE_PARK);
-        SetUpSpawner(Expression.THE_GREAT_DOOR);
         SetUpSpawner(Expression.THE_GREAT_KEY);
 
         // predicates
@@ -219,6 +224,7 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
         SetUpSpawner(Expression.EXISTS);
+        SetUpSpawner(Expression.DOOR);
         SetUpSpawner(Expression.OPEN);
         SetUpSpawner(Expression.CLOSED);
 

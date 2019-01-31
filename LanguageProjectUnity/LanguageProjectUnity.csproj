@@ -356,10 +356,10 @@
     <Compile Include="Assets\Scripts\AI\Language\Expression\Parameter.cs" />
     <Compile Include="Assets\Scripts\AI\Language\Expression\Phrase.cs" />
     <Compile Include="Assets\Scripts\AI\Language\Expression\Word.cs" />
+    <Compile Include="Assets\Scripts\AI\Language\SemanticType\A.cs" />
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\Arrow.cs" />
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\C.cs" />
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\E.cs" />
-    <Compile Include="Assets\Scripts\AI\Language\SemanticType\Q.cs" />
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\SemanticType.cs" />
     <Compile Include="Assets\Scripts\AI\Language\SemanticType\T.cs" />
     <Compile Include="Assets\Scripts\AI\Testing.cs" />

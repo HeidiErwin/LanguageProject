@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum EvidentialSource {
     Perception,
-    Testimony
+    Testimony,
+    Expectation
 }
 
 // an interface for an agent's "model", an
@@ -107,7 +108,7 @@ public abstract class Model {
         // "credulous liberal"
         // accept any beliefs formed via perception,
         // replacing old beliefs with newer percepts if they're inconsistent
-        if (source == EvidentialSource.Perception) {
+        if (source == EvidentialSource.Perception || source == EvidentialSource.Expectation) {
             // we want to remove anything inconsistent with the input belief
             while (Proves(new Phrase(Expression.NOT, input))) {
                 foreach (Expression e in this.proofBase) {

@@ -7,7 +7,7 @@ public class Fountain : Perceivable {
     public override void SendPercept(NPC npc) {
         base.SendPercept(npc);
 
-        Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
+        // Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
 
         npc.ReceivePercept(
             new Phrase(Expression.FOUNTAIN, param),

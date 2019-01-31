@@ -206,7 +206,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
     
-    public static readonly Expression QUERY = new Word(SemanticType.TRUTH_QUESTION_FUNCTION, "query");
+    public static readonly Expression ASSERT = new Word(SemanticType.TRUTH_ASSERTION_FUNCTION, "assert");
 
     public static readonly Expression WOULD = new Word(SemanticType.TRUTH_CONFORMITY_FUNCTION, "would");
 
@@ -222,6 +222,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression ALL = new Word(SemanticType.QUANTIFIER, "all");
     public static readonly Expression GEACH_QP = new Word(SemanticType.GEACH_QUANTIFIER_PHRASE, "geach");
 
+    public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
+
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
     public static readonly Expression DESIRE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "desire");
@@ -230,7 +232,6 @@ public abstract class Expression : IPattern {
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");
     public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
-    public static readonly Expression THE_GREAT_DOOR = new Word(SemanticType.INDIVIDUAL, "the_great_door");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
 
@@ -247,6 +248,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
     public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
 
+    public static readonly Expression DOOR = new Word(SemanticType.PREDICATE, "door");
     public static readonly Expression CLOSED = new Word(SemanticType.PREDICATE, "closed");
     public static readonly Expression OPEN = new Word(SemanticType.PREDICATE, "open");
     
@@ -272,4 +274,5 @@ public abstract class Expression : IPattern {
     public static readonly Expression INVERSE = new Word(SemanticType.RELATION_FUNCTION_2, "inverse");
 
     public static readonly Expression GEACH_TF1 = new Word(SemanticType.GEACH_TRUTH_FUNCTION_1, "geach");
+    public static readonly Expression GEACH_TF2 = new Word(SemanticType.GEACH_TRUTH_FUNCTION_2, "geach");
 }
