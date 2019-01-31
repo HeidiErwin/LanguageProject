@@ -52,10 +52,6 @@ public abstract class Model {
         actionRules.Add(r);
     }
 
-    // public void AddPrimitiveAbility(Expression ability) {
-    //     this.primitiveAbilites.Add(ability);
-    // }
-
     public void AddToDomain(Expression e) {
         if (e == null) {
             return;
@@ -93,7 +89,7 @@ public abstract class Model {
 
     public bool Proves(Expression expr) {
         triedExpressions = new Dictionary<Expression, bool>();
-        return Proves(expr, EntailmentContext.Downward, null);
+        return Proves(expr, null);
     }
 
     // returns true if the belief is accepted
@@ -143,31 +139,23 @@ public abstract class Model {
     }
 
     // return true if this model proves expr.
-    protected bool Proves(Expression expr, EntailmentContext entailmentContext, IPattern sententialContext) {
+    protected bool Proves(Expression expr, object xxxx) {
         // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {
             return triedExpressions[expr];
         }
         triedExpressions.Add(expr, false);
 
-        Expression fullExpression = expr;
-        if (sententialContext != null) {
-            Expression bound = sententialContext.Bind(new MetaVariable(expr.type, 0), expr).ToExpression();
-            if (bound != null) {
-                fullExpression = bound;
-            }
-        }
-
         // this should be Proves(), not Contains().
         // looping problem needs to be resolved, however.
-        if (this.Contains(fullExpression)) {
-            triedExpressions[fullExpression] = true;
+        if (this.Contains(expr)) {
+            triedExpressions[expr] = true;
             return true;
         }
 
         // RECURSIVE CASES
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr, entailmentContext);
+            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr);
             
             if (admissibleSubstitutions == null) {
                 continue;
@@ -182,7 +170,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
-                    } else if (!this.Proves(e, entailmentContext, sententialContext)) {
+                    } else if (!this.Proves(e, null)) {
                         proved = false;
                         break;
                     }
@@ -199,7 +187,7 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
-                    } else if (!this.Proves(new Phrase(Expression.NOT, e), entailmentContext, sententialContext)) {
+                    } else if (!this.Proves(new Phrase(Expression.NOT, e), null)) {
                         proved = false;
                         break;
                     }
@@ -226,7 +214,7 @@ public abstract class Model {
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
-                    if (this.Find(entailmentContext, sententialContext, toFindArray) != null) {
+                    if (this.Find(toFindArray) != null) {
                         triedExpressions[expr] = true;
                         return true;
                     }
@@ -234,26 +222,10 @@ public abstract class Model {
             }
         }
 
-        // if (expr.GetHead().Equals(Expression.NOT)) {
-        //     Expression subsentence = expr.GetArg(0);
-        //     if (subsentence != null && Proves(
-        //             subsentence,
-        //             EvaluationPattern.MergeContext(entailmentContext, EntailmentContext.Downward),
-        //             (sententialContext == null) ?
-        //             new ExpressionPattern(Expression.NOT, new MetaVariable(SemanticType.TRUTH_VALUE, 0)) :
-        //             new ExpressionPattern(Expression.NOT, sententialContext))) {
-        //         // note: the new sententialcontext should actually be: search for the only metavariable
-        //         // and wrap a not around IT. But it doesn't matter so long as negation is the only thing
-        //         // happening.
-        //         return true;
-        //     }
-        // }
-
         return false;
     }
 
-    public HashSet<Dictionary<MetaVariable, Expression>> Find(EntailmentContext entailmentContext, IPattern sententialcontext, params IPattern[] patterns) {
-
+    public HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
         HashSet<Dictionary<MetaVariable, Expression>> successfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
         successfulBindings.Add(new Dictionary<MetaVariable, Expression>());
         for (int i = 0; i < patterns.Length; i++) {
@@ -293,7 +265,7 @@ public abstract class Model {
                 foreach (Dictionary<MetaVariable, Expression> attemptedBinding in oldAttemptedBindings) {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
-                    if (e != null && this.Proves(e, entailmentContext, sententialcontext)) {
+                    if (e != null && this.Proves(e, null)) {
                         provedOne = true;
                         Dictionary<MetaVariable, Expression> newSuccessfulBinding = new Dictionary<MetaVariable, Expression>();
                         foreach (KeyValuePair<MetaVariable, Expression> kv in successfulBinding) {

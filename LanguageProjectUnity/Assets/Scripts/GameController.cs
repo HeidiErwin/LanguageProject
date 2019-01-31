@@ -167,13 +167,15 @@ public class GameController : MonoBehaviour {
     */
     public void SetUpKeyboard() {
         // LOGIC/FUNCTION WORDS
+        // aspect functions
+        SetUpSpawner(Expression.WOULD);
+        SetUpSpawner(Expression.QUERY);
+
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
         SetUpSpawner(Expression.GEACH_TF1);
-        SetUpSpawner(Expression.WOULD);
-        SetUpSpawner(Expression.QUERY);
-        
+        // 2-place
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
 
@@ -184,9 +186,9 @@ public class GameController : MonoBehaviour {
         // quantifiers
         // SetUpSpawner(Expression.NO);
         SetUpSpawner(Expression.SOME);
-        // SetUpSpawner(Expression.TWO);
-        // SetUpSpawner(Expression.THREE);
-        SetUpSpawner(Expression.EVERY);
+        SetUpSpawner(Expression.TWO);
+        SetUpSpawner(Expression.THREE);
+        SetUpSpawner(Expression.ALL);
         SetUpSpawner(Expression.GEACH_QP);
 
         // CONTENT WORDS   
@@ -233,7 +235,6 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.DESIRE);
 
         // SetUpSpawner(Expression.OVERLAPS_WITH);
-        // 
         SetUpSpawner(Expression.ITSELF);
         SetUpSpawner(Expression.INVERSE);
     }

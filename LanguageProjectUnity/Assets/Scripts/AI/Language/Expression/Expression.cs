@@ -219,7 +219,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression SOME = new Word(SemanticType.QUANTIFIER, "some");
     public static readonly Expression TWO = new Word(SemanticType.QUANTIFIER, "two");
     public static readonly Expression THREE = new Word(SemanticType.QUANTIFIER, "three");
-    public static readonly Expression EVERY = new Word(SemanticType.QUANTIFIER, "every");
+    public static readonly Expression ALL = new Word(SemanticType.QUANTIFIER, "all");
     public static readonly Expression GEACH_QP = new Word(SemanticType.GEACH_QUANTIFIER_PHRASE, "geach");
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");

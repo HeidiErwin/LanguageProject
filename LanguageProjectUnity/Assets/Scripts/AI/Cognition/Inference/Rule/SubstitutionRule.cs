@@ -6,33 +6,22 @@ public class SubstitutionRule {
     protected IPattern[] conditions;
     protected IPattern[] top;
     protected IPattern[] bottom;
-    protected EntailmentContext? exclusiveContext;
     public bool isTransposable {get; protected set;}
     
-    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext, bool isTransposable) {
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, bool isTransposable) {
         this.conditions = conditions;
         this.top = top;
         this.bottom = bottom;
-        this.exclusiveContext = exclusiveContext;
         this.isTransposable = isTransposable;
     }
 
-    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext):
-        this(conditions, top, bottom, exclusiveContext, true) {}
-
-    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom): this(conditions, top, bottom, null) {}
-
-        public SubstitutionRule(IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext, bool isTransposable):
-        this(new IPattern[0], top, bottom, exclusiveContext, isTransposable) {}
-
-    public SubstitutionRule(IPattern[] top, IPattern[] bottom, EntailmentContext? exclusiveContext):
-        this(new IPattern[0], top, bottom, exclusiveContext) {}
+    public SubstitutionRule(IPattern[] conditions, IPattern[] top, IPattern[] bottom):
+        this(conditions, top, bottom, true) {}
 
     public SubstitutionRule(IPattern[] top, IPattern[] bottom, bool isTransposable):
-        this(new IPattern[0], top, bottom, null, isTransposable) {}
+        this(new IPattern[0], top, bottom, isTransposable) {}
 
-
-    public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom, null) {}
+    public SubstitutionRule(IPattern[] top, IPattern[] bottom): this(new IPattern[0], top, bottom) {}
 
     public void AddToDomain(Model m) {
         for (int i = 0; i < conditions.Length; i++) {
@@ -48,23 +37,9 @@ public class SubstitutionRule {
         }
     }
 
-    public List<List<IPattern>[]> Substitute(Model m, Expression expr, EntailmentContext context) {
-        if ((this.exclusiveContext != null && context != this.exclusiveContext) || context == EntailmentContext.None) {
-            return null;
-        }
-
-        IPattern[] match = null;
-        IPattern[] substitution = null;
-
-        if (context == EntailmentContext.Upward) {
-            match = this.top;
-            substitution = this.bottom;
-        }
-
-        if (context == EntailmentContext.Downward) {
-            match = this.bottom;
-            substitution = this.top;
-        }
+    public List<List<IPattern>[]> Substitute(Model m, Expression expr) {
+        IPattern[] match = this.bottom;
+        IPattern[] substitution = this.top;
 
         List<List<IPattern>[]> admissibleSubstitutions = new List<List<IPattern>[]>();
 
@@ -83,7 +58,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(EntailmentContext.Downward, null, conditions);
+                    domain = m.Find(conditions);
                 }
 
                 if (domain == null) {
@@ -141,7 +116,7 @@ public class SubstitutionRule {
                 if (conditions == null || conditions.Length == 0) {
                     domain = new HashSet<Dictionary<MetaVariable, Expression>>();
                 } else {
-                    domain = m.Find(EntailmentContext.Downward, null, boundConditions);
+                    domain = m.Find(boundConditions);
                 }
 
                 if (domain == null) {
@@ -205,12 +180,7 @@ public class SubstitutionRule {
             newBottom[i] = new ExpressionPattern(Expression.NOT, top[i]);
         }
 
-        if (exclusiveContext == null) {
-            return new SubstitutionRule(conditions, newTop, newBottom, null);
-        }
-
-        return new SubstitutionRule(conditions, newTop, newBottom,
-            EvaluationPattern.MergeContext(exclusiveContext.GetValueOrDefault(), EntailmentContext.Downward));
+        return new SubstitutionRule(conditions, newTop, newBottom);
     }
 
     public override String ToString() {
