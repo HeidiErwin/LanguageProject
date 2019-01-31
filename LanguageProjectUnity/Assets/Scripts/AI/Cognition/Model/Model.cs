@@ -3,6 +3,11 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EvidentialSource {
+    Perception,
+    Testimony
+}
+
 // an interface for an agent's "model", an
 // internal representation of the propositional attitudes
 // that the agent holds: which sentences it holds true,
@@ -20,6 +25,7 @@ public abstract class Model {
     // protected HashSet<Expression> primitiveAbilites = new HashSet<ActionRule>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, bool> triedExpressions;
+    protected HashSet<Expression> proofBase;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -89,25 +95,46 @@ public abstract class Model {
 
     public bool Proves(Expression expr) {
         triedExpressions = new Dictionary<Expression, bool>();
+        proofBase = new HashSet<Expression>();
         return Proves(expr, null);
     }
 
     // returns true if the belief is accepted
-    // returns false if the belief is rejected
-    // current update policy: credulous conservative
-    // (reject any belief inconsistent with the model as is; accept anything else)
+    // returns false if the belief is rejected    
     // TODO: make a more sophicated update policy
-    public bool UpdateBelief(Expression input) {
-        if (this.Proves(input)) {
+    public bool UpdateBelief(Expression input, EvidentialSource source) {
+        // current update policy for perceptually-based beliefs:
+        // "credulous liberal"
+        // accept any beliefs formed via perception,
+        // replacing old beliefs with newer percepts if they're inconsistent
+        if (source == EvidentialSource.Perception) {
+            // we want to remove anything inconsistent with the input belief
+            while (Proves(new Phrase(Expression.NOT, input))) {
+                foreach (Expression e in this.proofBase) {
+                    this.Remove(e);
+                }
+            }
+            // add the belief if it's not already there
+            // if (!Proves(input)) {
+                this.Add(input);
+            // }
             return true;
         }
-
-        if (this.Proves(new Phrase(Expression.NOT, input))) {
-            return false;
+        // current update policy for testimonially-based beliefs:
+        // "credulous conservative"
+        // reject anything inconsistent with the model as is; accept anything else
+        if (source == EvidentialSource.Testimony) {
+            if (this.Proves(input)) {
+                return true;
+            }
+            if (this.Proves(new Phrase(Expression.NOT, input))) {
+                return false;
+            }
+            this.Add(input);
+            return true;            
         }
 
-        this.Add(input);
-        return true;
+        return false;
     }
 
     // naive, non-schematic action planner
@@ -150,6 +177,7 @@ public abstract class Model {
         // looping problem needs to be resolved, however.
         if (this.Contains(expr)) {
             triedExpressions[expr] = true;
+            proofBase.Add(expr);
             return true;
         }
 
@@ -221,7 +249,7 @@ public abstract class Model {
                 }
             }
         }
-
+        proofBase = new HashSet<Expression>();
         return false;
     }
 

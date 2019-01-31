@@ -153,13 +153,13 @@ public class NPC : Character {
         }
     }
 
-    public void ReceivePercept(params Expression[] report) {
+    public void ReceivePercept(params Expression[] percept) {
         if (this.model == null) {
             return;
         }
 
-        foreach (Expression p in report) {
-            this.model.Add(p);
+        foreach (Expression p in percept) {
+            this.model.UpdateBelief(p, EvidentialSource.Perception);
         }
     }
 
@@ -194,7 +194,7 @@ public class NPC : Character {
         }
 
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
-            if (this.model.UpdateBelief(utterance)) {
+            if (this.model.UpdateBelief(utterance, EvidentialSource.Testimony)) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
             } else {
