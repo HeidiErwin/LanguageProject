@@ -157,6 +157,7 @@ Graphics:
   - resize for keyboard and expressions
   	* "up/down" arrow for keyboard and workspace
   	* downscale expressions + magnifying lens/viewport
+  - steal cam tracking script to get responses from NPCs to follow them as they walk
   - [DONE] keyboard multiple pages
 	- animations
 	- make ExpressionPiece from fully formed Expression

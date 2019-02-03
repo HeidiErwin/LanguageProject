@@ -234,7 +234,7 @@ public class NPC : Character {
         exprPieceInstance.name = "LIONKING";
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.FromScratch(expr, new Vector3(0, 0, 0));
-        exprPieceScript.transform.SetParent(GameObject.Find("Canvas").transform);
+        exprPieceScript.transform.SetParent(GameObject.Find("ResponseCanvas").transform);
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
         exprPieceScript.transform.position = new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * 40) + 16);
