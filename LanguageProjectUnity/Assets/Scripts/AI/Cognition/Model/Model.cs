@@ -28,6 +28,8 @@ public abstract class Model {
     protected Dictionary<Expression, bool> triedExpressions;
     protected HashSet<Expression> proofBase;
 
+    protected 
+
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
 
