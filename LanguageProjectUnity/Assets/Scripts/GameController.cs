@@ -236,7 +236,8 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.POSSESS);
 
         // individual-truth relations
-        // SetUpSpawner(Expression.MAKE);
+        SetUpSpawner(Expression.NOW);
+        SetUpSpawner(Expression.MAKE);
         SetUpSpawner(Expression.BELIEVE);
         SetUpSpawner(Expression.DESIRE);
 

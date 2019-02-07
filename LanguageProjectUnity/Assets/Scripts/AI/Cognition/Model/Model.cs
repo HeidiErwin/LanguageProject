@@ -28,7 +28,9 @@ public abstract class Model {
     protected Dictionary<Expression, bool> triedExpressions;
     protected HashSet<Expression> proofBase;
 
-    protected 
+    // a queue of goals to be performed in sequence
+    // protected List<Expression> goals;
+    protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -100,6 +102,10 @@ public abstract class Model {
         triedExpressions = new Dictionary<Expression, bool>();
         proofBase = new HashSet<Expression>();
         return Proves(expr, null);
+    }
+
+    public void SetUtility(Expression expr, float utility) {
+        this.utilities[expr] = utility;
     }
 
     // returns true if the belief is accepted

@@ -224,7 +224,7 @@ public abstract class Expression : IPattern {
 
     public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
 
-    public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
+    public static readonly Expression MAKE = new Word(SemanticType.EVENT_INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
     public static readonly Expression DESIRE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "desire");
 
@@ -234,6 +234,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
+    public static readonly Expression NOW = new Word(SemanticType.EVENT, "now");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
