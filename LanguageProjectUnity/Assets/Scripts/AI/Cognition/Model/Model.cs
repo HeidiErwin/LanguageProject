@@ -6,7 +6,8 @@ using UnityEngine;
 public enum EvidentialSource {
     Perception,
     Testimony,
-    Expectation
+    Expectation,
+    Base
 }
 
 // an interface for an agent's "model", an
@@ -30,7 +31,7 @@ public abstract class Model {
 
     // a queue of goals to be performed in sequence
     // protected List<Expression> goals;
-    protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
+    // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -85,15 +86,6 @@ public abstract class Model {
         }
     }
 
-    private static HashSet<Expression> Add(HashSet<Expression> path, Expression expr) {
-        HashSet<Expression> newPath = new HashSet<Expression>();
-        foreach (Expression e in path) {
-            newPath.Add(e);
-        }
-        newPath.Add(expr);
-        return newPath;
-    }
-
     public IEnumerator<bool> CoProves(Expression expr) {
         yield return Proves(expr);
     }
@@ -104,46 +96,81 @@ public abstract class Model {
         return Proves(expr, null);
     }
 
-    public void SetUtility(Expression expr, float utility) {
-        this.utilities[expr] = utility;
+    // public void SetUtility(Expression expr, float utility) {
+    //     this.utilities[expr] = utility;
+    // }
+
+    // OIT 1, NIT 2, OE 3, OCT 4, OP 5, NCT 6, NE 7, NP 8, B 9
+    public int EstimatePlausibility(Expression e, bool isNew) {
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        IPattern perceptionPattern = new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0);
+        IPattern testimonyPattern = new ExpressionPattern(Expression.BELIEVE, xi0, xt0);
+        IPattern expectationPattern = new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0);
+
+        List<Dictionary<MetaVariable, Expression>> bindings = perceptionPattern.GetBindings(e);
+        if (bindings != null) {
+            if (isNew) {
+                return 8;
+            } else {
+                return 5;
+            }
+        }
+
+        bindings = testimonyPattern.GetBindings(e);
+        if (bindings != null) {
+            bool isCredible = this.Proves(new Phrase(Expression.CREDIBLE, bindings[0][xi0]));
+            if (isCredible) {
+                if (isNew) {
+                    return 6;    
+                }
+                return 4;
+            } else {
+                if (isNew) {
+                    return 2;
+                }
+                return 1;
+            }
+        }
+
+        bindings = expectationPattern.GetBindings(e);
+        if (bindings != null) {
+            if (isNew) {
+                return 7;
+            }
+            return 3;
+        }
+
+        return 9;
     }
 
     // returns true if the belief is accepted
     // returns false if the belief is rejected    
     // TODO: make a more sophicated update policy
-    public bool UpdateBelief(Expression input, EvidentialSource source) {
-        // current update policy for perceptually-based beliefs:
-        // "credulous liberal"
-        // accept any beliefs formed via perception,
-        // replacing old beliefs with newer percepts if they're inconsistent
-        if (source == EvidentialSource.Perception || source == EvidentialSource.Expectation) {
-            // we want to remove anything inconsistent with the input belief
-            while (Proves(new Phrase(Expression.NOT, input))) {
-                foreach (Expression e in this.proofBase) {
-                    this.Remove(e);
+    public bool UpdateBelief(Expression input) {
+        List<Expression> toRemove = new List<Expression>();
+        while (this.Proves(new Phrase(Expression.NOT, input))) {
+            Expression leastPlausible = input;
+            int lowestPlausibility = EstimatePlausibility(input, true);
+            foreach (Expression e in this.proofBase) {
+                int currentPlausibility = EstimatePlausibility(e, false);
+                if (currentPlausibility < lowestPlausibility) {
+                    leastPlausible = e;
+                    lowestPlausibility = currentPlausibility;
                 }
             }
-            // add the belief if it's not already there
-            // if (!Proves(input)) {
-                this.Add(input);
-            // }
-            return true;
-        }
-        // current update policy for testimonially-based beliefs:
-        // "credulous conservative"
-        // reject anything inconsistent with the model as is; accept anything else
-        if (source == EvidentialSource.Testimony) {
-            if (this.Proves(input)) {
-                return true;
-            }
-            if (this.Proves(new Phrase(Expression.NOT, input))) {
+            if (leastPlausible.Equals(input)) {
                 return false;
             }
-            this.Add(input);
-            return true;            
+            toRemove.Add(leastPlausible);
         }
 
-        return false;
+        foreach (Expression e in toRemove) {
+            this.Remove(e);
+        }
+
+        this.Add(input);
+        return true;
     }
 
     // naive, non-schematic action planner
@@ -188,6 +215,17 @@ public abstract class Model {
             triedExpressions[expr] = true;
             proofBase.Add(expr);
             return true;
+        }
+
+        IPattern secondOrderAttitudePattern =
+            new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
+                new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 1),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1),
+                    new MetaVariable(SemanticType.TRUTH_VALUE, 0)));
+
+        if (secondOrderAttitudePattern.Matches(expr)) {
+            return false;
         }
 
         // RECURSIVE CASES

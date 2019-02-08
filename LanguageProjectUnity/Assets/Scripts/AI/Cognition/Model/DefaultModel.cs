@@ -33,79 +33,6 @@ public class DefaultModel {
         m.Add(new Phrase(not, Expression.FALSUM));
 
         // COMMON-KNOWLEDGE
-        m.Add(new Phrase(Expression.ALL, Expression.COW, Expression.ANIMAL));
-        m.Add(new Phrase(Expression.ALL, Expression.PERSON, Expression.ANIMAL));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.ACTIVE, Expression.INACTIVE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.OPEN, Expression.CLOSED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.PERSON, Expression.FOUNTAIN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.PERSON, Expression.LAMP)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.PERSON, Expression.COW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.PERSON, Expression.OPEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.PERSON, Expression.CLOSED)));
-        // color exclusion
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLACK, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.RED, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.GREEN, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.BLUE, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.CYAN, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.YELLOW)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.MAGENTA, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.YELLOW, Expression.WHITE)));
-
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.BLACK)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.RED)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.GREEN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.BLUE)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.CYAN)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.MAGENTA)));
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.SOME, Expression.WHITE, Expression.YELLOW)));
 
         // SELF-KNOWLEDGE
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
@@ -118,10 +45,25 @@ public class DefaultModel {
 
         // SUBSTITUTION RULES
         
+        // perceive(self, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)},
+            new IPattern[]{xt0}, false));
+
+        // believes(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, xi0, xt0)},
+            new IPattern[]{xt0}, false));
+
+        // make(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0)},
+            new IPattern[]{xt0}, false));
+        
         // S |- believes(self, S)
         m.Add(new SubstitutionRule(
-            new IPattern[]{new MetaVariable(SemanticType.TRUTH_VALUE, 0)},
-            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, Expression.SELF, new MetaVariable(SemanticType.TRUTH_VALUE, 0))},
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0)},
             false));
 
         // S |- T(S)

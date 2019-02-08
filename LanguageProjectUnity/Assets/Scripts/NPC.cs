@@ -71,7 +71,7 @@ public class NPC : Character {
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
-                this.model.UpdateBelief(new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
             }
 
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
@@ -82,7 +82,7 @@ public class NPC : Character {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Open();
                 // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // ShowSpeechBubble(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
             }
@@ -92,7 +92,7 @@ public class NPC : Character {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Close();
                 // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // ShowSpeechBubble(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
             }
@@ -110,7 +110,7 @@ public class NPC : Character {
                 // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
             }
@@ -125,7 +125,7 @@ public class NPC : Character {
                 // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)), EvidentialSource.Expectation);
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
             }
@@ -159,7 +159,7 @@ public class NPC : Character {
         }
 
         foreach (Expression p in percept) {
-            this.model.UpdateBelief(p, EvidentialSource.Perception);
+            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, p));
         }
     }
 
@@ -194,7 +194,7 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.ASSERTION)) {
             Expression content = utterance.GetArg(0);
-            if (this.model.UpdateBelief(content, EvidentialSource.Testimony)) {
+            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, Expression.PLAYER, content))) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
             } else {

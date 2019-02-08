@@ -176,8 +176,8 @@ public class GameController : MonoBehaviour {
         // truth functions
         SetUpSpawner(Expression.TRUE);
         SetUpSpawner(Expression.NOT);
-        SetUpSpawner(Expression.GEACH_TF1);
-        SetUpSpawner(Expression.GEACH_TF2);
+        // SetUpSpawner(Expression.GEACH_TF1);
+        // SetUpSpawner(Expression.GEACH_TF2);
         // 2-place
         SetUpSpawner(Expression.AND);
         SetUpSpawner(Expression.OR);
@@ -203,8 +203,8 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.BOB);
         SetUpSpawner(Expression.EVAN);
         // SetUpSpawner(Expression.BOB_2);
-        SetUpSpawner(Expression.WAYSIDE_PARK);
-        SetUpSpawner(Expression.THE_GREAT_KEY);
+        // SetUpSpawner(Expression.WAYSIDE_PARK);
+        // SetUpSpawner(Expression.THE_GREAT_KEY);
 
         // predicates
         SetUpSpawner(Expression.BLACK);
@@ -223,27 +223,28 @@ public class GameController : MonoBehaviour {
         SetUpSpawner(Expression.COW);
         SetUpSpawner(Expression.PERSON);
         SetUpSpawner(Expression.ANIMAL);
-        SetUpSpawner(Expression.EXISTS);
+        // SetUpSpawner(Expression.EXISTS);
         SetUpSpawner(Expression.DOOR);
         SetUpSpawner(Expression.OPEN);
         SetUpSpawner(Expression.CLOSED);
 
         // 2-place relations
         SetUpSpawner(Expression.IDENTITY);
-        SetUpSpawner(Expression.CONTAINED_WITHIN);
+        // SetUpSpawner(Expression.CONTAINED_WITHIN);
+        // SetUpSpawner(Expression.OVERLAPS_WITH);
         // SetUpSpawner(Expression.HELP);
         SetUpSpawner(Expression.NEAR);
-        SetUpSpawner(Expression.POSSESS);
+        // SetUpSpawner(Expression.POSSESS);
 
         // individual-truth relations
-        SetUpSpawner(Expression.NOW);
-        SetUpSpawner(Expression.MAKE);
+        // SetUpSpawner(Expression.NOW);
+        // SetUpSpawner(Expression.MAKE);
         SetUpSpawner(Expression.BELIEVE);
-        SetUpSpawner(Expression.DESIRE);
+        // SetUpSpawner(Expression.DESIRE);
 
-        // SetUpSpawner(Expression.OVERLAPS_WITH);
-        SetUpSpawner(Expression.ITSELF);
-        SetUpSpawner(Expression.INVERSE);
+        
+        // SetUpSpawner(Expression.ITSELF);
+        // SetUpSpawner(Expression.INVERSE);
     }
 
     // updates the keyboard so that the tabToDisplayIndex-th tab is active,
