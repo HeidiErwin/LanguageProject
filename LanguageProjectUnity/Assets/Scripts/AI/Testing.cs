@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour {
     void Start() {
-        Model bm = CustomModels.BobModel();
+        Model m = DefaultModel.Make();
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
         // PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));

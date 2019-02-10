@@ -9,28 +9,23 @@ using UnityEngine.UI;
 public class NPC : Character {
 
     GameController controller;
-    [SerializeField] protected String nameString;
-    private Model model;
+    protected Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
-    private EnvironmentManager envManager;
+    protected EnvironmentManager envManager;
+    protected HashSet<Expression> primitiveAbilities;
 
     // Use this for initialization
-    void Start() {
+    protected void Start() {
         envManager = GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>();
         controller = GameObject.Find("GameController").GetComponent<GameController>();
-        if (nameString.Equals("Bob")) {
-            model = CustomModels.BobModel();
-        }
-
-        if (nameString.Equals("Evan")) {
-            model = CustomModels.EvanModel();
-        }
+        model = DefaultModel.Make();
+        primitiveAbilities = new HashSet<Expression>();
     }
 
     private IEnumerator Do(Expression e) {
         Expression goal = e.GetArg(0);
 
-        List<Expression> actionSequence = model.Plan(goal, new List<Expression>());
+        List<Expression> actionSequence = model.Plan(goal);
 
         if (actionSequence == null) {
             this.controller.lowClick.Play();
@@ -49,8 +44,6 @@ public class NPC : Character {
         // }
         // Debug.Log(s.ToString());
 
-        bool isBob = nameString.Equals("Bob");
-
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
@@ -58,15 +51,14 @@ public class NPC : Character {
             // StopCoroutine(GoTo("Evan"));
             // StopCoroutine(GoTo("DoorFront"));
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF,
-                            isBob ? Expression.EVAN : Expression.BOB)))) {
-                if (isBob) {
-                    yield return StartCoroutine(GoTo("Evan"));
-                    // this.model.Add(new Phrase(Expression.NEAR, Expression.BOB, Expression.EVAN));
-                } else {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
                     yield return StartCoroutine(GoTo("Bob"));
                     // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
-                }
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
+                    yield return StartCoroutine(GoTo("Evan"));
+                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
@@ -77,7 +69,7 @@ public class NPC : Character {
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
             // TODO Uncomment when coroutine stuff is sorted out.
 
-            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Open();
@@ -87,7 +79,7 @@ public class NPC : Character {
                 //     }
             }
 
-            if (!isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Close();
@@ -97,7 +89,7 @@ public class NPC : Character {
                 //     }
             }
 
-            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
                 // the below code works with fromScratch, to a degree
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
@@ -115,7 +107,7 @@ public class NPC : Character {
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
             }
 
-            if (isBob && action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // yield return ShowSpeechBubble("would");
@@ -159,7 +151,7 @@ public class NPC : Character {
         }
 
         foreach (Expression p in percept) {
-            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, p));
+            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
         }
     }
 

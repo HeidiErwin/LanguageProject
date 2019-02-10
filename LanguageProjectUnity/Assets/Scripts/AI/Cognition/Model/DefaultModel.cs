@@ -33,6 +33,7 @@ public class DefaultModel {
         m.Add(new Phrase(not, Expression.FALSUM));
 
         // COMMON-KNOWLEDGE
+        m.Add(new Phrase(Expression.NEAR, Expression.SELF, Expression.SELF));
 
         // SELF-KNOWLEDGE
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
@@ -138,23 +139,23 @@ public class DefaultModel {
             new IPattern[]{xt1},
             new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
 
-        // reflexivity for identity
-        m.Add(new SubstitutionRule(
-            new IPattern[]{},
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
+        // // reflexivity for identity
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
 
-        // symmetry for identity
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
+        // // symmetry for identity
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
 
-        // transitivity for identity
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
-                new ExpressionPattern(Expression.IDENTITY, xi1, xi2)},
-            new IPattern[]{
-                new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
+        // // transitivity for identity
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
+        //         new ExpressionPattern(Expression.IDENTITY, xi1, xi2)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
 
         // substitution of identiticals
         // the rule if subsentential substitution was a thing

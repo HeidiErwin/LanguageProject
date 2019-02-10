@@ -35,24 +35,6 @@ public class Door : Perceivable {
         // Expression param = new Phrase(Expression.THE, Expression.DOOR);
         npc.ReceivePercept(
             new Phrase(locked ? Expression.INACTIVE : Expression.ACTIVE, param),
-            new Phrase(open ? Expression.OPEN : Expression.CLOSED, param),
-            new Phrase(GetArea(), param));
-    }
-
-    private Expression GetArea() {
-        if (this.area == 0) {
-            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 7), 1);
-        }
-        if (this.area == 1) {
-            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 8), 1);
-        }
-        if (this.area == 2) {
-            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 9), 1);
-        }
-        if (this.area == 3) {
-            return new Phrase(Expression.CONTAINED_WITHIN, new Parameter(SemanticType.INDIVIDUAL, 10), 1);
-        }
-
-        return null;
+            new Phrase(open ? Expression.OPEN : Expression.CLOSED, param));
     }
 }

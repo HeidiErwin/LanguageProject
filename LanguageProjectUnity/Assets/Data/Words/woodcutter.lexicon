@@ -1,0 +1,28 @@
+#INDIVIDUAL
+self
+
+#PREDICATE
+king
+dressed_like_king
+
+#RELATION_2
+=
+near
+
+#DETERMINER
+// the
+
+#TRUTH_FUNCTION_1
+// not
+
+#TRUTH_FUNCTION_2
+// and
+// or
+
+#TRUTH_CONFORMITY_FUNCTION
+would
+
+#TRUTH_ASSERTION_FUNCTION
+assert
+
+#INDIVIDUAL_TRUTH_RELATION

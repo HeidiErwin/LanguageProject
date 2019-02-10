@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 /**
  * The main Controller class. Sets up the Scene, creates ExpressionPieces, etc.
@@ -21,6 +22,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject truthFunction2Keyboard;
     [SerializeField] private GameObject individualTruthRelationKeyboard;
     [SerializeField] private GameObject helpScreen;
+    [SerializeField] private String wordsPath;
     private bool keyboardOnBeforeHelpShown = true;
 
     public AudioSource highClick;
@@ -29,7 +31,7 @@ public class GameController : MonoBehaviour {
     public AudioSource placeExpression;
     public AudioSource failure;
 
-    public const int PIECES_PER_ROW = 10;
+    public const int PIECES_PER_ROW = 14;
 
     // true only right after user has submitted an expression (pressed checkmark button)
     // and before user has selected an NPC to speak to
@@ -42,7 +44,7 @@ public class GameController : MonoBehaviour {
         SetUpCanvas();
         SetUpKeyboard();
         SetUpPlayer();
-        currentKeyboard = individualKeyboard;
+        currentKeyboard = individualTruthRelationKeyboard;
         canvasInstance.SetActive(false);
         currentKeyboard.SetActive(true);
     }
@@ -95,71 +97,18 @@ public class GameController : MonoBehaviour {
         SemanticType type = e.type;
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        if (type.Equals(SemanticType.INDIVIDUAL)) {
-            GameObject firstRow = individualKeyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = individualKeyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else if (type.Equals(SemanticType.QUANTIFIER) ||
-                   type.Equals(SemanticType.GEACH_QUANTIFIER_PHRASE) ||
-                   type.Equals(SemanticType.DETERMINER)) {
-            GameObject firstRow = quantifierKeyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = quantifierKeyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else if (type.Equals(SemanticType.PREDICATE)) {
-            GameObject firstRow = predicateKeyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                // Debug.Log("1st row's name is " + firstRow.name);
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = predicateKeyboard.transform.GetChild(1).gameObject;
-                // Debug.Log("second row's name is " + secondRow.name);
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else if (type.Equals(SemanticType.RELATION_2)) {
-            GameObject firstRow = relation2Keyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                // Debug.Log("1st row's name is " + firstRow.name);
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = relation2Keyboard.transform.GetChild(1).gameObject;
-                // Debug.Log("second row's name is " + secondRow.name);
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_1) ||
-                   type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_1)) {
-            GameObject firstRow = truthFunction1Keyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = truthFunction1Keyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else if (type.Equals(SemanticType.TRUTH_FUNCTION_2) ||
-                   type.Equals(SemanticType.GEACH_TRUTH_FUNCTION_2)) {
-            GameObject firstRow = truthFunction2Keyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = truthFunction2Keyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
-        } else /* if (type.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) */ {
-            GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
-            if (firstRow.transform.childCount < PIECES_PER_ROW) {
-                spawnerInstance.transform.SetParent(firstRow.transform);
-            } else {
-                GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
-                spawnerInstance.transform.SetParent(secondRow.transform);
-            }
+
+        GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
+        GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
+        GameObject thirdRow = individualTruthRelationKeyboard.transform.GetChild(2).gameObject;
+        if (firstRow.transform.childCount < PIECES_PER_ROW) {
+            spawnerInstance.transform.SetParent(firstRow.transform);
+        } else if (secondRow.transform.childCount < PIECES_PER_ROW) {
+            spawnerInstance.transform.SetParent(secondRow.transform);
+        } else {
+            spawnerInstance.transform.SetParent(thirdRow.transform);
         }
+
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
         spawnerScript.SetUpSpawner(e, this);
     }
@@ -168,113 +117,67 @@ public class GameController : MonoBehaviour {
     * which will create ExpressionPieces in the workspace.
     */
     public void SetUpKeyboard() {
-        // LOGIC/FUNCTION WORDS
-        // aspect functions
-        SetUpSpawner(Expression.WOULD);
-        SetUpSpawner(Expression.ASSERT);
+        StreamReader reader = new StreamReader("Assets/Data/Words/" + wordsPath + ".lexicon");
+        String line = reader.ReadLine();
 
-        // truth functions
-        SetUpSpawner(Expression.TRUE);
-        SetUpSpawner(Expression.NOT);
-        // SetUpSpawner(Expression.GEACH_TF1);
-        // SetUpSpawner(Expression.GEACH_TF2);
-        // 2-place
-        SetUpSpawner(Expression.AND);
-        SetUpSpawner(Expression.OR);
-
-        // variables and variable functions
-        // SetUpSpawner(Expression.INDIVIDUAL_VARIABLE);
-        // SetUpSpawner(Expression.NEXT_VARIABLE);
-
-        // quantifiers
-        // SetUpSpawner(Expression.NO);
-        // SetUpSpawner(Expression.SOME);
-        // SetUpSpawner(Expression.TWO);
-        // SetUpSpawner(Expression.THREE);
-        // SetUpSpawner(Expression.ALL);
-        // SetUpSpawner(Expression.GEACH_QP);
-
-        // determiners
-        SetUpSpawner(Expression.THE);
-
-        // CONTENT WORDS   
-        // names
-        SetUpSpawner(Expression.SELF);
-        SetUpSpawner(Expression.BOB);
-        SetUpSpawner(Expression.EVAN);
-        // SetUpSpawner(Expression.BOB_2);
-        // SetUpSpawner(Expression.WAYSIDE_PARK);
-        // SetUpSpawner(Expression.THE_GREAT_KEY);
-
-        // predicates
-        SetUpSpawner(Expression.BLACK);
-        SetUpSpawner(Expression.RED);
-        SetUpSpawner(Expression.GREEN);
-        SetUpSpawner(Expression.BLUE);
-        SetUpSpawner(Expression.YELLOW);
-        SetUpSpawner(Expression.MAGENTA);
-        SetUpSpawner(Expression.CYAN);
-        SetUpSpawner(Expression.WHITE);
-        SetUpSpawner(Expression.FOUNTAIN);
-        SetUpSpawner(Expression.LAMP);
-        SetUpSpawner(Expression.ACTIVE);
-        SetUpSpawner(Expression.INACTIVE);
-        SetUpSpawner(Expression.KING);
-        SetUpSpawner(Expression.COW);
-        SetUpSpawner(Expression.PERSON);
-        SetUpSpawner(Expression.ANIMAL);
-        // SetUpSpawner(Expression.EXISTS);
-        SetUpSpawner(Expression.DOOR);
-        SetUpSpawner(Expression.OPEN);
-        SetUpSpawner(Expression.CLOSED);
-
-        // 2-place relations
-        SetUpSpawner(Expression.IDENTITY);
-        // SetUpSpawner(Expression.CONTAINED_WITHIN);
-        // SetUpSpawner(Expression.OVERLAPS_WITH);
-        // SetUpSpawner(Expression.HELP);
-        SetUpSpawner(Expression.NEAR);
-        // SetUpSpawner(Expression.POSSESS);
-
-        // individual-truth relations
-        // SetUpSpawner(Expression.NOW);
-        // SetUpSpawner(Expression.MAKE);
-        SetUpSpawner(Expression.BELIEVE);
-        // SetUpSpawner(Expression.DESIRE);
-
-        
-        // SetUpSpawner(Expression.ITSELF);
-        // SetUpSpawner(Expression.INVERSE);
-    }
-
-    // updates the keyboard so that the tabToDisplayIndex-th tab is active,
-    // and all other tabs become inactive
-    public void SwitchKeyboardTab(int tabToDisplayIndex) {
-        currentKeyboard.SetActive(false);
-        if (tabToDisplayIndex == 0) { // e
-            currentKeyboard = individualKeyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 1) { // (e -> t), (e -> t) -> t
-            currentKeyboard = quantifierKeyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 2) { // e -> t
-            currentKeyboard = predicateKeyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 3) { // e, e -> t
-            currentKeyboard = relation2Keyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 4) { // t -> t
-            currentKeyboard = truthFunction1Keyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 5) { // t, t -> t
-            currentKeyboard = truthFunction2Keyboard;
-            highClick.Play();
-        } else if (tabToDisplayIndex == 6) { // e, t -> t
-            currentKeyboard = individualTruthRelationKeyboard;
-            highClick.Play();
+        SemanticType currentType = SemanticType.INDIVIDUAL;
+        while (line != null) {
+            line = line.Trim();
+            if (!(line.StartsWith("//") || line.Equals(""))) {
+                if (line.Equals("#INDIVIDUAL")) {
+                    currentType = SemanticType.INDIVIDUAL;
+                } else if (line.Equals("#PREDICATE")) {
+                    currentType = SemanticType.PREDICATE;
+                } else if (line.Equals("#RELATION_2")) {
+                    currentType = SemanticType.RELATION_2;
+                } else if (line.Equals("#DETERMINER")) {
+                    currentType = SemanticType.DETERMINER;
+                } else if (line.Equals("#TRUTH_FUNCTION_1")) {
+                    currentType = SemanticType.TRUTH_FUNCTION_1;
+                } else if (line.Equals("#TRUTH_FUNCTION_2")) {
+                    currentType = SemanticType.TRUTH_FUNCTION_2;
+                } else if (line.Equals("#TRUTH_CONFORMITY_FUNCTION")) {
+                    currentType = SemanticType.TRUTH_CONFORMITY_FUNCTION;
+                } else if (line.Equals("#TRUTH_ASSERTION_FUNCTION")) {
+                    currentType = SemanticType.TRUTH_ASSERTION_FUNCTION;
+                } else if (line.Equals("#INDIVIDUAL_TRUTH_RELATION")) {
+                    currentType = SemanticType.INDIVIDUAL_TRUTH_RELATION;
+                } else {
+                    SetUpSpawner(new Word(currentType, line));
+                }
+            }
+            line = reader.ReadLine();
         }
-        currentKeyboard.SetActive(true);
     }
+
+    // // updates the keyboard so that the tabToDisplayIndex-th tab is active,
+    // // and all other tabs become inactive
+    // public void SwitchKeyboardTab(int tabToDisplayIndex) {
+    //     currentKeyboard.SetActive(false);
+    //     if (tabToDisplayIndex == 0) { // e
+    //         currentKeyboard = individualKeyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 1) { // (e -> t), (e -> t) -> t
+    //         currentKeyboard = quantifierKeyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 2) { // e -> t
+    //         currentKeyboard = predicateKeyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 3) { // e, e -> t
+    //         currentKeyboard = relation2Keyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 4) { // t -> t
+    //         currentKeyboard = truthFunction1Keyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 5) { // t, t -> t
+    //         currentKeyboard = truthFunction2Keyboard;
+    //         highClick.Play();
+    //     } else if (tabToDisplayIndex == 6) { // e, t -> t
+    //         currentKeyboard = individualTruthRelationKeyboard;
+    //         highClick.Play();
+    //     }
+    //     currentKeyboard.SetActive(true);
+    // }
 
     // Called when user presses button to submit the selected expression.
     // This method takes the selected expression and unparents it from the canvas,

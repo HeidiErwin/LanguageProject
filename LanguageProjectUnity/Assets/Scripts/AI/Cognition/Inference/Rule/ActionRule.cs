@@ -12,4 +12,8 @@ public class ActionRule {
         this.action = action;
         this.result = result;
     }
+
+    public override string ToString() {
+        return "[" + condition + "] " + action + " |- " + result;
+    }
 }

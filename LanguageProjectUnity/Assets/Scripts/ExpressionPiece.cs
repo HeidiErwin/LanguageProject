@@ -36,7 +36,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
         this.gameObject.transform.position = position;
-        GameObject tabletop = GameObject.Find("Tabletop");
+        GameObject tabletop = GameObject.Find("Workspace");
         this.gameObject.transform.position = new Vector3(0,0,0);
         // this.gameObject.transform.SetParent = this.parent.transform;
 
@@ -77,7 +77,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
         this.gameObject.transform.position = GetStartingPosition();
-        GameObject tabletop = GameObject.Find("Tabletop");
+        GameObject tabletop = GameObject.Find("Workspace");
         this.gameObject.transform.SetParent(this.transform.parent.transform);
 
         if (arguments.Length > 0) {

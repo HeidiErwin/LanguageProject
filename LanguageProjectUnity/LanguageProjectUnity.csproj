@@ -347,7 +347,6 @@
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\ActionRule.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\EvaluationRule.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SubstitutionRule.cs" />
-    <Compile Include="Assets\Scripts\AI\Cognition\Model\CustomModels.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\DefaultModel.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\Model.cs" />
     <Compile Include="Assets\Scripts\AI\Cognition\Model\PrefixModel.cs" />
@@ -381,6 +380,11 @@
     <Compile Include="Assets\Scripts\Lamp.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\NPC.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Bob.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Evan.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Jester.cs" />
+    <Compile Include="Assets\Scripts\NPCs\King.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Woodcutter.cs" />
     <Compile Include="Assets\Scripts\Pathfinding.cs" />
     <Compile Include="Assets\Scripts\PathRequestManager.cs" />
     <Compile Include="Assets\Scripts\Perceivable.cs" />

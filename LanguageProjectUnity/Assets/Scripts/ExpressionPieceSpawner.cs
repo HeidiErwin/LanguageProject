@@ -31,7 +31,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * Creates an new ExpressionPiece based on this ExpressionPieceSpawner
      */
     public ExpressionPiece MakeNewExpressionPiece() {
-        GameObject workspace = GameObject.Find("Tabletop");
+        GameObject workspace = GameObject.Find("Workspace");
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
         exprPieceInstance.transform.SetParent(workspace.transform);

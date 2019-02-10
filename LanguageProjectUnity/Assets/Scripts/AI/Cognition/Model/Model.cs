@@ -173,6 +173,10 @@ public abstract class Model {
         return true;
     }
 
+    public List<Expression> Plan(Expression goal) {
+        return Plan(goal, new List<Expression>());
+    }
+
     // naive, non-schematic action planner
     public List<Expression> Plan(Expression goal, List<Expression> actionSequence) {
         // in this case, we've reach a point where the goal has been satisfied
@@ -196,6 +200,11 @@ public abstract class Model {
                 }
             }
         }
+
+        // TODO: make it so, if there's no plan for this goal, form a
+        // plan for what would entail the goal
+        // foreach (SubstitutionRule sr in this.substitutionRules) {
+        // }
 
         // no known courses of action bring about the intended result.
         return null;
@@ -361,170 +370,4 @@ public abstract class Model {
 
         return successfulBindings;
     }
-
-    public String DomainString() {
-        StringBuilder s = new StringBuilder();
-
-        s.Append("BEGIN DOMAIN\n");
-
-        foreach (SemanticType t in domain.Keys) {
-            s.Append(t);
-            s.Append(":\n");
-            foreach (Expression e in domain[t]) {
-                s.Append("\t" + e + "\n");
-            }
-        }
-        s.Append("END DOMAIN\n");
-        return s.ToString();
-    }
-
-    public static String ConditionsString(params IPattern[] patterns) {
-        StringBuilder s = new StringBuilder();
-        s.Append("BEGIN CONDITIONS\n");
-
-        foreach (IPattern pattern in patterns) {
-            s.Append("\t" + pattern + "\n");
-        }
-
-        s.Append("END CONDITIONS");
-
-        return s.ToString();
-    }
-
-    public static String BindingString(Dictionary<MetaVariable, Expression> bindings) {
-        StringBuilder s = new StringBuilder();
-        s.Append("{\n");
-        foreach (KeyValuePair<MetaVariable, Expression> kv in bindings) {
-            s.Append("\t" + kv.Key + " |-> " + kv.Value + "\n");
-        }
-        s.Append("}\n");
-
-        return s.ToString();
-    }
-
-    // protected List<List<Expression>[]> UnfurlSubstitution(List<List<IPattern>[]> substitutions) {
-    //     List<List<Expression>[]> substitutionExpressions = new List<List<Expression>[]>();
-        
-    //     foreach (List<IPattern>[] conjunctionPattern in substitutions) {
-    //         foreach ([]) {
-
-    //         }
-    //     }
-    // }
-
-    // TODO: currently this is being bypassed, but return to this
-    // once you have a better idea of how to do it.
-    // protected HashSet<Expression> GenerateSubexpressions(Expression expr, EntailmentContext context) {
-        // HashSet<Expression> expressions = new HashSet<Expression>();
-        // expressions.Add(expr);
-
-        // BEGIN NEW CODE
-        // foreach (EvaluationRule er in this.evaluationRules) {
-        //     Dictionary<MetaVariable, Expression> bindings = er.GetBindings(expr);
-        //     if (bindings != null) {
-        //         IPattern result = er.result.Bind(bindings);
-
-        //         List<IPattern> results = new List<IPattern>();
-        //         results.Add(result);
-        //         List<IPattern> newResults = new List<IPattern>();
-
-        //         for (int i = 0; i < er.Length(); i++) {
-        //             Expression argument = er.Get(i).pattern.Bind(bindings).ToExpression();
-
-        //             if (argument == null) {
-        //                 break;
-        //             }
-
-        //             foreach (SubstitutionRule sr in this.substitutionRules) {
-        //                 List<List<IPattern>[]> substitutions = 
-        //                     sr.Substitute(this, argument, EvaluationPattern.MergeContext(context, er.Get(i).context));
-
-        //                 foreach (List<IPattern>[] conjunctionPattern in substitutions) {
-        //                     foreach (IPattern p in conjunction[0]) {
-
-        //                     }
-        //                 }
-        //                 // go through all the 
-        //             }
-        //         }
-        //     }
-        // }
-        // 
-        // END NEW CODE
-
-        // return null;
-            
-        // BEGIN OLD CODE
-        // HashSet<Expression> expressions = new HashSet<Expression>();
-        // expressions.Add(expr);
-
-        // foreach (EvaluationRule er in this.evaluationRules) {
-        //     Dictionary<MetaVariable, Expression> bindings = new Dictionary<MetaVariable, Expression>();
-        //     if (er.Matches(expr, bindings)) {
-        //         IPattern result = er.result;
-
-        //         foreach (MetaVariable x in bindings.Keys) {
-        //             result = result.Bind(x, bindings[x]);
-        //         }
-
-        //         HashSet<Expression>[] subExpressions = new HashSet<Expression>[er.Length()];
-        //         for (int i = 0; i < er.Length(); i++) {
-        //             IPattern pattern = er.Get(i).pattern;
-
-        //             foreach (MetaVariable x in bindings.Keys) {
-        //                 pattern = pattern.Bind(x, bindings[x]);
-        //             }
-
-        //             subExpressions[i] = GenerateSubexpressions(pattern.ToExpression(), EvaluationPattern.MergeContext(context, er.Get(i).context));
-        //         }
-
-        //         HashSet<IPattern> partials = new HashSet<IPattern>();
-        //         HashSet<IPattern> newPartials = new HashSet<IPattern>();
-
-        //         if (result == null) {
-        //             UnityEngine.Debug.Log("the rule that caused this: " + er);
-        //             continue;
-        //         }
-                
-        //         partials.Add(result);
-        //         for (int i = 0; i < subExpressions.Length; i++) {
-        //             foreach (IPattern partial in partials) {
-        //                 foreach (Expression e in subExpressions[i]) {
-        //                     if (e != null) {
-        //                         newPartials.Add(partial.Bind(new MetaVariable(e.type, -1 * (i + 1)), e));
-        //                     }
-        //                 }
-        //             }
-        //             partials = newPartials;
-        //             newPartials = new HashSet<IPattern>();
-        //         }
-
-        //         foreach (IPattern partial in partials) {
-        //             // might equal null if something is wrong with the metavariables
-        //             expressions.Add(partial.ToExpression());
-        //         }
-
-        //         break; // we want an expression to match only one evaluation rule
-        //     }
-        // }
-
-        // HashSet<Expression> newExpressions = new HashSet<Expression>();
-        // foreach (Expression e in expressions) {
-        //     newExpressions.Add(e);
-        //     foreach (SubstitutionRule sr in this.substitutionRules) {
-        //         List<Expression> substitutions = sr.Substitute(this, e, context);
-        //         if (substitutions != null) {
-        //             foreach (Expression substitution in substitutions) {
-        //                 HashSet<Expression> substitutedExpressions = GenerateSubexpressions(substitution, context);
-        //                 foreach (Expression ie in substitutedExpressions) {
-        //                     newExpressions.Add(ie);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        // END OLD CODE
-
-        // return newExpressions;
-    // }
 }

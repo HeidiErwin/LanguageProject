@@ -47,61 +47,60 @@ public class Perceivable : MonoBehaviour {
             param = new Phrase(Expression.THE, Expression.DOOR);
         }
 
+        if (id == 6) {
+            param = new Phrase(Expression.THE, Expression.COW);
+        }
+
         if (nameString != null && !nameString.Equals("")) {
             param = new Word(SemanticType.INDIVIDUAL, nameString);
         }
 
-        Expression[] reports = new Expression[]{
-            new Phrase(Expression.NOT, new Phrase(Expression.BLACK, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.RED, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.GREEN, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.BLUE, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.YELLOW, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.MAGENTA, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.CYAN, param)),
-            new Phrase(Expression.NOT, new Phrase(Expression.WHITE, param)),
-        };
-
         // black/no light reflected off an object
         if (!reflectedLight[0] && !reflectedLight[1] && !reflectedLight[2]) {
-            reports[0] = new Phrase(Expression.BLACK, param);
+            npc.ReceivePercept(new Phrase(Expression.BLACK, param));
+            return;
         }
 
         // red light reflected off an object
         if (reflectedLight[0] && !reflectedLight[1] && !reflectedLight[2]) {
-            reports[1] = new Phrase(Expression.RED, param);
+            npc.ReceivePercept(new Phrase(Expression.RED, param));
+            return;
         }
 
         // green light reflected off an object
         if (!reflectedLight[0] && reflectedLight[1] && !reflectedLight[2]) {
-            reports[2] = new Phrase(Expression.GREEN, param);
+            npc.ReceivePercept(new Phrase(Expression.GREEN, param));
+            return;
         }
 
         // blue light reflected off an object
         if (!reflectedLight[0] && !reflectedLight[1] && reflectedLight[2]) {
-            reports[3] = new Phrase(Expression.BLUE, param);
+            npc.ReceivePercept(new Phrase(Expression.BLUE, param));
+            return;
         }
 
         // yellow light reflected off an object
         if (reflectedLight[0] && reflectedLight[1] && !reflectedLight[2]) {
-            reports[4] = new Phrase(Expression.YELLOW, param);
+            npc.ReceivePercept(new Phrase(Expression.YELLOW, param));
+            return;
         }
 
         // magenta light reflected off an object
         if (reflectedLight[0] && !reflectedLight[1] && reflectedLight[2]) {
-            reports[5] = new Phrase(Expression.MAGENTA, param);
+            npc.ReceivePercept(new Phrase(Expression.MAGENTA, param));
+            return;
         }
 
         // cyan light reflected off an object
         if (!reflectedLight[0] && reflectedLight[1] && reflectedLight[2]) {
-            reports[6] = new Phrase(Expression.CYAN, param);
+            npc.ReceivePercept(new Phrase(Expression.CYAN, param));
+            return;
         }
 
         // white light reflected off an object
         if (reflectedLight[0] && reflectedLight[1] && reflectedLight[2]) {
-            reports[7] = new Phrase(Expression.WHITE, param);
+            npc.ReceivePercept(new Phrase(Expression.WHITE, param));
+            return;
         }
-
-        npc.ReceivePercept(reports);
     }
 }
