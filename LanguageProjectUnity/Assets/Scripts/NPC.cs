@@ -36,7 +36,7 @@ public class NPC : Character {
         this.controller.combineSuccess.Play();
         yield return ShowSpeechBubble(Expression.ACCEPT);
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
         // StringBuilder s = new StringBuilder();
         // foreach (Expression a in actionSequence) {
         //     s.Append(a);
@@ -64,6 +64,11 @@ public class NPC : Character {
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))))) {
+                yield return StartCoroutine(GoTo("Cow"));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
             }
 
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.

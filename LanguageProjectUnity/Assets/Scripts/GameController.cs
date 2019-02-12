@@ -47,6 +47,19 @@ public class GameController : MonoBehaviour {
         currentKeyboard = individualTruthRelationKeyboard;
         canvasInstance.SetActive(false);
         currentKeyboard.SetActive(true);
+
+        // // FOR TESTING PURPOSES, @TODO COMMENT OUT LATER
+        // GameObject workspace = GameObject.Find("Workspace");
+        // GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        // GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        // exprPieceInstance.transform.SetParent(workspace.transform);
+        // ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        // exprPieceScript.FromScratch(
+        //     new Phrase(Expression.WOULD,
+        //         new Phrase(Expression.NOT,
+        //             new Phrase(Expression.CLOSED,
+        //                 new Phrase(Expression.THE, Expression.DOOR)))), new Vector3(0f, 0f, 0f));
+        // exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
     }
 
     public void Update() {

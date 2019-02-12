@@ -212,6 +212,7 @@ public abstract class Expression : IPattern {
 
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
+    public static readonly Expression IF = new Word(SemanticType.TRUTH_FUNCTION_2, "if");
 
     public static readonly Expression NOMINALIZE = new Word(SemanticType.DETERMINER, "nominalize");
 

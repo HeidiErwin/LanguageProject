@@ -173,15 +173,40 @@ public abstract class Model {
         return true;
     }
 
+    private static HashSet<T> ImAdd<T>(T item, HashSet<T> set) {
+        HashSet<T> newSet = new HashSet<T>();
+        foreach (T x in set) {
+            newSet.Add(x);
+        }
+        newSet.Add(item);
+        return newSet;
+    }
+
     public List<Expression> Plan(Expression goal) {
-        return Plan(goal, new List<Expression>());
+        return Plan(goal, new List<Expression>(), new HashSet<Expression>());
     }
 
     // naive, non-schematic action planner
-    public List<Expression> Plan(Expression goal, List<Expression> actionSequence) {
+    public List<Expression> Plan(Expression goal, List<Expression> actionSequence, HashSet<Expression> tried) {
+        if (tried.Contains(goal)) {
+            return null;
+        }
+        
         // in this case, we've reach a point where the goal has been satisfied
         if (Proves(goal)) {
             return actionSequence;
+        }
+
+
+        IPattern secondOrderAttitudePattern =
+            new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
+                new MetaVariable(SemanticType.INDIVIDUAL, 0),
+                new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 1),
+                    new MetaVariable(SemanticType.INDIVIDUAL, 1),
+                    new MetaVariable(SemanticType.TRUTH_VALUE, 0)));
+
+        if (secondOrderAttitudePattern.Matches(goal)) {
+            return null;
         }
 
         // search through action rules and recur on their preconditions as subgoals.
@@ -194,7 +219,7 @@ public abstract class Model {
                     newActionSequence.Add(a);
                 }
 
-                List<Expression> solvedSequence = Plan(r.condition, newActionSequence);
+                List<Expression> solvedSequence = Plan(r.condition, newActionSequence, ImAdd<Expression>(goal, tried));
                 if (solvedSequence != null) {
                     return solvedSequence;
                 }
@@ -203,8 +228,57 @@ public abstract class Model {
 
         // TODO: make it so, if there's no plan for this goal, form a
         // plan for what would entail the goal
-        // foreach (SubstitutionRule sr in this.substitutionRules) {
-        // }
+        foreach (SubstitutionRule sr in this.substitutionRules) {
+            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, goal);
+            if (admissibleSubstitutions == null) {
+                continue;
+            }
+            foreach (List<IPattern>[] cnfs in admissibleSubstitutions) {
+                List<Expression> subgoals = new List<Expression>();
+
+                // TODO: add Find() functionality eventually (bleh)
+                bool bound = true;
+                foreach (IPattern p in cnfs[0]) {
+                    Expression positive = p.ToExpression();
+                    if (positive != null) {
+                        subgoals.Add(positive);
+                    } else {
+                        bound = false;
+                        break;
+                    }
+                }
+                if (!bound) {
+                    continue;
+                }
+
+                foreach (IPattern p in cnfs[1]) {
+                    Expression negative = p.ToExpression();
+                    if (negative != null) {
+                        subgoals.Add(negative);
+                    } else {
+                        bound = false;
+                        break;
+                    }
+                }
+
+                if (!bound) {
+                    continue;
+                }
+
+                List<Expression> solvedSubsequence = actionSequence;
+                bool solved = true;
+                foreach (Expression subgoal in subgoals) {
+                    solvedSubsequence = Plan(subgoal, solvedSubsequence, ImAdd<Expression>(goal, tried));
+                    if (solvedSubsequence == null) {
+                        solved = false;
+                        break;
+                    }
+                }
+                if (solved) {
+                    return solvedSubsequence;
+                }
+            }
+        }
 
         // no known courses of action bring about the intended result.
         return null;

@@ -392,8 +392,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
                 float valToTopAlignArgs = (((this.heightInUnits - 1) - arg.heightInUnits)) * (PIXELS_PER_UNIT / 2);
                 float positionY = PIXELS_PER_UNIT * ((-0.5f * currentY) + BUFFER_IN_UNITS) + valToTopAlignArgs;
 
-                if (!arg.id.Equals("_") || isFirstLevel) {
-                } else {
+                if (arg.id.Equals("_") && !isFirstLevel) {
                     arg.expression = new Word(arg.expression.type, "blank");
                 }
                 GameObject argVisual = arg.GenerateVisual(false);

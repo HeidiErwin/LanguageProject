@@ -44,6 +44,10 @@ public class DefaultModel {
             new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
             new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
 
+        m.Add(new ActionRule(Expression.VERUM,
+            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))),
+            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+
         // SUBSTITUTION RULES
         
         // perceive(self, S) |- S
@@ -88,6 +92,11 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)},
             new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)}));
+        
+        // open(x) |- not(closed(x))
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.OPEN, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CLOSED, xi0))}));
 
         // GEACH RULES
         // t -> t
@@ -114,20 +123,20 @@ public class DefaultModel {
             new IPattern[]{xt0, xt1},
             new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)}));
 
-        // A & B |- A
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-            new IPattern[]{xt0}));
+        // // A & B |- A
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+        //     new IPattern[]{xt0}));
 
-        // A & B |- B
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-            new IPattern[]{xt1}));
+        // // A & B |- B
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+        //     new IPattern[]{xt1}));
 
-        // A v B |- A, B
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-            new IPattern[]{xt0, xt1}));
+        // // A v B |- A, B
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+        //     new IPattern[]{xt0, xt1}));
 
         // A |- A v B
         m.Add(new SubstitutionRule(
@@ -139,10 +148,10 @@ public class DefaultModel {
             new IPattern[]{xt1},
             new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
 
-        // // reflexivity for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{},
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
+        // reflexivity for identity
+        m.Add(new SubstitutionRule(
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
 
         // // symmetry for identity
         // m.Add(new SubstitutionRule(
@@ -158,31 +167,11 @@ public class DefaultModel {
         //         new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
 
         // substitution of identiticals
-        // the rule if subsentential substitution was a thing
-        // the cheat for now
         // [i = j] F(i) |- F(j)
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
             new IPattern[]{new ExpressionPattern(xp0, xi0)},
             new IPattern[]{new ExpressionPattern(xp0, xi1)}));
-
-        // [i = j] R(i, k) |- R(j, k)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(xr20, xi0, xi2)},
-            new IPattern[]{new ExpressionPattern(xr20, xi1, xi2)}));
-
-        // [i = j] R(k, i) |- R(k, j)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(xr20, xi2, xi0)},
-            new IPattern[]{new ExpressionPattern(xr20, xi2, xi1)}));
-
-        // [i = j] A(i, S) |- A(j, S)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(xitr0, xi0, xt0)},
-            new IPattern[]{new ExpressionPattern(xitr0, xi1, xt1)}));
 
         // // F(x), G(x) |- some(F, G)
         // m.Add(new SubstitutionRule(
@@ -218,41 +207,41 @@ public class DefaultModel {
         //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
         //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}, false));
 
-        // antisymmetry for contained_within
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
-            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
-            false));
+        // // antisymmetry for contained_within
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1)},
+        //     new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi0))},
+        //     false));
 
-        // transitivity for contained_within
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
-                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)},
-            new IPattern[]{
-                new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
+        // // transitivity for contained_within
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi1),
+        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi1, xi2)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
 
-        // uniqueness of king
-        // king(i), king(j) |- i = j
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.KING, xi0),
-                new ExpressionPattern(Expression.KING, xi1)},
-            new IPattern[]{
-                new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));
+        // // uniqueness of king
+        // // king(i), king(j) |- i = j
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.KING, xi0),
+        //         new ExpressionPattern(Expression.KING, xi1)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));
 
-        // reflexivity for overlaps_with
-        m.Add(new SubstitutionRule(
-            new IPattern[]{},
-            new IPattern[]{
-                new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)}));
+        // // reflexivity for overlaps_with
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi0)}));
 
-        // symmetry for overlaps_with
-        m.Add(new SubstitutionRule(
-            new IPattern[]{
-                new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)},
-            new IPattern[]{
-                new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)}));
+        // // symmetry for overlaps_with
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)}));
 
         return m;
     }
