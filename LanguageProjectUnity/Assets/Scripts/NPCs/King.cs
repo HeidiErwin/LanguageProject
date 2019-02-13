@@ -4,12 +4,14 @@ using UnityEngine;
 public class King : NPC {
     void Start() {
         base.Start();
-        // Substitution Rules
+        CustomModels.AddWoodcutterModel(this.model);
+        // SUBSTITUTION RULES
 
-        // Action Rules
+        // ACTION RULES
 
-        // particular beliefs
+        // PARTICULAR BELIEFS
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, new Phrase(Expression.THE, Expression.KING)));
 
-        // self-knowledge
+        // SELF-KNOWLEDGE
     }
 }

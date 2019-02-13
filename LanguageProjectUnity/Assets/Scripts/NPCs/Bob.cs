@@ -4,36 +4,23 @@ using UnityEngine;
 public class Bob : NPC {
     void Start() {
         base.Start();
-        // Substitution Rules
 
-        // Action Rules
-        model.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+        CustomModels.AddDoorModel(this.model);
 
-        model.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)),
-            new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)));
-
+        // Action Rules        
         model.Add(new ActionRule(
             new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN),
-            new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))),
+            new Phrase(Expression.WOULD,
+                new Phrase(Expression.DESIRE, Expression.EVAN,
+                    new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))),
             new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
         model.Add(new ActionRule(
             new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN),
-            new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))),
+            new Phrase(Expression.WOULD,
+                new Phrase(Expression.DESIRE, Expression.EVAN,
+                    new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))),
             new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-
-        // model.Add(new ActionRule(
-        //     new Phrase(Expression.NEAR, Expression.BOB, new Phrase(Expression.THE, Expression.DOOR)),
-        //     new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))),
-        //     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-
-        // model.Add(new ActionRule(
-        //     new Phrase(Expression.NEAR, Expression.BOB, new Phrase(Expression.THE, Expression.DOOR)),
-        //     new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))),
-        //     new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
         // self-knowledge
         model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));

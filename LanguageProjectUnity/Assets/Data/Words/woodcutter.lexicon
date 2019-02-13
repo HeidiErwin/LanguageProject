@@ -4,20 +4,21 @@ self
 #PREDICATE
 king
 dressed_like_king
+credible
 
 #RELATION_2
 =
 near
 
 #DETERMINER
-// the
+the
 
 #TRUTH_FUNCTION_1
-// not
+not
 
 #TRUTH_FUNCTION_2
-// and
-// or
+and
+or
 
 #TRUTH_CONFORMITY_FUNCTION
 would

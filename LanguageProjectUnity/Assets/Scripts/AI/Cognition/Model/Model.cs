@@ -73,7 +73,7 @@ public abstract class Model {
             domain.Add(e.type, new HashSet<Expression>());    
         }
 
-        if (!e.type.Equals(SemanticType.TRUTH_VALUE)) {
+        if (!e.type.Equals(SemanticType.TRUTH_VALUE) || e.GetHead().Equals(Expression.AND) || e.GetHead().Equals(Expression.OR)) {
             domain[e.type].Add(e);
         }
         
@@ -318,6 +318,8 @@ public abstract class Model {
             if (admissibleSubstitutions == null) {
                 continue;
             }
+
+            // Debug.Log(sr + " matches " + expr);
 
             foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
                 bool proved = true;

@@ -4,17 +4,11 @@ using UnityEngine;
 public class Evan : NPC {
     void Start() {
         base.Start();
+
+        CustomModels.AddDoorModel(this.model);
         // Substitution Rules
 
         // Action Rules
-        model.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
-
-        model.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)),
-            new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)));
-
         model.Add(new ActionRule(
             new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
             new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))),

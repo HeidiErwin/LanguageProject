@@ -14,17 +14,17 @@ public class DefaultModel {
         // m.Add(EvaluationRule.DEFAULT_RELATION_2);
         // m.Add(EvaluationRule.DEFAULT_RELATION_3);
 
-        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
-        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
-        MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
-        MetaVariable xi2 = new MetaVariable(SemanticType.INDIVIDUAL, 2);
-        MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
-        MetaVariable xp1 = new MetaVariable(SemanticType.PREDICATE, 1);
-        MetaVariable xr20 = new MetaVariable(SemanticType.RELATION_2, 0);
+        MetaVariable xt0   = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        MetaVariable xt1   = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+        MetaVariable xi0   = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        MetaVariable xi1   = new MetaVariable(SemanticType.INDIVIDUAL, 1);
+        MetaVariable xi2   = new MetaVariable(SemanticType.INDIVIDUAL, 2);
+        MetaVariable xp0   = new MetaVariable(SemanticType.PREDICATE, 0);
+        MetaVariable xp1   = new MetaVariable(SemanticType.PREDICATE, 1);
+        MetaVariable xr20  = new MetaVariable(SemanticType.RELATION_2, 0);
         MetaVariable xitr0 = new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0);
         MetaVariable xtf10 = new MetaVariable(SemanticType.TRUTH_FUNCTION_1, 0);
-        MetaVariable xqp0 = new MetaVariable(SemanticType.QUANTIFIER_PHRASE, 0);
+        MetaVariable xqp0  = new MetaVariable(SemanticType.QUANTIFIER_PHRASE, 0);
 
         Expression not = Expression.NOT;
 
@@ -40,31 +40,9 @@ public class DefaultModel {
         m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
 
         // ACTION RULES
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))),
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+        // SUBSTITUTION RULES        
 
-        // SUBSTITUTION RULES
-        
-        // perceive(self, S) |- S
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)},
-            new IPattern[]{xt0}, false));
-
-        // believes(x, S) |- S
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, xi0, xt0)},
-            new IPattern[]{xt0}, false));
-
-        // make(x, S) |- S
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0)},
-            new IPattern[]{xt0}, false));
-        
         // S |- believes(self, S)
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0},
@@ -83,20 +61,15 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
             false));
 
-        // R(x, x) |- itself(R, x)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)},
-            new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)}));
+        // // R(x, x) |- itself(R, x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)},
+        //     new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)}));
 
-        // itself(R, x) |- R(x, x)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)},
-            new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)}));
-        
-        // open(x) |- not(closed(x))
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.OPEN, xi0)},
-            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.CLOSED, xi0))}));
+        // // itself(R, x) |- R(x, x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.ITSELF, xr20, xi0)},
+        //     new IPattern[]{new ExpressionPattern(xr20, xi0, xi0)}));
 
         // GEACH RULES
         // t -> t
@@ -118,53 +91,16 @@ public class DefaultModel {
         //     new IPattern[]{new ExpressionPattern(xqp0, new ExpressionPattern(xr20, xi0))},
         //     new IPattern[]{new ExpressionPattern(xqp0, xr20, xi0)}));
 
-        // A, B |- A & B
+        // |- F(the(F))
         m.Add(new SubstitutionRule(
-            new IPattern[]{xt0, xt1},
-            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)}));
-
-        // // A & B |- A
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-        //     new IPattern[]{xt0}));
-
-        // // A & B |- B
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
-        //     new IPattern[]{xt1}));
-
-        // // A v B |- A, B
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
-        //     new IPattern[]{xt0, xt1}));
-
-        // A |- A v B
-        m.Add(new SubstitutionRule(
-            new IPattern[]{xt0},
-            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
-
-        // B |- A v B
-        m.Add(new SubstitutionRule(
-            new IPattern[]{xt1},
-            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
+            new IPattern[]{},
+            new IPattern[]{new ExpressionPattern(xp0, new ExpressionPattern(Expression.THE, xp0))}));
 
         // reflexivity for identity
+        // |- x = x
         m.Add(new SubstitutionRule(
             new IPattern[]{},
             new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi0)}));
-
-        // // symmetry for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi1, xi0)}));
-
-        // // transitivity for identity
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
-        //         new ExpressionPattern(Expression.IDENTITY, xi1, xi2)},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi2)}));
 
         // substitution of identiticals
         // [i = j] F(i) |- F(j)
@@ -242,6 +178,51 @@ public class DefaultModel {
         //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi0, xi1)},
         //     new IPattern[]{
         //         new ExpressionPattern(Expression.OVERLAPS_WITH, xi1, xi0)}));
+        
+        // A, B |- A & B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)}));
+
+        // A & B |- A
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            new IPattern[]{xt0}));
+
+        // A & B |- B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.AND, xt0, xt1)},
+            new IPattern[]{xt1}));
+
+        // A v B |- A, B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)},
+            new IPattern[]{xt0, xt1}));
+
+        // A |- A v B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
+
+        // B |- A v B
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt1},
+            new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
+
+        // perceive(self, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)},
+            new IPattern[]{xt0}));
+
+        // make(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0)},
+            new IPattern[]{xt0}));
+
+        // believes(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, xi0, xt0)},
+            new IPattern[]{xt0}));
 
         return m;
     }
