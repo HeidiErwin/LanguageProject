@@ -36,23 +36,6 @@ public abstract class Character : MonoBehaviour {
      * the character. 
      */
     public void Move() {
-        // if (velocity.x != 0 || velocity.y != 0) {
-        //     Debug.Log("moving");
-        //     GetComponent<Animator>().SetBool("isMoving", true);
-        // }
-        // if (velocity.x > velocity.y) {
-        //     if (velocity.x > 0) {
-        //         GetComponent<Animator>().SetInteger("direction", 0);
-        //     } else {
-        //         GetComponent<Animator>().SetInteger("direction", 2);
-        //     }
-        // } else {
-        //     if (velocity.y > 0) {
-        //         GetComponent<Animator>().SetInteger("direction", 1);
-        //     } else {
-        //         GetComponent<Animator>().SetInteger("direction", 3);
-        //     }
-        // }
         transform.Translate(velocity * speed * Time.deltaTime);
     }
 

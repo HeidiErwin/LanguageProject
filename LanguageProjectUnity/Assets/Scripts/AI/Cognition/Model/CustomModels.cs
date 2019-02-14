@@ -40,6 +40,11 @@ public class CustomModels {
                 new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.KING))),
             new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.KING))));
 
+        m.Add(new ActionRule(Expression.VERUM,
+            new Phrase(Expression.WOULD,
+                new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))),
+            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+
         // COMMON KNOWLEDGE
         m.Add(new Phrase(Expression.CREDIBLE, new Phrase(Expression.THE, Expression.KING)));
     }

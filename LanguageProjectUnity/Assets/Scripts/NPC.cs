@@ -55,21 +55,37 @@ public class NPC : Character {
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
                     yield return StartCoroutine(GoTo("Bob"));
                     // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
                     yield return StartCoroutine(GoTo("Evan"));
                     // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+                continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))))) {
                 yield return StartCoroutine(GoTo("Cow"));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
+                yield return StartCoroutine(GoTo("tree"));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.EXISTS, new Phrase(Expression.THE, Expression.LOG))))) {
+                GameObject.Find("tree").SetActive(false);
+                controller.log.SetActive(true);
+                continue;
             }
 
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
@@ -83,6 +99,7 @@ public class NPC : Character {
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // ShowSpeechBubble(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
+               continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
@@ -93,6 +110,7 @@ public class NPC : Character {
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // ShowSpeechBubble(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
                 //     }
+               continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
@@ -111,6 +129,7 @@ public class NPC : Character {
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
@@ -126,6 +145,7 @@ public class NPC : Character {
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                continue;
             }
 
             MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);

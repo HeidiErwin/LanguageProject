@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject individualTruthRelationKeyboard;
     [SerializeField] private GameObject helpScreen;
     [SerializeField] private String wordsPath;
+    [SerializeField] public GameObject log;
     private bool keyboardOnBeforeHelpShown = true;
 
     public AudioSource highClick;

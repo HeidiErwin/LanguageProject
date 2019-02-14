@@ -5,10 +5,13 @@ self
 king
 dressed_like_king
 credible
+log
+exists
 
 #RELATION_2
 =
 near
+possess
 
 #DETERMINER
 the

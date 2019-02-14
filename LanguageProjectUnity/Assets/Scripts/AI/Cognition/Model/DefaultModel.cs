@@ -29,6 +29,12 @@ public class DefaultModel {
 
         // ACTION RULES
         m.Add(new ActionRule(
+            Expression.VERUM,
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
+            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
+
+        m.Add(new ActionRule(
             new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
             new ExpressionPattern(Expression.WOULD,
                 new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
