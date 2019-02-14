@@ -26,8 +26,8 @@ public abstract class Model {
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
     // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
-    protected Dictionary<Expression, bool> triedExpressions;
-    protected HashSet<Expression> proofBase;
+    protected Dictionary<Expression, HashSet<Expression>> triedExpressions;
+    // protected HashSet<Expression> proofBase;
 
     // a queue of goals to be performed in sequence
     // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
@@ -91,16 +91,8 @@ public abstract class Model {
     }
 
     public bool Proves(Expression expr) {
-        triedExpressions = new Dictionary<Expression, bool>();
-        proofBase = new HashSet<Expression>();
-        bool answer = Proves(expr, null);
-        if (answer) {
-            Debug.Log(expr + " PROVEN");
-        }
-        foreach (Expression e in proofBase) {
-            Debug.Log("PROOF BASE INCLUDES: " + e);
-        }
-        return answer;
+        triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
+        return GetBasis(expr) != null;
     }
 
     // public void SetUtility(Expression expr, float utility) {
@@ -156,13 +148,13 @@ public abstract class Model {
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
         List<Expression> removed = new List<Expression>();
-        while (this.Proves(new Phrase(Expression.NOT, input))) {
-            Debug.Log(input + " has been DISPROVEN!!!");
-            HashSet<Expression> basis = this.proofBase;
+        this.triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
+        Expression negatedInput = new Phrase(Expression.NOT, input);
+        HashSet<Expression> basis = GetBasis(negatedInput);
+        while (basis != null) {
             Expression leastPlausible = input;
             int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
             foreach (Expression e in basis) {
-                Debug.Log(e);
                 int currentPlausibility = EstimatePlausibility(e, false);
                 if (currentPlausibility < lowestPlausibility) {
                     leastPlausible = e;
@@ -171,15 +163,16 @@ public abstract class Model {
             }
             
             if (leastPlausible.Equals(input)) {
-                Debug.Log(" AND IT IS THE LEAST PLAUSIBLE!");
                 foreach (Expression e in removed) {
                     this.Add(e);
                 }
                 return false;
             }
-
             removed.Add(leastPlausible);
             this.Remove(leastPlausible);
+            triedExpressions.Clear();
+            basis = GetBasis(negatedInput);
+            break;
         }
 
         this.Add(input);
@@ -316,19 +309,20 @@ public abstract class Model {
     // TODO: change thi to return the BASIS, not the truth value.
     // Proves() will return true if this method returns a non-null basis.
     // return true if this model proves expr.
-    protected bool Proves(Expression expr, object xxxx) {
+    protected HashSet<Expression> GetBasis(Expression expr) {
+        HashSet<Expression> basis = new HashSet<Expression>();
         // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {
             return triedExpressions[expr];
         }
-        triedExpressions.Add(expr, false);
+        triedExpressions.Add(expr, null);
 
-        // this should be Proves(), not Contains().
+        // this should be GetBasis(), not Contains().
         // looping problem needs to be resolved, however.
         if (this.Contains(expr)) {
-            triedExpressions[expr] = true;
-            proofBase.Add(expr);
-            return true;
+            basis.Add(expr);
+            triedExpressions[expr] = basis;
+            return basis;
         }
 
         IPattern secondOrderAttitudePattern =
@@ -339,7 +333,7 @@ public abstract class Model {
                     new MetaVariable(SemanticType.TRUTH_VALUE, 0)));
 
         if (secondOrderAttitudePattern.Matches(expr)) {
-            return false;
+            return null;
         }
 
         // RECURSIVE CASES
@@ -351,8 +345,8 @@ public abstract class Model {
             }
 
             // Debug.Log(sr + " matches " + expr);
-
             foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
+                basis.Clear();
                 bool proved = true;
 
                 List<IPattern> toFindList = new List<IPattern>();
@@ -361,9 +355,16 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
-                    } else if (!this.Proves(e, null)) {
-                        proved = false;
-                        break;
+                    } else {
+                        HashSet<Expression> subBasis = this.GetBasis(e);
+                        if (subBasis == null) {
+                            proved = false;
+                            break;
+                        } else {
+                            foreach (Expression b in subBasis) {
+                                basis.Add(b);
+                            }
+                        }
                     }
                 }
 
@@ -378,9 +379,16 @@ public abstract class Model {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(new ExpressionPattern(Expression.NOT, p));
-                    } else if (!this.Proves(new Phrase(Expression.NOT, e), null)) {
-                        proved = false;
-                        break;
+                    } else {
+                        HashSet<Expression> subBasis = this.GetBasis(new Phrase(Expression.NOT, e));
+                        if (subBasis == null) {
+                            proved = false;
+                            break;
+                        } else {
+                            foreach (Expression b in subBasis) {
+                                basis.Add(b);
+                            }
+                        }
                     }
                 }
 
@@ -390,8 +398,8 @@ public abstract class Model {
 
                 if (toFindList.Count == 0) {
                     if (proved) {
-                        triedExpressions[expr] = true;
-                        return true;
+                        triedExpressions[expr] = basis;
+                        return basis;
                     }
                 } else {
                     IPattern[] toFindArray = new IPattern[toFindList.Count];
@@ -405,16 +413,35 @@ public abstract class Model {
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
-                    if (this.Find(toFindArray) != null) {
-                        triedExpressions[expr] = true;
-                        Debug.Log(expr + " VIA FIND()");
-                        return true;
+                    HashSet<Dictionary<MetaVariable, Expression>> bindings = Find(toFindArray);
+                    if (bindings != null) {
+                        foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
+                            foreach (IPattern p in toFindList) {
+                                Expression fullyBound = p.Bind(binding).ToExpression();
+                                if (fullyBound == null) {
+                                    proved = false;
+                                    break;
+                                }
+                                HashSet<Expression> subBasis = GetBasis(fullyBound);
+                                if (subBasis == null) {
+                                    proved = false;
+                                    break;
+                                } else {
+                                    foreach (Expression b in subBasis) {
+                                        basis.Add(b);    
+                                    }
+                                }
+                            }
+                            if (!proved) {
+                                break;
+                            }
+                        }
+                        return basis;
                     }
                 }
             }
         }
-        proofBase = new HashSet<Expression>();
-        return false;
+        return null;
     }
 
     public HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
@@ -457,7 +484,7 @@ public abstract class Model {
                 foreach (Dictionary<MetaVariable, Expression> attemptedBinding in oldAttemptedBindings) {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise
-                    if (e != null && this.Proves(e, null)) {
+                    if (e != null && (this.GetBasis(e) != null)) {
                         provedOne = true;
                         Dictionary<MetaVariable, Expression> newSuccessfulBinding = new Dictionary<MetaVariable, Expression>();
                         foreach (KeyValuePair<MetaVariable, Expression> kv in successfulBinding) {
