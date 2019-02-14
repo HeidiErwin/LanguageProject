@@ -3,11 +3,11 @@ using System.Text;
 using System.Collections.Generic;
 
 public class ActionRule {
-    public Expression condition {protected set; get;}
-    public Expression action {protected set; get;}
-    public Expression result {protected set; get;}
+    public IPattern condition {protected set; get;}
+    public IPattern action {protected set; get;}
+    public IPattern result {protected set; get;}
 
-    public ActionRule(Expression condition, Expression action, Expression result) {
+    public ActionRule(IPattern condition, IPattern action, IPattern result) {
         this.condition = condition;
         this.action = action;
         this.result = result;

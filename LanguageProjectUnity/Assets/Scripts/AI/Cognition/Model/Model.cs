@@ -24,13 +24,12 @@ public abstract class Model {
     protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
-    // protected HashSet<Expression> primitiveAbilites = new HashSet<ActionRule>();
+    // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, bool> triedExpressions;
     protected HashSet<Expression> proofBase;
 
     // a queue of goals to be performed in sequence
-    // protected List<Expression> goals;
     // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
 
     // returns true if e is in this model
@@ -73,7 +72,8 @@ public abstract class Model {
             domain.Add(e.type, new HashSet<Expression>());    
         }
 
-        if (!e.type.Equals(SemanticType.TRUTH_VALUE) || e.GetHead().Equals(Expression.AND) || e.GetHead().Equals(Expression.OR)) {
+        if (!e.type.Equals(SemanticType.TRUTH_VALUE)) {
+            // TODO add an exception clause for conjunction/disjunction
             domain[e.type].Add(e);
         }
         
@@ -93,7 +93,14 @@ public abstract class Model {
     public bool Proves(Expression expr) {
         triedExpressions = new Dictionary<Expression, bool>();
         proofBase = new HashSet<Expression>();
-        return Proves(expr, null);
+        bool answer = Proves(expr, null);
+        if (answer) {
+            Debug.Log(expr + " PROVEN");
+        }
+        foreach (Expression e in proofBase) {
+            Debug.Log("PROOF BASE INCLUDES: " + e);
+        }
+        return answer;
     }
 
     // public void SetUtility(Expression expr, float utility) {
@@ -119,7 +126,7 @@ public abstract class Model {
 
         bindings = testimonyPattern.GetBindings(e);
         if (bindings != null) {
-            bool isCredible = this.Proves(new Phrase(Expression.CREDIBLE, bindings[0][xi0]));
+            bool isCredible = true; // this.Proves(new Phrase(Expression.CREDIBLE, bindings[0][xi0]));
             if (isCredible) {
                 if (isNew) {
                     return 6;    
@@ -148,25 +155,31 @@ public abstract class Model {
     // returns false if the belief is rejected    
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
-        List<Expression> toRemove = new List<Expression>();
+        List<Expression> removed = new List<Expression>();
         while (this.Proves(new Phrase(Expression.NOT, input))) {
+            Debug.Log(input + " has been DISPROVEN!!!");
+            HashSet<Expression> basis = this.proofBase;
             Expression leastPlausible = input;
-            int lowestPlausibility = EstimatePlausibility(input, true);
-            foreach (Expression e in this.proofBase) {
+            int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
+            foreach (Expression e in basis) {
+                Debug.Log(e);
                 int currentPlausibility = EstimatePlausibility(e, false);
                 if (currentPlausibility < lowestPlausibility) {
                     leastPlausible = e;
                     lowestPlausibility = currentPlausibility;
                 }
             }
+            
             if (leastPlausible.Equals(input)) {
+                Debug.Log(" AND IT IS THE LEAST PLAUSIBLE!");
+                foreach (Expression e in removed) {
+                    this.Add(e);
+                }
                 return false;
             }
-            toRemove.Add(leastPlausible);
-        }
 
-        foreach (Expression e in toRemove) {
-            this.Remove(e);
+            removed.Add(leastPlausible);
+            this.Remove(leastPlausible);
         }
 
         this.Add(input);
@@ -211,15 +224,31 @@ public abstract class Model {
 
         // search through action rules and recur on their preconditions as subgoals.
         foreach (ActionRule r in this.actionRules) {
-            if (r.result.Equals(goal)) {
+            List<Dictionary<MetaVariable, Expression>> bindings = r.result.GetBindings(goal);
+            if (bindings != null) {
+                Expression action = r.action.ToExpression();
+                // TODO accept multiple matches
+                if (bindings.Count > 0) {
+                    action = r.action.Bind(bindings[0]).ToExpression();
+                }
+
+                if (action == null) {
+                    // TODO handle binding issues later
+                    return null;
+                }
                 List<Expression> newActionSequence = new List<Expression>();
-                
-                newActionSequence.Add(r.action);
+                newActionSequence.Add(action);
                 foreach (Expression a in actionSequence) {
                     newActionSequence.Add(a);
                 }
 
-                List<Expression> solvedSequence = Plan(r.condition, newActionSequence, ImAdd<Expression>(goal, tried));
+                Expression newGoal = r.condition.ToExpression();
+
+                if (bindings.Count > 0) {
+                    newGoal = r.condition.Bind(bindings[0]).ToExpression();
+                }
+
+                List<Expression> solvedSequence = Plan(newGoal, newActionSequence, ImAdd<Expression>(goal, tried));
                 if (solvedSequence != null) {
                     return solvedSequence;
                 }
@@ -284,6 +313,8 @@ public abstract class Model {
         return null;
     }
 
+    // TODO: change thi to return the BASIS, not the truth value.
+    // Proves() will return true if this method returns a non-null basis.
     // return true if this model proves expr.
     protected bool Proves(Expression expr, object xxxx) {
         // BASE CASES
@@ -376,6 +407,7 @@ public abstract class Model {
                     // the potential bindings for use
                     if (this.Find(toFindArray) != null) {
                         triedExpressions[expr] = true;
+                        Debug.Log(expr + " VIA FIND()");
                         return true;
                     }
                 }

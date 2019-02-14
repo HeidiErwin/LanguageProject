@@ -56,6 +56,17 @@ public abstract class Expression : IPattern {
         return type.GetOutputType();
     }
 
+    public Expression Copy() {
+        Expression[] newArgs = new Expression[GetNumArgs()];
+        for (int i = 0; i < GetNumArgs(); i++) {
+            if (args[i] != null) {
+                newArgs[i] = args[i].Copy();
+            }
+        }
+
+        return new Phrase(GetHead(), newArgs);
+    }
+
     // returns an expression with the current argument index removed.
     // if there is no such argument specified at index, then it simply
     // returns this expression.

@@ -2,18 +2,6 @@ public class DefaultModel {
     public static Model Make() {
         Model m = new SimpleModel();
 
-        // // SPECIAL EVALUATION RULES
-        // m.Add(EvaluationRule.NOT);
-        // m.Add(EvaluationRule.EVERY);
-
-        // // DEFAULT EVALUATION RULES
-        // m.Add(EvaluationRule.DEFAULT_TRUTH_FUNCTION_1);
-        // m.Add(EvaluationRule.DEFAULT_TRUTH_FUNCTION_2);
-        // m.Add(EvaluationRule.DEFAULT_DETERMINER);
-        // m.Add(EvaluationRule.DEFAULT_PREDICATE);
-        // m.Add(EvaluationRule.DEFAULT_RELATION_2);
-        // m.Add(EvaluationRule.DEFAULT_RELATION_3);
-
         MetaVariable xt0   = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
         MetaVariable xt1   = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
         MetaVariable xi0   = new MetaVariable(SemanticType.INDIVIDUAL, 0);
@@ -40,6 +28,11 @@ public class DefaultModel {
         m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
 
         // ACTION RULES
+        m.Add(new ActionRule(
+            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
+            new ExpressionPattern(Expression.BELIEVE, xi0, xt0)));
 
         // SUBSTITUTION RULES        
 
@@ -109,10 +102,12 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(xp0, xi0)},
             new IPattern[]{new ExpressionPattern(xp0, xi1)}));
 
-        // // F(x), G(x) |- some(F, G)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
-        //     new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)}));
+        // F(x), G(x) |- some(F, G)
+        // not transposable to save time
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.SOME, xp0, xp1)},
+            false));
 
         // // [i != j, F(i), F(j)] G(i), G(j) |- Two(F, G)
         // m.Add(new SubstitutionRule(

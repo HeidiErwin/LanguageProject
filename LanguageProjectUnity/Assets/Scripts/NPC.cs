@@ -13,6 +13,7 @@ public class NPC : Character {
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
     protected EnvironmentManager envManager;
     protected HashSet<Expression> primitiveAbilities;
+    protected Expression name;
 
     // Use this for initialization
     protected void Start() {
@@ -102,7 +103,7 @@ public class NPC : Character {
                 // yield return ShowSpeechBubble("would");
 
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
@@ -117,7 +118,7 @@ public class NPC : Character {
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
@@ -125,6 +126,29 @@ public class NPC : Character {
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+            }
+
+            MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+            MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+            IPattern assertionSchema =
+                new ExpressionPattern(Expression.WOULD,
+                    new ExpressionPattern(Expression.BELIEVE, xi0, xt0));
+
+            List<Dictionary<MetaVariable, Expression>> assertionBinding = assertionSchema.GetBindings(action);
+
+            if (assertionBinding != null) {
+                Expression assertion = new Phrase(Expression.ASSERT, assertionBinding[0][xt0]);
+                yield return ShowSpeechBubble(assertion);
+                Expression recipient = assertionBinding[0][xi0];
+
+                if (recipient.Equals(Expression.BOB)) {
+                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
+                }
+
+                if (recipient.Equals(Expression.EVAN)) {
+                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
+                }
             }
         }
         // this.controller.combineSuccess.Play();
@@ -142,7 +166,7 @@ public class NPC : Character {
             if (selectedExpr == null) {
                 // Debug.Log("No selected expression to say to this NPC");
             } else {
-                ReceiveExpression(selectedExpr.expression);
+                ReceiveExpression(Expression.PLAYER, selectedExpr.expression);
                 Destroy(selectedExpr.gameObject);
                 controller.HidePointer();
                 controller.SetInSpeakingMode(false);
@@ -160,7 +184,7 @@ public class NPC : Character {
         }
     }
 
-    void ReceiveExpression(Expression utterance) {
+    void ReceiveExpression(Expression utterer, Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
         if (this.model == null) {
             // Debug.Log("No associated model.");
@@ -191,7 +215,7 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.ASSERTION)) {
             Expression content = utterance.GetArg(0);
-            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, Expression.PLAYER, content))) {
+            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
             } else {

@@ -32,6 +32,9 @@ near
 #DETERMINER
 the
 
+#QUANTIFIER
+some
+
 #TRUTH_FUNCTION_1
 not
 

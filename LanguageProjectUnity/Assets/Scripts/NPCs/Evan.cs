@@ -5,6 +5,8 @@ public class Evan : NPC {
     void Start() {
         base.Start();
 
+        this.name = Expression.EVAN;
+
         CustomModels.AddDoorModel(this.model);
         // Substitution Rules
 

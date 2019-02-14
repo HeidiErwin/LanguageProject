@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 
 public class Bob : NPC {
+
     void Start() {
         base.Start();
+        this.name = Expression.BOB;
 
         CustomModels.AddDoorModel(this.model);
 
