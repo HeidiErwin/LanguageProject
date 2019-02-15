@@ -222,13 +222,13 @@ public class NPC : Character {
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             if (this.model.Proves(utterance)) {
                 this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
             } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
                 this.controller.failure.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.DENY));
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
             } else {
                 this.controller.lowClick.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY)));
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY))));
             }
             return;
         }
@@ -237,10 +237,10 @@ public class NPC : Character {
             Expression content = utterance.GetArg(0);
             if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
                 this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.AFFIRM));
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
             } else {
                 this.controller.failure.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.DENY));
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
             }
             return;
         }
@@ -278,7 +278,8 @@ public class NPC : Character {
         exprPieceScript.transform.SetParent(GameObject.Find("ResponseCanvas").transform);
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
-        exprPieceScript.transform.position = new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * 40) + 16);
+        exprPieceScript.transform.position =
+            new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) + 16);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
         Destroy(exprPieceInstance, 2.0f);
         yield return new WaitForSeconds(2.0f);
@@ -289,7 +290,6 @@ public class NPC : Character {
         target = targetObject.transform;
         speed = 2;
         GoToTarget();
-
         while (!walkingComplete) {
             yield return null;
         }

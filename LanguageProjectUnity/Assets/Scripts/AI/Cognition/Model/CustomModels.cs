@@ -31,6 +31,9 @@ public class CustomModels {
             new IPattern[]{new ExpressionPattern(
                 Expression.NOT,
                 new ExpressionPattern(Expression.CLOSED, new MetaVariable(SemanticType.INDIVIDUAL, 0)))}));
+
+        // COMMON KNOWLEDGE
+        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
     }
 
     public static void AddWoodcutterModel(Model m) {

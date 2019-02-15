@@ -22,6 +22,14 @@ public class DefaultModel {
 
         // COMMON-KNOWLEDGE
         m.Add(new Phrase(Expression.NEAR, Expression.SELF, Expression.SELF));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.BLACK)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.RED)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.GREEN)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.BLUE)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.CYAN)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.MAGENTA)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.YELLOW)));
+        // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.WHITE)));
 
         // SELF-KNOWLEDGE
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
@@ -48,6 +56,18 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0)},
             false));
 
+        // believes(x, ~S) |- ~believes(x, S)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(Expression.BELIEVE, xi0, new ExpressionPattern(not, xt0))},
+            new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0))},
+            false));
+
+        // // ~S |- ~believes(self, S)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.NOT, xt0)},
+        //     new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0))},
+        //     false));
+
         // S |- T(S)
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0},
@@ -59,6 +79,46 @@ public class DefaultModel {
             new IPattern[]{xt0},
             new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(not, xt0))},
             false));
+
+        // // active(x) |- ~inactive(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.ACTIVE, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.INACTIVE, xi0))}));
+
+        // // person(x) |- animal(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.ANIMAL, xi0))}));
+
+        // // cow(x) |- animal(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.COW, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.ANIMAL, xi0))}));
+
+        // // person(x) |- ~cow(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.COW, xi0))}));
+
+        // // animal(x) |- ~lamp(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.LAMP, xi0))}));
+
+        // // animal(x) |- ~fountain(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.PERSON, xi0)},
+        //     new IPattern[]{new ExpressionPattern(not, new ExpressionPattern(Expression.FOUNTAIN, xi0))}));
+
+        // // color(nominalize(C)), color(nominalize(D)), D(x) |- ~C(x), nominalize(C) = nominalize(D)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{
+        //         new ExpressionPattern(Expression.COLOR, new ExpressionPattern(Expression.NOMINALIZE, xp0)),
+        //         new ExpressionPattern(Expression.COLOR, new ExpressionPattern(Expression.NOMINALIZE, xp1)),
+        //         new ExpressionPattern(xp1, xi0)},
+        //     new IPattern[]{
+        //         new ExpressionPattern(not, new ExpressionPattern(xp0, xi0)),
+        //         new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.NOMINALIZE, xp0), new ExpressionPattern(Expression.NOMINALIZE, xp1))}));
 
         // // R(x, x) |- itself(R, x)
         // m.Add(new SubstitutionRule(
@@ -139,10 +199,10 @@ public class DefaultModel {
         //     new IPattern[]{},
         //     new IPattern[]{new ExpressionPattern(Expression.ALL, xp0, xp0)}));
         
-        // F(x) |- exists(x)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(xp0, xi0)},
-            new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}, false));
+        // // F(x) |- exists(x)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
+        //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}, false));
 
         // // antisymmetry for contained_within
         // m.Add(new SubstitutionRule(
@@ -158,14 +218,15 @@ public class DefaultModel {
         //     new IPattern[]{
         //         new ExpressionPattern(Expression.CONTAINED_WITHIN, xi0, xi2)}));
 
-        // // uniqueness of king
-        // // king(i), king(j) |- i = j
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.KING, xi0),
-        //         new ExpressionPattern(Expression.KING, xi1)},
-        //     new IPattern[]{
-        //         new ExpressionPattern(Expression.IDENTITY, xi0, xi1)}));
+        // uniqueness of king
+        // king(i), king(j) |- i = j
+        m.Add(new SubstitutionRule(
+            new IPattern[]{
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
+            new IPattern[]{
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi0)),
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi1))},
+            false));
 
         // // reflexivity for overlaps_with
         // m.Add(new SubstitutionRule(

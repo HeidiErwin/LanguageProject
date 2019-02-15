@@ -264,6 +264,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
     public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
     public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
+    public static readonly Expression COLOR = new Word(SemanticType.PREDICATE, "color");
 
     public static readonly Expression TREE = new Word(SemanticType.PREDICATE, "tree");
     public static readonly Expression LOG = new Word(SemanticType.PREDICATE, "log");
