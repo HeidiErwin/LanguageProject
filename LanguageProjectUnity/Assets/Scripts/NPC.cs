@@ -76,6 +76,12 @@ public class NPC : Character {
                 continue;
             }
 
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.PLAYER)))) {
+                yield return StartCoroutine(GoTo("Player(Clone)"));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.PLAYER))));
+                continue;
+            }
+
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
                 yield return StartCoroutine(GoTo("tree"));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
@@ -85,6 +91,42 @@ public class NPC : Character {
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.EXISTS, new Phrase(Expression.THE, Expression.LOG))))) {
                 GameObject.Find("tree").SetActive(false);
                 controller.log.SetActive(true);
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))))) {
+                controller.fakeCrown.SetActive(true);
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NOT, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))))) {
+                controller.fakeCrown.SetActive(false);
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.POSSESS, Expression.PLAYER, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))))) {
+                this.model.UpdateBelief(new Phrase(Expression.MAKE,
+                    Expression.SELF,
+                    new Phrase(Expression.NOT,
+                        new Phrase(Expression.POSSESS,
+                            Expression.PLAYER,
+                            new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
+                
+                this.model.UpdateBelief(new Phrase(Expression.MAKE,
+                    Expression.SELF,
+                    new Phrase(Expression.POSSESS,
+                        Expression.PLAYER,
+                        new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))));
+
+                GameObject player = GameObject.Find("Player(Clone)");
+
+                controller.fakeCrown.transform.SetParent(player.transform);
+                controller.fakeCrown.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.25f);
+                Player playerScript = player.GetComponent<Player>();
+                playerScript.currentWearObject = controller.fakeCrown;
+                if (controller.fakeCrown.activeSelf) {
+                    playerScript.isWearing = true;
+                }
                 continue;
             }
 

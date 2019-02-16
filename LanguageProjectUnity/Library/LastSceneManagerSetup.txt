@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Door.unity
+- path: Assets/Scenes/Woodcutter.unity
   isLoaded: 1
   isActive: 1

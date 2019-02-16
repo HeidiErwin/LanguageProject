@@ -1,17 +1,23 @@
 #INDIVIDUAL
 self
+player
 
 #PREDICATE
 king
-dressed_like_king
-credible
+crown
+// credible
 log
 exists
+
+#PREDICATE_MODIFIER
+real
+fake
 
 #RELATION_2
 =
 near
 possess
+wear
 
 #DETERMINER
 the

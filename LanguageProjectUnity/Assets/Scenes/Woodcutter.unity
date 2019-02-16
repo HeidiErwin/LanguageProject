@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 205094409}
   - component: {fileID: 205094408}
   m_Layer: 0
-  m_Name: cape
+  m_Name: crown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,7 +531,7 @@ SpriteRenderer:
   m_SortingLayerID: 197616311
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1af287cd056d93c4c8285696764d6a04, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1308d8354a1d4047973f01dc51f67af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -550,8 +550,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 205094407}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.05924494, y: -0.23674762, z: -0.019726045}
-  m_LocalScale: {x: 0.042270027, y: 0.01939569, z: 0.03278046}
+  m_LocalPosition: {x: 0, y: 0.175, z: -0.019726045}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 2141760113}
   m_RootOrder: 1
@@ -1325,9 +1325,11 @@ GameObject:
   m_Component:
   - component: {fileID: 570211119}
   - component: {fileID: 570211118}
+  - component: {fileID: 570211120}
+  - component: {fileID: 570211121}
   m_Layer: 0
   m_Name: log
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1366,8 +1368,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 413715643
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 64aeb4cb2dbd8455fb362d75202c5573, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1394,6 +1396,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &570211120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570211117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49633db9d33534b8c938770327cb21c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &570211121
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570211117}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.52, y: 1.85}
+    newSize: {x: 2.12, y: 2.44}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.52, y: 1.85}
+  m_EdgeRadius: 0
 --- !u!1 &636114001
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,6 +3904,7 @@ MonoBehaviour:
   helpScreen: {fileID: 2000809343}
   wordsPath: woodcutter
   log: {fileID: 570211117}
+  fakeCrown: {fileID: 205094407}
   highClick: {fileID: 1451081639}
   lowClick: {fileID: 1451081638}
   combineSuccess: {fileID: 1451081637}

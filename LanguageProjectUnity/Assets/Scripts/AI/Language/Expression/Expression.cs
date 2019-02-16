@@ -234,6 +234,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression ALL = new Word(SemanticType.QUANTIFIER, "all");
     public static readonly Expression GEACH_QP = new Word(SemanticType.GEACH_QUANTIFIER_PHRASE, "geach");
 
+    public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
     public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
@@ -261,6 +262,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression ACTIVE = new Word(SemanticType.PREDICATE, "active");
     public static readonly Expression INACTIVE = new Word(SemanticType.PREDICATE, "inactive");
     public static readonly Expression KING = new Word(SemanticType.PREDICATE, "king");
+    public static readonly Expression CROWN = new Word(SemanticType.PREDICATE, "crown");
     public static readonly Expression COW = new Word(SemanticType.PREDICATE, "cow");
     public static readonly Expression PERSON = new Word(SemanticType.PREDICATE, "person");
     public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
@@ -282,12 +284,16 @@ public abstract class Expression : IPattern {
     public static readonly Expression MAGENTA = new Word(SemanticType.PREDICATE, "magenta");
     public static readonly Expression WHITE = new Word(SemanticType.PREDICATE, "white");
 
+    public static readonly Expression REAL = new Word(SemanticType.PREDICATE_MODIFIER, "real");
+    public static readonly Expression FAKE = new Word(SemanticType.PREDICATE_MODIFIER, "fake");
+
     public static readonly Expression IDENTITY = new Word(SemanticType.RELATION_2, "=");
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
     public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
     public static readonly Expression NEAR = new Word(SemanticType.RELATION_2, "near");
     public static readonly Expression POSSESS = new Word(SemanticType.RELATION_2, "possess");
+    public static readonly Expression WEAR = new Word(SemanticType.RELATION_2, "wear");
 
     public static readonly Expression GIVE = new Word(SemanticType.RELATION_3, "give");
 

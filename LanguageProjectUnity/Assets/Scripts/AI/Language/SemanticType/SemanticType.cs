@@ -49,6 +49,10 @@ public abstract class SemanticType {
                 return new Color32(9, 128, 37, 255);
             }
 
+            if (this.Equals(SemanticType.PREDICATE_MODIFIER)) {
+                return new Color32(170, 255, 128, 255);
+            }
+
             if (this.Equals(SemanticType.RELATION_2)) {
                 return new Color32(240, 240, 60, 255);
             }
@@ -87,6 +91,10 @@ public abstract class SemanticType {
 
             if (this.Equals(SemanticType.TRUTH_CONFORMITY_FUNCTION)) {
                 return new Color32(23, 50, 125, 255);
+            }
+
+            if (this.Equals(SemanticType.TRUTH_ASSERTION_FUNCTION)) {
+                return new Color32(153, 204, 255, 255);
             }
 
             if (this.Equals(SemanticType.INDIVIDUAL_TRUTH_RELATION)) {
@@ -145,6 +153,7 @@ public abstract class SemanticType {
     public static readonly SemanticType INDIVIDUAL_FUNCTION_1 = new Arrow(new SemanticType[]{ INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType INDIVIDUAL_FUNCTION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, INDIVIDUAL);
     public static readonly SemanticType PREDICATE  = new Arrow(new SemanticType[]{ INDIVIDUAL }, TRUTH_VALUE);
+    public static readonly SemanticType PREDICATE_MODIFIER  = new Arrow(new SemanticType[]{ PREDICATE, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_FUNCTION_2 = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_3 = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL, INDIVIDUAL }, TRUTH_VALUE);
