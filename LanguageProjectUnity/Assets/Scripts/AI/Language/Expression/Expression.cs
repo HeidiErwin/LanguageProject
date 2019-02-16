@@ -287,6 +287,9 @@ public abstract class Expression : IPattern {
     public static readonly Expression REAL = new Word(SemanticType.PREDICATE_MODIFIER, "real");
     public static readonly Expression FAKE = new Word(SemanticType.PREDICATE_MODIFIER, "fake");
 
+    public static readonly Expression MOD = new Word(SemanticType.PREDICATE_MODIFIER_2, "mod");
+    public static readonly Expression AND_PRED = new Word(SemanticType.PREDICATE_MODIFIER_2, "and");
+
     public static readonly Expression IDENTITY = new Word(SemanticType.RELATION_2, "=");
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");

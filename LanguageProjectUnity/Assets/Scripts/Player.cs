@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : Character {
     GameObject currentInteractObject; // the object you can currently interact with
     public GameObject currentWearObject;
+    public GameObject currentHoldObject;
     public bool isWearing = false;
     public const KeyCode INTERACT_KEY = KeyCode.E;
     public const KeyCode WEAR_KEY = KeyCode.Q;
@@ -20,10 +21,11 @@ public class Player : Character {
         transform.rotation = Quaternion.Euler(0, 0, 0);
         base.Update();
 
-
+        if (Input.GetKeyDown(INTERACT_KEY) && currentHoldObject) {
+            currentHoldObject.SendMessage("Interact");
+        }
         
         if (Input.GetKeyDown(INTERACT_KEY) && currentInteractObject) {
-            Debug.Log(currentInteractObject);
             currentInteractObject.SendMessage("Interact");
         }
 

@@ -32,6 +32,8 @@ public class Jester : NPC {
 
         // particular beliefs
         model.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))));
+        model.Add(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NOT, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
+
         // model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, new Phrase(Expression.THE, Expression.KING)));
         // self-knowledge
 

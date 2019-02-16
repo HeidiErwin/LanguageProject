@@ -145,6 +145,8 @@ public class GameController : MonoBehaviour {
                     currentType = SemanticType.PREDICATE;
                 } else if (line.Equals("#PREDICATE_MODIFIER")) {
                     currentType = SemanticType.PREDICATE_MODIFIER;
+                } else if (line.Equals("#PREDICATE_MODIFIER_2")) {
+                    currentType = SemanticType.PREDICATE_MODIFIER_2;
                 } else if (line.Equals("#RELATION_2")) {
                     currentType = SemanticType.RELATION_2;
                 } else if (line.Equals("#DETERMINER")) {

@@ -25,6 +25,9 @@ door
 open
 closed
 
+#PREDICATE_MODIFIER_2
+mod
+
 #RELATION_2
 =
 near

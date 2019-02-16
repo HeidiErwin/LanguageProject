@@ -95,11 +95,24 @@ public class NPC : Character {
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))))) {
+                this.model.UpdateBelief(new Phrase(Expression.MAKE,
+                    Expression.SELF,
+                    new Phrase(Expression.WEAR,
+                        Expression.SELF,
+                        new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))));
+
                 controller.fakeCrown.SetActive(true);
                 continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NOT, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))))) {
+                this.model.UpdateBelief(new Phrase(Expression.MAKE,
+                    Expression.SELF,
+                    new Phrase(Expression.NOT,
+                        new Phrase(Expression.WEAR,
+                            Expression.SELF,
+                            new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
+
                 controller.fakeCrown.SetActive(false);
                 continue;
             }
@@ -109,7 +122,7 @@ public class NPC : Character {
                     Expression.SELF,
                     new Phrase(Expression.NOT,
                         new Phrase(Expression.POSSESS,
-                            Expression.PLAYER,
+                            Expression.SELF,
                             new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
                 
                 this.model.UpdateBelief(new Phrase(Expression.MAKE,
@@ -127,6 +140,7 @@ public class NPC : Character {
                 if (controller.fakeCrown.activeSelf) {
                     playerScript.isWearing = true;
                 }
+
                 continue;
             }
 

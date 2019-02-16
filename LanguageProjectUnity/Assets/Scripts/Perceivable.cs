@@ -21,26 +21,26 @@ public class Perceivable : MonoBehaviour {
         param = new Parameter(SemanticType.INDIVIDUAL, id);
 
         if (id == 0) {
-            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.BLACK, Expression.LAMP));
+            param = new Phrase(Expression.THE, new Phrase(Expression.MOD, Expression.BLACK, Expression.LAMP));
         }
 
         if (id == 1) {
-            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.GREEN, Expression.FOUNTAIN));
+            param = new Phrase(Expression.THE, new Phrase(Expression.MOD, Expression.GREEN, Expression.FOUNTAIN));
         }
 
         if (id == 2) {
-            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.RED, Expression.LAMP));
+            param = new Phrase(Expression.THE, new Phrase(Expression.MOD, Expression.RED, Expression.LAMP));
         }
 
         if (id == 3) {
             param = new Phrase(Expression.THE,
-                new Phrase(Expression.GEACH_TF2, Expression.AND,
-                    new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.BLUE, Expression.ACTIVE),
+                new Phrase(Expression.MOD,
+                    new Phrase(Expression.MOD, Expression.BLUE, Expression.ACTIVE),
                     Expression.FOUNTAIN));
         }
 
         if (id == 4) {
-            param = new Phrase(Expression.THE, new Phrase(Expression.GEACH_TF2, Expression.AND, Expression.INACTIVE, Expression.FOUNTAIN));
+            param = new Phrase(Expression.THE, new Phrase(Expression.MOD, Expression.INACTIVE, Expression.FOUNTAIN));
         }
 
         if (id == 5) {

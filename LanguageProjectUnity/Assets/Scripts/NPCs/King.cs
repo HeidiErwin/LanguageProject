@@ -11,7 +11,7 @@ public class King : NPC {
 
         // PARTICULAR BELIEFS
         model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, new Phrase(Expression.THE, Expression.KING)));
-
+        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.REAL, Expression.CROWN))));
         // SELF-KNOWLEDGE
     }
 }
