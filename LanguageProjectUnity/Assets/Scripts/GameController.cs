@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
+using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine;
 
-/**
- * The main Controller class. Sets up the Scene, creates ExpressionPieces, etc.
- */
 public class GameController : MonoBehaviour {
-    // the subsection of the keyboard we're currently showing (e.g. Determiners)
-    private GameObject currentKeyboard;
-    public GameObject canvasInstance;
-    // arrow pointing to selected expression
     [SerializeField] private GameObject pointer;
-    [SerializeField] private GameObject individualKeyboard;
-    [SerializeField] private GameObject quantifierKeyboard;
-    [SerializeField] private GameObject predicateKeyboard;
-    [SerializeField] private GameObject relation2Keyboard;
-    [SerializeField] private GameObject truthFunction1Keyboard;
-    [SerializeField] private GameObject truthFunction2Keyboard;
-    [SerializeField] private GameObject individualTruthRelationKeyboard;
-    [SerializeField] private GameObject helpScreen;
+    [SerializeField] private GameObject canvas;
     [SerializeField] private String wordsPath;
-    [SerializeField] public GameObject log;
-    [SerializeField] public GameObject fakeCrown;
-    private bool keyboardOnBeforeHelpShown = true;
+    private GameObject fpc;
 
     public AudioSource highClick;
     public AudioSource lowClick;
@@ -33,79 +17,52 @@ public class GameController : MonoBehaviour {
     public AudioSource placeExpression;
     public AudioSource failure;
 
+    public ExpressionPiece selectedExpression;
+    public ExpressionPiece usableExpression;
+
     public const int PIECES_PER_ROW = 14;
 
-    // true only right after user has submitted an expression (pressed checkmark button)
-    // and before user has selected an NPC to speak to
-    private bool inSpeakingMode = false;
+    public bool is2D;
+    public GameObject log;
+    public GameObject fakeCrown;
 
-    public ExpressionPiece selectedExpression;
-
-	void Start() {
-        // Debug.Log(Screen.height/20.0f + " is the screen height");
-        SetUpCanvas();
+    void Start() {
+        HidePointer();
+        fpc = GameObject.Find("FPSController");
+        if (is2D) {
+            GameObject player = Resources.Load("Player") as GameObject;
+            GameObject playerInstance = Instantiate(player, new Vector2(0f, 0f), Quaternion.identity);
+        }
         SetUpKeyboard();
-        SetUpPlayer();
-        currentKeyboard = individualTruthRelationKeyboard;
-        canvasInstance.SetActive(false);
-        currentKeyboard.SetActive(true);
-
-        // // FOR TESTING PURPOSES, @TODO COMMENT OUT LATER
-        // GameObject workspace = GameObject.Find("Workspace");
-        // GameObject exprPiece = Resources.Load("Piece") as GameObject;
-        // GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
-        // exprPieceInstance.transform.SetParent(workspace.transform);
-        // ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
-        // exprPieceScript.FromScratch(
-        //     new Phrase(Expression.WOULD,
-        //         new Phrase(Expression.NOT,
-        //             new Phrase(Expression.CLOSED,
-        //                 new Phrase(Expression.THE, Expression.DOOR)))), new Vector3(0f, 0f, 0f));
-        // exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
+        canvas.SetActive(false);
     }
 
-    public void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) && !helpScreen.activeInHierarchy) {
-            canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
-            helpScreen.SetActive(helpScreen.activeInHierarchy);
-            if (canvasInstance.activeInHierarchy) {
-                highClick.Play();
-            } else {
-                lowClick.Play();
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.Tab)) {
+            if (selectedExpression != null) {
+                HidePointer();
+                selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);
+                selectedExpression.transform.position = new Vector3(Screen.width / 2, Screen.height / 2);
+                usableExpression = selectedExpression;
+                selectedExpression = null;
+            }
+
+            canvas.SetActive(!canvas.activeInHierarchy);
+            if (fpc) {
+                FirstPersonController fpcScript = fpc.GetComponent<FirstPersonController>();
+                if (canvas.activeInHierarchy) {
+                    fpcScript.enabled = false;
+                    highClick.Play();
+                } else {
+                    fpcScript.enabled = true;
+                    lowClick.Play();
+                }
             }
         }
-        if (Input.GetKeyDown(KeyCode.H)) {
-            ShowOrHideHelpScreen();
-        }
-        if(Input.GetKeyDown(KeyCode.Escape)) {
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }
-    }
-
-    private void ShowOrHideHelpScreen() {
-        bool helpScreenShowing = helpScreen.activeInHierarchy;
-        if (helpScreenShowing) {
-            helpScreen.SetActive(false);
-            canvasInstance.SetActive(keyboardOnBeforeHelpShown);
-            lowClick.Play();
-        } else {
-            keyboardOnBeforeHelpShown = canvasInstance.activeInHierarchy;
-            canvasInstance.SetActive(false);
-            helpScreen.SetActive(true);
-            highClick.Play();
-        }
-    }
-
-    /**
-     * Creates the Canvas which holds the keyboard and workspace
-     */
-    public void SetUpCanvas() {
-        canvasInstance.SetActive(true);
-    }
-
-    private void SetUpPlayer() {
-        GameObject player = Resources.Load("Player") as GameObject;
-        GameObject playerInstance = Instantiate(player, new Vector2(0, 0), Quaternion.identity) as GameObject;
     }
 
     private void SetUpSpawner(Expression e) {
@@ -113,9 +70,11 @@ public class GameController : MonoBehaviour {
         GameObject spawner = Resources.Load("PieceSpawner") as GameObject;
         GameObject spawnerInstance = Instantiate(spawner, new Vector2(0, 0), Quaternion.identity) as GameObject;
 
-        GameObject firstRow = individualTruthRelationKeyboard.transform.GetChild(0).gameObject;
-        GameObject secondRow = individualTruthRelationKeyboard.transform.GetChild(1).gameObject;
-        GameObject thirdRow = individualTruthRelationKeyboard.transform.GetChild(2).gameObject;
+        GameObject keyboard = canvas.transform.GetChild(0).gameObject;
+
+        GameObject firstRow = keyboard.transform.GetChild(0).gameObject;
+        GameObject secondRow = keyboard.transform.GetChild(1).gameObject;
+        GameObject thirdRow = keyboard.transform.GetChild(2).gameObject;
         if (firstRow.transform.childCount < PIECES_PER_ROW) {
             spawnerInstance.transform.SetParent(firstRow.transform);
         } else if (secondRow.transform.childCount < PIECES_PER_ROW) {
@@ -125,7 +84,7 @@ public class GameController : MonoBehaviour {
         }
 
         ExpressionPieceSpawner spawnerScript = spawnerInstance.GetComponent<ExpressionPieceSpawner>();
-        spawnerScript.SetUpSpawner(e, this);
+        spawnerScript.SetUpSpawner(e);
     }
 
     /** Creates the keyboard (and sub-keyboards) from which the user can highClick on ExpressionPieceSpawners,
@@ -169,66 +128,6 @@ public class GameController : MonoBehaviour {
             }
             line = reader.ReadLine();
         }
-    }
-
-    // // updates the keyboard so that the tabToDisplayIndex-th tab is active,
-    // // and all other tabs become inactive
-    // public void SwitchKeyboardTab(int tabToDisplayIndex) {
-    //     currentKeyboard.SetActive(false);
-    //     if (tabToDisplayIndex == 0) { // e
-    //         currentKeyboard = individualKeyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 1) { // (e -> t), (e -> t) -> t
-    //         currentKeyboard = quantifierKeyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 2) { // e -> t
-    //         currentKeyboard = predicateKeyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 3) { // e, e -> t
-    //         currentKeyboard = relation2Keyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 4) { // t -> t
-    //         currentKeyboard = truthFunction1Keyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 5) { // t, t -> t
-    //         currentKeyboard = truthFunction2Keyboard;
-    //         highClick.Play();
-    //     } else if (tabToDisplayIndex == 6) { // e, t -> t
-    //         currentKeyboard = individualTruthRelationKeyboard;
-    //         highClick.Play();
-    //     }
-    //     currentKeyboard.SetActive(true);
-    // }
-
-    // Called when user presses button to submit the selected expression.
-    // This method takes the selected expression and unparents it from the canvas,
-    // then hides canvas (keyboard + workspace)
-    public void SubmitSelectedExpression() {
-        if(selectedExpression != null) {
-            GameObject screenCanvas = GameObject.Find("ScreenCanvas");// a Canvas always on screen; never hidden
-            selectedExpression.gameObject.transform.SetParent(screenCanvas.transform);
-            canvasInstance.SetActive(!canvasInstance.activeInHierarchy);
-
-            inSpeakingMode = true;
-
-            combineSuccess.Play();
-        } else {
-            // Debug.Log("no selected expression to submit!");
-            failure.Play();
-        }
-    }
-
-    // getter
-    public bool InSpeakingMode() {
-        return inSpeakingMode;
-    }
-
-    public void SetInSpeakingMode(bool speakMode) {
-        inSpeakingMode = speakMode;
-    }
-
-    public ExpressionPiece GetSelectedExpression() {
-        return selectedExpression;
     }
 
     public void HidePointer() {

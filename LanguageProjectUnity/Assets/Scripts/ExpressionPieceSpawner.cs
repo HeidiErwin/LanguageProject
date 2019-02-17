@@ -11,7 +11,6 @@ using UnityEngine.UI;
 public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
 
     private Expression expression;
-    private GameController gameController;
 
     /**
      * Sets the name and Expression of this ExpressionPieceSpawner.
@@ -21,9 +20,8 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * So SetUpSpawner must be called once the ExpressionPieceSpawner is created 
      * and this script can be accessed.
      */
-    public void SetUpSpawner(Expression expr, GameController gameController) {
+    public void SetUpSpawner(Expression expr) {
         this.expression = expr;
-        this.gameController = gameController;
         SetUpSpawnerVisual();
     }
 
@@ -38,7 +36,6 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.Initialize(expression);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
-        this.gameController.placeExpression.Play();
 
         return exprPieceInstance.GetComponent<ExpressionPiece>();
     }

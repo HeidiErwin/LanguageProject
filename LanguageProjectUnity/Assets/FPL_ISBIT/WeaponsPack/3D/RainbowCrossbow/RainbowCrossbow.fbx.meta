@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: 4a332f70083450d449b1f0e2b247591c
+timeCreated: 1434967191
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AmmoLoader
+    100002: AmmoTube
+    100004: AmmoTube 1
+    100006: Bow_arms
+    100008: EnergyBars
+    100010: GunBody
+    100012: //RootNode
+    100014: RainbowCrossbow_Arm_L
+    100016: RainbowCrossbow_Arm_R
+    100018: RainbowCrossbow_body
+    100020: RainbowCrossbow_handle
+    100022: RainbowCrossbow_pCylinder24
+    100024: RainbowCrossbow_pCylinder33
+    100026: RainbowCrossbow_polySurface61
+    100028: RainbowCrossbow_polySurface82
+    100030: RainbowCrossbow_polySurface83
+    100032: RainbowCrossbow_polySurface90
+    100034: RainbowCrossbow_Stock
+    100036: RainbowCrossbow_string
+    100038: RainbowCrossbow_Tube
+    100040: RainbowLoader
+    100042: ScopeGlass
+    400000: AmmoLoader
+    400002: AmmoTube
+    400004: AmmoTube 1
+    400006: Bow_arms
+    400008: EnergyBars
+    400010: GunBody
+    400012: //RootNode
+    400014: RainbowCrossbow_Arm_L
+    400016: RainbowCrossbow_Arm_R
+    400018: RainbowCrossbow_body
+    400020: RainbowCrossbow_handle
+    400022: RainbowCrossbow_pCylinder24
+    400024: RainbowCrossbow_pCylinder33
+    400026: RainbowCrossbow_polySurface61
+    400028: RainbowCrossbow_polySurface82
+    400030: RainbowCrossbow_polySurface83
+    400032: RainbowCrossbow_polySurface90
+    400034: RainbowCrossbow_Stock
+    400036: RainbowCrossbow_string
+    400038: RainbowCrossbow_Tube
+    400040: RainbowLoader
+    400042: ScopeGlass
+    2300000: AmmoTube 1
+    2300002: EnergyBars
+    2300004: RainbowCrossbow_Arm_L
+    2300006: RainbowCrossbow_Arm_R
+    2300008: RainbowCrossbow_body
+    2300010: RainbowCrossbow_handle
+    2300012: RainbowCrossbow_pCylinder24
+    2300014: RainbowCrossbow_pCylinder33
+    2300016: RainbowCrossbow_polySurface61
+    2300018: RainbowCrossbow_polySurface82
+    2300020: RainbowCrossbow_polySurface83
+    2300022: RainbowCrossbow_polySurface90
+    2300024: RainbowCrossbow_Stock
+    2300026: RainbowCrossbow_string
+    2300028: RainbowCrossbow_Tube
+    2300030: ScopeGlass
+    3300000: AmmoTube 1
+    3300002: EnergyBars
+    3300004: RainbowCrossbow_Arm_L
+    3300006: RainbowCrossbow_Arm_R
+    3300008: RainbowCrossbow_body
+    3300010: RainbowCrossbow_handle
+    3300012: RainbowCrossbow_pCylinder24
+    3300014: RainbowCrossbow_pCylinder33
+    3300016: RainbowCrossbow_polySurface61
+    3300018: RainbowCrossbow_polySurface82
+    3300020: RainbowCrossbow_polySurface83
+    3300022: RainbowCrossbow_polySurface90
+    3300024: RainbowCrossbow_Stock
+    3300026: RainbowCrossbow_string
+    3300028: RainbowCrossbow_Tube
+    3300030: ScopeGlass
+    4300000: RainbowCrossbow_Tube
+    4300002: RainbowCrossbow_handle
+    4300004: RainbowCrossbow_Arm_R
+    4300006: RainbowCrossbow_Arm_L
+    4300008: RainbowCrossbow_string
+    4300010: RainbowCrossbow_polySurface61
+    4300012: RainbowCrossbow_polySurface83
+    4300014: RainbowCrossbow_polySurface82
+    4300016: RainbowCrossbow_polySurface90
+    4300018: RainbowCrossbow_pCylinder24
+    4300020: RainbowCrossbow_pCylinder33
+    4300022: EnergyBars
+    4300024: AmmoTube
+    4300026: ScopeGlass
+    4300028: RainbowCrossbow_body
+    4300030: RainbowCrossbow_Stock
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 25
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 1
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

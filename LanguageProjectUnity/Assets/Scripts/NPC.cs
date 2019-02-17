@@ -11,13 +11,11 @@ public class NPC : Character {
     GameController controller;
     protected Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
-    protected EnvironmentManager envManager;
     protected HashSet<Expression> primitiveAbilities;
     protected Expression name;
 
     // Use this for initialization
     protected void Start() {
-        envManager = GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>();
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         model = DefaultModel.Make();
         primitiveAbilities = new HashSet<Expression>();
@@ -238,14 +236,14 @@ public class NPC : Character {
      */
     private void OnMouseDown() {
         if (!EventSystem.current.IsPointerOverGameObject()) { // make sure not clicking canvas
-            ExpressionPiece selectedExpr = controller.GetSelectedExpression(); 
+            ExpressionPiece selectedExpr = controller.selectedExpression; 
             if (selectedExpr == null) {
                 // Debug.Log("No selected expression to say to this NPC");
             } else {
                 ReceiveExpression(Expression.PLAYER, selectedExpr.expression);
                 Destroy(selectedExpr.gameObject);
                 controller.HidePointer();
-                controller.SetInSpeakingMode(false);
+                // scontroller.SetInSpeakingMode(false);
             }
         }
     }
@@ -260,7 +258,7 @@ public class NPC : Character {
         }
     }
 
-    void ReceiveExpression(Expression utterer, Expression utterance) {
+    public void ReceiveExpression(Expression utterer, Expression utterance) {
         // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
         if (this.model == null) {
             // Debug.Log("No associated model.");
@@ -277,12 +275,15 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             if (this.model.Proves(utterance)) {
+                Debug.Log("TRUE");
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
             } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
+                Debug.Log("FALSE");
                 this.controller.failure.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
             } else {
+                Debug.Log("UNKNOWN");
                 this.controller.lowClick.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY))));
             }
@@ -332,10 +333,16 @@ public class NPC : Character {
         ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
         exprPieceScript.FromScratch(expr, new Vector3(0, 0, 0));
         exprPieceScript.transform.SetParent(GameObject.Find("ResponseCanvas").transform);
-        Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+
+        Camera cam;
+        if (controller.is2D) {
+            cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        } else {
+            cam = GameObject.Find("FirstPersonCharacter").GetComponent<Camera>();
+        }
         exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
         exprPieceScript.transform.position =
-            new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) + 16);
+                new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) + 16);
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
         Destroy(exprPieceInstance, 2.0f);
         yield return new WaitForSeconds(2.0f);
@@ -367,7 +374,6 @@ public class NPC : Character {
     // NOTE: objects are perceived both when NPC enters and exits their range of perceptability
     // public void OnTriggerExit2D(Collider2D other) {
     //     if (other.GetComponent<Perceivable>() != null) {
-    //         envManager.ComputePerceptionalReport(this);
     //     }
     // }
 }

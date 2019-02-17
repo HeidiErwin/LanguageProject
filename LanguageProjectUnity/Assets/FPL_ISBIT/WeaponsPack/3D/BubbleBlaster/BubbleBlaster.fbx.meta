@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 8bb0478a6ea639f4b94a0e0981a565ee
+timeCreated: 1434967191
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: AmmoCan
+    100002: Barrel
+    100004: Body
+    100006: Body 1
+    100008: //RootNode
+    100010: BubbleBlaster_Aim
+    100012: BubbleBlaster_Fan
+    100014: BubbleBlaster_pCube1
+    100016: BubbleBlaster_pCube16
+    100018: BubbleBlaster_pCube2
+    100020: BubbleBlaster_pCube2 1
+    100022: BubbleBlaster_pCube20
+    100024: BubbleBlaster_pCube21
+    100026: BubbleBlaster_pCube22
+    100028: BubbleBlaster_pCube23
+    100030: BubbleBlaster_pCube3
+    100032: BubbleBlaster_pCube4
+    100034: BubbleBlaster_pCylinder11
+    100036: BubbleBlaster_pCylinder13
+    100038: BubbleBlaster_pCylinder14
+    100040: BubbleBlaster_pCylinder15
+    100042: BubbleBlaster_polySurface12
+    100044: BubbleBlaster_polySurface14
+    100046: BubbleBlaster_polySurface3
+    100048: BubbleBlaster_polySurface4
+    100050: BubbleBlaster_polySurface8
+    100052: BubbleBlaster_polySurface9
+    100054: BubbleBlaster_Rig_LoveCircle
+    100056: BubbleBlaster_Rig_polySurface5
+    100058: BubbleBlaster_Rig_polySurface6
+    100060: BubbleBlaster_Rig_polySurface7
+    100062: BubbleBlaster_SoapMesh
+    100064: Gun
+    400000: AmmoCan
+    400002: Barrel
+    400004: Body
+    400006: Body 1
+    400008: //RootNode
+    400010: BubbleBlaster_Aim
+    400012: BubbleBlaster_Fan
+    400014: BubbleBlaster_pCube1
+    400016: BubbleBlaster_pCube16
+    400018: BubbleBlaster_pCube2
+    400020: BubbleBlaster_pCube2 1
+    400022: BubbleBlaster_pCube20
+    400024: BubbleBlaster_pCube21
+    400026: BubbleBlaster_pCube22
+    400028: BubbleBlaster_pCube23
+    400030: BubbleBlaster_pCube3
+    400032: BubbleBlaster_pCube4
+    400034: BubbleBlaster_pCylinder11
+    400036: BubbleBlaster_pCylinder13
+    400038: BubbleBlaster_pCylinder14
+    400040: BubbleBlaster_pCylinder15
+    400042: BubbleBlaster_polySurface12
+    400044: BubbleBlaster_polySurface14
+    400046: BubbleBlaster_polySurface3
+    400048: BubbleBlaster_polySurface4
+    400050: BubbleBlaster_polySurface8
+    400052: BubbleBlaster_polySurface9
+    400054: BubbleBlaster_Rig_LoveCircle
+    400056: BubbleBlaster_Rig_polySurface5
+    400058: BubbleBlaster_Rig_polySurface6
+    400060: BubbleBlaster_Rig_polySurface7
+    400062: BubbleBlaster_SoapMesh
+    400064: Gun
+    2300000: BubbleBlaster_Aim
+    2300002: BubbleBlaster_Fan
+    2300004: BubbleBlaster_pCube1
+    2300006: BubbleBlaster_pCube16
+    2300008: BubbleBlaster_pCube2
+    2300010: BubbleBlaster_pCube2 1
+    2300012: BubbleBlaster_pCube20
+    2300014: BubbleBlaster_pCube21
+    2300016: BubbleBlaster_pCube22
+    2300018: BubbleBlaster_pCube23
+    2300020: BubbleBlaster_pCube3
+    2300022: BubbleBlaster_pCube4
+    2300024: BubbleBlaster_pCylinder11
+    2300026: BubbleBlaster_pCylinder13
+    2300028: BubbleBlaster_pCylinder14
+    2300030: BubbleBlaster_pCylinder15
+    2300032: BubbleBlaster_polySurface12
+    2300034: BubbleBlaster_polySurface14
+    2300036: BubbleBlaster_polySurface3
+    2300038: BubbleBlaster_polySurface4
+    2300040: BubbleBlaster_polySurface8
+    2300042: BubbleBlaster_polySurface9
+    2300044: BubbleBlaster_Rig_LoveCircle
+    2300046: BubbleBlaster_Rig_polySurface5
+    2300048: BubbleBlaster_Rig_polySurface6
+    2300050: BubbleBlaster_Rig_polySurface7
+    2300052: BubbleBlaster_SoapMesh
+    3300000: BubbleBlaster_Aim
+    3300002: BubbleBlaster_Fan
+    3300004: BubbleBlaster_pCube1
+    3300006: BubbleBlaster_pCube16
+    3300008: BubbleBlaster_pCube2
+    3300010: BubbleBlaster_pCube2 1
+    3300012: BubbleBlaster_pCube20
+    3300014: BubbleBlaster_pCube21
+    3300016: BubbleBlaster_pCube22
+    3300018: BubbleBlaster_pCube23
+    3300020: BubbleBlaster_pCube3
+    3300022: BubbleBlaster_pCube4
+    3300024: BubbleBlaster_pCylinder11
+    3300026: BubbleBlaster_pCylinder13
+    3300028: BubbleBlaster_pCylinder14
+    3300030: BubbleBlaster_pCylinder15
+    3300032: BubbleBlaster_polySurface12
+    3300034: BubbleBlaster_polySurface14
+    3300036: BubbleBlaster_polySurface3
+    3300038: BubbleBlaster_polySurface4
+    3300040: BubbleBlaster_polySurface8
+    3300042: BubbleBlaster_polySurface9
+    3300044: BubbleBlaster_Rig_LoveCircle
+    3300046: BubbleBlaster_Rig_polySurface5
+    3300048: BubbleBlaster_Rig_polySurface6
+    3300050: BubbleBlaster_Rig_polySurface7
+    3300052: BubbleBlaster_SoapMesh
+    4300000: BubbleBlaster_Rig_polySurface6
+    4300002: BubbleBlaster_Rig_polySurface7
+    4300004: BubbleBlaster_SoapMesh
+    4300006: BubbleBlaster_polySurface9
+    4300008: BubbleBlaster_polySurface8
+    4300010: BubbleBlaster_pCylinder14
+    4300012: BubbleBlaster_pCylinder13
+    4300014: BubbleBlaster_pCube22
+    4300016: BubbleBlaster_pCube21
+    4300018: BubbleBlaster_pCube20
+    4300020: BubbleBlaster_pCube3
+    4300022: BubbleBlaster_pCube2
+    4300024: BubbleBlaster_pCube4
+    4300026: BubbleBlaster_Rig_LoveCircle
+    4300028: BubbleBlaster_Rig_polySurface5
+    4300030: BubbleBlaster_Aim
+    4300032: BubbleBlaster_Fan
+    4300034: BubbleBlaster_polySurface14
+    4300036: BubbleBlaster_pCylinder11
+    4300038: BubbleBlaster_polySurface3
+    4300040: BubbleBlaster_pCube16
+    4300042: BubbleBlaster_pCylinder15
+    4300044: BubbleBlaster_pCube2
+    4300046: BubbleBlaster_polySurface12
+    4300048: BubbleBlaster_pCube1
+    4300050: BubbleBlaster_polySurface4
+    4300052: BubbleBlaster_pCube23
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 25
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 1
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

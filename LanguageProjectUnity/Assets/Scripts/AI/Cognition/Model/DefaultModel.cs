@@ -199,10 +199,7 @@ public class DefaultModel {
         //     new IPattern[]{},
         //     new IPattern[]{new ExpressionPattern(Expression.ALL, xp0, xp0)}));
         
-        // // F(x) |- exists(x)
-        // m.Add(new SubstitutionRule(
-        //     new IPattern[]{new ExpressionPattern(xp0, xi0)},
-        //     new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}, false));
+
 
         // // antisymmetry for contained_within
         // m.Add(new SubstitutionRule(
@@ -285,6 +282,11 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(Expression.BELIEVE, xi0, xt0)},
             new IPattern[]{xt0}));
+
+        // F(x) |- exists(x)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(xp0, xi0)},
+            new IPattern[]{new ExpressionPattern(Expression.EXISTS, xi0)}, false));
 
         return m;
     }

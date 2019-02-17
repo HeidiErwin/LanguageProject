@@ -440,34 +440,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     }
 
     public void OnClick() {
-        // Debug.Log(expression.headString + " just received a click");
-
         HandleClickSelection();
-
-        // if (this.gameController.selectedExpression == null) {
-        //     Debug.Log("selected expression null");
-        // } else {
-        //     Debug.Log("selected expression is " + this.gameController.selectedExpression.expression.headString);
-        //     if (this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-        //         Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-        //         int counter = 1;
-        //         foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-        //             Debug.Log("Argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-        //             counter++;
-        //         }
-        //     } else {
-        //         Debug.Log(this.gameController.selectedExpression.expression.headString + " is located at " + this.gameObject.transform.position.x + ", " + this.gameObject.transform.position.y);
-        //     }
-        // }
-
-        // if (this.gameController.selectedExpression != null && this.gameController.selectedExpression.expression.GetNumArgs() > 0) {
-        //     Debug.Log("the selected expression has " + this.gameController.selectedExpression.expression.GetNumArgs() + " arguments");
-        //     int counter = 1;
-        //     foreach (ExpressionPiece arg in this.gameController.selectedExpression.arguments) {
-        //         Debug.Log("argument number " + counter + " is " + arg.expression.headString + " and located at " + arg.gameObject.transform.position.x + ", " + arg.gameObject.transform.position.y);
-        //         counter++;
-        //     }
-        // }
     }
 
     /**
@@ -491,7 +464,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         }
 
         // if we're selecting the same expression, then deselect it
-        if (this.gameController.selectedExpression == this && !this.gameController.InSpeakingMode()) {
+        if (this.gameController.selectedExpression == this) {
             this.gameController.selectedExpression = null;
             gameController.HidePointer();
             this.gameController.lowClick.Play();
@@ -500,7 +473,7 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
 
         // if one expression is selected and we click another, try to
         // combine the two expressions. If it works, return true.
-        if (this.parentExpressionPiece != null && this.id.Equals("_") && !this.gameController.InSpeakingMode()) {
+        if (this.parentExpressionPiece != null && this.id.Equals("_")) {
             bool successfulCombination = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
             this.gameController.selectedExpression = null;
             gameController.HidePointer();
