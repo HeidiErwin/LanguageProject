@@ -1,8 +1,11 @@
 #INDIVIDUAL
 self
+bob
+evan
 
 #PREDICATE
 exists
 
 #RELATION_2
 =
+near
