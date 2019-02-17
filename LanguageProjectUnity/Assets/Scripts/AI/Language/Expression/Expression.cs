@@ -241,6 +241,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression PERCEIVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "perceive");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
     public static readonly Expression DESIRE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "desire");
+    public static readonly Expression INTEND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "intend");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");

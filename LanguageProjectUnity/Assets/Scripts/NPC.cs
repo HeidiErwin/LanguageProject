@@ -12,14 +12,14 @@ public class NPC : Character {
     GameController controller;
     protected Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
-    protected HashSet<Expression> primitiveAbilities;
-    protected Expression name;
+    // protected HashSet<Expression> primitiveAbilities;
+    public Expression name;
 
     // Use this for initialization
     protected void Start() {
         controller = GameObject.Find("GameController").GetComponent<GameController>();
         model = DefaultModel.Make();
-        primitiveAbilities = new HashSet<Expression>();
+        // primitiveAbilities = new HashSet<Expression>();
     }
 
     private IEnumerator Do(Expression e) {
@@ -101,6 +101,18 @@ public class NPC : Character {
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
                 yield return StartCoroutine(GoTo("tree"));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))))) {
+                yield return StartCoroutine(GoTo("log"));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))));
+                continue;
+            }
+
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))))) {
+                yield return StartCoroutine(GoTo("Woodcutter"));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))));
                 continue;
             }
 
@@ -242,6 +254,30 @@ public class NPC : Character {
                     GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
                 }
             }
+
+            IPattern commandSchema =
+                new ExpressionPattern(Expression.WOULD,
+                    new ExpressionPattern(Expression.INTEND, xi0, xt0));
+
+            List<Dictionary<MetaVariable, Expression>> commandBinding = commandSchema.GetBindings(action);
+
+            if (commandBinding != null) {
+                Expression command = new Phrase(Expression.WOULD, commandBinding[0][xt0]);
+                yield return ShowSpeechBubble(command);
+                Expression recipient = commandBinding[0][xi0];
+
+                if (recipient.Equals(Expression.BOB)) {
+                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                }
+
+                if (recipient.Equals(Expression.EVAN)) {
+                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                }
+
+                if (recipient.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
+                    GameObject.Find("Woodcutter").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                }
+            }
         }
         // this.controller.combineSuccess.Play();
         // yield return ShowSpeechBubble("yes");
@@ -286,6 +322,12 @@ public class NPC : Character {
         }
 
         if (utterance.type.Equals(SemanticType.CONFORMITY_VALUE)) {
+            if (name.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
+                if (!model.Proves(new Phrase(Expression.KING, utterer))) {
+                    StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+                    return;
+                }
+            }
             // StopCoroutine("Do");
             StartCoroutine(Do(utterance));
             return;
@@ -293,15 +335,12 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             if (this.model.Proves(utterance)) {
-                Debug.Log("TRUE");
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
             } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
-                Debug.Log("FALSE");
                 this.controller.failure.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
             } else {
-                Debug.Log("UNKNOWN");
                 this.controller.lowClick.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY))));
             }
@@ -368,22 +407,31 @@ public class NPC : Character {
 
     public IEnumerator GoTo(String targetID) {
         GameObject targetObject = GameObject.Find(targetID);
-        target = targetObject.transform;
-        speed = 2;
-        GoToTarget();
-        while (!walkingComplete) {
-            yield return null;
+        if (targetObject) {
+            target = targetObject.transform;
+            speed = 2;
+            GoToTarget();
+            while (!walkingComplete) {
+                yield return null;
+            }
         }
-
         yield break;
     }
 
     // called when Character enters the trigger collider of an object 
     public void OnTriggerEnter2D(Collider2D other) {
         Perceivable po = other.GetComponent<Perceivable>();
+        
         if (po != null) {
             po.SendPercept(this);
         }
+
+        Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
+        for (int i = 0; i < childrenPOs.Length; i++) {
+            Debug.Log(childrenPOs[i]);
+            childrenPOs[i].SendPercept(this);
+        }
+
         if (other.CompareTag("Interactable")) {
             currentInteractObject = other.gameObject;
         }

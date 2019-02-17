@@ -4,6 +4,9 @@ using UnityEngine;
 public class Jester : NPC {
     void Start() {
         base.Start();
+
+        this.name = new Word(SemanticType.INDIVIDUAL, "the_jester");
+
         CustomModels.AddWoodcutterModel(this.model);
         // Substitution Rules
 

@@ -4,6 +4,7 @@ using UnityEngine;
 public class King : NPC {
     void Start() {
         base.Start();
+        this.name = new Word(SemanticType.INDIVIDUAL, "kevin");
         CustomModels.AddWoodcutterModel(this.model);
         // SUBSTITUTION RULES
 

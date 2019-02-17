@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour {
     public GameObject fakeCrown;
 
     void Start() {
+        fakeCrown.SetActive(false);
         HidePointer();
         fpc = GameObject.Find("FPSController");
         if (is2D) {

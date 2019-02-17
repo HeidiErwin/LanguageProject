@@ -48,6 +48,12 @@ public class DefaultModel {
                 new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
             new ExpressionPattern(Expression.BELIEVE, xi0, xt0)));
 
+        m.Add(new ActionRule(
+            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.INTEND, xi0, xt0)),
+            new ExpressionPattern(Expression.INTEND, xi0, xt0)));
+
         // SUBSTITUTION RULES        
 
         // S |- believes(self, S)
