@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/FP Experiment.unity
+- path: Assets/Scenes/Woodcutter.unity
   isLoaded: 1
   isActive: 1

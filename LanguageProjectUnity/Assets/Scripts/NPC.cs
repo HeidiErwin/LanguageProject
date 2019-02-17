@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class NPC : Character {
 
@@ -46,6 +47,23 @@ public class NPC : Character {
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
+
+            if (!controller.is2D) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
+                    // yield return StartCoroutine(GoTo("Bob"));
+                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    continue;
+                }
+
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Evan").transform.position;
+                    // yield return StartCoroutine(GoTo("Evan"));
+                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    continue;
+                }
+            }
+
             // StopCoroutine(GoTo("Bob"));
             // StopCoroutine(GoTo("Evan"));
             // StopCoroutine(GoTo("DoorFront"));
