@@ -27,10 +27,11 @@ public class GameController : MonoBehaviour {
     public GameObject fakeCrown;
 
     void Start() {
-        fakeCrown.SetActive(false);
+        
         HidePointer();
         fpc = GameObject.Find("FPSController");
         if (is2D) {
+            fakeCrown.SetActive(false);
             GameObject player = Resources.Load("Player") as GameObject;
             GameObject playerInstance = Instantiate(player, new Vector2(0f, 0f), Quaternion.identity);
         }

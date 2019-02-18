@@ -108,9 +108,12 @@
      <Compile Include="Assets\Scripts\PathRequestManager.cs" />
      <Compile Include="Assets\Scripts\Perceivable.cs" />
      <Compile Include="Assets\Scripts\Perceivable\Cow.cs" />
+     <Compile Include="Assets\Scripts\Perceivable\Crown.cs" />
      <Compile Include="Assets\Scripts\Perceivable\Door.cs" />
      <Compile Include="Assets\Scripts\Perceivable\Fountain.cs" />
+     <Compile Include="Assets\Scripts\Perceivable\JesterPerceivable.cs" />
      <Compile Include="Assets\Scripts\Perceivable\Lamp.cs" />
+     <Compile Include="Assets\Scripts\Perceivable\PlayerPerceivable.cs" />
      <Compile Include="Assets\Scripts\Person.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Pointer.cs" />
