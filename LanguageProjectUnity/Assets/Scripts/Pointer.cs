@@ -22,16 +22,19 @@ public class Pointer : MonoBehaviour {
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)) {
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask)) {
             Color c = hit.transform.gameObject.GetComponent<NPC>() == null ? Color.red : Color.green;
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, c);
-
-            if (Input.GetMouseButtonUp(0) && gc.usableExpression) {
-                NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
-                if (addressee != null) {
-                    addressee.ReceiveExpression(Expression.PLAYER, gc.usableExpression.expression);
-                    Destroy(gc.usableExpression.gameObject, 0f);
-                    gc.usableExpression = null;
+            if (Input.GetMouseButtonUp(0)) {
+                if (gc.usableExpression) {
+                    NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
+                    if (addressee != null) {
+                        addressee.ReceiveExpression(Expression.PLAYER, gc.usableExpression.expression);
+                        Destroy(gc.usableExpression.gameObject, 0f);
+                        gc.usableExpression = null;
+                    }                    
+                } else if (hit.transform.gameObject.name.Equals("Door")) {
+                    gc.door.SetActive(!gc.door.activeSelf);
                 }
             }
             // Debug.Log("Did Hit");

@@ -5,6 +5,12 @@ evan
 
 #PREDICATE
 exists
+door
+open
+closed
+
+#DETERMINER
+the
 
 #RELATION_2
 =

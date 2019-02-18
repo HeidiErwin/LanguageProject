@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour {
     public GameObject log;
     public GameObject fakeCrown;
 
+    public GameObject door;
+
     void Start() {
         
         HidePointer();

@@ -51,15 +51,41 @@ public class NPC : Character {
             if (!controller.is2D) {
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
-                    // yield return StartCoroutine(GoTo("Bob"));
-                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+
+                    yield return null;
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                        yield return null;
+                    }
+
                     continue;
                 }
 
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Evan").transform.position;
-                    // yield return StartCoroutine(GoTo("Evan"));
-                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+
+                    yield return null;
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                        yield return null;
+                    }
+
+                    continue;
+                }
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Door").transform.position;
+                    
+                    yield return null;
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                        yield return null;
+                    }
+
+                    continue;
+                }
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
+                    controller.door.SetActive(false);
+                    continue;
+                }
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
+                    controller.door.SetActive(true);
                     continue;
                 }
             }
@@ -197,7 +223,7 @@ public class NPC : Character {
                continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
                 // the below code works with fromScratch, to a degree
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
@@ -206,29 +232,29 @@ public class NPC : Character {
 
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
-                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // ShowSpeechBubble(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
                 this.controller.placeExpression.Play();
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
                 GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Remove(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Add(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
                 // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
-                // ShowSpeechBubble(new Phrase(Expression.DESIRE, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // ShowSpeechBubble(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 continue;
             }
 
@@ -313,7 +339,7 @@ public class NPC : Character {
     }
 
     public void ReceiveExpression(Expression utterer, Expression utterance) {
-        // Debug.Log(this.nameString + " is seeing '" + utterance + "'");
+        // Debug.Log(this.name + " is seeing '" + utterance + "'");
         if (this.model == null) {
             // Debug.Log("No associated model.");
             this.controller.placeExpression.Play();
