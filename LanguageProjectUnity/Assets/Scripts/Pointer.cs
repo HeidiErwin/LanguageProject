@@ -14,7 +14,7 @@ public class Pointer : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // Bit shift the index of the layer (8) to get a bit mask
-        int layerMask = 1 << 8;
+        int layerMask = 1 << 8 | 1 << 9;
 
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
@@ -23,25 +23,30 @@ public class Pointer : MonoBehaviour {
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask)) {
-            Color c = hit.transform.gameObject.GetComponent<NPC>() == null ? Color.red : Color.green;
+            Color c = hit.transform.gameObject.tag == "Interactable" ? Color.blue : Color.red;
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, c);
-            if (Input.GetMouseButtonUp(0)) {
-                if (gc.usableExpression) {
-                    NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
-                    if (addressee != null) {
-                        addressee.ReceiveExpression(Expression.PLAYER, gc.usableExpression.expression);
-                        Destroy(gc.usableExpression.gameObject, 0f);
-                        gc.usableExpression = null;
-                    }                    
-                } else if (hit.transform.gameObject.name.Equals("Door")) {
-                    gc.door.SetActive(!gc.door.activeSelf);
+            if (hit.transform.gameObject.tag == "Interactable") {
+                gc.currentInteractObject = hit.transform.gameObject;
+                hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
+                if (Input.GetMouseButtonDown(0)) {
+                    if (gc.usableExpression) {
+                        NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
+                        if (addressee != null) {
+                            addressee.ReceiveExpression(Expression.PLAYER, gc.usableExpression.expression);
+                            Destroy(gc.usableExpression.gameObject, 0f);
+                            gc.usableExpression = null;
+                        }                    
+                    } else if (hit.transform.gameObject.name.Equals("Button")) {
+                        gc.door.SetActive(!gc.door.activeSelf);
+                    }
                 }
+            } else if (gc.currentInteractObject) {
+                gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
+                gc.currentInteractObject = null;
             }
-            // Debug.Log("Did Hit");
-        }
-        else {
-            // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            // Debug.Log("Did not Hit");
+        } else if (gc.currentInteractObject) {
+            gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
+            gc.currentInteractObject = null;
         }
     }
 }

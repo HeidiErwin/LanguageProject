@@ -21,7 +21,6 @@ public class Evan : NPC {
             new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))),
             new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
-
         // particular beliefs
 
         // self-knowledge

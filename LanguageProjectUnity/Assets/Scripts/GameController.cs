@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour {
     public AudioSource placeExpression;
     public AudioSource failure;
 
+    public GameObject currentInteractObject;    
+
     public ExpressionPiece selectedExpression;
     public ExpressionPiece usableExpression;
 
@@ -59,6 +61,8 @@ public class GameController : MonoBehaviour {
                     highClick.Play();
                 } else {
                     fpcScript.enabled = true;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     lowClick.Play();
                 }
             }

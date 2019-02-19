@@ -54,9 +54,9 @@ public class SubstitutionRule {
             if (bindings.Count == 0) {
                 // edge case: successful match but no bindings
                 
-                HashSet<Dictionary<MetaVariable, Expression>> domain;
+                List<Dictionary<MetaVariable, Expression>> domain;
                 if (conditions == null || conditions.Length == 0) {
-                    domain = new HashSet<Dictionary<MetaVariable, Expression>>();
+                    domain = new List<Dictionary<MetaVariable, Expression>>();
                 } else {
                     domain = m.Find(conditions);
                 }
@@ -112,9 +112,9 @@ public class SubstitutionRule {
                     boundConditions[j] = conditions[j].Bind(binding);
                 }
 
-                HashSet<Dictionary<MetaVariable, Expression>> domain;
+                List<Dictionary<MetaVariable, Expression>> domain;
                 if (conditions == null || conditions.Length == 0) {
-                    domain = new HashSet<Dictionary<MetaVariable, Expression>>();
+                    domain = new List<Dictionary<MetaVariable, Expression>>();
                 } else {
                     domain = m.Find(boundConditions);
                 }

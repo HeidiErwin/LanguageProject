@@ -70,6 +70,18 @@ public class NPC : Character {
 
                     continue;
                 }
+
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Word(SemanticType.INDIVIDUAL, "prize"))))) {
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Prize").transform.position;
+
+                    yield return null;
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                        yield return null;
+                    }
+
+                    continue;
+                }
+
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Door").transform.position;
                     
@@ -80,10 +92,12 @@ public class NPC : Character {
 
                     continue;
                 }
+
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
                     controller.door.SetActive(false);
                     continue;
                 }
+
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
                     controller.door.SetActive(true);
                     continue;
@@ -359,6 +373,18 @@ public class NPC : Character {
             return;
         }
 
+        if (utterance.type.Equals(SemanticType.ASSERTION)) {
+            Expression content = utterance.GetArg(0);
+            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
+                this.controller.combineSuccess.Play();
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
+            } else {
+                this.controller.failure.Play();
+                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
+            }
+            return;
+        }
+
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             if (this.model.Proves(utterance)) {
                 this.controller.combineSuccess.Play();
@@ -373,22 +399,65 @@ public class NPC : Character {
             return;
         }
 
-        if (utterance.type.Equals(SemanticType.ASSERTION)) {
-            Expression content = utterance.GetArg(0);
-            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
-                this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
-            } else {
-                this.controller.failure.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
-            }
+        if (utterance.type.Equals(SemanticType.INDIVIDUAL)) {
+            // I imagine this will be an invitation to attend to the individual named
+            // but I'll leave this as a kind of puzzlement for now.
+            this.controller.placeExpression.Play();
+            StartCoroutine(ShowSpeechBubble("query"));
             return;
         }
+
+        SemanticType outputType = utterance.type.GetOutputType();
+        if (outputType != null && outputType.Equals(SemanticType.TRUTH_VALUE)) {
+            IPattern[] args = new IPattern[utterance.GetNumArgs()];
+            Dictionary<SemanticType, int> places = new Dictionary<SemanticType, int>();
+            int counter = 0;
+            for (int i = 0; i < utterance.GetNumArgs(); i++) {
+                if (utterance.GetArg(i) == null) {
+                    SemanticType argType = utterance.type.GetInputType(counter);
+
+                    int place = 0;
+                
+                    if (places.ContainsKey(argType)) {
+                        place = places[argType];
+                    }
+                    places[argType] = place + 1;
+
+                    args[i] = new MetaVariable(argType, place);
+
+                    counter++;
+                } else {
+                    args[i] = utterance.GetArg(i);
+                }
+            }
+            // let's see if this doesn't break things.
+            // might have to cycle through the utterance's open args.
+            IPattern question = new ExpressionPattern(utterance.GetHead(), args);
+
+            List<Dictionary<MetaVariable, Expression>> found = model.Find(question);
+            if (found != null) {
+                List<IPattern> bound = question.Bind(found);
+                Expression[] answers = new Expression[bound.Count];
+                counter = 0;
+                foreach (IPattern p in bound) {
+                    Expression answer = new Phrase(Expression.ASSERT, p.ToExpression());
+                    answers[counter] = answer;
+                    counter++;
+                }
+                StartCoroutine(ShowSpeechBubbles(answers));
+                return;
+            }
+        }
         
-        // Debug.Log("Semantic Type of utterance is not sentence/truth value.");
+        // this leaves functions with e as output. Not sure what this would amount to.
         this.controller.placeExpression.Play();
         StartCoroutine(ShowSpeechBubble("query"));
-        return;
+    }
+
+    public IEnumerator ShowSpeechBubbles(params Expression[] exprs) {
+        foreach (Expression expr in exprs) {
+            yield return ShowSpeechBubble(expr);
+        }
     }
 
     /**

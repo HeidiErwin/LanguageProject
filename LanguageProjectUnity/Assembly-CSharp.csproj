@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Keypad\Script\Playsound.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
@@ -61,12 +62,10 @@
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
-     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\EvaluationPattern.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\ExpressionPattern.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\IPattern.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Pattern\MetaVariable.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\ActionRule.cs" />
-     <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\EvaluationRule.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Inference\Rule\SubstitutionRule.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\CustomModels.cs" />
      <Compile Include="Assets\Scripts\AI\Cognition\Model\DefaultModel.cs" />
@@ -117,7 +116,9 @@
      <Compile Include="Assets\Scripts\Person.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Pointer.cs" />
+     <Compile Include="Assets\Scripts\PostEffect.cs" />
      <Compile Include="Assets\Scripts\SphereRotate.cs" />
+     <Compile Include="Assets\Starfield Skybox\Demo\Script\LookCamera.cs" />
      <None Include="Assets\Scripts\AI\Cognition\Notes\demo_vocabulary.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
@@ -140,6 +141,7 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Shaders\DrawSimple.shader" />
      <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
      <None Include="Assets\Scripts\AI\Cognition\Notes\perception.txt" />
  <Reference Include="Unity.TextMeshPro.Editor">

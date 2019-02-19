@@ -21,13 +21,11 @@ public enum EvidentialSource {
 // is no distinction between a surface language and
 // the internal language).
 public abstract class Model {
-    protected List<EvaluationRule> evaluationRules = new List<EvaluationRule>();
     protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
     // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, HashSet<Expression>> triedExpressions;
-    // protected HashSet<Expression> proofBase;
 
     // a queue of goals to be performed in sequence
     // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
@@ -46,10 +44,6 @@ public abstract class Model {
     public abstract bool Remove(Expression e);
 
     // Adding rules into the model
-    public void Add(EvaluationRule r) {
-        evaluationRules.Add(r);
-    }
-
     public void Add(SubstitutionRule r) {
         substitutionRules.Add(r);
         r.AddToDomain(this);
@@ -148,7 +142,6 @@ public abstract class Model {
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
         List<Expression> removed = new List<Expression>();
-        this.triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
         while (basis != null) {
@@ -310,6 +303,9 @@ public abstract class Model {
     // Proves() will return true if this method returns a non-null basis.
     // return true if this model proves expr.
     protected HashSet<Expression> GetBasis(Expression expr) {
+        if (triedExpressions == null) {
+            triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
+        }
         HashSet<Expression> basis = new HashSet<Expression>();
         // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {
@@ -413,7 +409,7 @@ public abstract class Model {
                     }
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
-                    HashSet<Dictionary<MetaVariable, Expression>> bindings = Find(toFindArray);
+                    List<Dictionary<MetaVariable, Expression>> bindings = Find(toFindArray);
                     if (bindings != null) {
                         foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
                             foreach (IPattern p in toFindList) {
@@ -444,11 +440,11 @@ public abstract class Model {
         return null;
     }
 
-    public HashSet<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
-        HashSet<Dictionary<MetaVariable, Expression>> successfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+    public List<Dictionary<MetaVariable, Expression>> Find(params IPattern[] patterns) {
+        List<Dictionary<MetaVariable, Expression>> successfulBindings = new List<Dictionary<MetaVariable, Expression>>();
         successfulBindings.Add(new Dictionary<MetaVariable, Expression>());
         for (int i = 0; i < patterns.Length; i++) {
-            HashSet<Dictionary<MetaVariable, Expression>> newSuccessfulBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+            List<Dictionary<MetaVariable, Expression>> newSuccessfulBindings = new List<Dictionary<MetaVariable, Expression>>();
             // 1. for this IPattern, bind all the successful bindings.
             foreach (Dictionary<MetaVariable, Expression> successfulBinding in successfulBindings) {
 
@@ -456,11 +452,11 @@ public abstract class Model {
                 // at this current pattern.
                 IPattern currentPattern = patterns[i].Bind(successfulBinding);
                 
-                HashSet<Dictionary<MetaVariable, Expression>> oldAttemptedBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+                List<Dictionary<MetaVariable, Expression>> oldAttemptedBindings = new List<Dictionary<MetaVariable, Expression>>();
                 oldAttemptedBindings.Add(new Dictionary<MetaVariable, Expression>());
 
                 foreach (MetaVariable x in currentPattern.GetFreeMetaVariables()) {
-                    HashSet<Dictionary<MetaVariable, Expression>> newAttemptedBindings = new HashSet<Dictionary<MetaVariable, Expression>>();
+                    List<Dictionary<MetaVariable, Expression>> newAttemptedBindings = new List<Dictionary<MetaVariable, Expression>>();
 
                     if (!domain.ContainsKey(x.GetSemanticType())) {
                         return null;
