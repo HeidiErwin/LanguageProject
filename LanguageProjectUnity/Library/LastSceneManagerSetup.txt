@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Sun_Temple/Scenes/DemoScene.unity
+- path: Assets/Scenes/FP Experiment.unity
   isLoaded: 1
   isActive: 1

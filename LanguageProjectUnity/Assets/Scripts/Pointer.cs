@@ -27,7 +27,7 @@ public class Pointer : MonoBehaviour {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, c);
             if (hit.transform.gameObject.tag == "Interactable") {
                 gc.currentInteractObject = hit.transform.gameObject;
-                hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
+                // hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
                 if (Input.GetMouseButtonDown(0)) {
                     if (gc.usableExpression) {
                         NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
@@ -41,11 +41,11 @@ public class Pointer : MonoBehaviour {
                     }
                 }
             } else if (gc.currentInteractObject) {
-                gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
+                // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
                 gc.currentInteractObject = null;
             }
         } else if (gc.currentInteractObject) {
-            gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
+            // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
             gc.currentInteractObject = null;
         }
     }
