@@ -7,9 +7,12 @@ public class Bob : NPC {
         base.Start();
         this.name = Expression.BOB;
 
-        CustomModels.AddDoorModel(this.model);
+        if (GameObject.Find("GameController").GetComponent<GameController>().is2D) {
+            CustomModels.AddDoorModel(this.model);    
+        } else {
+            CustomModels.AddFPExperimentModel(this.model);
+        }
 
-        // Action Rules        
         model.Add(new ActionRule(
             new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN),
             new Phrase(Expression.WOULD,

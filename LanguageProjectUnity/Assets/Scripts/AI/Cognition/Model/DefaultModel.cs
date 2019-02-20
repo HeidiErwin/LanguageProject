@@ -35,12 +35,12 @@ public class DefaultModel {
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
         m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
 
-        // ACTION RULES
-        m.Add(new ActionRule(
-            Expression.VERUM,
-            new ExpressionPattern(Expression.WOULD,
-                new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
-            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
+        // // ACTION RULES
+        // m.Add(new ActionRule(
+        //     Expression.VERUM,
+        //     new ExpressionPattern(Expression.WOULD,
+        //         new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
+        //     new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
 
         m.Add(new ActionRule(
             new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
@@ -273,6 +273,30 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new IPattern[]{xt1},
             new IPattern[]{new ExpressionPattern(Expression.OR, xt0, xt1)}));
+
+        // A, B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0, xt1},
+            new IPattern[]{new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)},
+            false));
+
+        // ~A, ~B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1)},
+            new IPattern[]{new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)},
+            false));
+
+        // A, B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{xt0, new ExpressionPattern(not, xt1)},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
+
+        // ~A, ~B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new IPattern[]{new ExpressionPattern(not, xt0), xt1},
+            new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
 
         // perceive(self, S) |- S
         m.Add(new SubstitutionRule(

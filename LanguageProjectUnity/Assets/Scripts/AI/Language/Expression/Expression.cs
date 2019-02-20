@@ -224,6 +224,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
     public static readonly Expression IF = new Word(SemanticType.TRUTH_FUNCTION_2, "if");
+    public static readonly Expression EQUIVALENT = new Word(SemanticType.TRUTH_FUNCTION_2, "equivalent");
 
     public static readonly Expression NOMINALIZE = new Word(SemanticType.DETERMINER, "nominalize");
 
@@ -250,6 +251,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
+    public static readonly Expression PRIZE = new Word(SemanticType.INDIVIDUAL, "prize");
     // public static readonly Expression NOW = new Word(SemanticType.EVENT, "now");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
@@ -275,6 +277,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression DOOR = new Word(SemanticType.PREDICATE, "door");
     public static readonly Expression CLOSED = new Word(SemanticType.PREDICATE, "closed");
     public static readonly Expression OPEN = new Word(SemanticType.PREDICATE, "open");
+
+    public static readonly Expression IN_THE_ROOM = new Word(SemanticType.PREDICATE, "in_the_room");
     
     public static readonly Expression BLACK = new Word(SemanticType.PREDICATE, "black");
     public static readonly Expression RED = new Word(SemanticType.PREDICATE, "red");

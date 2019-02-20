@@ -36,13 +36,13 @@ public class NPC : Character {
         this.controller.combineSuccess.Play();
         yield return ShowSpeechBubble(Expression.ACCEPT);
 
-        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        // StringBuilder s = new StringBuilder();
-        // foreach (Expression a in actionSequence) {
-        //     s.Append(a);
-        //     s.Append("; ");
-        // }
-        // Debug.Log(s.ToString());
+        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        StringBuilder s = new StringBuilder();
+        foreach (Expression a in actionSequence) {
+            s.Append(a);
+            s.Append("; ");
+        }
+        Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
@@ -53,7 +53,7 @@ public class NPC : Character {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
 
                     yield return null;
-                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
 
@@ -64,7 +64,7 @@ public class NPC : Character {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Evan").transform.position;
 
                     yield return null;
-                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
 
@@ -75,7 +75,7 @@ public class NPC : Character {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Prize").transform.position;
 
                     yield return null;
-                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
 
@@ -86,7 +86,7 @@ public class NPC : Character {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Door").transform.position;
                     
                     yield return null;
-                    while (GetComponent<NavMeshAgent>().remainingDistance > 3) {
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
 
@@ -523,7 +523,6 @@ public class NPC : Character {
 
         Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
         for (int i = 0; i < childrenPOs.Length; i++) {
-            Debug.Log(childrenPOs[i]);
             childrenPOs[i].SendPercept(this);
         }
 

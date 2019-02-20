@@ -1966,11 +1966,14 @@ MonoBehaviour:
   combineSuccess: {fileID: 1451081637}
   placeExpression: {fileID: 1451081636}
   failure: {fileID: 1451081635}
+  currentInteractObject: {fileID: 0}
+  currentUseObject: {fileID: 0}
   selectedExpression: {fileID: 0}
   usableExpression: {fileID: 0}
   is2D: 1
   log: {fileID: 570211117}
   fakeCrown: {fileID: 205094407}
+  door: {fileID: 0}
 --- !u!82 &1451081635
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4155,7 +4158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141760107}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.86, y: 3.67, z: 0.028}
+  m_LocalPosition: {x: -1.86, y: 0.85, z: 0.028}
   m_LocalScale: {x: 1.6879083, y: 1.6768916, z: 1.4194431}
   m_Children:
   - {fileID: 208703252}

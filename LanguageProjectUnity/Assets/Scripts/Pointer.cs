@@ -11,6 +11,16 @@ public class Pointer : MonoBehaviour {
         gc = gameController.GetComponent<GameController>();
     }
 
+    static void SetOutlineColor(GameObject o, Color c) {
+        Renderer r = o.GetComponent<Renderer>();
+        if (r == null) {
+            r = o.GetComponentsInChildren<Renderer>()[0];
+        }
+        if (r != null) {
+            r.material.SetColor("_OutlineColor", c);
+        }
+    }
+
     // Update is called once per frame
     void Update() {
         // Bit shift the index of the layer (8) to get a bit mask
@@ -27,6 +37,7 @@ public class Pointer : MonoBehaviour {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, c);
             if (hit.transform.gameObject.tag == "Interactable") {
                 gc.currentInteractObject = hit.transform.gameObject;
+                SetOutlineColor(hit.transform.gameObject, new Color(0, 0.6f, 1, 1));
                 // hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
                 if (Input.GetMouseButtonDown(0)) {
                     if (gc.usableExpression) {
@@ -38,13 +49,19 @@ public class Pointer : MonoBehaviour {
                         }                    
                     } else if (hit.transform.gameObject.name.Equals("Button")) {
                         gc.door.SetActive(!gc.door.activeSelf);
+                    } else if (hit.transform.gameObject.name.Equals("Prize")) {
+                        GameObject prize = hit.transform.gameObject;
+                        prize.transform.SetParent(GameObject.Find("FirstPersonCharacter").transform);
+                        gc.currentUseObject = prize;
                     }
                 }
             } else if (gc.currentInteractObject) {
+                SetOutlineColor(gc.currentInteractObject, new Color(0, 0, 0, 1));
                 // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
                 gc.currentInteractObject = null;
             }
         } else if (gc.currentInteractObject) {
+            SetOutlineColor(gc.currentInteractObject, new Color(0, 0, 0, 1));
             // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
             gc.currentInteractObject = null;
         }

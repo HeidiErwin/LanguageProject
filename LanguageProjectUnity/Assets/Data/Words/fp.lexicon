@@ -5,13 +5,13 @@ evan
 prize
 
 #PREDICATE
-exists
-door
-open
-closed
+// exists
+// door
+// open
+// closed
 
 #DETERMINER
-the
+// the
 
 #RELATION_2
 =

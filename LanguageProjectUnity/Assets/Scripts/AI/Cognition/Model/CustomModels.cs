@@ -51,4 +51,30 @@ public class CustomModels {
         // COMMON KNOWLEDGE
         m.Add(new Phrase(Expression.CREDIBLE, new Phrase(Expression.THE, Expression.KING)));
     }
+
+    public static void AddFPExperimentModel(Model m) {
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+
+        // ACTION RULES
+        m.Add(new ActionRule(
+            new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
+            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
+
+        m.Add(new ActionRule(
+            new ExpressionPattern(Expression.EQUIVALENT,
+                new Phrase(Expression.IN_THE_ROOM, Expression.SELF),
+                new ExpressionPattern(Expression.IN_THE_ROOM, xi0)),
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
+            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
+
+        // COMMON KNOWLEDGE
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, Expression.BOB)));
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, Expression.EVAN)));
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, new Phrase(Expression.THE, Expression.DOOR))));
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF,
+            new Phrase(Expression.NOT, new Phrase(Expression.IN_THE_ROOM, Expression.PRIZE))));
+    }
 }
