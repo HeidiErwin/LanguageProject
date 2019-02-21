@@ -286,13 +286,13 @@ public class DefaultModel {
             new IPattern[]{new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)},
             false));
 
-        // A, B |- equivalent(A, B)
+        // A, ~B |- ~equivalent(A, B)
         m.Add(new SubstitutionRule(
             new IPattern[]{xt0, new ExpressionPattern(not, xt1)},
             new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
             false));
 
-        // ~A, ~B |- equivalent(A, B)
+        // ~A, B |- ~equivalent(A, B)
         m.Add(new SubstitutionRule(
             new IPattern[]{new ExpressionPattern(not, xt0), xt1},
             new IPattern[]{new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},

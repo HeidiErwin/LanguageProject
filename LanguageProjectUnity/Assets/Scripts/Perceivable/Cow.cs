@@ -8,10 +8,10 @@ public class Cow : Perceivable {
         base.SendPercept(npc);
 
         // Expression param = new Parameter(SemanticType.INDIVIDUAL, id);
-        param = new Phrase(Expression.THE, Expression.COW);
+        Expression theCow = new Phrase(Expression.THE, Expression.COW);
 
         npc.ReceivePercept(
-            new Phrase(Expression.COW, param),
-            new Phrase((isActive ? Expression.ACTIVE : Expression.INACTIVE), param));
+            new Phrase(Expression.WHITE, theCow),
+            new Phrase((isActive ? Expression.ACTIVE : Expression.INACTIVE), theCow));
     }
 }

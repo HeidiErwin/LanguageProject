@@ -39,7 +39,7 @@ public class Pointer : MonoBehaviour {
                 gc.currentInteractObject = hit.transform.gameObject;
                 SetOutlineColor(hit.transform.gameObject, new Color(0, 0.6f, 1, 1));
                 // hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
-                if (Input.GetMouseButtonDown(0)) {
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) {
                     if (gc.usableExpression) {
                         NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
                         if (addressee != null) {

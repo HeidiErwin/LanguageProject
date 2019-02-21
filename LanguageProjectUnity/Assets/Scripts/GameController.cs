@@ -32,7 +32,6 @@ public class GameController : MonoBehaviour {
     public GameObject door;
 
     void Start() {
-        
         HidePointer();
         fpc = GameObject.Find("FPSController");
         if (is2D) {
@@ -45,7 +44,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F)) {
             currentUseObject.transform.parent = null;
             currentUseObject = null;
         }

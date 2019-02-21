@@ -5,6 +5,7 @@ public class Bob : NPC {
 
     void Start() {
         base.Start();
+        CustomModels.AddFPExperimentModel(this.model);
         this.name = Expression.BOB;
 
         if (GameObject.Find("GameController").GetComponent<GameController>().is2D) {

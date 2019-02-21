@@ -5,6 +5,7 @@ evan
 prize
 
 #PREDICATE
+in_the_room
 // exists
 // door
 // open
@@ -16,6 +17,9 @@ prize
 #RELATION_2
 =
 near
+
+#TRUTH_FUNCTION_2
+equivalent
 
 #TRUTH_CONFORMITY_FUNCTION
 would

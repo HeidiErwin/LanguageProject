@@ -4,6 +4,7 @@ using UnityEngine;
 public class Evan : NPC {
     void Start() {
         base.Start();
+        CustomModels.AddFPExperimentModel(this.model);
 
         this.name = Expression.EVAN;
 

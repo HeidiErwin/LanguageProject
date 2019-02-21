@@ -8,12 +8,12 @@ using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class NPC : Character {
-
     GameController controller;
     protected Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
     // protected HashSet<Expression> primitiveAbilities;
     public Expression name;
+    protected bool locked = false;
 
     // Use this for initialization
     protected void Start() {
@@ -515,25 +515,64 @@ public class NPC : Character {
 
     // called when Character enters the trigger collider of an object 
     public void OnTriggerEnter2D(Collider2D other) {
-        Perceivable po = other.GetComponent<Perceivable>();
+        if (!locked) {
+            Perceivable po = other.GetComponent<Perceivable>();
         
-        if (po != null) {
-            po.SendPercept(this);
-        }
+            if (po != null) {
+                po.SendPercept(this);
+            }
 
-        Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
-        for (int i = 0; i < childrenPOs.Length; i++) {
-            childrenPOs[i].SendPercept(this);
-        }
+            Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
+            for (int i = 0; i < childrenPOs.Length; i++) {
+                childrenPOs[i].SendPercept(this);
+            }
 
-        if (other.CompareTag("Interactable")) {
-            currentInteractObject = other.gameObject;
+            if (other.CompareTag("Interactable")) {
+                currentInteractObject = other.gameObject;
+            }
+
+            locked = true;
+            StartCoroutine("Waiting");
         }
     }
 
-    // NOTE: objects are perceived both when NPC enters and exits their range of perceptability
+
+    // //NOTE: objects are perceived both when NPC enters and exits their range of perceptability
     // public void OnTriggerExit2D(Collider2D other) {
-    //     if (other.GetComponent<Perceivable>() != null) {
-    //     }
+    // }
+
+    // called when Character enters the trigger collider of an object 
+    public void OnTriggerEnter(Collider other) {
+        if (!locked) {
+            Perceivable po = other.GetComponent<Perceivable>();
+            
+            if (po != null) {
+                Debug.Log(name + " sees " + po);
+                po.SendPercept(this);
+            }
+
+            Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
+            for (int i = 0; i < childrenPOs.Length; i++) {
+                Debug.Log(name + " sees " + childrenPOs[i]);
+                childrenPOs[i].SendPercept(this);
+            }
+
+            if (other.CompareTag("Interactable")) {
+                currentInteractObject = other.gameObject;
+            }
+
+            locked = true;
+            StartCoroutine("Waiting");
+        }
+    }
+
+    public IEnumerator Waiting() {
+        yield return new WaitForSeconds(1f);
+        locked = false;
+        yield return null;
+    }
+
+    // // NOTE: objects are perceived both when NPC enters and exits their range of perceptability
+    // public void OnTriggerExit(Collider other) {
     // }
 }
