@@ -25,7 +25,7 @@ public abstract class Model {
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
     // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
-    protected Dictionary<Expression, HashSet<Expression>> triedExpressions;
+    protected Dictionary<Expression, HashSet<Expression>> triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
 
     // a queue of goals to be performed in sequence
     // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
@@ -78,11 +78,6 @@ public abstract class Model {
                 AddToDomain(partial);
             }
         }
-    }
-
-    public bool Proves(Expression expr) {
-        triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
-        return GetBasis(expr) != null;
     }
 
     // public void SetUtility(Expression expr, float utility) {
@@ -192,7 +187,6 @@ public abstract class Model {
             return actionSequence;
         }
 
-
         IPattern secondOrderAttitudePattern =
             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
@@ -203,6 +197,8 @@ public abstract class Model {
         if (secondOrderAttitudePattern.Matches(goal)) {
             return null;
         }
+
+        List<List<Expression>> possibleActions = new List<List<Expression>>();
 
         // search through action rules and recur on their preconditions as subgoals.
         foreach (ActionRule r in this.actionRules) {
@@ -232,7 +228,8 @@ public abstract class Model {
 
                 List<Expression> solvedSequence = Plan(newGoal, newActionSequence, ImAdd<Expression>(goal, tried));
                 if (solvedSequence != null) {
-                    return solvedSequence;
+                    possibleActions.Add(solvedSequence);
+                    // return solvedSequence;
                 }
             }
         }
@@ -286,22 +283,36 @@ public abstract class Model {
                     }
                 }
                 if (solved) {
-                    return solvedSubsequence;
+                    possibleActions.Add(solvedSubsequence);
+                    // return solvedSubsequence;
                 }
             }
         }
 
-        // no known courses of action bring about the intended result.
-        return null;
+        // if there are known courses of action, choose among the best of them.
+        // if there aren't any, then return NULL.
+        List<Expression> bestCourse = null;
+
+        foreach (List<Expression> course in possibleActions) {
+            // eventually, this should be a utility estimate. For now,
+            // it simply counts how many actions are required.
+            if (bestCourse == null || bestCourse.Count > course.Count) {
+                bestCourse = course;
+            }
+        }
+
+        return bestCourse;
+    }
+
+    public bool Proves(Expression expr) {
+        // triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
+        return GetBasis(expr) != null;
     }
 
     // TODO: change thi to return the BASIS, not the truth value.
     // Proves() will return true if this method returns a non-null basis.
     // return true if this model proves expr.
     protected HashSet<Expression> GetBasis(Expression expr) {
-        if (triedExpressions == null) {
-            triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
-        }
         HashSet<Expression> basis = new HashSet<Expression>();
         // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {

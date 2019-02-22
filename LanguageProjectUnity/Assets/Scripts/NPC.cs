@@ -487,12 +487,22 @@ public class NPC : Character {
         Camera cam;
         if (controller.is2D) {
             cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+            exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
+            exprPieceScript.transform.position =
+                new Vector3(exprPieceScript.transform.position.x,
+                    exprPieceScript.transform.position.y +
+                    (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) +
+                    16);
         } else {
             cam = GameObject.Find("FirstPersonCharacter").GetComponent<Camera>();
+            exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
+            exprPieceScript.transform.position =
+                new Vector3(exprPieceScript.transform.position.x,
+                    exprPieceScript.transform.position.y +
+                    (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) +
+                    300);
         }
-        exprPieceScript.transform.position = cam.WorldToScreenPoint(this.transform.position);
-        exprPieceScript.transform.position =
-                new Vector3(exprPieceScript.transform.position.x, exprPieceScript.transform.position.y + (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) + 16);
+
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
         Destroy(exprPieceInstance, 2.0f);
         yield return new WaitForSeconds(2.0f);
