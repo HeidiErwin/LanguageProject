@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine;
 
@@ -41,6 +42,9 @@ public class GameController : MonoBehaviour {
         }
         SetUpKeyboard();
         canvas.SetActive(false);
+
+        // Assembly asm = typeof(GameController).Assembly;
+        // Debug.Log(asm.GetType("Expression1"));
     }
 
     void Update() {

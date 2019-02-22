@@ -11,7 +11,6 @@ public class NPC : Character {
     GameController controller;
     protected Model model;
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
-    // protected HashSet<Expression> primitiveAbilities;
     public Expression name;
     protected bool locked = false;
 
@@ -22,32 +21,31 @@ public class NPC : Character {
         // primitiveAbilities = new HashSet<Expression>();
     }
 
-    private IEnumerator Do(Expression e) {
+    protected IEnumerator Do(Expression e) {
         Expression goal = e.GetArg(0);
 
         List<Expression> actionSequence = model.Plan(goal);
 
         if (actionSequence == null) {
             this.controller.lowClick.Play();
-            yield return StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+            yield return ShowSpeechBubble(Expression.REFUSE);
             yield break;
         }
 
         this.controller.combineSuccess.Play();
         yield return ShowSpeechBubble(Expression.ACCEPT);
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        StringBuilder s = new StringBuilder();
-        foreach (Expression a in actionSequence) {
-            s.Append(a);
-            s.Append("; ");
-        }
-        Debug.Log(s.ToString());
+        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+        // Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
-
             if (!controller.is2D) {
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
@@ -547,13 +545,13 @@ public class NPC : Character {
             Perceivable po = other.GetComponent<Perceivable>();
             
             if (po != null) {
-                Debug.Log(name + " sees " + po);
+                // Debug.Log(name + " sees " + po);
                 po.SendPercept(this);
             }
 
             Perceivable[] childrenPOs = GetComponentsInChildren<Perceivable>();
             for (int i = 0; i < childrenPOs.Length; i++) {
-                Debug.Log(name + " sees " + childrenPOs[i]);
+                // Debug.Log(name + " sees " + childrenPOs[i]);
                 childrenPOs[i].SendPercept(this);
             }
 
