@@ -21,6 +21,22 @@ public class Pointer : MonoBehaviour {
         }
     }
 
+    static void SetHalo(GameObject o, bool on) {
+        GlowObject glow = o.GetComponent<GlowObject>();
+
+        if (glow == null) {
+            glow = o.GetComponentsInChildren<GlowObject>()[0];
+        }
+
+        if (glow != null) {
+            if (on) {
+                glow.Activate();    
+            } else {
+                glow.Deactivate();
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update() {
         // Bit shift the index of the layer (8) to get a bit mask
@@ -36,8 +52,11 @@ public class Pointer : MonoBehaviour {
             Color c = hit.transform.gameObject.tag == "Interactable" ? Color.blue : Color.red;
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, c);
             if (hit.transform.gameObject.tag == "Interactable") {
+                if (gc.currentInteractObject != null) {
+                    SetHalo(gc.currentInteractObject, false);
+                }
                 gc.currentInteractObject = hit.transform.gameObject;
-                SetOutlineColor(hit.transform.gameObject, new Color(0, 0.6f, 1, 1));
+                SetHalo(hit.transform.gameObject, true);
                 // hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) {
                     if (gc.usableExpression) {
@@ -56,12 +75,12 @@ public class Pointer : MonoBehaviour {
                     }
                 }
             } else if (gc.currentInteractObject) {
-                SetOutlineColor(gc.currentInteractObject, new Color(0, 0, 0, 1));
+                SetHalo(gc.currentInteractObject, false);
                 // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
                 gc.currentInteractObject = null;
             }
         } else if (gc.currentInteractObject) {
-            SetOutlineColor(gc.currentInteractObject, new Color(0, 0, 0, 1));
+            SetHalo(gc.currentInteractObject, false);
             // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
             gc.currentInteractObject = null;
         }

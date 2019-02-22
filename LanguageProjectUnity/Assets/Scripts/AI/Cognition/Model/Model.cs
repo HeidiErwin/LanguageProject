@@ -80,10 +80,6 @@ public abstract class Model {
         }
     }
 
-    public IEnumerator<bool> CoProves(Expression expr) {
-        yield return Proves(expr);
-    }
-
     public bool Proves(Expression expr) {
         triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
         return GetBasis(expr) != null;

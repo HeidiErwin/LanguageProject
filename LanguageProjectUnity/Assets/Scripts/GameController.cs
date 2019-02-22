@@ -49,8 +49,11 @@ public class GameController : MonoBehaviour {
 
     void Update() {
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F)) {
-            currentUseObject.transform.parent = null;
-            currentUseObject = null;
+            if (currentUseObject != null) {
+                currentUseObject.transform.parent = null;
+                currentUseObject = null;                
+            }
+
         }
         if (Input.GetKeyUp(KeyCode.Tab)) {
             if (selectedExpression != null) {
