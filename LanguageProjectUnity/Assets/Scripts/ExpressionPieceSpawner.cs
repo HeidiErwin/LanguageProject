@@ -57,7 +57,10 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
         Image headImage = nameObject.AddComponent<Image>();
-        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.headString);
+        Sprite headSprite = Resources.Load<Sprite>("Symbols/" + this.expression.headString);
+        if (headSprite == null) {
+            headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.headString);
+        }
         headImage.sprite = headSprite;
         headImage.transform.localScale = headImage.transform.localScale * .3f;
         headImage.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);

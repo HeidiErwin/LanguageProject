@@ -21,7 +21,7 @@ public class DefaultModel {
         m.Add(new Phrase(not, Expression.FALSUM));
 
         // COMMON-KNOWLEDGE
-        m.Add(new Phrase(Expression.NEAR, Expression.SELF, Expression.SELF));
+        m.Add(new Phrase(Expression.AT, Expression.SELF, Expression.SELF));
         // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.BLACK)));
         // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.RED)));
         // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.GREEN)));
@@ -39,17 +39,17 @@ public class DefaultModel {
         // m.Add(new ActionRule(
         //     Expression.VERUM,
         //     new ExpressionPattern(Expression.WOULD,
-        //         new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)),
-        //     new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0)));
+        //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
+        //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
 
         m.Add(new ActionRule(
-            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
+            new ExpressionPattern(Expression.AT, Expression.SELF, xi0),
             new ExpressionPattern(Expression.WOULD,
                 new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
             new ExpressionPattern(Expression.BELIEVE, xi0, xt0)));
 
         m.Add(new ActionRule(
-            new ExpressionPattern(Expression.NEAR, Expression.SELF, xi0),
+            new ExpressionPattern(Expression.AT, Expression.SELF, xi0),
             new ExpressionPattern(Expression.WOULD,
                 new ExpressionPattern(Expression.INTEND, xi0, xt0)),
             new ExpressionPattern(Expression.INTEND, xi0, xt0)));

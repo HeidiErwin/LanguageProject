@@ -13,12 +13,12 @@ public class Evan : NPC {
 
         // Action Rules
         model.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
+            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
             new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))),
             new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
         model.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
+            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
             new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))),
             new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 

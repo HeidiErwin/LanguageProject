@@ -23,7 +23,7 @@ public class Jester : NPC {
 
         model.Add(new ActionRule(
             new ExpressionPattern(Expression.AND,
-                new ExpressionPattern(Expression.NEAR, Expression.SELF, new MetaVariable(SemanticType.INDIVIDUAL, 0)),
+                new ExpressionPattern(Expression.AT, Expression.SELF, new MetaVariable(SemanticType.INDIVIDUAL, 0)),
                 new Phrase(Expression.POSSESS, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))),
             new ExpressionPattern(Expression.WOULD,
                 new ExpressionPattern(Expression.POSSESS,

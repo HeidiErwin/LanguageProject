@@ -47,7 +47,7 @@ public class NPC : Character {
         // action has been completed.
         foreach (Expression action in actionSequence) {
             if (!controller.is2D) {
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
 
                     yield return null;
@@ -58,7 +58,7 @@ public class NPC : Character {
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Evan").transform.position;
 
                     yield return null;
@@ -69,7 +69,7 @@ public class NPC : Character {
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Word(SemanticType.INDIVIDUAL, "prize"))))) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Word(SemanticType.INDIVIDUAL, "goal"))))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Prize").transform.position;
 
                     yield return null;
@@ -80,7 +80,7 @@ public class NPC : Character {
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Door").transform.position;
                     
                     yield return null;
@@ -106,51 +106,51 @@ public class NPC : Character {
             // StopCoroutine(GoTo("Evan"));
             // StopCoroutine(GoTo("DoorFront"));
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.BOB)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
                     yield return StartCoroutine(GoTo("Bob"));
-                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
                     continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
                     yield return StartCoroutine(GoTo("Evan"));
-                    // this.model.Add(new Phrase(Expression.NEAR, Expression.EVAN, Expression.BOB));
+                    // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
                     continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))))) {
                 yield return StartCoroutine(GoTo("Cow"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, Expression.PLAYER)))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.PLAYER)))) {
                 yield return StartCoroutine(GoTo("Player(Clone)"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.PLAYER))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.PLAYER))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
                 yield return StartCoroutine(GoTo("tree"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))))) {
                 yield return StartCoroutine(GoTo("log"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))))) {
+            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))))) {
                 yield return StartCoroutine(GoTo("Woodcutter"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NEAR, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))));
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))));
                 continue;
             }
 

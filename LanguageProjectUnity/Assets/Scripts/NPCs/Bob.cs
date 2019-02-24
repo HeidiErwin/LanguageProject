@@ -15,14 +15,14 @@ public class Bob : NPC {
         }
 
         model.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN),
+            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
             new Phrase(Expression.WOULD,
                 new Phrase(Expression.INTEND, Expression.EVAN,
                     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))),
             new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
         model.Add(new ActionRule(
-            new Phrase(Expression.NEAR, Expression.SELF, Expression.EVAN),
+            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
             new Phrase(Expression.WOULD,
                 new Phrase(Expression.INTEND, Expression.EVAN,
                     new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))),

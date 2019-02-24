@@ -1,0 +1,1191 @@
+fileFormatVersion: 2
+guid: 61a43784419714d108bf0bb5dd64df8c
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: languageProjectSymbols_0
+    21300002: languageProjectSymbols_1
+    21300004: languageProjectSymbols_2
+    21300006: languageProjectSymbols_3
+    21300008: languageProjectSymbols_4
+    21300010: languageProjectSymbols_5
+    21300012: languageProjectSymbols_6
+    21300014: languageProjectSymbols_7
+    21300016: languageProjectSymbols_8
+    21300018: languageProjectSymbols_9
+    21300020: languageProjectSymbols_10
+    21300022: languageProjectSymbols_11
+    21300024: languageProjectSymbols_12
+    21300026: languageProjectSymbols_13
+    21300028: languageProjectSymbols_14
+    21300030: languageProjectSymbols_15
+    21300032: languageProjectSymbols_16
+    21300034: languageProjectSymbols_17
+    21300036: languageProjectSymbols_18
+    21300038: languageProjectSymbols_19
+    21300040: languageProjectSymbols_20
+    21300042: languageProjectSymbols_21
+    21300044: languageProjectSymbols_22
+    21300046: languageProjectSymbols_23
+    21300048: languageProjectSymbols_24
+    21300050: languageProjectSymbols_25
+    21300052: languageProjectSymbols_26
+    21300054: languageProjectSymbols_27
+    21300056: languageProjectSymbols_28
+    21300058: languageProjectSymbols_29
+    21300060: languageProjectSymbols_30
+    21300062: languageProjectSymbols_31
+    21300064: languageProjectSymbols_32
+    21300066: languageProjectSymbols_33
+    21300068: languageProjectSymbols_34
+    21300070: languageProjectSymbols_35
+    21300072: languageProjectSymbols_36
+    21300074: languageProjectSymbols_37
+    21300076: languageProjectSymbols_38
+    21300078: languageProjectSymbols_39
+    21300080: languageProjectSymbols_40
+    21300082: languageProjectSymbols_41
+    21300084: languageProjectSymbols_42
+    21300086: languageProjectSymbols_43
+    21300088: languageProjectSymbols_44
+    21300090: languageProjectSymbols_45
+    21300092: languageProjectSymbols_46
+    21300094: languageProjectSymbols_47
+    21300096: languageProjectSymbols_48
+    21300098: languageProjectSymbols_49
+    21300100: languageProjectSymbols_50
+    21300102: languageProjectSymbols_51
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: languageProjectSymbols_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 3101
+        width: 684
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2087282e1de4d2da02c59c832a0a94
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_1
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 3252
+        width: 683
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3891a2680a5da4a0dbab2c3a0748c203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_2
+      rect:
+        serializedVersion: 2
+        x: 1558
+        y: 3154
+        width: 633
+        height: 544
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 301bd0061814e4615ba8db165c6565e8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_3
+      rect:
+        serializedVersion: 2
+        x: 2262
+        y: 3350
+        width: 633
+        height: 348
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cf910949f34240869ec4158f672bafb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_4
+      rect:
+        serializedVersion: 2
+        x: 2957
+        y: 3122
+        width: 603
+        height: 714
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f46b7eda679e14b0389b5c1694a59725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_5
+      rect:
+        serializedVersion: 2
+        x: 3504
+        y: 3190
+        width: 503
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef160ad90321b412ba50d06b7eba696b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_6
+      rect:
+        serializedVersion: 2
+        x: 4078
+        y: 3190
+        width: 506
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d60c04b2ec7942b4a39c4b0aeab6123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_7
+      rect:
+        serializedVersion: 2
+        x: 5114
+        y: 3595
+        width: 411
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7e8fc2ebe94a4a17b556ccb073a5cb1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_8
+      rect:
+        serializedVersion: 2
+        x: 5158
+        y: 3278
+        width: 326
+        height: 326
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 937dbe08297fd48e0a2904285d8d3d1e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_9
+      rect:
+        serializedVersion: 2
+        x: 5587
+        y: 3039
+        width: 445
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fabd2d86faae4449a9188a54c047696a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_10
+      rect:
+        serializedVersion: 2
+        x: 4685
+        y: 3347
+        width: 346
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a554ac9d7a694137b0876684f950f64
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_11
+      rect:
+        serializedVersion: 2
+        x: 2262
+        y: 3154
+        width: 633
+        height: 192
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0bb25155b2d34be693bd33528c29177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_12
+      rect:
+        serializedVersion: 2
+        x: 5114
+        y: 3039
+        width: 411
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86a888d06ab71467c829a185cf5c28de
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_13
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 2329
+        width: 349
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 200cce649e4df4e04afd34097158f93d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_14
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 2356
+        width: 633
+        height: 632
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dff914e9cd634c3ba7d9614db0030fa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_15
+      rect:
+        serializedVersion: 2
+        x: 1247
+        y: 2320
+        width: 683
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc863f96c39014930acfc0311205f98b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_16
+      rect:
+        serializedVersion: 2
+        x: 2072
+        y: 2356
+        width: 178
+        height: 630
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb0f0cf7999514aa6ab98a48b8f3b890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_17
+      rect:
+        serializedVersion: 2
+        x: 2339
+        y: 2332
+        width: 633
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 065a5b42a2cb347db8b5b5b84f230eaf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_18
+      rect:
+        serializedVersion: 2
+        x: 3067
+        y: 2329
+        width: 683
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f13b1e22e88b439aae0c30d31dbd694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_19
+      rect:
+        serializedVersion: 2
+        x: 3848
+        y: 2332
+        width: 683
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8dbc1c65cbf44f118d4f589fb78ea02
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_20
+      rect:
+        serializedVersion: 2
+        x: 4620
+        y: 2329
+        width: 680
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61047074a4e2e4307a74b9ac2e2fc8b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_21
+      rect:
+        serializedVersion: 2
+        x: 5389
+        y: 2646
+        width: 633
+        height: 357
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4cdf7c01c1604efa95cc91a2af0cdd7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_22
+      rect:
+        serializedVersion: 2
+        x: 5389
+        y: 2344
+        width: 633
+        height: 213
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0449a2f100654c50a4b4d549a319056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1681
+        width: 368
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c51d2d57fb3e40339be8deb5691fe26
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_24
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 2022
+        width: 636
+        height: 192
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82f7fb56e2ff4461ae333e61c3ce27b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_25
+      rect:
+        serializedVersion: 2
+        x: 1226
+        y: 1667
+        width: 635
+        height: 547
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91978d9368900476b850200726539127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_26
+      rect:
+        serializedVersion: 2
+        x: 1922
+        y: 1584
+        width: 633
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc97d17e2776e40559f0c32ce0ea8e16
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_27
+      rect:
+        serializedVersion: 2
+        x: 2682
+        y: 1732
+        width: 683
+        height: 371
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94e5f2349297a4660adad73af4c1128b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_28
+      rect:
+        serializedVersion: 2
+        x: 3481
+        y: 1634
+        width: 683
+        height: 612
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9f2a9e283767434d901ca65bbdb6d2b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_29
+      rect:
+        serializedVersion: 2
+        x: 4274
+        y: 1590
+        width: 612
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 963fe2b592383432ca1910db0c8997c4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_30
+      rect:
+        serializedVersion: 2
+        x: 4957
+        y: 1584
+        width: 370
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6beb4488a6ce2425c87870f82156243b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_31
+      rect:
+        serializedVersion: 2
+        x: 5439
+        y: 1610
+        width: 210
+        height: 633
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407c2f58cc9864654a7cd236d8d116ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_32
+      rect:
+        serializedVersion: 2
+        x: 5732
+        y: 1755
+        width: 327
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a36f73ac1f8bc49e783d0b950e7b4a6d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_33
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 1667
+        width: 636
+        height: 351
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40aad7964fe154a1a903f33845ed818c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_34
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 821
+        width: 633
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d6499a49352b4f179872155568daf5c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_35
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 821
+        width: 683
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 717d1571fb97c44f4902d71fee48010f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_36
+      rect:
+        serializedVersion: 2
+        x: 1534
+        y: 818
+        width: 680
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c27d1d44e162945469fb27d9a9b8f943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_37
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 821
+        width: 684
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a6d965e2c88f46c29e4cddedb01c85d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_38
+      rect:
+        serializedVersion: 2
+        x: 3066
+        y: 821
+        width: 684
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d624413d6be6405681edd8928e1d864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_39
+      rect:
+        serializedVersion: 2
+        x: 3859
+        y: 1161
+        width: 633
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69e221ce1af8f48de9bf7b7b1aa56cb9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_40
+      rect:
+        serializedVersion: 2
+        x: 3862
+        y: 960
+        width: 633
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46901bc299dc247a89d2b56cad134d94
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_41
+      rect:
+        serializedVersion: 2
+        x: 4626
+        y: 1152
+        width: 635
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6348ad22f153e4e72a64d986a4dbeaf9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_42
+      rect:
+        serializedVersion: 2
+        x: 5371
+        y: 818
+        width: 684
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d6bd827358784aa18bb300b6c5d92ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_43
+      rect:
+        serializedVersion: 2
+        x: 4629
+        y: 951
+        width: 636
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bff7c5d355bb4428b000cb1054a1cbd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_44
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 13
+        width: 706
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc33bf025178440759e7a643dc59c5b1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_45
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 13
+        width: 684
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec214e49e8682474bb4135f649dd14f3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_46
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 8
+        width: 760
+        height: 688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a14950fa5616842df89a168a0d277b5a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_47
+      rect:
+        serializedVersion: 2
+        x: 2398
+        y: 13
+        width: 682
+        height: 683
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88510a391ebdf4eca8d53c63b0a797af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_48
+      rect:
+        serializedVersion: 2
+        x: 3185
+        y: 0
+        width: 408
+        height: 711
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4cc1c660296d4693b9233a492b4413e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_49
+      rect:
+        serializedVersion: 2
+        x: 3655
+        y: 55
+        width: 787
+        height: 597
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e11faf7665e804d659a45daa2017ae2c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_50
+      rect:
+        serializedVersion: 2
+        x: 4451
+        y: 78
+        width: 787
+        height: 562
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd9b05f95ef0d42fd9c6f3c7a53b1973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: languageProjectSymbols_51
+      rect:
+        serializedVersion: 2
+        x: 5274
+        y: 0
+        width: 785
+        height: 611
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e106a96faee543fea0a4d8705cdc92d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 321db6a98b81343bda49ba669e523f7b
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,8 +1,9 @@
 #INDIVIDUAL
 self
+player
 bob
 evan
-prize
+goal
 
 #PREDICATE
 in_the_room
@@ -16,7 +17,7 @@ in_the_room
 
 #RELATION_2
 =
-near
+at
 
 #TRUTH_FUNCTION_2
 // equivalent

@@ -206,16 +206,17 @@ public abstract class Expression : IPattern {
     }
 
     // the words of the language
-    public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
-    public static readonly Expression FALSUM = new Word(SemanticType.TRUTH_VALUE, "falsum");
-    public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
-    public static readonly Expression DENY = new Word(SemanticType.TRUTH_VALUE, "deny");
-
-    public static readonly Expression ACCEPT = new Word(SemanticType.TRUTH_VALUE, "accept");
-    public static readonly Expression REFUSE = new Word(SemanticType.TRUTH_VALUE, "refuse");
-
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
+
+    public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
+    public static readonly Expression FALSUM = new Phrase(Expression.NOT, Expression.VERUM);
+
+    public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
+    public static readonly Expression DENY = new Phrase(Expression.NOT, Expression.AFFIRM);
+
+    public static readonly Expression ACCEPT = new Word(SemanticType.CONFORMITY_VALUE, "accept");
+    public static readonly Expression REFUSE = new Word(SemanticType.CONFORMITY_VALUE, "refuse");
     
     public static readonly Expression ASSERT = new Word(SemanticType.TRUTH_ASSERTION_FUNCTION, "assert");
 
@@ -251,7 +252,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
-    public static readonly Expression PRIZE = new Word(SemanticType.INDIVIDUAL, "prize");
+    public static readonly Expression GOAL = new Word(SemanticType.INDIVIDUAL, "goal");
     // public static readonly Expression NOW = new Word(SemanticType.EVENT, "now");
 
     public static readonly Expression INDIVIDUAL_VARIABLE = new Word(SemanticType.INDIVIDUAL, "x");
@@ -299,7 +300,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression CONTAINED_WITHIN = new Word(SemanticType.RELATION_2, "contained_within");
     public static readonly Expression OVERLAPS_WITH = new Word(SemanticType.RELATION_2, "overlaps_with");
     public static readonly Expression HELP = new Word(SemanticType.RELATION_2, "help");
-    public static readonly Expression NEAR = new Word(SemanticType.RELATION_2, "near");
+    public static readonly Expression AT = new Word(SemanticType.RELATION_2, "at");
     public static readonly Expression POSSESS = new Word(SemanticType.RELATION_2, "possess");
     public static readonly Expression WEAR = new Word(SemanticType.RELATION_2, "wear");
 

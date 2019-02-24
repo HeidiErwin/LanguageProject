@@ -57,10 +57,13 @@ public class GameController : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.Tab)) {
             if (selectedExpression != null) {
+                if (!is2D) {
+                    selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);
+                    selectedExpression.transform.position = new Vector3(Screen.width / 2, Screen.height / 2);
+                    usableExpression = selectedExpression;
+                    // selectedExpression = null;
+                }
                 HidePointer();
-                selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);
-                selectedExpression.transform.position = new Vector3(Screen.width / 2, Screen.height / 2);
-                usableExpression = selectedExpression;
                 selectedExpression = null;
             }
 
