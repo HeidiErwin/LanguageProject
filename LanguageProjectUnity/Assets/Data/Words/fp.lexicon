@@ -19,9 +19,18 @@ in_the_room
 =
 at
 
+#TRUTH_FUNCTION_1
+not
+
 #TRUTH_FUNCTION_2
 // equivalent
 or
 
+#INDIVIDUAL_TRUTH_RELATION
+perceive
+
 #TRUTH_CONFORMITY_FUNCTION
 would
+
+#TRUTH_ASSERTION_FUNCTION
+assert

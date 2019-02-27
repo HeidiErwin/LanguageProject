@@ -7,6 +7,17 @@ using UnityEngine;
 public class Testing : MonoBehaviour {
     void Start() {
         Model m = DefaultModel.Make();
+        Expression example = new Word(SemanticType.TRUTH_VALUE, "example");
+        Expression iPerceiveExample = new Phrase(Expression.PERCEIVE, Expression.SELF, example);
+        Expression iPerceiveNotExample = new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.NOT, example));
+        m.Add(iPerceiveExample);
+        PrintProves(m, true, iPerceiveExample);
+        PrintProves(m, true, example);
+        Debug.Log(m.UpdateBelief(new Phrase(Expression.NOT, example)));
+        PrintProves(m, true, iPerceiveExample);
+        PrintProves(m, true, new Phrase(Expression.NOT, example));
+        PrintProves(m, false, example);
+
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
         // PrintProves(bm, true, new Phrase(Expression.SOME, Expression.ANIMAL, Expression.ACTIVE));

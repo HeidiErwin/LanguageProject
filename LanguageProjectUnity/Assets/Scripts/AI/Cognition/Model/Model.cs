@@ -7,6 +7,7 @@ public enum EvidentialSource {
     Perception,
     Testimony,
     Expectation,
+    Inference,
     Base
 }
 
@@ -84,7 +85,7 @@ public abstract class Model {
     //     this.utilities[expr] = utility;
     // }
 
-    // OIT 1, NIT 2, OE 3, OCT 4, OP 5, NCT 6, NE 7, NP 8, B 9
+    // OIT 1, NIT 2, OE 3, Inf 4, OCT 5, OP 6, NCT 7, NE 8, NP 9, B 10
     public int EstimatePlausibility(Expression e, bool isNew) {
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
@@ -95,9 +96,9 @@ public abstract class Model {
         List<Dictionary<MetaVariable, Expression>> bindings = perceptionPattern.GetBindings(e);
         if (bindings != null) {
             if (isNew) {
-                return 8;
+                return 9;
             } else {
-                return 5;
+                return 6;
             }
         }
 
@@ -106,9 +107,9 @@ public abstract class Model {
             bool isCredible = true; // this.Proves(new Phrase(Expression.CREDIBLE, bindings[0][xi0]));
             if (isCredible) {
                 if (isNew) {
-                    return 6;    
+                    return 7;    
                 }
-                return 4;
+                return 5;
             } else {
                 if (isNew) {
                     return 2;
@@ -120,26 +121,51 @@ public abstract class Model {
         bindings = expectationPattern.GetBindings(e);
         if (bindings != null) {
             if (isNew) {
-                return 7;
+                return 8;
             }
             return 3;
         }
 
-        return 9;
+        if (this.Contains(e)) {
+            return 10;
+        }
+
+        if (e.Equals(new Word(SemanticType.TRUTH_VALUE, "example"))) {
+            return 4;
+        }
+
+        if (e.Equals(new Phrase(Expression.NOT, new Word(SemanticType.TRUTH_VALUE, "example")))) {
+            return 5;
+        }
+
+        return 4;
     }
 
     // returns true if the belief is accepted
     // returns false if the belief is rejected    
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
+        if (this.Proves(input)) {
+            return true;
+        }
+
         List<Expression> removed = new List<Expression>();
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
+        
+        if (basis != null) {
+            foreach (Expression b in basis) {
+                Debug.Log(b);
+            }
+        }
+
         while (basis != null) {
             Expression leastPlausible = input;
             int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
+            Debug.Log(leastPlausible.ToString() + ": " + lowestPlausibility.ToString());
             foreach (Expression e in basis) {
                 int currentPlausibility = EstimatePlausibility(e, false);
+                Debug.Log(e + ": " + currentPlausibility);
                 if (currentPlausibility < lowestPlausibility) {
                     leastPlausible = e;
                     lowestPlausibility = currentPlausibility;
@@ -148,17 +174,21 @@ public abstract class Model {
             
             if (leastPlausible.Equals(input)) {
                 foreach (Expression e in removed) {
+                    this.Remove(new Phrase(Expression.NOT, e));
                     this.Add(e);
                 }
                 return false;
             }
             removed.Add(leastPlausible);
-            this.Remove(leastPlausible);
+            if (this.Contains(leastPlausible)) {
+                this.Remove(leastPlausible);
+            } else {
+                this.Add(new Phrase(Expression.NOT, leastPlausible));
+            }
+            
             triedExpressions.Clear();
             basis = GetBasis(negatedInput);
-            break;
         }
-
         this.Add(input);
         return true;
     }
@@ -328,6 +358,10 @@ public abstract class Model {
             return basis;
         }
 
+        if (this.Contains(new Phrase(Expression.NOT, expr))) {
+            return null;
+        }
+
         IPattern secondOrderAttitudePattern =
             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
@@ -402,6 +436,9 @@ public abstract class Model {
                 if (toFindList.Count == 0) {
                     if (proved) {
                         triedExpressions[expr] = basis;
+                        if (!sr.IsLastRank(expr)) {
+                            basis.Add(expr);
+                        }
                         return basis;
                     }
                 } else {
@@ -438,6 +475,10 @@ public abstract class Model {
                             if (!proved) {
                                 break;
                             }
+                        }
+
+                        if (!sr.IsLastRank(expr)) {
+                            basis.Add(expr);
                         }
                         return basis;
                     }

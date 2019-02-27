@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class CustomModels {
     public static void AddDoorModel(Model m) {
         // ACTION RULES
@@ -25,12 +27,12 @@ public class CustomModels {
         // SUBSTITUTION RULES
         // open(x) |- not(closed(x))
         m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(
+            new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(
                     Expression.OPEN,
-                    new MetaVariable(SemanticType.INDIVIDUAL, 0))},
-            new IPattern[]{new ExpressionPattern(
+                    new MetaVariable(SemanticType.INDIVIDUAL, 0)))},
+            new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(
                 Expression.NOT,
-                new ExpressionPattern(Expression.CLOSED, new MetaVariable(SemanticType.INDIVIDUAL, 0)))}));
+                new ExpressionPattern(Expression.CLOSED, new MetaVariable(SemanticType.INDIVIDUAL, 0))))}));
 
         // COMMON KNOWLEDGE
         m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
@@ -76,5 +78,6 @@ public class CustomModels {
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, new Phrase(Expression.THE, Expression.DOOR))));
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF,
             new Phrase(Expression.NOT, new Phrase(Expression.IN_THE_ROOM, Expression.GOAL))));
+        m.Add(new Phrase(Expression.CREDIBLE, Expression.PLAYER));
     }
 }

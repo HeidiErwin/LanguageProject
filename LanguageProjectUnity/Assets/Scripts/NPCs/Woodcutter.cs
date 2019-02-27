@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Woodcutter : NPC {
@@ -18,8 +19,8 @@ public class Woodcutter : NPC {
         
         // x has the crown |- x is king
         this.model.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.POSSESS, new MetaVariable(SemanticType.INDIVIDUAL, 0), new Phrase(Expression.THE, Expression.CROWN))},
-            new IPattern[]{new ExpressionPattern(Expression.KING, new MetaVariable(SemanticType.INDIVIDUAL, 0))}));
+            new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(Expression.POSSESS, new MetaVariable(SemanticType.INDIVIDUAL, 0), new Phrase(Expression.THE, Expression.CROWN)))},
+            new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(Expression.KING, new MetaVariable(SemanticType.INDIVIDUAL, 0)))}));
 
         // particular beliefs
 
