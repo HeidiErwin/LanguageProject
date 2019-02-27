@@ -14,9 +14,10 @@ public class Testing : MonoBehaviour {
         PrintProves(m, true, iPerceiveExample);
         PrintProves(m, true, example);
         Debug.Log(m.UpdateBelief(new Phrase(Expression.NOT, example)));
-        PrintProves(m, true, iPerceiveExample);
-        PrintProves(m, true, new Phrase(Expression.NOT, example));
-        PrintProves(m, false, example);
+        // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
+        // PrintProves(m, true, iPerceiveExample);
+        // PrintProves(m, true, new Phrase(Expression.NOT, example));
+        // PrintProves(m, false, example);
 
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
@@ -40,17 +41,30 @@ public class Testing : MonoBehaviour {
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {
+        HashSet<Expression> basis = m.GetBasis(e);
         if (proves) {
-            if (m.Proves(e)) {
-                Debug.Log("SUCCESS: model proves '" + e + "'");
+            if (basis != null) {
+                StringBuilder s = new StringBuilder();
+                s.Append("SUCCESS: model proves '" + e + "' with basis {");
+                foreach (Expression b in basis) {
+                    s.Append(b + ", ");
+                }
+                s.Append("}");
+                Debug.Log(s.ToString());
             } else {
                 Debug.Log("FAILURE: model doesn't prove '" + e + "'");
             }
         } else {
-            if (!m.Proves(e)) {
+            if (basis == null) {
                 Debug.Log("SUCCESS: model doesn't prove '" + e + "'");
             } else {
-                Debug.Log("FAILURE: model proves '" + e + "'");
+                StringBuilder s = new StringBuilder();
+                s.Append("FAILURE: model proves '" + e + "' with basis {");
+                foreach (Expression b in basis) {
+                    s.Append(b + ", ");
+                }
+                s.Append("}");
+                Debug.Log(s.ToString());
             }
         }
     }

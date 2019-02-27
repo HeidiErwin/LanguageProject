@@ -152,20 +152,12 @@ public abstract class Model {
         List<Expression> removed = new List<Expression>();
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
-        
-        if (basis != null) {
-            foreach (Expression b in basis) {
-                Debug.Log(b);
-            }
-        }
 
         while (basis != null) {
             Expression leastPlausible = input;
             int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
-            Debug.Log(leastPlausible.ToString() + ": " + lowestPlausibility.ToString());
             foreach (Expression e in basis) {
                 int currentPlausibility = EstimatePlausibility(e, false);
-                Debug.Log(e + ": " + currentPlausibility);
                 if (currentPlausibility < lowestPlausibility) {
                     leastPlausible = e;
                     lowestPlausibility = currentPlausibility;
@@ -342,7 +334,7 @@ public abstract class Model {
     // TODO: change thi to return the BASIS, not the truth value.
     // Proves() will return true if this method returns a non-null basis.
     // return true if this model proves expr.
-    protected HashSet<Expression> GetBasis(Expression expr) {
+    public HashSet<Expression> GetBasis(Expression expr) {
         HashSet<Expression> basis = new HashSet<Expression>();
         // BASE CASES
         if (triedExpressions.ContainsKey(expr)) {

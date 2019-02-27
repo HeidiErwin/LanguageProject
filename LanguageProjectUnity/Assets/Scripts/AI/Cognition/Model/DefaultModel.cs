@@ -202,10 +202,12 @@ public class DefaultModel {
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
             false));
 
-        // perceive(self, S) |- S | verum
+        // perceive(self, S) | normal(S) |- S | normal(S)
         m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0))},
-            new List<IPattern>[]{BuildList(xt0), BuildList(Expression.VERUM)}));
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
+                BuildList(new ExpressionPattern(Expression.NORMAL, xt0))},
+            new List<IPattern>[]{BuildList(xt0)}));
 
         // make(x, S) |- S
         m.Add(new SubstitutionRule(

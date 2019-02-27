@@ -208,6 +208,7 @@ public abstract class Expression : IPattern {
     // the words of the language
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
+    public static readonly Expression NORMAL = new Word(SemanticType.TRUTH_FUNCTION_1, "normal");
 
     public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
     public static readonly Expression FALSUM = new Phrase(Expression.NOT, Expression.VERUM);

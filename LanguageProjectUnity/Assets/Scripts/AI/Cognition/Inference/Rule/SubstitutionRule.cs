@@ -2,6 +2,10 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
+// TODO 2/27: make custom return type
+// for Substitute() which includes information
+// about default assumptions being made
+
 public class SubstitutionRule {
     protected IPattern[] conditions;
     protected List<IPattern>[] top;
@@ -89,7 +93,7 @@ public class SubstitutionRule {
                     conjunctPatterns[1] = new List<IPattern>();
 
                     // add all the conjuncts on the top side.
-                    for (int j = 0; j <= substitution.Length; j++) {
+                    for (int j = 0; (j <= i) && (j < substitution.Length); j++) {
                         foreach (IPattern conjunctPattern in substitution[j]) {
                             conjunctPatterns[0].Add(conjunctPattern);
                         }
@@ -152,7 +156,7 @@ public class SubstitutionRule {
                     conjunctPatterns[0] = new List<IPattern>();
                     conjunctPatterns[1] = new List<IPattern>();
 
-                    for (int j = 0; j < substitution.Length; j++) {
+                    for (int j = 0; (j <= i) && (j < substitution.Length); j++) {
                         foreach (IPattern conjunctPattern in substitution[j]) {
                             conjunctPatterns[0].Add(conjunctPattern.Bind(binding));
                         }
@@ -202,16 +206,18 @@ public class SubstitutionRule {
         List<IPattern>[] newBottom = new List<IPattern>[this.top.Length];
 
         for (int i = 0; i < bottom.Length; i++) {
-            newTop[i] = new List<IPattern>();
+            int newRank = bottom.Length - (i + 1);
+            newTop[newRank] = new List<IPattern>();
             foreach (IPattern pattern in bottom[i]) {
-                newTop[i].Add(new ExpressionPattern(Expression.NOT, pattern));
+                newTop[newRank].Add(new ExpressionPattern(Expression.NOT, pattern));
             }
         }
 
         for (int i = 0; i < top.Length; i++) {
-            newBottom[i] = new List<IPattern>();
+            int newRank = top.Length - (i + 1);
+            newBottom[newRank] = new List<IPattern>();
             foreach (IPattern pattern in top[i]) {
-                newBottom[i].Add(new ExpressionPattern(Expression.NOT, pattern));
+                newBottom[newRank].Add(new ExpressionPattern(Expression.NOT, pattern));
             }
         }
 
