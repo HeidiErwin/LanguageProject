@@ -153,8 +153,6 @@ public abstract class Model {
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
 
-        
-
         while (basis != null) {
             Expression leastPlausible = input;
             int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
@@ -173,9 +171,6 @@ public abstract class Model {
                 }
                 return false;
             }
-
-            Debug.Log("HERE");
-            Debug.Log(leastPlausible);
 
             removed.Add(leastPlausible);
             if (this.Contains(leastPlausible)) {
@@ -423,6 +418,19 @@ public abstract class Model {
                             foreach (Expression b in subBasis) {
                                 basis.Add(b);
                             }
+                        }
+                    }
+                }
+
+                foreach (IPattern p in conjunctSubstitution.assumptions) {
+                    if (p == null) {
+                        continue;
+                    }
+                    Expression e = p.ToExpression();
+                    if (e != null) {
+                        if (Contains(new Phrase(Expression.NOT, e))) {
+                            proved = false;
+                            break;
                         }
                     }
                 }

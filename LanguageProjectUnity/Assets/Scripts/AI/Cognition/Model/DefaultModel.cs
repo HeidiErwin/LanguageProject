@@ -90,11 +90,11 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
         //     false));
 
-        // // S |- ~~S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
-        //     false));
+        // S |- ~~S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
+            false));
 
         // // GEACH RULES
         // // t -> t
@@ -212,7 +212,7 @@ public class DefaultModel {
         m.Add(new SubstitutionRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
-                BuildList(new Word(SemanticType.TRUTH_VALUE, "normal"))},
+                BuildList(new ExpressionPattern(Expression.NORMAL, xt0))},
             new List<IPattern>[]{BuildList(xt0)}));
 
         // // make(x, S) |- S
