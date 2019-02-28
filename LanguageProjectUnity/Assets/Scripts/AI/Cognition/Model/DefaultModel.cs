@@ -26,10 +26,6 @@ public class DefaultModel {
 
         Expression not = Expression.NOT;
 
-        // verum and falsum
-        m.Add(Expression.VERUM);
-        m.Add(new Phrase(not, Expression.FALSUM));
-
         // COMMON-KNOWLEDGE
         // m.Add(new Phrase(Expression.AT, Expression.SELF, Expression.SELF));
         // m.Add(new Phrase(Expression.COLOR, new Phrase(Expression.NOMINALIZE, Expression.BLACK)));
@@ -66,163 +62,173 @@ public class DefaultModel {
 
         // SUBSTITUTION RULES
 
-        // S |- believes(self, S)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0))},
-            false));
+        // // |- verum
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{},
+        //     new List<IPattern>[]{BuildList(Expression.VERUM)}));
 
-        // believes(x, ~S) |- ~believes(x, S)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, new ExpressionPattern(not, xt0)))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0)))},
-            false));
+        // // falsum |-
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(Expression.FALSUM)},
+        //     new List<IPattern>[]{}));
 
-        // S |- T(S)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
-            false));
+        // // S |- believes(self, S)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0))},
+        //     false));
 
-        // S |- ~~S
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
-            false));
+        // // believes(x, ~S) |- ~believes(x, S)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, new ExpressionPattern(not, xt0)))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0)))},
+        //     false));
 
-        // GEACH RULES
-        // t -> t
-        // !F(x) |- G(!, F, x)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
-            false));
+        // // S |- T(S)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
+        //     false));
+
+        // // S |- ~~S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
+        //     false));
+
+        // // GEACH RULES
+        // // t -> t
+        // // !F(x) |- G(!, F, x)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
+        //     false));
         
-        // t, t -> t
-        // C(F(x), H(x)) |- G(C, F, H, x)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
-            false));
+        // // t, t -> t
+        // // C(F(x), H(x)) |- G(C, F, H, x)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
+        //     false));
 
-        // |- F(the(F))
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, new ExpressionPattern(Expression.THE, xp0)))}));
+        // // |- F(the(F))
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, new ExpressionPattern(Expression.THE, xp0)))}));
 
-        // reflexivity for at
-        // |- at(x, x)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AT, xi0, xi0))}));
+        // // reflexivity for at
+        // // |- at(x, x)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AT, xi0, xi0))}));
 
-        // reflexivity for identity
-        // |- x = x
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
+        // // reflexivity for identity
+        // // |- x = x
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
 
-        // substitution of identiticals
-        // [i = j] F(i) |- F(j)
-        m.Add(new SubstitutionRule(
-            new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi1))}));
+        // // substitution of identiticals
+        // // [i = j] F(i) |- F(j)
+        // m.Add(new SubstitutionRule(
+        //     new IPattern[]{new ExpressionPattern(Expression.IDENTITY, xi0, xi1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi1))}));
 
-        // F(x), G(x) |- some(F, G)
-        // not transposable to save time
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.SOME, xp0, xp1))},
-            false));
+        // // F(x), G(x) |- some(F, G)
+        // // not transposable to save time
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.SOME, xp0, xp1))},
+        //     false));
 
-        // uniqueness of king
-        // king(i), king(j) |- i = j
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{
-                BuildList(
-                    new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
-            new List<IPattern>[]{
-                BuildList(
-                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi0)),
-                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi1)))},
-            false));
+        // // uniqueness of king
+        // // king(i), king(j) |- i = j
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         BuildList(
+        //             new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
+        //     new List<IPattern>[]{
+        //         BuildList(
+        //         new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi0)),
+        //         new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.KING, xi1)))},
+        //     false));
         
-        // A, B |- A & B
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0, xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))}));
+        // // A, B |- A & B
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0, xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))}));
 
-        // A & B |- A
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
-            new List<IPattern>[]{BuildList(xt0)}));
+        // // A & B |- A
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // A & B |- B
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
-            new List<IPattern>[]{BuildList(xt1)}));
+        // // A & B |- B
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
+        //     new List<IPattern>[]{BuildList(xt1)}));
 
-        // A v B |- A, B
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))},
-            new List<IPattern>[]{BuildList(xt0, xt1)}));
+        // // A v B |- A, B
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))},
+        //     new List<IPattern>[]{BuildList(xt0, xt1)}));
 
-        // A |- A v B
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
+        // // A |- A v B
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
-        // B |- A v B
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
+        // // B |- A v B
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
-        // A, B |- equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0, xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-            false));
+        // // A, B |- equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0, xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+        //     false));
 
-        // ~A, ~B |- equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-            false));
+        // // ~A, ~B |- equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+        //     false));
 
-        // A, ~B |- ~equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-            false));
+        // // A, ~B |- ~equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+        //     false));
 
-        // ~A, B |- ~equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-            false));
+        // // ~A, B |- ~equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+        //     false));
 
-        // perceive(self, S) | normal(S) |- S | normal(S)
+        // perceive(self, S) | normal(S) |- S
         m.Add(new SubstitutionRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
-                BuildList(new ExpressionPattern(Expression.NORMAL, xt0))},
+                BuildList(new Word(SemanticType.TRUTH_VALUE, "normal"))},
             new List<IPattern>[]{BuildList(xt0)}));
 
-        // make(x, S) |- S
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-            new List<IPattern>[]{BuildList(xt0)}));
+        // // make(x, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // believe(x, S) |- S
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))},
-            new List<IPattern>[]{BuildList(xt0)}));
+        // // believe(x, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // F(x) |- exists(x)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EXISTS, xi0))}, false));
+        // // F(x) |- exists(x)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EXISTS, xi0))}, false));
 
         return m;
     }

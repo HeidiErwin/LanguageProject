@@ -15,9 +15,9 @@ public class Testing : MonoBehaviour {
         PrintProves(m, true, example);
         Debug.Log(m.UpdateBelief(new Phrase(Expression.NOT, example)));
         // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
-        // PrintProves(m, true, iPerceiveExample);
-        // PrintProves(m, true, new Phrase(Expression.NOT, example));
-        // PrintProves(m, false, example);
+        PrintProves(m, true, iPerceiveExample);
+        PrintProves(m, true, new Phrase(Expression.NOT, example));
+        PrintProves(m, false, example);
 
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));

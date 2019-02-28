@@ -7,6 +7,17 @@ using System.Collections.Generic;
 // about default assumptions being made
 
 public class SubstitutionRule {
+    public class Result {
+        public List<IPattern> positives { private set; get; }
+        public List<IPattern> negatives { private set; get; }
+        public List<IPattern> assumptions { private set; get; }
+        public Result(List<IPattern> positives, List<IPattern> negatives, List<IPattern> assumptions) {
+            this.positives = positives;
+            this.negatives = negatives;
+            this.assumptions = assumptions;
+        }
+    }
+
     protected IPattern[] conditions;
     protected List<IPattern>[] top;
     protected List<IPattern>[] bottom;
@@ -58,11 +69,11 @@ public class SubstitutionRule {
         return true;
     }
 
-    public List<List<IPattern>[]> Substitute(Model m, Expression expr) {
+    public List<Result> Substitute(Model m, Expression expr) {
         List<IPattern>[] match = this.bottom;
         List<IPattern>[] substitution = this.top;
 
-        List<List<IPattern>[]> admissibleSubstitutions = new List<List<IPattern>[]>();
+        List<Result> admissibleSubstitutions = new List<Result>();
 
         // go through the match row, and act on the patterns
         // that match expr.
@@ -88,46 +99,65 @@ public class SubstitutionRule {
                         continue;
                     }
 
-                    List<IPattern>[] conjunctPatterns = new List<IPattern>[2];
-                    conjunctPatterns[0] = new List<IPattern>();
-                    conjunctPatterns[1] = new List<IPattern>();
-
                     // add all the conjuncts on the top side.
+                    List<IPattern> conjunctPositives = new List<IPattern>();
                     for (int j = 0; (j <= i) && (j < substitution.Length); j++) {
                         foreach (IPattern conjunctPattern in substitution[j]) {
-                            conjunctPatterns[0].Add(conjunctPattern);
+                            conjunctPositives.Add(conjunctPattern);
+                        }
+                    }
+
+                    // add all the higher-rank conjuncts as assumptions.
+                    List<IPattern> conjunctAssumptions = new List<IPattern>();
+                    for (int j = i + 1; j < substitution.Length; j++) {
+                        foreach (IPattern conjunctPattern in substitution[j]) {
+                            conjunctAssumptions.Add(conjunctPattern);
                         }
                     }
 
                     // add all the negated disjuncts ranked >= this match.
+                    List<IPattern> conjunctNegatives = new List<IPattern>();
                     for (int j = 0; j <= i; j++) {
                         foreach (IPattern conjunctPattern in match[j]) {
                             // careful with this equality operator
                             if (conjunctPattern == matchPattern) {
+                                // if this is a default choice
+                                // of disjunct, we want to include
+                                // it in the assumptions made.
+                                if (j < match.Length - 1) {
+                                    conjunctAssumptions.Add(conjunctPattern);
+                                }
                                 continue;
                             }
-                            conjunctPatterns[1].Add(conjunctPattern);
+                            conjunctNegatives.Add(conjunctPattern);
                         }
                     }
 
                     if (domain.Count == 0) {
-                        admissibleSubstitutions.Add(conjunctPatterns);
+                        admissibleSubstitutions.Add(new Result(conjunctPositives, conjunctNegatives, conjunctAssumptions));
                     }
 
                     foreach (Dictionary<MetaVariable, Expression> binding in domain) {
-                        List<IPattern>[] conditionBoundConjunctPatterns = new List<IPattern>[2];
-                        conditionBoundConjunctPatterns[0] = new List<IPattern>();
-                        conditionBoundConjunctPatterns[1] = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctPositives = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctNegatives = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctAssumptions = new List<IPattern>();
                         
-                        foreach (IPattern pattern in conjunctPatterns[0]) {
-                            conditionBoundConjunctPatterns[0].Add(pattern.Bind(binding));
+                        foreach (IPattern pattern in conjunctPositives) {
+                            conditionBoundConjunctPositives.Add(pattern.Bind(binding));
                         }
 
-                        foreach (IPattern pattern in conjunctPatterns[1]) {
-                            conditionBoundConjunctPatterns[0].Add(pattern.Bind(binding));
+                        foreach (IPattern pattern in conjunctNegatives) {
+                            conditionBoundConjunctNegatives.Add(pattern.Bind(binding));
                         }
 
-                        admissibleSubstitutions.Add(conditionBoundConjunctPatterns);
+                        foreach (IPattern pattern in conjunctAssumptions) {
+                            conditionBoundConjunctAssumptions.Add(pattern.Bind(binding));
+                        }
+
+                        admissibleSubstitutions.Add(new Result(
+                            conditionBoundConjunctPositives,
+                            conditionBoundConjunctNegatives,
+                            conditionBoundConjunctAssumptions));
                     }
                 }
 
@@ -152,43 +182,61 @@ public class SubstitutionRule {
                         continue;
                     }
 
-                    List<IPattern>[] conjunctPatterns = new List<IPattern>[2];
-                    conjunctPatterns[0] = new List<IPattern>();
-                    conjunctPatterns[1] = new List<IPattern>();
+                    
+                    
+                    List<IPattern> conjunctAssumptions = new List<IPattern>();
 
+                    List<IPattern> conjunctPositives = new List<IPattern>();
                     for (int j = 0; (j <= i) && (j < substitution.Length); j++) {
                         foreach (IPattern conjunctPattern in substitution[j]) {
-                            conjunctPatterns[0].Add(conjunctPattern.Bind(binding));
+                            conjunctPositives.Add(conjunctPattern.Bind(binding));
                         }
                     }
 
+                    for (int j = i + 1; j < substitution.Length; j++) {
+                        foreach (IPattern conjunctPattern in substitution[j]) {
+                            conjunctAssumptions.Add(conjunctPattern.Bind(binding));
+                        }
+                    }
+
+                    List<IPattern> conjunctNegatives = new List<IPattern>();
                     for (int j = 0; j <= i; j++) {
                         foreach (IPattern conjunctPattern in match[j]) {
                             if (conjunctPattern == matchPattern) {
+                                if (j < match.Length - 1) {
+                                    conjunctAssumptions.Add(conjunctPattern.Bind(binding));
+                                }
                                 continue;
                             }
-                            conjunctPatterns[1].Add(conjunctPattern.Bind(binding));
+                            conjunctNegatives.Add(conjunctPattern.Bind(binding));
                         }
                     }
 
                     if (domain.Count == 0) {
-                        admissibleSubstitutions.Add(conjunctPatterns);
+                        admissibleSubstitutions.Add(new Result(conjunctPositives, conjunctNegatives, conjunctAssumptions));
                     }
 
                     foreach (Dictionary<MetaVariable, Expression> assignment in domain) {
-                        List<IPattern>[] conditionBoundConjunctPatterns = new List<IPattern>[2];
-                        conditionBoundConjunctPatterns[0] = new List<IPattern>();
-                        conditionBoundConjunctPatterns[1] = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctPositives = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctNegatives = new List<IPattern>();
+                        List<IPattern> conditionBoundConjunctAssumptions = new List<IPattern>();
                         
-                        foreach (IPattern pattern in conjunctPatterns[0]) {
-                            conditionBoundConjunctPatterns[0].Add(pattern.Bind(assignment));
+                        foreach (IPattern pattern in conjunctPositives) {
+                            conditionBoundConjunctPositives.Add(pattern.Bind(assignment));
                         }
 
-                        foreach (IPattern pattern in conjunctPatterns[1]) {
-                            conditionBoundConjunctPatterns[1].Add(pattern.Bind(assignment));
+                        foreach (IPattern pattern in conjunctNegatives) {
+                            conditionBoundConjunctNegatives.Add(pattern.Bind(assignment));
                         }
 
-                        admissibleSubstitutions.Add(conditionBoundConjunctPatterns);
+                        foreach (IPattern pattern in conjunctAssumptions) {
+                            conditionBoundConjunctAssumptions.Add(pattern.Bind(assignment));
+                        }
+
+                        admissibleSubstitutions.Add(new Result(
+                            conditionBoundConjunctPositives,
+                            conditionBoundConjunctNegatives,
+                            conditionBoundConjunctAssumptions));
                     }
                 }
             }

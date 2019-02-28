@@ -153,6 +153,8 @@ public abstract class Model {
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
 
+        
+
         while (basis != null) {
             Expression leastPlausible = input;
             int lowestPlausibility = EstimatePlausibility(leastPlausible, true);
@@ -171,6 +173,10 @@ public abstract class Model {
                 }
                 return false;
             }
+
+            Debug.Log("HERE");
+            Debug.Log(leastPlausible);
+
             removed.Add(leastPlausible);
             if (this.Contains(leastPlausible)) {
                 this.Remove(leastPlausible);
@@ -259,16 +265,16 @@ public abstract class Model {
         // TODO: make it so, if there's no plan for this goal, form a
         // plan for what would entail the goal
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, goal);
+            List<SubstitutionRule.Result> admissibleSubstitutions = sr.Substitute(this, goal);
             if (admissibleSubstitutions == null) {
                 continue;
             }
-            foreach (List<IPattern>[] cnfs in admissibleSubstitutions) {
+            foreach (SubstitutionRule.Result cnfs in admissibleSubstitutions) {
                 List<Expression> subgoals = new List<Expression>();
 
                 // TODO: add Find() functionality eventually (bleh)
                 bool bound = true;
-                foreach (IPattern p in cnfs[0]) {
+                foreach (IPattern p in cnfs.positives) {
                     Expression positive = p.ToExpression();
                     if (positive != null) {
                         subgoals.Add(positive);
@@ -281,7 +287,7 @@ public abstract class Model {
                     continue;
                 }
 
-                foreach (IPattern p in cnfs[1]) {
+                foreach (IPattern p in cnfs.negatives) {
                     Expression negative = p.ToExpression();
                     if (negative != null) {
                         subgoals.Add(negative);
@@ -367,20 +373,20 @@ public abstract class Model {
 
         // RECURSIVE CASES
         foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<List<IPattern>[]> admissibleSubstitutions = sr.Substitute(this, expr);
+            List<SubstitutionRule.Result> admissibleSubstitutions = sr.Substitute(this, expr);
             
             if (admissibleSubstitutions == null) {
                 continue;
             }
 
             // Debug.Log(sr + " matches " + expr);
-            foreach (List<IPattern>[] conjunctSubstitution in admissibleSubstitutions) {
+            foreach (SubstitutionRule.Result conjunctSubstitution in admissibleSubstitutions) {
                 basis.Clear();
                 bool proved = true;
 
                 List<IPattern> toFindList = new List<IPattern>();
 
-                foreach (IPattern p in conjunctSubstitution[0]) {
+                foreach (IPattern p in conjunctSubstitution.positives) {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
@@ -401,7 +407,7 @@ public abstract class Model {
                     continue;
                 }
 
-                foreach (IPattern p in conjunctSubstitution[1]) {
+                foreach (IPattern p in conjunctSubstitution.negatives) {
                     if (p == null) {
                         continue;
                     }
@@ -427,10 +433,11 @@ public abstract class Model {
 
                 if (toFindList.Count == 0) {
                     if (proved) {
-                        triedExpressions[expr] = basis;
-                        if (!sr.IsLastRank(expr)) {
-                            basis.Add(expr);
+                        foreach (IPattern p in conjunctSubstitution.assumptions) {
+                            Expression e = p.ToExpression();
+                            basis.Add(e);
                         }
+                        triedExpressions[expr] = basis;
                         return basis;
                     }
                 } else {
@@ -446,6 +453,7 @@ public abstract class Model {
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
                     List<Dictionary<MetaVariable, Expression>> bindings = Find(toFindArray);
+                    Dictionary<MetaVariable, Expression> provedBinding = null;
                     if (bindings != null) {
                         foreach (Dictionary<MetaVariable, Expression> binding in bindings) {
                             foreach (IPattern p in toFindList) {
@@ -459,6 +467,7 @@ public abstract class Model {
                                     proved = false;
                                     break;
                                 } else {
+                                    provedBinding = binding;
                                     foreach (Expression b in subBasis) {
                                         basis.Add(b);    
                                     }
@@ -469,8 +478,9 @@ public abstract class Model {
                             }
                         }
 
-                        if (!sr.IsLastRank(expr)) {
-                            basis.Add(expr);
+                        foreach (IPattern p in conjunctSubstitution.assumptions) {
+                            Expression fullyBound = p.Bind(provedBinding).ToExpression();
+                            basis.Add(fullyBound);
                         }
                         return basis;
                     }
