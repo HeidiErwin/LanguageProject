@@ -208,7 +208,6 @@ public abstract class Expression : IPattern {
     // the words of the language
     public static readonly Expression TRUE = new Word(SemanticType.TRUTH_FUNCTION_1, "true");
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
-    public static readonly Expression NORMAL = new Word(SemanticType.TRUTH_FUNCTION_1, "normal");
 
     public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
     public static readonly Expression FALSUM = new Phrase(Expression.NOT, Expression.VERUM);
@@ -242,9 +241,13 @@ public abstract class Expression : IPattern {
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression PERCEIVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "perceive");
+    public static readonly Expression EXPRESS = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "express");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
     public static readonly Expression DESIRE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "desire");
     public static readonly Expression INTEND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "intend");
+    public static readonly Expression SINCERE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "sincere");
+    public static readonly Expression CORRECT = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "correct");
+    public static readonly Expression VERIDICAL = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "veridical");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");

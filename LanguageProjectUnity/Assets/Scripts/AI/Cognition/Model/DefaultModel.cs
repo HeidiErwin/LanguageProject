@@ -208,11 +208,12 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
         //     false));
 
-        // perceive(self, S) | normal(S) |- S
+        // perceptual inference
+        // perceive(self, S) | veridical(self, S) |- S
         m.Add(new SubstitutionRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
-                BuildList(new ExpressionPattern(Expression.NORMAL, xt0))},
+                BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
             new List<IPattern>[]{BuildList(xt0)}));
 
         // // make(x, S) |- S
@@ -220,10 +221,26 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // // believe(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
+        // testimonial inference
+        // express(x, S) | sincere(x, S) |- believe(x, S)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.EXPRESS, xi0, xt0)),
+                BuildList(new ExpressionPattern(Expression.SINCERE, xi0, xt0))
+            },
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))
+            }));
+
+        // believe(x, S) | correct(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
+                BuildList(new ExpressionPattern(Expression.CORRECT, xi0, xt0))
+            },
+            new List<IPattern>[]{
+                BuildList(xt0)
+            }));
 
         // // F(x) |- exists(x)
         // m.Add(new SubstitutionRule(

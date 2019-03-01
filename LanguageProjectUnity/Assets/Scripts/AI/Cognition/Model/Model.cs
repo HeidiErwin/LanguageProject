@@ -182,6 +182,7 @@ public abstract class Model {
             triedExpressions.Clear();
             basis = GetBasis(negatedInput);
         }
+        triedExpressions.Clear();
         this.Add(input);
         return true;
     }

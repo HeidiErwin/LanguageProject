@@ -18,6 +18,12 @@ public class Testing : MonoBehaviour {
         PrintProves(m, true, iPerceiveExample);
         PrintProves(m, true, new Phrase(Expression.NOT, example));
         PrintProves(m, false, example);
+        PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.VERIDICAL, Expression.SELF, example)));
+
+        Debug.Log(m.UpdateBelief(new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB))));
+        PrintProves(m, true, new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
+        PrintProves(m, true, new Phrase(Expression.BELIEVE, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
+        PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB));
 
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
@@ -49,6 +55,7 @@ public class Testing : MonoBehaviour {
                 foreach (Expression b in basis) {
                     s.Append(b + ", ");
                 }
+                s.Remove(s.Length - 2, 2);
                 s.Append("}");
                 Debug.Log(s.ToString());
             } else {
@@ -63,6 +70,7 @@ public class Testing : MonoBehaviour {
                 foreach (Expression b in basis) {
                     s.Append(b + ", ");
                 }
+                s.Remove(s.Length - 2, s.Length);
                 s.Append("}");
                 Debug.Log(s.ToString());
             }
