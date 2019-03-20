@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 92
+    x: 0
     y: 48.4
     width: 1440
     height: 769
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 498}
   m_MaxSize: {x: 14004, y: 14048}
   vertical: 0
-  controlID: 10
+  controlID: 91
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 498}
   m_MaxSize: {x: 10002, y: 14048}
   vertical: 1
-  controlID: 11
+  controlID: 92
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 122
+  controlID: 93
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -264,8 +264,8 @@ MonoBehaviour:
     y: 0
     width: 292
     height: 719
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 74}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -372,7 +372,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 92
+    x: 0
     y: 78
     width: 200
     height: 425
@@ -382,7 +382,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c4c8ffff
+      m_ExpandedIDs: 62f6ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -427,7 +427,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 294
+    x: 202
     y: 78
     width: 942
     height: 425
@@ -472,9 +472,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.02715197, y: -0.5675456, z: 0.018744426, w: 0.8226807}
   m_Size:
-    m_Target: 3.8124902
+    m_Target: 22.144552
     speed: 2
-    m_Value: 3.8124902
+    m_Value: 22.144552
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -507,7 +507,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 92
+    x: 0
     y: 523
     width: 1146
     height: 254
@@ -530,14 +530,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity
+  m_LastProjectPath: /Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: 7a680000
-    m_LastClickedID: 26746
-    m_ExpandedIDs: 000000007a680000586a0000ae6a00002a6d00002e6d0000c66d0000326e00007c6f00000c70000086700000887200003a730000f2730000307500004875000074750000a07500005676000024770000b2780000be790000f4790000047a0000787a0000ae7b0000d27b0000047c0000c27c00007c7d0000a87d00009c800000e6800000f88000006481000000ca9a3b
+    scrollPos: {x: 0, y: 31}
+    m_SelectedIDs: 984e0000
+    m_LastClickedID: 20120
+    m_ExpandedIDs: 00000000984e00003c520000da520000fe5600000657000016580000bc5800001e5b0000725c0000645d00008a600000c6610000006300001665000040650000c665000014660000206700008a680000286b0000b06c0000146d00002e6d0000da6d00003e70000074700000c870000006720000247300007473000076780000f678000012790000e4790000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -565,7 +565,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007a680000586a0000ae6a00002a6d00002e6d0000c66d0000326e00007c6f00000c70000086700000887200003a730000f2730000307500004875000074750000a07500005676000024770000b2780000be790000f4790000047a0000787a0000ae7b0000d27b0000047c0000c27c00007c7d0000a87d00009c800000e6800000f880000064810000
+    m_ExpandedIDs: 00000000984e00003c520000da520000fe5600000657000016580000bc5800001e5b0000725c0000645d00008a600000c6610000006300001665000040650000c665000014660000206700008a680000286b0000b06c0000146d00002e6d0000da6d00003e70000074700000c870000006720000247300007473000076780000f678000012790000e4790000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -667,7 +667,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1240
+    x: 1148
     y: 78
     width: 290
     height: 699
