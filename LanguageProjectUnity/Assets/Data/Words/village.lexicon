@@ -1,0 +1,26 @@
+#INDIVIDUAL
+self
+player
+
+#PREDICATE
+
+#DETERMINER
+// the
+
+#RELATION_2
+=
+
+#TRUTH_FUNCTION_1
+// not
+
+#TRUTH_FUNCTION_2
+// or
+
+#INDIVIDUAL_TRUTH_RELATION
+// perceive
+
+#TRUTH_CONFORMITY_FUNCTION
+// would
+
+#TRUTH_ASSERTION_FUNCTION
+// assert

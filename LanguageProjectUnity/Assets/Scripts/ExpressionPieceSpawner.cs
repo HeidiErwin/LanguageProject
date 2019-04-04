@@ -29,6 +29,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
      * Creates an new ExpressionPiece based on this ExpressionPieceSpawner
      */
     public ExpressionPiece MakeNewExpressionPiece() {
+        Debug.Log("Spawning " + expression);
         GameObject workspace = GameObject.Find("Workspace");
         GameObject exprPiece = Resources.Load("Piece") as GameObject;
         GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
@@ -45,6 +46,7 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
     * will get created based on the name of this ExpressionPieceSpawner.
     */
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        Debug.Log("Clicked!");
         ExpressionPiece exprPiece = MakeNewExpressionPiece();
     }
 

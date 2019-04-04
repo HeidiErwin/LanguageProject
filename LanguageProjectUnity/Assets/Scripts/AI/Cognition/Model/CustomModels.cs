@@ -80,4 +80,8 @@ public class CustomModels {
             new Phrase(Expression.NOT, new Phrase(Expression.IN_THE_ROOM, Expression.GOAL))));
         m.Add(new Phrase(Expression.CREDIBLE, Expression.PLAYER));
     }
+
+    public static void AddVillageModel(Model m) {
+        // MetaVariable xi0 = new MetaVariable(SemanticType.INDIVDUAL, 0);
+    }
 }

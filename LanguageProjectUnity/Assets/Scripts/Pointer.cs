@@ -47,6 +47,7 @@ public class Pointer : MonoBehaviour {
         layerMask = ~layerMask;
 
         RaycastHit hit;
+        // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.white);
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask)) {
             Color c = hit.transform.gameObject.tag == "Interactable" ? Color.blue : Color.red;
@@ -57,7 +58,6 @@ public class Pointer : MonoBehaviour {
                 }
                 gc.currentInteractObject = hit.transform.gameObject;
                 SetHalo(hit.transform.gameObject, true);
-                // hit.transform.gameObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0.6f, 1, 1));
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) {
                     if (gc.usableExpression) {
                         NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
@@ -76,12 +76,10 @@ public class Pointer : MonoBehaviour {
                 }
             } else if (gc.currentInteractObject) {
                 SetHalo(gc.currentInteractObject, false);
-                // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
                 gc.currentInteractObject = null;
             }
         } else if (gc.currentInteractObject) {
             SetHalo(gc.currentInteractObject, false);
-            // gc.currentInteractObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", new Color(0, 0, 0, 0));
             gc.currentInteractObject = null;
         }
     }
