@@ -122,11 +122,11 @@ public class DefaultModel {
         //     new List<IPattern>[]{},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AT, xi0, xi0))}));
 
-        // // reflexivity for identity
-        // // |- x = x
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
+        // reflexivity for identity
+        // |- x = x
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
 
         // // substitution of identiticals
         // // [i = j] F(i) |- F(j)

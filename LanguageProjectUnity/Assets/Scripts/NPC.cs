@@ -499,8 +499,7 @@ public class NPC : Character {
             exprPieceScript.transform.position =
                 new Vector3(exprPieceScript.transform.position.x,
                     exprPieceScript.transform.position.y +
-                    (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2) +
-                    300);
+                    (exprPieceScript.heightInUnits * ExpressionPiece.PIXELS_PER_UNIT / 2));
         }
 
         exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
