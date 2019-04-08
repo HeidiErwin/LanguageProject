@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
+    x: 92
     y: 44
     width: 1440
     height: 798
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 498}
   m_MaxSize: {x: 14004, y: 14048}
   vertical: 0
-  controlID: 3791
+  controlID: 1394
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 498}
   m_MaxSize: {x: 10002, y: 14048}
   vertical: 1
-  controlID: 3792
+  controlID: 1395
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 3793
+  controlID: 1479
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -373,7 +373,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 92
     y: 75
     width: 300
     height: 454
@@ -381,9 +381,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 98840000
-      m_LastClickedID: 33944
-      m_ExpandedIDs: c8e5ffff08ecffffa8ecffff62f6ffff36f7ffffe45e00000c600000be830000888d0000
+      m_SelectedIDs: 5e3d0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 4ce8ffff38f0ffffa4f9ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -428,7 +428,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 302
+    x: 394
     y: 75
     width: 723
     height: 454
@@ -534,7 +534,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 92
     y: 549
     width: 1027
     height: 254
@@ -557,14 +557,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Scenes
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity
+  m_LastProjectPath: /Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 291}
-    m_SelectedIDs: 543d0000
-    m_LastClickedID: 15700
-    m_ExpandedIDs: 00000000583b0000fa3c0000543d00009a3d0000803f0000823f0000e83f00003c400000444000004a420000ac420000104300004244000078450000b2460000c0460000124700002a47000096470000a24700002a48000092490000564a0000784a00007c4a0000ca4a0000124c0000264c0000504c0000764d0000c84e0000bc4f0000ca4f0000e84f0000f04f0000ba5d0000bc5d0000be5d0000c05d0000
+    scrollPos: {x: 0, y: 355}
+    m_SelectedIDs: 562d0000
+    m_LastClickedID: 11606
+    m_ExpandedIDs: 000000005a2b0000fc2c0000562d00009c2d0000822f0000842f0000ea2f00003e300000463000004c320000ae32000012330000443400007a350000b4360000c2360000143700002c37000098370000a43700002c380000963900005a3a00007c3a0000803a0000ce3a0000163c00002a3c0000543c00007a3d0000cc3e0000c03f0000ce3f0000ec3f0000f43f0000c04e0000c24e0000c44e0000c64e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -592,7 +592,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000583b0000fa3c0000543d00009a3d0000803f0000823f0000e83f00003c400000444000004a420000ac420000104300004244000078450000b2460000c0460000124700002a47000096470000a24700002a48000092490000564a0000784a00007c4a0000ca4a0000124c0000264c0000504c0000764d0000c84e0000bc4f0000ca4f0000e84f0000f04f0000ba5d0000bc5d0000be5d0000c05d0000
+    m_ExpandedIDs: 000000005a2b0000fc2c0000562d00009c2d0000822f0000842f0000ea2f00003e300000463000004c320000ae32000012330000443400007a350000b4360000c2360000143700002c37000098370000a43700002c380000963900005a3a00007c3a0000803a0000ce3a0000163c00002a3c0000543c00007a3d0000cc3e0000c03f0000ce3f0000ec3f0000f43f0000c04e0000c24e0000c44e0000c64e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -668,7 +668,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 92
     y: 549
     width: 1027
     height: 254
@@ -694,7 +694,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1029
+    x: 1121
     y: 75
     width: 409
     height: 728

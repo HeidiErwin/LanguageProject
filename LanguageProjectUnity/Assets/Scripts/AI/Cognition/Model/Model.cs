@@ -28,8 +28,13 @@ public abstract class Model {
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, HashSet<Expression>> triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
 
-    // a queue of goals to be performed in sequence
-    // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
+    // the utilities of certain sentences.
+    // Ultimately, we want this to be a priority queue
+    // so that we can quickly get the maximum element
+    protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
+    protected Expression currentGoal;
+    protected List<Expression> currentPlan;
+    protected bool decisionLock = false;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -56,6 +61,10 @@ public abstract class Model {
 
     public void Add(ActionRule r) {
         actionRules.Add(r);
+    }
+
+    public void SetUtility(Expression e, float u) {
+        utilities[e] = u;
     }
 
     public void AddToDomain(Expression e) {
@@ -184,6 +193,7 @@ public abstract class Model {
         }
         triedExpressions.Clear();
         this.Add(input);
+        this.decisionLock = false;
         return true;
     }
 
@@ -194,6 +204,34 @@ public abstract class Model {
         }
         newSet.Add(item);
         return newSet;
+    }
+
+    // right now, the cost of actions isn't taken into account.
+    // So we first choose a goal based on what we instrinsically
+    // value most, and then plan to satisfy that goal state.
+    // This still maximizes expected value (except re: action cost)
+    // since it only accepts a goal which is thought to be achievable
+    // (i.e. it's expectation is not 0)
+    public void DecideGoal() {
+        Expression maxGoal = null;
+        List<Expression> maxPlan = null;
+        float maxUtility = Single.NegativeInfinity;
+        foreach (KeyValuePair<Expression, float> us in this.utilities) {
+            if (us.Value >= maxUtility) {
+                List<Expression> plan = Plan(us.Key);
+                // if the goal is already true, or isn't
+                // achievable, then don't set this as the goal.
+                if (plan != null && plan.Count != 0) {
+                    maxGoal = us.Key;
+                    maxPlan = plan;
+                    maxUtility = us.Value;
+                }
+            }
+        }
+
+        if (maxGoal == null) {
+            decisionLock = true;
+        }
     }
 
     public List<Expression> Plan(Expression goal) {
