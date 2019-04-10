@@ -14,6 +14,9 @@ public class Ashley : NPC {
         // Substitution Rules
 
         // particular beliefs
-        new Phrase(Expression.IDENTITY, Expression.SELF, Expression.ASHLEY);
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.ASHLEY));
+
+        // utilities
+        
     }
 }

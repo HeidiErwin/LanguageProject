@@ -184,29 +184,29 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(xt1)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
-        // // A, B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0, xt1)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-        //     false));
+        // A, B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0, xt1)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
 
-        // // ~A, ~B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-        //     false));
+        // ~A, ~B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
 
-        // // A, ~B |- ~equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-        //     false));
+        // A, ~B |- ~equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+            false));
 
-        // // ~A, B |- ~equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-        //     false));
+        // ~A, B |- ~equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+            false));
 
         // perceptual inference
         // perceive(self, S) | veridical(self, S) |- S
@@ -216,10 +216,10 @@ public class DefaultModel {
                 BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
             new List<IPattern>[]{BuildList(xt0)}));
 
-        // // make(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
+        // make(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
+            new List<IPattern>[]{BuildList(xt0)}));
 
         // testimonial inference
         // express(x, S) | sincere(x, S) |- believe(x, S)

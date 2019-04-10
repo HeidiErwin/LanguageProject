@@ -14,6 +14,6 @@ public class Blair : NPC {
         // Substitution Rules
 
         // particular beliefs
-        new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BLAIR);
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BLAIR));
     }
 }

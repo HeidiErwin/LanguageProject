@@ -33,8 +33,8 @@ public abstract class Model {
     // so that we can quickly get the maximum element
     protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
     protected Expression currentGoal;
-    protected List<Expression> currentPlan;
-    protected bool decisionLock = false;
+    public List<Expression> currentPlan { get; protected set; }
+    public bool decisionLock = false;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -63,8 +63,22 @@ public abstract class Model {
         actionRules.Add(r);
     }
 
+    public float GetUtility(Expression e) {
+        return utilities[e];
+    }
+
     public void SetUtility(Expression e, float u) {
         utilities[e] = u;
+        decisionLock = false;
+    }
+
+    public void AddUtility(Expression e, float du) {
+        if (utilities.ContainsKey(e)) {
+            utilities[e] += du;
+        } else {
+            utilities[e] = du;
+        }
+        decisionLock = false;
     }
 
     public void AddToDomain(Expression e) {
@@ -206,6 +220,16 @@ public abstract class Model {
         return newSet;
     }
 
+    public bool ClearGoal() {
+        if (currentGoal == null) {
+            return false;
+        }
+
+        currentGoal = null;
+        currentPlan = null;
+        return true;
+    }
+
     // right now, the cost of actions isn't taken into account.
     // So we first choose a goal based on what we instrinsically
     // value most, and then plan to satisfy that goal state.
@@ -232,6 +256,8 @@ public abstract class Model {
         if (maxGoal == null) {
             decisionLock = true;
         }
+        currentGoal = maxGoal;
+        currentPlan = maxPlan;
     }
 
     public List<Expression> Plan(Expression goal) {

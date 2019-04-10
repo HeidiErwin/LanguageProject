@@ -14,6 +14,6 @@ public class Charlie : NPC {
         // Substitution Rules
 
         // particular beliefs
-        new Phrase(Expression.IDENTITY, Expression.SELF, Expression.CHARLIE);
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.CHARLIE));
     }
 }

@@ -14,6 +14,6 @@ public class Devin : NPC {
         // Substitution Rules
 
         // particular beliefs
-        new Phrase(Expression.IDENTITY, Expression.SELF, Expression.DEVIN);
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.DEVIN));
     }
 }

@@ -33,5 +33,9 @@ public class Evan : NPC {
         // model.Add(new Phrase(Expression.PERSON, Expression.BOB));
         // model.Add(new Phrase(Expression.ACTIVE, Expression.BOB));
         // model.Add(new Phrase(Expression.BELIEVE, Expression.BOB, new Phrase(Expression.KING, Expression.BOB)));
+
+        // utilities
+        model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.GOAL), 5f);
+        model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.BOB), 2f);
     }
 }

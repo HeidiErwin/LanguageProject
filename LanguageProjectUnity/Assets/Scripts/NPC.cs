@@ -13,6 +13,7 @@ public class NPC : Character {
     [SerializeField] GameObject currentInteractObject; // the object the NPC can currently interact with
     public Expression name;
     protected bool locked = false;
+    protected bool actionInProgress = false;
 
     // Use this for initialization
     protected void Start() {
@@ -21,14 +22,30 @@ public class NPC : Character {
         // primitiveAbilities = new HashSet<Expression>();
     }
 
+    protected void Update() {
+        if (actionInProgress) Debug.Log(name + ": " + actionInProgress);
+        if (!actionInProgress) {
+            if (model.currentPlan == null && !model.decisionLock) {
+                model.DecideGoal();
+            }
+            StartCoroutine(Do(model.currentPlan));
+        }
+    }
+
     protected IEnumerator Do(Expression e) {
         Expression goal = e.GetArg(0);
 
         List<Expression> actionSequence = model.Plan(goal);
 
+        yield return Do(actionSequence);
+    }
+
+    protected IEnumerator Do(List<Expression> actionSequence) {
+        actionInProgress = true;
         if (actionSequence == null) {
             this.controller.lowClick.Play();
             yield return ShowSpeechBubble(Expression.REFUSE);
+            actionInProgress = false;
             yield break;
         }
 
@@ -54,6 +71,9 @@ public class NPC : Character {
                     while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
+                    this.model.UpdateBelief(
+                        new Phrase(Expression.MAKE, Expression.SELF,
+                            new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
 
                     continue;
                 }
@@ -66,16 +86,24 @@ public class NPC : Character {
                         yield return null;
                     }
 
+                    this.model.UpdateBelief(
+                        new Phrase(Expression.MAKE, Expression.SELF,
+                            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
+
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Word(SemanticType.INDIVIDUAL, "goal"))))) {
+                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.GOAL)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Prize").transform.position;
 
                     yield return null;
                     while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
                         yield return null;
                     }
+
+                    this.model.UpdateBelief(
+                        new Phrase(Expression.MAKE, Expression.SELF,
+                            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL)));
 
                     continue;
                 }
@@ -319,6 +347,8 @@ public class NPC : Character {
         }
         // this.controller.combineSuccess.Play();
         // yield return ShowSpeechBubble("yes");
+        model.ClearGoal();
+        actionInProgress = false;
         yield return true;
     }
 
@@ -366,8 +396,8 @@ public class NPC : Character {
                     return;
                 }
             }
-            // StopCoroutine("Do");
-            StartCoroutine(Do(utterance));
+            Debug.Log(name + " has received the command '" + utterance + "'");
+            model.AddUtility(utterance.GetArg(0), 10f);
             return;
         }
 
