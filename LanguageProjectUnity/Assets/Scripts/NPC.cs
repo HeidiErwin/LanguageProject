@@ -23,7 +23,6 @@ public class NPC : Character {
     }
 
     protected void Update() {
-        if (actionInProgress) Debug.Log(name + ": " + actionInProgress);
         if (!actionInProgress) {
             if (model.currentPlan == null && !model.decisionLock) {
                 model.DecideGoal();
@@ -43,14 +42,10 @@ public class NPC : Character {
     protected IEnumerator Do(List<Expression> actionSequence) {
         actionInProgress = true;
         if (actionSequence == null) {
-            this.controller.lowClick.Play();
-            yield return ShowSpeechBubble(Expression.REFUSE);
+
             actionInProgress = false;
             yield break;
         }
-
-        this.controller.combineSuccess.Play();
-        yield return ShowSpeechBubble(Expression.ACCEPT);
 
         // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
         // StringBuilder s = new StringBuilder();
@@ -396,8 +391,16 @@ public class NPC : Character {
                     return;
                 }
             }
-            Debug.Log(name + " has received the command '" + utterance + "'");
+
+            // TODO figure out conditions of refusal, etc.
+            // this.controller.lowClick.Play();
+            // yield return ShowSpeechBubble(Expression.REFUSE);
+
+            this.controller.combineSuccess.Play();
+            StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
+
             model.AddUtility(utterance.GetArg(0), 10f);
+            
             return;
         }
 
