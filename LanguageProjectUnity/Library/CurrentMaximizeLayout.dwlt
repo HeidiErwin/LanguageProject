@@ -21,10 +21,10 @@ MonoBehaviour:
     y: 30
     width: 1440
     height: 748
-  m_MinSize: {x: 679, y: 474}
-  m_MaxSize: {x: 14000, y: 14024}
+  m_MinSize: {x: 681, y: 348}
+  m_MaxSize: {x: 12006, y: 8048}
   vertical: 0
-  controlID: 11576
+  controlID: 4991
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -126,10 +126,10 @@ MonoBehaviour:
     y: 0
     width: 1029
     height: 748
-  m_MinSize: {x: 404, y: 474}
-  m_MaxSize: {x: 10000, y: 14024}
+  m_MinSize: {x: 404, y: 348}
+  m_MaxSize: {x: 8004, y: 8048}
   vertical: 1
-  controlID: 11577
+  controlID: 4992
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 224}
   m_MaxSize: {x: 8004, y: 4024}
   vertical: 0
-  controlID: 11544
+  controlID: 4993
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -212,7 +212,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: a40cffff360fffffe417ffffbc1dffff06faffffd4fbffff1a4e0000824e0000aa4f0000
+      m_ExpandedIDs: d4fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -255,8 +255,8 @@ MonoBehaviour:
     y: 0
     width: 727
     height: 474
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 224}
+  m_MaxSize: {x: 4004, y: 4024}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 8}
@@ -389,14 +389,14 @@ MonoBehaviour:
     y: 474
     width: 1029
     height: 274
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
-  m_ActualView: {fileID: 11}
+  m_MinSize: {x: 102, y: 124}
+  m_MaxSize: {x: 4002, y: 4024}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -435,20 +435,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Scripts/AI/Cognition/Model
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Scripts/AI/Cognition/Model
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: bc0c0000
-    m_LastClickedID: 3260
-    m_ExpandedIDs: 00000000bc0c00005e0e0000b80e0000fe0e0000e4100000e61000004c110000a0110000a8110000ae1300001014000074140000a6150000dc1600001618000024180000761800008e180000fa180000061900008e190000f81a0000bc1b0000de1b0000e21b0000301c0000781d00008c1d0000b61d0000dc1e00002e20000022210000302100004e21000056210000f84c0000fa4c0000fc4c0000fe4c0000cc7f000066800000
+    scrollPos: {x: 0, y: 403}
+    m_SelectedIDs: 2e260000
+    m_LastClickedID: 9774
+    m_ExpandedIDs: 000000006e0e00002c10000094100000e6100000081300000a13000084130000e4130000ec13000036160000aa160000241700008418000032190000ea1900004a1b00005a1b0000b21b0000ce1b0000421c00004e1c0000d61c0000fe1c0000a81e00009a1f0000c41f0000cc1f00002820000098210000ac210000c2210000e021000026230000b2240000de250000ec2500000c2600001426000036490000384900003a4900003c490000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -476,7 +476,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000bc0c00005e0e0000b80e0000fe0e0000e4100000e61000004c110000a0110000a8110000ae1300001014000074140000a6150000dc1600001618000024180000761800008e180000fa180000061900008e190000f81a0000bc1b0000de1b0000e21b0000301c0000781d00008c1d0000b61d0000dc1e00002e20000022210000302100004e21000056210000f84c0000fa4c0000fc4c0000fe4c0000cc7f000066800000
+    m_ExpandedIDs: 000000006e0e00002c10000094100000e6100000081300000a13000084130000e4130000ec13000036160000aa160000241700008418000032190000ea1900004a1b00005a1b0000b21b0000ce1b0000421c00004e1c0000d61c0000fe1c0000a81e00009a1f0000c41f0000cc1f00002820000098210000ac210000c2210000e021000026230000b2240000de250000ec2500000c2600001426000036490000384900003a4900003c490000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -501,8 +501,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b4190000
-    m_LastClickedInstanceID: 6580
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
@@ -528,7 +528,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 83}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_DirectoriesAreaWidth: 238
 --- !u!114 &12
@@ -576,8 +576,8 @@ MonoBehaviour:
     y: 0
     width: 411
     height: 748
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 74}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}

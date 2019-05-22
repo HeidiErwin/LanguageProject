@@ -7,23 +7,23 @@ using UnityEngine;
 public class Testing : MonoBehaviour {
     void Start() {
         Model m = DefaultModel.Make();
-        Expression example = new Word(SemanticType.TRUTH_VALUE, "example");
-        Expression iPerceiveExample = new Phrase(Expression.PERCEIVE, Expression.SELF, example);
-        Expression iPerceiveNotExample = new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.NOT, example));
-        m.Add(iPerceiveExample);
-        PrintProves(m, true, iPerceiveExample);
-        PrintProves(m, true, example);
-        Debug.Log(m.UpdateBelief(new Phrase(Expression.NOT, example)));
-        // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
-        PrintProves(m, true, iPerceiveExample);
-        PrintProves(m, true, new Phrase(Expression.NOT, example));
-        PrintProves(m, false, example);
-        PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.VERIDICAL, Expression.SELF, example)));
+        // Expression example = new Word(SemanticType.TRUTH_VALUE, "example");
+        // Expression iPerceiveExample = new Phrase(Expression.PERCEIVE, Expression.SELF, example);
+        // Expression iPerceiveNotExample = new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.NOT, example));
+        // m.Add(iPerceiveExample);
+        // PrintProves(m, true, iPerceiveExample);
+        // PrintProves(m, true, example);
+        // Debug.Log(m.UpdateBelief(new Phrase(Expression.NOT, example)));
+        // // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
+        // PrintProves(m, true, iPerceiveExample);
+        // PrintProves(m, true, new Phrase(Expression.NOT, example));
+        // PrintProves(m, false, example);
+        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.VERIDICAL, Expression.SELF, example)));
 
-        Debug.Log(m.UpdateBelief(new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB))));
-        PrintProves(m, true, new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
-        PrintProves(m, true, new Phrase(Expression.BELIEVE, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
-        PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB));
+        // Debug.Log(m.UpdateBelief(new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB))));
+        // PrintProves(m, true, new Phrase(Expression.EXPRESS, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
+        // PrintProves(m, true, new Phrase(Expression.BELIEVE, Expression.PLAYER, new Phrase(Expression.TREE, Expression.BOB)));
+        // PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB));
 
         // Debug.Log(bm.DomainString());
         // PrintProves(bm, true, new Phrase(Expression.ANIMAL, Expression.BOB));
@@ -44,6 +44,20 @@ public class Testing : MonoBehaviour {
         // Debug.Log(new Phrase(Expression.SOME, Expression.KING, Expression.ACTIVE));
         // Debug.Log(new Phrase(Expression.GIVE, Expression.THE_GREAT_DOOR, Expression.BOB));
         // PrintProves(bm, true, new Phrase(Expression.GEACH_TF1, Expression.NOT, Expression.KING, Expression.EVAN));
+        Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
+        Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{DefaultModel.BuildList(a)},
+            new List<IPattern>[]{DefaultModel.BuildList(b)},
+            false));
+        Expression ifAB = new Phrase(Expression.IF, a, b);
+        PrintProves(m, false, b);
+        PrintProves(m, true, ifAB);
+        PrintProves(m, false, a);
+        
+        
+        // PrintProves(m, true, b);
+        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.NOT, new Phrase(Expression.PERSON, Expression.SELF))));
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {
@@ -55,7 +69,6 @@ public class Testing : MonoBehaviour {
                 foreach (Expression b in basis) {
                     s.Append(b + ", ");
                 }
-                s.Remove(s.Length - 2, 2);
                 s.Append("}");
                 Debug.Log(s.ToString());
             } else {
@@ -70,7 +83,6 @@ public class Testing : MonoBehaviour {
                 foreach (Expression b in basis) {
                     s.Append(b + ", ");
                 }
-                s.Remove(s.Length - 2, s.Length);
                 s.Append("}");
                 Debug.Log(s.ToString());
             }

@@ -465,7 +465,7 @@ public class NPC : Character {
             // might have to cycle through the utterance's open args.
             IPattern question = new ExpressionPattern(utterance.GetHead(), args);
 
-            List<Dictionary<MetaVariable, Expression>> found = model.Find(question);
+            List<Dictionary<MetaVariable, Expression>> found = model.Find(new List<Expression>(), question);
             if (found != null) {
                 List<IPattern> bound = question.Bind(found);
                 Expression[] answers = new Expression[bound.Count];
