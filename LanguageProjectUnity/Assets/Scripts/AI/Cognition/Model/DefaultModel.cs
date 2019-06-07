@@ -62,10 +62,10 @@ public class DefaultModel {
 
         // SUBSTITUTION RULES
 
-        // // |- verum
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{},
-        //     new List<IPattern>[]{BuildList(Expression.VERUM)}));
+        // |- verum
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{BuildList(Expression.VERUM)}));
 
         // // falsum |-
         // m.Add(new SubstitutionRule(
@@ -184,29 +184,35 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(xt1)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
-        // // A, B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0, xt1)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-        //     false));
+        // A, B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0, xt1)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
 
-        // // ~A, ~B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-        //     false));
+        // ~A, ~B |- equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+            false));
 
-        // // A, ~B |- ~equivalent(A, B)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-        //     false));
+        // A, ~B |- ~equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+            false));
 
-        // // ~A, B |- ~equivalent(A, B)
+        // ~A, B |- ~equivalent(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+            false));
+
+        // // MODUS PONENS
+        // // if(A, B), A |- B
         // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-        //     false));
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IF, xt0, xt1), xt0)},
+        //     new List<IPattern>[]{BuildList(xt1)}));
 
         // // perceptual inference
         // // perceive(self, S) | veridical(self, S) |- S

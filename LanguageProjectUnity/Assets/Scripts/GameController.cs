@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
     public ExpressionPiece selectedExpression;
     public ExpressionPiece usableExpression;
 
-    public const int PIECES_PER_ROW = 14;
+    public const int PIECES_PER_ROW = 12;
 
     public bool is2D;
     public GameObject log;

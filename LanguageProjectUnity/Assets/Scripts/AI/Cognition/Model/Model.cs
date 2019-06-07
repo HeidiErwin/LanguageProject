@@ -303,11 +303,11 @@ public abstract class Model {
             List<Dictionary<MetaVariable, Expression>> bindings = r.result.GetBindings(goal);
             if (bindings != null) {
                 Expression action = r.action.ToExpression();
+                
                 // TODO accept multiple matches
                 if (bindings.Count > 0) {
                     action = r.action.Bind(bindings[0]).ToExpression();
                 }
-
                 if (action == null) {
                     // TODO handle binding issues later
                     return null;
@@ -470,6 +470,8 @@ public abstract class Model {
             if (admissibleSubstitutions == null) {
                 continue;
             }
+
+            Debug.Log(expr + " matched an rule");
 
             // Debug.Log(sr + " matches " + expr);
             foreach (SubstitutionRule.Result conjunctSubstitution in admissibleSubstitutions) {

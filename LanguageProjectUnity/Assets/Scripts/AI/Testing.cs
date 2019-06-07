@@ -44,6 +44,9 @@ public class Testing : MonoBehaviour {
         // Debug.Log(new Phrase(Expression.SOME, Expression.KING, Expression.ACTIVE));
         // Debug.Log(new Phrase(Expression.GIVE, Expression.THE_GREAT_DOOR, Expression.BOB));
         // PrintProves(bm, true, new Phrase(Expression.GEACH_TF1, Expression.NOT, Expression.KING, Expression.EVAN));
+        // PrintProves(m, true, b);
+        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.NOT, new Phrase(Expression.PERSON, Expression.SELF))));
+        
         Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
         Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
         m.Add(new SubstitutionRule(
@@ -51,13 +54,22 @@ public class Testing : MonoBehaviour {
             new List<IPattern>[]{DefaultModel.BuildList(b)},
             false));
         Expression ifAB = new Phrase(Expression.IF, a, b);
-        PrintProves(m, false, b);
-        PrintProves(m, true, ifAB);
-        PrintProves(m, false, a);
+        // PrintProves(m, false, b);
+        // PrintProves(m, true, ifAB);
+        // PrintProves(m, false, a);
         
-        
-        // PrintProves(m, true, b);
-        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.NOT, new Phrase(Expression.PERSON, Expression.SELF))));
+        // now, testing a conditional is true, even if the antecedant is thought false
+        m.Add(new Phrase(Expression.NOT, a));
+        // PrintProves(m, true, new Phrase(Expression.NOT, a));
+        // PrintProves(m, true, ifAB);
+
+        // MODUS PONENS
+        Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
+        Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
+        m.Add(new Phrase(Expression.IF, c, d));
+        m.Add(c);
+        PrintProves(m, true, d);
+
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {
