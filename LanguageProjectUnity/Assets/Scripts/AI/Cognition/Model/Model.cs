@@ -50,6 +50,8 @@ public abstract class Model {
     // false if it wasn't in there anyway
     public abstract bool Remove(Expression e);
 
+    public abstract HashSet<Expression> GetAll();
+
     // Adding rules into the model
     public void Add(SubstitutionRule r) {
         substitutionRules.Add(r);
@@ -285,6 +287,28 @@ public abstract class Model {
             return actionSequence;
         }
 
+        List<List<Expression>> possibleActions = new List<List<Expression>>();
+
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        // MODUS PONENS: checking to see if anything in the model satisifies
+        // X, X -> goal
+        IPattern consequentPattern =
+            new ExpressionPattern(Expression.IF, xt0, goal);
+
+        foreach (Expression e in GetAll()) {
+            List<Dictionary<MetaVariable, Expression>> antecedents = consequentPattern.GetBindings(e);
+            if (antecedents == null) {
+                continue;
+            }
+            Expression antecedent = antecedents[0][xt0];
+            List<Expression> antecedentSequence = Plan(antecedent, actionSequence, ImAdd<Expression>(goal, tried));
+            if (antecedentSequence != null) {
+                possibleActions.Add(antecedentSequence);
+            }
+        }
+
+        // END MODUS PONENS
+
         IPattern secondOrderAttitudePattern =
             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
@@ -295,8 +319,6 @@ public abstract class Model {
         if (secondOrderAttitudePattern.Matches(goal)) {
             return null;
         }
-
-        List<List<Expression>> possibleActions = new List<List<Expression>>();
 
         // search through action rules and recur on their preconditions as subgoals.
         foreach (ActionRule r in this.actionRules) {
@@ -411,9 +433,8 @@ public abstract class Model {
         return GetBasis(expr, new List<Expression>());
     }
 
-    // TODO: change thi to return the BASIS, not the truth value.
-    // Proves() will return true if this method returns a non-null basis.
-    // return true if this model proves expr.
+    // returns the set of sentences that prove expr, if any.
+    // returns NULL if this model doesn't prove expr.
     public HashSet<Expression> GetBasis(Expression expr, List<Expression> suppositions) {
         if (suppositions != lastSuppositions) {
             triedExpressions.Clear();
@@ -441,6 +462,28 @@ public abstract class Model {
             return null;
         }
 
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+        // MODUS PONENS: checking to see if anything in the model satisifies
+        // X, X -> expr
+        IPattern consequentPattern =
+            new ExpressionPattern(Expression.IF, xt0, expr);
+
+        foreach (Expression e in GetAll()) {
+            List<Dictionary<MetaVariable, Expression>> antecedents = consequentPattern.GetBindings(e);
+            if (antecedents == null) {
+                continue;
+            }
+            Expression antecedent = antecedents[0][xt0];
+            HashSet<Expression> antecedentBasis = GetBasis(antecedent);
+            if (antecedentBasis != null) {
+                antecedentBasis.Add(new Phrase(Expression.IF, antecedent, expr));
+                return antecedentBasis;
+            }
+        }
+
+        // END MODUS PONENS
+
         IPattern secondOrderAttitudePattern =
             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
                 new MetaVariable(SemanticType.INDIVIDUAL, 0),
@@ -452,16 +495,18 @@ public abstract class Model {
             return null;
         }
 
-        MetaVariable xi0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        MetaVariable xi1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+        // CONDITIIONAL PROOF
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
-        IPattern conditionalPattern = new ExpressionPattern(Expression.IF, xi0, xi1);
+        IPattern conditionalPattern = new ExpressionPattern(Expression.IF, xt0, xt1);
 
         List<Dictionary<MetaVariable, Expression>> conditionalBindings = conditionalPattern.GetBindings(expr);
 
         if (conditionalBindings != null) {
-            return GetBasis(conditionalBindings[0][xi1], ImAdd(conditionalBindings[0][xi0], suppositions));
+            return GetBasis(conditionalBindings[0][xt1], ImAdd(conditionalBindings[0][xt0], suppositions));
         }
+
+        // END CONDITIONAL PROOF
 
         // RECURSIVE CASES
         foreach (SubstitutionRule sr in this.substitutionRules) {
@@ -470,8 +515,6 @@ public abstract class Model {
             if (admissibleSubstitutions == null) {
                 continue;
             }
-
-            Debug.Log(expr + " matched an rule");
 
             // Debug.Log(sr + " matches " + expr);
             foreach (SubstitutionRule.Result conjunctSubstitution in admissibleSubstitutions) {

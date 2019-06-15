@@ -79,6 +79,13 @@ public class CustomModels {
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF,
             new Phrase(Expression.NOT, new Phrase(Expression.IN_THE_ROOM, Expression.GOAL))));
         m.Add(new Phrase(Expression.CREDIBLE, Expression.PLAYER));
+
+
+        m.Add(new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY));
+
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY)));
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.EVAN, Expression.SAPPHIRE)));
+        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.PLAYER, Expression.EMERALD)));
     }
 
     public static void AddVillageModel(Model m) {

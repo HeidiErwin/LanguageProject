@@ -257,6 +257,9 @@ public abstract class Expression : IPattern {
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");
     public static readonly Expression SELF = new Word(SemanticType.INDIVIDUAL, "self");
     public static readonly Expression GOAL = new Word(SemanticType.INDIVIDUAL, "goal");
+    public static readonly Expression RUBY = new Word(SemanticType.INDIVIDUAL, "ruby");
+    public static readonly Expression SAPPHIRE = new Word(SemanticType.INDIVIDUAL, "sapphire");
+    public static readonly Expression EMERALD = new Word(SemanticType.INDIVIDUAL, "emerald");
     
     public static readonly Expression ASHLEY = new Word(SemanticType.INDIVIDUAL, "ashley");
     public static readonly Expression BLAIR = new Word(SemanticType.INDIVIDUAL, "blair");

@@ -69,7 +69,9 @@ public class Testing : MonoBehaviour {
         m.Add(new Phrase(Expression.IF, c, d));
         m.Add(c);
         PrintProves(m, true, d);
-
+        Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
+        m.Add(new Phrase(Expression.IF, d, e));
+        PrintProves(m, true, e);
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {

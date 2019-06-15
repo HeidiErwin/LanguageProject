@@ -60,6 +60,12 @@ public class DefaultModel {
                 new ExpressionPattern(Expression.INTEND, xi0, xt0)),
             new ExpressionPattern(Expression.INTEND, xi0, xt0)));
 
+        m.Add(new ActionRule(
+            new ExpressionPattern(Expression.POSSESS, Expression.SELF, xi0),
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.POSSESS, Expression.SELF, xi0))),
+            new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.POSSESS, Expression.SELF, xi0))));
+
         // SUBSTITUTION RULES
 
         // |- verum
@@ -128,6 +134,7 @@ public class DefaultModel {
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
 
+        // // CAUSING LOOPS
         // // substitution of identiticals
         // // [i = j] F(i) |- F(j)
         // m.Add(new SubstitutionRule(
@@ -227,26 +234,26 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // // testimonial inference
-        // // express(x, S) | sincere(x, S) |- believe(x, S)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.EXPRESS, xi0, xt0)),
-        //         BuildList(new ExpressionPattern(Expression.SINCERE, xi0, xt0))
-        //     },
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))
-        //     }));
+        // testimonial inference
+        // express(x, S) | sincere(x, S) |- believe(x, S)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.EXPRESS, xi0, xt0)),
+                BuildList(new ExpressionPattern(Expression.SINCERE, xi0, xt0))
+            },
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0))
+            }));
 
-        // // believe(x, S) | correct(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
-        //         BuildList(new ExpressionPattern(Expression.CORRECT, xi0, xt0))
-        //     },
-        //     new List<IPattern>[]{
-        //         BuildList(xt0)
-        //     }));
+        // believe(x, S) | correct(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
+                BuildList(new ExpressionPattern(Expression.CORRECT, xi0, xt0))
+            },
+            new List<IPattern>[]{
+                BuildList(xt0)
+            }));
 
         // // F(x) |- exists(x)
         // m.Add(new SubstitutionRule(

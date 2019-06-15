@@ -28,6 +28,10 @@ public class SimpleModel : Model {
         return true;
     }
 
+    public override HashSet<Expression> GetAll() {
+        return model;
+    }
+
     public override bool Remove(Expression e) {
         if (Contains(e)) {
             model.Remove(e);

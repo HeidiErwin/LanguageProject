@@ -123,6 +123,12 @@ public class NPC : Character {
                     controller.door.SetActive(true);
                     continue;
                 }
+
+                if (action.Equals(new Phrase(Expression.WOULD,
+                    new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY))))) {
+                    // Debug.Log("GIVE UP RUBY!!!");
+                    continue;
+                }
             }
 
             // StopCoroutine(GoTo("Bob"));
@@ -406,7 +412,8 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.ASSERTION)) {
             Expression content = utterance.GetArg(0);
-            if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
+            // if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
+            if (this.model.UpdateBelief(content)) {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
             } else {

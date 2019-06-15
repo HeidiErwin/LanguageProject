@@ -31,6 +31,7 @@ public class Bob : NPC {
         // self-knowledge
         model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
         model.Add(new Phrase(Expression.KING, Expression.SELF));
+        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
         // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
 
         // beliefs about Evan
@@ -38,5 +39,8 @@ public class Bob : NPC {
         // model.Add(new Phrase(Expression.ACTIVE, Expression.EVAN));
         // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(new Phrase(Expression.KING, Expression.BOB))));
         // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
+
+        // utilities
+        model.SetUtility(new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), 10f);
     }
 }
