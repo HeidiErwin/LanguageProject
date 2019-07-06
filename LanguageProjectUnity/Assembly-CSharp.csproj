@@ -127,13 +127,16 @@
      <Compile Include="Assets\Scripts\PostEffect.cs" />
      <Compile Include="Assets\Scripts\RoomEnter.cs" />
      <Compile Include="Assets\Scripts\SphereRotate.cs" />
+     <Compile Include="Assets\Scripts\Tutorial2D\PlayerController.cs" />
      <Compile Include="Assets\Starfield Skybox\Demo\Script\LookCamera.cs" />
      <None Include="Assets\Scripts\AI\Cognition\Notes\demo_vocabulary.txt" />
      <None Include="Assets\GlowAssets\Resources\Standard-Glow.shader" />
      <None Include="Assets\GlowAssets\Resources\Blur.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\Resources\roguelike-pack\License.txt" />
      <None Include="Assets\GlowAssets\Resources\GlowCmdShader.shader" />
+     <None Include="Assets\Resources\roguelike-pack\Spritesheet\spritesheetInfo.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\Scripts\UnityTODOs.txt" />
