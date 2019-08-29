@@ -221,6 +221,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression ASSERT = new Word(SemanticType.TRUTH_ASSERTION_FUNCTION, "assert");
 
     public static readonly Expression WOULD = new Word(SemanticType.TRUTH_CONFORMITY_FUNCTION, "would");
+    public static readonly Expression CONTRACT = new Word(SemanticType.TRUTH_CONFORMITY_FUNCTION_2, "contract");
 
     public static readonly Expression AND = new Word(SemanticType.TRUTH_FUNCTION_2, "and");
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
@@ -240,6 +241,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
+    public static readonly Expression BOUND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "bound");
     public static readonly Expression PERCEIVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "perceive");
     public static readonly Expression EXPRESS = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "express");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
@@ -271,6 +273,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression NEXT_VARIABLE = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "prime");
 
     public static readonly Expression CREDIBLE = new Word(SemanticType.PREDICATE, "credible");
+    public static readonly Expression TRUSTWORTHY = new Word(SemanticType.PREDICATE, "trustworthy");
 
     public static readonly Expression EXISTS = new Word(SemanticType.PREDICATE, "exists");
     public static readonly Expression FOUNTAIN = new Word(SemanticType.PREDICATE, "fountain");

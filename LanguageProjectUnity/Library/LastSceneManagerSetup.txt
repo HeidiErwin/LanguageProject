@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Tutorial 2D.unity
+- path: Assets/Scenes/FP Experiment.unity
   isLoaded: 1
   isActive: 1

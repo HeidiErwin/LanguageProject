@@ -47,13 +47,13 @@ public class NPC : Character {
             yield break;
         }
 
-        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        // StringBuilder s = new StringBuilder();
-        // foreach (Expression a in actionSequence) {
-        //     s.Append(a);
-        //     s.Append("; ");
-        // }
-        // Debug.Log(s.ToString());
+        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        StringBuilder s = new StringBuilder();
+        foreach (Expression a in actionSequence) {
+            s.Append(a);
+            s.Append("; ");
+        }
+        Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
@@ -391,14 +391,31 @@ public class NPC : Character {
         }
 
         if (utterance.type.Equals(SemanticType.CONFORMITY_VALUE)) {
-            if (name.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
-                if (!model.Proves(new Phrase(Expression.KING, utterer))) {
-                    StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+            // if (name.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
+            //     if (!model.Proves(new Phrase(Expression.KING, utterer))) {
+            //         StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+            //         return;
+            //     }
+            // }
+
+            // TODO figure out conditions of refusal, etc.
+            if (utterance.GetHead().Equals(Expression.CONTRACT)) {
+                if (!this.model.Proves(new Phrase(Expression.NOT, new Phrase(Expression.TRUSTWORTHY, utterer)))) {
+                    // TODO: check if utilities work out, and if you can uphold your end of the deal.
+                    // For now, just accept by default
+                    // uphold your end of the bargain
+                    model.AddUtility(utterance.GetArg(1), 10f);
+                    
+                    // hold the other person to account
+                    model.UpdateBelief(new Phrase(Expression.BOUND, utterer, utterance.GetArg(0)));
+
+                    this.controller.combineSuccess.Play();
+                    StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ACCEPT)));
+
                     return;
                 }
             }
 
-            // TODO figure out conditions of refusal, etc.
             // this.controller.lowClick.Play();
             // yield return ShowSpeechBubble(Expression.REFUSE);
 

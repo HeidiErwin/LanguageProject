@@ -41,7 +41,7 @@ public class DefaultModel {
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
         m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
 
-        // // ACTION RULES
+        // ACTION RULES
         // m.Add(new ActionRule(
         //     Expression.VERUM,
         //     new ExpressionPattern(Expression.WOULD,
@@ -221,18 +221,28 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IF, xt0, xt1), xt0)},
         //     new List<IPattern>[]{BuildList(xt1)}));
 
-        // // perceptual inference
-        // // perceive(self, S) | veridical(self, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
-        //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
+        // perceptual inference
+        // perceive(self, S) | veridical(self, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
+                BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
+            new List<IPattern>[]{BuildList(xt0)}));
 
         // // make(x, S) |- S
         // m.Add(new SubstitutionRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
+
+        // TRUST
+        // renege
+        // bound(x, A), ~A |- ~trustworthy(x)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BOUND, xi0, xt0), new ExpressionPattern(Expression.NOT, xt0))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0)))},
+            false));
 
         // testimonial inference
         // express(x, S) | sincere(x, S) |- believe(x, S)

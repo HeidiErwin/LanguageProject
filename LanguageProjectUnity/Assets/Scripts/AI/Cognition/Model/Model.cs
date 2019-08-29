@@ -253,8 +253,10 @@ public abstract class Model {
         List<Expression> maxPlan = null;
         float maxUtility = Single.NegativeInfinity;
         foreach (KeyValuePair<Expression, float> us in this.utilities) {
+            // Debug.Log(us.Key);
             if (us.Value >= maxUtility) {
                 List<Expression> plan = Plan(us.Key);
+                Debug.Log(plan);
                 // if the goal is already true, or isn't
                 // achievable, then don't set this as the goal.
                 if (plan != null && plan.Count != 0) {
@@ -264,7 +266,6 @@ public abstract class Model {
                 }
             }
         }
-
         if (maxGoal == null) {
             decisionLock = true;
         }
@@ -278,6 +279,7 @@ public abstract class Model {
 
     // naive, non-schematic action planner
     public List<Expression> Plan(Expression goal, List<Expression> actionSequence, HashSet<Expression> tried) {
+        Debug.Log(goal);
         if (tried.Contains(goal)) {
             return null;
         }
@@ -291,7 +293,7 @@ public abstract class Model {
 
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
         // MODUS PONENS: checking to see if anything in the model satisifies
-        // X, X -> goal
+        // X, (X -> goal)
         IPattern consequentPattern =
             new ExpressionPattern(Expression.IF, xt0, goal);
 

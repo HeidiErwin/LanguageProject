@@ -54,14 +54,14 @@ public class Testing : MonoBehaviour {
             new List<IPattern>[]{DefaultModel.BuildList(b)},
             false));
         Expression ifAB = new Phrase(Expression.IF, a, b);
-        // PrintProves(m, false, b);
-        // PrintProves(m, true, ifAB);
-        // PrintProves(m, false, a);
+        PrintProves(m, false, b);
+        PrintProves(m, true, ifAB);
+        PrintProves(m, false, a);
         
         // now, testing a conditional is true, even if the antecedant is thought false
         m.Add(new Phrase(Expression.NOT, a));
-        // PrintProves(m, true, new Phrase(Expression.NOT, a));
-        // PrintProves(m, true, ifAB);
+        PrintProves(m, true, new Phrase(Expression.NOT, a));
+        PrintProves(m, true, ifAB);
 
         // MODUS PONENS
         Expression c = new Word(SemanticType.TRUTH_VALUE, "C");

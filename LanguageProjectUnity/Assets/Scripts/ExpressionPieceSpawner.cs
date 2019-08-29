@@ -10,7 +10,6 @@ using UnityEngine.UI;
  */
 public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
     private Expression expression;
-
     /**
      * Sets the name and Expression of this ExpressionPieceSpawner.
      * This code would be put in a constructor, but unfortunately Unity does not 

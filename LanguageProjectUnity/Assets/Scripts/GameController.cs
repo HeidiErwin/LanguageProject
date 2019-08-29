@@ -140,6 +140,8 @@ public class GameController : MonoBehaviour {
                     currentType = SemanticType.TRUTH_FUNCTION_2;
                 } else if (line.Equals("#TRUTH_CONFORMITY_FUNCTION")) {
                     currentType = SemanticType.TRUTH_CONFORMITY_FUNCTION;
+                } else if (line.Equals("#TRUTH_CONFORMITY_FUNCTION_2")) {
+                    currentType = SemanticType.TRUTH_CONFORMITY_FUNCTION_2;
                 } else if (line.Equals("#TRUTH_ASSERTION_FUNCTION")) {
                     currentType = SemanticType.TRUTH_ASSERTION_FUNCTION;
                 } else if (line.Equals("#INDIVIDUAL_TRUTH_RELATION")) {
@@ -150,6 +152,17 @@ public class GameController : MonoBehaviour {
             }
             line = reader.ReadLine();
         }
+
+        // // FOR TEST PURPOSES
+        // GameObject workspace = GameObject.Find("Workspace");
+        // GameObject exprPiece = Resources.Load("Piece") as GameObject;
+        // GameObject exprPieceInstance = Instantiate(exprPiece, new Vector2(0, 0), Quaternion.identity) as GameObject;
+        // exprPieceInstance.transform.SetParent(workspace.transform);
+        // ExpressionPiece exprPieceScript = exprPieceInstance.GetComponent<ExpressionPiece>();
+        // exprPieceScript.FromScratch(new Phrase(Expression.CONTRACT,
+        //     new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD),
+        //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL)), new Vector3(0f, 0f, 0f));
+        // exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
     }
 
     public void HidePointer() {
