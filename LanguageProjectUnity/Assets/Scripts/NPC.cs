@@ -47,13 +47,13 @@ public class NPC : Character {
             yield break;
         }
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        StringBuilder s = new StringBuilder();
-        foreach (Expression a in actionSequence) {
-            s.Append(a);
-            s.Append("; ");
-        }
-        Debug.Log(s.ToString());
+        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+        // Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
@@ -414,17 +414,28 @@ public class NPC : Character {
 
                     return;
                 }
+
+                this.controller.lowClick.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+
+                return;
             }
 
-            // this.controller.lowClick.Play();
-            // yield return ShowSpeechBubble(Expression.REFUSE);
+            if (utterance.GetHead().Equals(Expression.WOULD)) {
+                if (this.model.Proves(new Phrase(Expression.NOT, new Phrase(Expression.TRUSTWORTHY, utterer)))) {
+                    this.controller.lowClick.Play();
+                    StartCoroutine(ShowSpeechBubble(new Phrase(Expression.REFUSE)));
 
-            this.controller.combineSuccess.Play();
-            StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
+                    return;
+                }
 
-            model.AddUtility(utterance.GetArg(0), 10f);
+                this.controller.combineSuccess.Play();
+                StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
+
+                model.AddUtility(utterance.GetArg(0), 10f);
             
-            return;
+                return;
+            }
         }
 
         if (utterance.type.Equals(SemanticType.ASSERTION)) {

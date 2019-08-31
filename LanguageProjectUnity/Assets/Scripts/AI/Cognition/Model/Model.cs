@@ -256,7 +256,6 @@ public abstract class Model {
             // Debug.Log(us.Key);
             if (us.Value >= maxUtility) {
                 List<Expression> plan = Plan(us.Key);
-                Debug.Log(plan);
                 // if the goal is already true, or isn't
                 // achievable, then don't set this as the goal.
                 if (plan != null && plan.Count != 0) {
@@ -279,7 +278,6 @@ public abstract class Model {
 
     // naive, non-schematic action planner
     public List<Expression> Plan(Expression goal, List<Expression> actionSequence, HashSet<Expression> tried) {
-        Debug.Log(goal);
         if (tried.Contains(goal)) {
             return null;
         }
@@ -485,6 +483,32 @@ public abstract class Model {
         }
 
         // END MODUS PONENS
+
+        // BOUND
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        IPattern trustworthyPattern =
+            new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0));
+
+        List<Dictionary<MetaVariable, Expression>> promiser = trustworthyPattern.GetBindings(expr);
+        if (promiser != null) {
+            IPattern promisePattern = new ExpressionPattern(Expression.BOUND, promiser[0][xi0], xt0);
+
+            foreach (Expression e in GetAll()) {
+                List<Dictionary<MetaVariable, Expression>> promises = promisePattern.GetBindings(e);
+                if (promises == null) {
+                    continue;
+                }
+                Expression promise = promises[0][xt0];
+                HashSet<Expression> promiseBasis = GetBasis(new Phrase(Expression.NOT, promise));
+                if (promiseBasis != null) {
+                    basis.Add(new Phrase(Expression.BOUND, promiser[0][xi0], promise));
+                    basis.Add(new Phrase(Expression.NOT, promise));
+                    return basis;
+                }
+            }
+        }
+
+        // END BOUND
 
         IPattern secondOrderAttitudePattern =
             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),

@@ -240,6 +240,10 @@ public abstract class Expression : IPattern {
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
     public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
 
+    public static readonly Expression ZERO = new Word(SemanticType.INDIVIDUAL, "0");
+    public static readonly Expression SUCC = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "succ");
+    public static readonly Expression PLUS = new Word(SemanticType.INDIVIDUAL_FUNCTION_2, "+");
+
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BOUND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "bound");
     public static readonly Expression PERCEIVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "perceive");

@@ -32,6 +32,8 @@ public class Bob : NPC {
         model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
         model.Add(new Phrase(Expression.KING, Expression.SELF));
         model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
+        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.SAPPHIRE)));
+        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD)));
         // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
 
         // beliefs about Evan

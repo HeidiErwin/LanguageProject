@@ -220,6 +220,24 @@ public class DefaultModel {
         // m.Add(new SubstitutionRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IF, xt0, xt1), xt0)},
         //     new List<IPattern>[]{BuildList(xt1)}));
+        
+        // arithemtic
+        // |- x = x + 0
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
+                    new ExpressionPattern(Expression.PLUS, xi0, Expression.ZERO)))}));
+
+        // x = y + z |- succ(x) = y + succ(z)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
+                    new ExpressionPattern(Expression.PLUS, xi1, xi2)))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.IDENTITY,
+                    new ExpressionPattern(Expression.SUCC, xi0),
+                    new ExpressionPattern(Expression.PLUS, xi1, new ExpressionPattern(Expression.SUCC, xi2))))}));
 
         // perceptual inference
         // perceive(self, S) | veridical(self, S) |- S
