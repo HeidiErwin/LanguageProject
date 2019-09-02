@@ -122,6 +122,10 @@ public class GameController : MonoBehaviour {
             if (!(line.StartsWith("//") || line.Equals(""))) {
                 if (line.Equals("#INDIVIDUAL")) {
                     currentType = SemanticType.INDIVIDUAL;
+                } else if (line.Equals("#INDIVIDUAL_FUNCTION_1")) {
+                    currentType = SemanticType.INDIVIDUAL_FUNCTION_1;
+                } else if (line.Equals("#INDIVIDUAL_FUNCTION_2")) {
+                    currentType = SemanticType.INDIVIDUAL_FUNCTION_2;
                 } else if (line.Equals("#PREDICATE")) {
                     currentType = SemanticType.PREDICATE;
                 } else if (line.Equals("#PREDICATE_MODIFIER")) {

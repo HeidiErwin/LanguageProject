@@ -371,14 +371,15 @@ public class NPC : Character {
         }
     }
 
+    // @NOTE turned off for testing
     public void ReceivePercept(params Expression[] percept) {
-        if (this.model == null) {
-            return;
-        }
+        // if (this.model == null) {
+        //     return;
+        // }
 
-        foreach (Expression p in percept) {
-            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
-        }
+        // foreach (Expression p in percept) {
+        //     this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
+        // }
     }
 
     public void ReceiveExpression(Expression utterer, Expression utterance) {

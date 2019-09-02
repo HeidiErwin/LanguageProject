@@ -175,7 +175,7 @@ public class SubstitutionRule {
                         domain = new List<Dictionary<MetaVariable, Expression>>();
                     } else {
                         domain = m.Find(suppositions, boundConditions);
-                        UnityEngine.Debug.Log(domain == null);
+                        // UnityEngine.Debug.Log(domain == null);
                     }
 
                     if (domain == null) {

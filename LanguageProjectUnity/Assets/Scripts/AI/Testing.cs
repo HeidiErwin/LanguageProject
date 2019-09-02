@@ -73,10 +73,19 @@ public class Testing : MonoBehaviour {
         m.Add(new Phrase(Expression.IF, d, e));
         PrintProves(m, true, e);
 
-        PrintProves(m, true, new Phrase(Expression.IDENTITY,
-            new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO))),
-            new Phrase(Expression.PLUS, new Phrase(Expression.SUCC, Expression.ZERO), 
-                new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO)))));
+        m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
+        m.Add(new Phrase(Expression.TREE, Expression.BOB));
+        PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB_2));
+
+        // PrintProves(m, true, new Phrase(Expression.IDENTITY,
+        //     new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO))),
+        //     new Phrase(Expression.PLUS, new Phrase(Expression.SUCC, Expression.ZERO), 
+        //         new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO)))));
+
+        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY,
+        //     new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO))),
+        //     new Phrase(Expression.PLUS, new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO)), 
+        //         new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO))))));
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {

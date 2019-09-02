@@ -27,7 +27,7 @@ public abstract class Model {
     // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, HashSet<Expression>> triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
-    protected List<Expression> lastSuppositions = null;
+    protected List<Expression> lastSuppositions = new List<Expression>();
 
     // the utilities of certain sentences.
     // Ultimately, we want this to be a priority queue
@@ -36,6 +36,9 @@ public abstract class Model {
     protected Expression currentGoal;
     public List<Expression> currentPlan { get; protected set; }
     public bool decisionLock = false;
+
+    // loop detection
+    private int loopCounter = 0;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -430,15 +433,37 @@ public abstract class Model {
     }
 
     public HashSet<Expression> GetBasis(Expression expr) {
+        this.loopCounter = 0;
+        this.lastSuppositions = new List<Expression>();
         return GetBasis(expr, new List<Expression>());
     }
 
     // returns the set of sentences that prove expr, if any.
     // returns NULL if this model doesn't prove expr.
     public HashSet<Expression> GetBasis(Expression expr, List<Expression> suppositions) {
-        if (suppositions != lastSuppositions) {
-            triedExpressions.Clear();
+        if (this.loopCounter > 100) {
+            Debug.Log("LOOP FAILURE: " + expr);
+            return null;
         }
+
+        // BEGIN: checking to see if suppositions match.
+        // If they we need to reset our tried proofs.
+        foreach (Expression supposition in suppositions) {
+            if (!this.lastSuppositions.Contains(supposition)) {
+                triedExpressions.Clear();
+            }
+        }
+
+        foreach (Expression supposition in this.lastSuppositions) {
+            if (!suppositions.Contains(supposition)) {
+                triedExpressions.Clear();
+            }
+        }
+
+        // END supposition check
+
+        Debug.Log("TRYING TO PROVE " + expr);
+
         HashSet<Expression> basis = new HashSet<Expression>();
         if (suppositions.Contains(expr)) {
             return basis;
@@ -448,10 +473,11 @@ public abstract class Model {
         if (triedExpressions.ContainsKey(expr)) {
             return triedExpressions[expr];
         }
-        triedExpressions.Add(expr, null);
 
-        // this should be GetBasis(), not Contains().
-        // looping problem needs to be resolved, however.
+        triedExpressions.Add(expr, null);
+        this.loopCounter++;
+        // Debug.Log("Trying to prove '" + expr + "'");
+
         if (this.Contains(expr)) {
             basis.Add(expr);
             triedExpressions[expr] = basis;
@@ -542,7 +568,6 @@ public abstract class Model {
                 continue;
             }
 
-            // Debug.Log(sr + " matches " + expr);
             foreach (SubstitutionRule.Result conjunctSubstitution in admissibleSubstitutions) {
                 basis.Clear();
                 bool proved = true;
@@ -626,6 +651,7 @@ public abstract class Model {
                             counter++;
                         }
                     }
+
                     // TODO: find a way for Find() or something else to RECURSIVELY prove
                     // the potential bindings for use
                     List<Dictionary<MetaVariable, Expression>> bindings = Find(suppositions, toFindArray);
@@ -672,6 +698,7 @@ public abstract class Model {
         for (int i = 0; i < patterns.Length; i++) {
             List<Dictionary<MetaVariable, Expression>> newSuccessfulBindings = new List<Dictionary<MetaVariable, Expression>>();
             // 1. for this IPattern, bind all the successful bindings.
+            bool provedOne = false;
             foreach (Dictionary<MetaVariable, Expression> successfulBinding in successfulBindings) {
 
                 // 2. for each possible successful binding, try to supplement it with successful bindings
@@ -702,7 +729,6 @@ public abstract class Model {
                     oldAttemptedBindings = newAttemptedBindings;
                 }                
 
-                bool provedOne = false;
                 foreach (Dictionary<MetaVariable, Expression> attemptedBinding in oldAttemptedBindings) {
                     Expression e = currentPattern.Bind(attemptedBinding).ToExpression();
                     // NOTE: e should never be NULL. Problem with domain or GetFreeMetaVariables() otherwise

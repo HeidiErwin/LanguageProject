@@ -232,17 +232,22 @@ public abstract class Expression : IPattern {
 
     public static readonly Expression NO = new Word(SemanticType.QUANTIFIER, "no");
     public static readonly Expression SOME = new Word(SemanticType.QUANTIFIER, "some");
-    public static readonly Expression TWO = new Word(SemanticType.QUANTIFIER, "two");
-    public static readonly Expression THREE = new Word(SemanticType.QUANTIFIER, "three");
+    // public static readonly Expression TWO = new Word(SemanticType.QUANTIFIER, "two");
+    // public static readonly Expression THREE = new Word(SemanticType.QUANTIFIER, "three");
     public static readonly Expression ALL = new Word(SemanticType.QUANTIFIER, "all");
     public static readonly Expression GEACH_QP = new Word(SemanticType.GEACH_QUANTIFIER_PHRASE, "geach");
 
     public static readonly Expression A = new Word(SemanticType.DETERMINER, "a");
     public static readonly Expression THE = new Word(SemanticType.DETERMINER, "the");
 
-    public static readonly Expression ZERO = new Word(SemanticType.INDIVIDUAL, "0");
-    public static readonly Expression SUCC = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "succ");
-    public static readonly Expression PLUS = new Word(SemanticType.INDIVIDUAL_FUNCTION_2, "+");
+    public static readonly Expression ZERO  = new Word(SemanticType.INDIVIDUAL, "0");
+    public static readonly Expression ONE   = new Word(SemanticType.INDIVIDUAL, "1");
+    public static readonly Expression TWO   = new Word(SemanticType.INDIVIDUAL, "2");
+    public static readonly Expression THREE = new Word(SemanticType.INDIVIDUAL, "3");
+    public static readonly Expression FOUR  = new Word(SemanticType.INDIVIDUAL, "4");
+    public static readonly Expression FIVE  = new Word(SemanticType.INDIVIDUAL, "5");
+    public static readonly Expression SUCC  = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "succ");
+    public static readonly Expression PLUS  = new Word(SemanticType.INDIVIDUAL_FUNCTION_2, "+");
 
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BOUND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "bound");
