@@ -7,18 +7,18 @@ goal
 ruby
 sapphire
 emerald
-0
-1
-2
-3
-4
-5
+// 0
+// 1
+// 2
+// 3
+// 4
+// 5
 
 #INDIVIDUAL_FUNCTION_1
-succ
+// succ
 
 #INDIVIDUAL_FUNCTION_2
-+
+// +
 
 #PREDICATE
 in_the_room

@@ -90,11 +90,17 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0)))},
         //     false));
 
-        // // S |- T(S)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(xt0)},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
-        //     false));
+        // S |- T(S)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(xt0)},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
+            false));
+
+        // ~S |- ~T(S)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, xt0))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)))},
+            false));
 
         // S |- ~~S
         m.Add(new SubstitutionRule(
@@ -134,21 +140,21 @@ public class DefaultModel {
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
 
-        // // @NOTE this is redundant once substitution of identicals is figured out.
-        // // symmetry for identity
-        // // x = y |- y = x
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi1, xi0))}));
-
-        // CAUSING LOOPS
-        // substitution of identiticals
-        // x = y, F(x) |- F(y)
+        // @NOTE this is redundant once substitution of identicals is figured out.
+        // symmetry for identity
+        // x = y |- y = x
         m.Add(new SubstitutionRule(
-            new List<IPattern>[]{
-                BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
-                new ExpressionPattern(xp0, xi0))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi1))}));
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi1, xi0))}));
+
+        // // CAUSING LOOPS
+        // // substitution of identiticals
+        // // x = y, F(x) |- F(y)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
+        //         new ExpressionPattern(xp0, xi0))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi1))}));
 
         // // F(x), G(x) |- some(F, G)
         // // not transposable to save time
@@ -268,49 +274,42 @@ public class DefaultModel {
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.FIVE))}, false));
 
-        // // |- succ(x) != 0
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.NOT,
-        //             new ExpressionPattern(Expression.IDENTITY,
-        //             new ExpressionPattern(Expression.SUCC, xi0), Expression.ZERO)))}, false));
+        // |- succ(x) != 0
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.IDENTITY,
+                    new ExpressionPattern(Expression.SUCC, xi0), Expression.ZERO)))}, false));
 
-        // // x = y |- succ(x) = succ(y)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.SUCC, xi0),
-        //                 new ExpressionPattern(Expression.SUCC, xi1)))}, false));
+        // x = y |- succ(x) = succ(y)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.SUCC, xi0),
+                        new ExpressionPattern(Expression.SUCC, xi1)))}, false));
 
-        // // x != y |- succ(x) != succ(y)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.NOT,
-        //             new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.SUCC, xi0),
-        //                 new ExpressionPattern(Expression.SUCC, xi1))))}, false));
+        // x != y |- succ(x) != succ(y)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.SUCC, xi0),
+                        new ExpressionPattern(Expression.SUCC, xi1))))}, false));
 
-        // // x = y |- x = y + 0
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
-        //                 new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO)))}, false));
+        // x = y |- x = y + 0
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
+                        new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO)))}, false));
 
-        // // x != y |- x != y + 0
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0,
-        //                 new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO))))}, false));
-
-        // // |- x = x + 0
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
-        //             new ExpressionPattern(Expression.PLUS, xi0, Expression.ZERO)))}));
+        // x != y |- x != y + 0
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0,
+                        new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO))))}, false));
 
         // x = y + z |- succ(x) = y + succ(z)
         m.Add(new SubstitutionRule(

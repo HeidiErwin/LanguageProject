@@ -47,35 +47,44 @@ public class Testing : MonoBehaviour {
         // PrintProves(m, true, b);
         // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.NOT, new Phrase(Expression.PERSON, Expression.SELF))));
         
-        Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
-        Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{DefaultModel.BuildList(a)},
-            new List<IPattern>[]{DefaultModel.BuildList(b)},
-            false));
-        Expression ifAB = new Phrase(Expression.IF, a, b);
-        PrintProves(m, false, b);
-        PrintProves(m, true, ifAB);
-        PrintProves(m, false, a);
+        // Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
+        // Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+
+        // m.Add(a);
+        // m.Add(new Phrase(Expression.NOT, b));
+
+        // PrintProves(m, true, new Phrase(Expression.TRUE, a));
+        // PrintProves(m, true, new Phrase(Expression.TRUE, new Phrase(Expression.TRUE, a)));
+        // PrintProves(m, true, new Phrase(Expression.TRUE, new Phrase(Expression.NOT, b)));
+        // PrintProves(m, true, new Phrase(Expression.NOT, new Phrase(Expression.TRUE, b)));
+
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{DefaultModel.BuildList(a)},
+        //     new List<IPattern>[]{DefaultModel.BuildList(b)},
+        //     false));
+        // Expression ifAB = new Phrase(Expression.IF, a, b);
+        // PrintProves(m, false, b);
+        // PrintProves(m, true, ifAB);
+        // PrintProves(m, false, a);
         
-        // now, testing a conditional is true, even if the antecedant is thought false
-        m.Add(new Phrase(Expression.NOT, a));
-        PrintProves(m, true, new Phrase(Expression.NOT, a));
-        PrintProves(m, true, ifAB);
+        // // now, testing a conditional is true, even if the antecedant is thought false
+        // m.Add(new Phrase(Expression.NOT, a));
+        // PrintProves(m, true, new Phrase(Expression.NOT, a));
+        // PrintProves(m, true, ifAB);
 
-        // MODUS PONENS
-        Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
-        Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
-        m.Add(new Phrase(Expression.IF, c, d));
-        m.Add(c);
-        PrintProves(m, true, d);
-        Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
-        m.Add(new Phrase(Expression.IF, d, e));
-        PrintProves(m, true, e);
+        // // MODUS PONENS
+        // Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
+        // Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
+        // m.Add(new Phrase(Expression.IF, c, d));
+        // m.Add(c);
+        // PrintProves(m, true, d);
+        // Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
+        // m.Add(new Phrase(Expression.IF, d, e));
+        // PrintProves(m, true, e);
 
-        m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
-        m.Add(new Phrase(Expression.TREE, Expression.BOB));
-        PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB_2));
+        // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
+        // m.Add(new Phrase(Expression.TREE, Expression.BOB));
+        // PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB_2));
 
         // PrintProves(m, true, new Phrase(Expression.IDENTITY,
         //     new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, new Phrase(Expression.SUCC, Expression.ZERO))),

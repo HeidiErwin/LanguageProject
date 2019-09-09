@@ -462,8 +462,6 @@ public abstract class Model {
 
         // END supposition check
 
-        Debug.Log("TRYING TO PROVE " + expr);
-
         HashSet<Expression> basis = new HashSet<Expression>();
         if (suppositions.Contains(expr)) {
             return basis;
@@ -504,6 +502,7 @@ public abstract class Model {
             HashSet<Expression> antecedentBasis = GetBasis(antecedent);
             if (antecedentBasis != null) {
                 antecedentBasis.Add(new Phrase(Expression.IF, antecedent, expr));
+                triedExpressions[expr] = antecedentBasis;
                 return antecedentBasis;
             }
         }
@@ -529,6 +528,7 @@ public abstract class Model {
                 if (promiseBasis != null) {
                     basis.Add(new Phrase(Expression.BOUND, promiser[0][xi0], promise));
                     basis.Add(new Phrase(Expression.NOT, promise));
+                    triedExpressions[expr] = basis;
                     return basis;
                 }
             }
