@@ -344,15 +344,15 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // // TRUST
-        // // renege
-        // // bound(x, A), ~A |- ~trustworthy(x)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.BOUND, xi0, xt0), new ExpressionPattern(Expression.NOT, xt0))},
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0)))},
-        //     false));
+        // TRUST
+        // renege
+        // bound(x, A), ~A |- ~trustworthy(x)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.BOUND, xi0, xt0), new ExpressionPattern(Expression.NOT, xt0))},
+            new List<IPattern>[]{
+                BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0)))},
+            false));
 
         // // testimonial inference
         // // express(x, S) | sincere(x, S) |- believe(x, S)
