@@ -41,12 +41,12 @@ public class DefaultModel {
         m.Add(new Phrase(Expression.PERSON, Expression.SELF));
         m.Add(new Phrase(Expression.ACTIVE, Expression.SELF));
 
-        // // ACTION RULES
-        // // m.Add(new ActionRule(
-        // //     Expression.VERUM,
-        // //     new ExpressionPattern(Expression.WOULD,
-        // //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
-        // //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
+        // ACTION RULES
+        m.Add(new ActionRule(
+            Expression.VERUM,
+            new ExpressionPattern(Expression.WOULD,
+                new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
+            new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
 
         // m.Add(new ActionRule(
         //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0),
@@ -339,10 +339,10 @@ public class DefaultModel {
         //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // // make(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
+        // make(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
+            new List<IPattern>[]{BuildList(xt0)}));
 
         // TRUST
         // renege
