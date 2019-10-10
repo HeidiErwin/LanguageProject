@@ -405,10 +405,14 @@ public class NPC : Character {
                     // TODO: check if utilities work out, and if you can uphold your end of the deal.
                     // For now, just accept by default
                     // uphold your end of the bargain
-                    model.AddUtility(utterance.GetArg(1), 10f);
+                    model.Add(new Phrase(Expression.BETTER, utterance.GetArg(1), Expression.NEUTRAL));
+                    // model.AddUtility(utterance.GetArg(1), 10f);
                     
                     // hold the other person to account
                     model.UpdateBelief(new Phrase(Expression.BOUND, utterer, utterance.GetArg(0)));
+
+                    // // hold yourself to account??
+                    // model.UpdateBelief(new Phrase(Expression.BOUND, utterer, utterance.GetArg(1)));
 
                     this.controller.combineSuccess.Play();
                     StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ACCEPT)));
@@ -433,7 +437,8 @@ public class NPC : Character {
                 this.controller.combineSuccess.Play();
                 StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
 
-                model.AddUtility(utterance.GetArg(0), 10f);
+                model.Add(new Phrase(Expression.BETTER, utterance.GetArg(0), Expression.NEUTRAL));
+                // model.AddUtility(utterance.GetArg(0), 10f);
             
                 return;
             }

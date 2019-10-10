@@ -32,7 +32,7 @@ public abstract class Model {
     // the utilities of certain sentences.
     // Ultimately, we want this to be a priority queue
     // so that we can quickly get the maximum element
-    protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
+    // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
     protected Expression currentGoal;
     public List<Expression> currentPlan { get; protected set; }
     public bool decisionLock = false;
@@ -69,23 +69,23 @@ public abstract class Model {
         actionRules.Add(r);
     }
 
-    public float GetUtility(Expression e) {
-        return utilities[e];
-    }
+    // public float GetUtility(Expression e) {
+    //     return utilities[e];
+    // }
 
-    public void SetUtility(Expression e, float u) {
-        utilities[e] = u;
-        decisionLock = false;
-    }
+    // public void SetUtility(Expression e, float u) {
+    //     utilities[e] = u;
+    //     decisionLock = false;
+    // }
 
-    public void AddUtility(Expression e, float du) {
-        if (utilities.ContainsKey(e)) {
-            utilities[e] += du;
-        } else {
-            utilities[e] = du;
-        }
-        decisionLock = false;
-    }
+    // public void AddUtility(Expression e, float du) {
+    //     if (utilities.ContainsKey(e)) {
+    //         utilities[e] += du;
+    //     } else {
+    //         utilities[e] = du;
+    //     }
+    //     decisionLock = false;
+    // }
 
     public void AddToDomain(Expression e) {
         if (e == null) {
@@ -252,23 +252,45 @@ public abstract class Model {
     // since it only accepts a goal which is thought to be achievable
     // (i.e. it's expectation is not 0)
     public void DecideGoal() {
-        Expression maxGoal = null;
+        Expression maxGoal = Expression.NEUTRAL;
         List<Expression> maxPlan = null;
-        float maxUtility = Single.NegativeInfinity;
-        foreach (KeyValuePair<Expression, float> us in this.utilities) {
-            // Debug.Log(us.Key);
-            if (us.Value >= maxUtility) {
-                List<Expression> plan = Plan(us.Key);
-                // if the goal is already true, or isn't
-                // achievable, then don't set this as the goal.
+        // float maxUtility = Single.NegativeInfinity;
+
+        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+        IPattern positivePattern = new ExpressionPattern(Expression.BETTER, xt0, Expression.NEUTRAL);
+        foreach (Expression e in this.GetAll()) {
+            List<Dictionary<MetaVariable, Expression>> positiveBindings = positivePattern.GetBindings(e);
+
+            if (positiveBindings == null) {
+                continue;
+            }
+
+            Expression positive = positiveBindings[0][xt0];
+
+            if (this.Proves(new Phrase(Expression.BETTER, positive, maxGoal))) {
+                List<Expression> plan = Plan(positive);
                 if (plan != null && plan.Count != 0) {
-                    maxGoal = us.Key;
+                    maxGoal = positive;
                     maxPlan = plan;
-                    maxUtility = us.Value;
                 }
             }
         }
-        if (maxGoal == null) {
+
+        // foreach (KeyValuePair<Expression, float> us in this.utilities) {
+        //     // Debug.Log(us.Key);
+        //     if (us.Value >= maxUtility) {
+        //         List<Expression> plan = Plan(us.Key);
+        //         // if the goal is already true, or isn't
+        //         // achievable, then don't set this as the goal.
+        //         if (plan != null && plan.Count != 0) {
+        //             maxGoal = us.Key;
+        //             maxPlan = plan;
+        //             maxUtility = us.Value;
+        //         }
+        //     }
+        // }
+
+        if (maxGoal.Equals(Expression.NEUTRAL)) {
             decisionLock = true;
         }
         currentGoal = maxGoal;

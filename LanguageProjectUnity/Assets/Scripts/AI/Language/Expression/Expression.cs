@@ -211,6 +211,7 @@ public abstract class Expression : IPattern {
 
     public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
     public static readonly Expression FALSUM = new Phrase(Expression.NOT, Expression.VERUM);
+    public static readonly Expression NEUTRAL = new Word(SemanticType.TRUTH_VALUE, "neutral");
 
     public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
     public static readonly Expression DENY = new Phrase(Expression.NOT, Expression.AFFIRM);
@@ -227,6 +228,10 @@ public abstract class Expression : IPattern {
     public static readonly Expression OR = new Word(SemanticType.TRUTH_FUNCTION_2, "or");
     public static readonly Expression IF = new Word(SemanticType.TRUTH_FUNCTION_2, "if");
     public static readonly Expression EQUIVALENT = new Word(SemanticType.TRUTH_FUNCTION_2, "equivalent");
+
+    public static readonly Expression BETTER = new Word(SemanticType.TRUTH_FUNCTION_2, "better");
+    // public static readonly Expression WORSE = new Word(SemanticType.TRUTH_FUNCTION_2, "worse");
+    public static readonly Expression AS_GOOD_AS = new Word(SemanticType.TRUTH_FUNCTION_2, "as_good_as");
 
     public static readonly Expression NOMINALIZE = new Word(SemanticType.DETERMINER, "nominalize");
 

@@ -43,6 +43,9 @@ public class Bob : NPC {
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
 
         // // utilities
-        model.SetUtility(new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), 10f);
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD),
+            Expression.NEUTRAL));
+        // model.SetUtility(new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), 10f);
     }
 }

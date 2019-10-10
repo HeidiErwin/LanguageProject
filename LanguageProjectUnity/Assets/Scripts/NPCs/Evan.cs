@@ -34,8 +34,20 @@ public class Evan : NPC {
         // // model.Add(new Phrase(Expression.ACTIVE, Expression.BOB));
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.BOB, new Phrase(Expression.KING, Expression.BOB)));
 
-        // // // // utilities
+        // // // // // utilities
         // model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.GOAL), 5f);
         // model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.BOB), 2f);
+        
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
+            Expression.NEUTRAL));
+
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
+            Expression.NEUTRAL));
+        
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
+            new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
     }
 }
