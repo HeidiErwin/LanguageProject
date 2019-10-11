@@ -33,6 +33,7 @@ public abstract class Model {
     // Ultimately, we want this to be a priority queue
     // so that we can quickly get the maximum element
     // protected Dictionary<Expression, float> utilities = new Dictionary<Expression, float>();
+    protected HashSet<Expression> preferables = new HashSet<Expression>();
     protected Expression currentGoal;
     public List<Expression> currentPlan { get; protected set; }
     public bool decisionLock = false;
@@ -99,6 +100,11 @@ public abstract class Model {
         if (!e.type.Equals(SemanticType.TRUTH_VALUE)) {
             // TODO add an exception clause for conjunction/disjunction
             domain[e.type].Add(e);
+        } else {
+            if (e.GetHead().Equals(Expression.BETTER) || e.GetHead().Equals(Expression.AS_GOOD_AS)) {
+                preferables.Add(e.GetArg(0));
+                preferables.Add(e.GetArg(1));
+            }
         }
         
         for (int i = 0; i < e.GetNumArgs(); i++) {
@@ -256,21 +262,11 @@ public abstract class Model {
         List<Expression> maxPlan = null;
         // float maxUtility = Single.NegativeInfinity;
 
-        MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        IPattern positivePattern = new ExpressionPattern(Expression.BETTER, xt0, Expression.NEUTRAL);
-        foreach (Expression e in this.GetAll()) {
-            List<Dictionary<MetaVariable, Expression>> positiveBindings = positivePattern.GetBindings(e);
-
-            if (positiveBindings == null) {
-                continue;
-            }
-
-            Expression positive = positiveBindings[0][xt0];
-
-            if (this.Proves(new Phrase(Expression.BETTER, positive, maxGoal))) {
-                List<Expression> plan = Plan(positive);
+        foreach (Expression preferable in this.preferables) {
+            if (this.Proves(new Phrase(Expression.BETTER, preferable, maxGoal))) {
+                List<Expression> plan = Plan(preferable);
                 if (plan != null && plan.Count != 0) {
-                    maxGoal = positive;
+                    maxGoal = preferable;
                     maxPlan = plan;
                 }
             }

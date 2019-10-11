@@ -42,9 +42,9 @@ public class Evan : NPC {
             new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
             Expression.NEUTRAL));
 
-        model.Add(new Phrase(Expression.BETTER,
-            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
-            Expression.NEUTRAL));
+        // model.Add(new Phrase(Expression.BETTER,
+        //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
+        //     Expression.NEUTRAL));
         
         model.Add(new Phrase(Expression.BETTER,
             new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
