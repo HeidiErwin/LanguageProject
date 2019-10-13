@@ -345,6 +345,33 @@ public class NPC : Character {
                     GameObject.Find("Woodcutter").GetComponent<NPC>().ReceiveExpression(this.name, command);
                 }
             }
+
+            MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
+            IPattern possessionSchema =
+                new ExpressionPattern(Expression.WOULD,
+                    new ExpressionPattern(Expression.POSSESS, xi0, xi1));
+
+            List<Dictionary<MetaVariable, Expression>> possessionBinding = possessionSchema.GetBindings(action);
+
+            if (possessionBinding != null) {
+                Expression possessor = possessionBinding[0][xi0];
+                Expression item = possessionBinding[0][xi1];
+                Debug.Log(this.gameObject.name);
+                GameObject inventory = GameObject.Find(this.gameObject.name + "/Inventory");
+                foreach (Transform t in inventory.GetComponentsInChildren<Transform>()) {
+                    Debug.Log(t.gameObject.name);
+                    if (t.gameObject.name.ToLower().Equals(item.ToString())) {
+                        t.gameObject.transform.SetParent(GameObject.Find(possessor.ToString() + "/Inventory").transform);
+                        t.gameObject.transform.position = GameObject.Find(possessor.ToString() + "/Inventory").transform.position;
+                        // t.position = new Vector3(5f, 1f, 0f);
+                    }
+                }
+
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.POSSESS, possessor, item)));
+                // if () {
+
+                // }
+            }
         }
         // this.controller.combineSuccess.Play();
         // yield return ShowSpeechBubble("yes");

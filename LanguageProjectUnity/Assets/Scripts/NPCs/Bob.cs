@@ -14,6 +14,13 @@ public class Bob : NPC {
             CustomModels.AddFPExperimentModel(this.model);
         }
 
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+
+        model.Add(new ActionRule(
+            Expression.VERUM,
+            new ExpressionPattern(Expression.WOULD, new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)),
+            new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)));
+
         // model.Add(new ActionRule(
         //     new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
         //     new Phrase(Expression.WOULD,
@@ -44,8 +51,11 @@ public class Bob : NPC {
 
         // // utilities
         model.Add(new Phrase(Expression.BETTER,
-            new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD),
-            Expression.NEUTRAL));
+            new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), Expression.NEUTRAL));
+
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.POSSESS, Expression.EVAN, Expression.RUBY), Expression.NEUTRAL));
+
         // model.SetUtility(new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), 10f);
     }
 }

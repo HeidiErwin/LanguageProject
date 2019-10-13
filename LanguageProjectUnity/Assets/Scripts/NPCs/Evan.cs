@@ -38,16 +38,16 @@ public class Evan : NPC {
         // model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.GOAL), 5f);
         // model.SetUtility(new Phrase(Expression.AT, Expression.SELF, Expression.BOB), 2f);
         
-        model.Add(new Phrase(Expression.BETTER,
-            new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
-            Expression.NEUTRAL));
+        // model.Add(new Phrase(Expression.BETTER,
+        //     new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
+        //     Expression.NEUTRAL));
 
+        // // model.Add(new Phrase(Expression.BETTER,
+        // //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
+        // //     Expression.NEUTRAL));
+        
         // model.Add(new Phrase(Expression.BETTER,
         //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
-        //     Expression.NEUTRAL));
-        
-        model.Add(new Phrase(Expression.BETTER,
-            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
-            new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
+        //     new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
     }
 }
