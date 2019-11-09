@@ -356,10 +356,8 @@ public class NPC : Character {
             if (possessionBinding != null) {
                 Expression possessor = possessionBinding[0][xi0];
                 Expression item = possessionBinding[0][xi1];
-                Debug.Log(this.gameObject.name);
                 GameObject inventory = GameObject.Find(this.gameObject.name + "/Inventory");
                 foreach (Transform t in inventory.GetComponentsInChildren<Transform>()) {
-                    Debug.Log(t.gameObject.name);
                     if (t.gameObject.name.ToLower().Equals(item.ToString())) {
                         t.gameObject.transform.SetParent(GameObject.Find(possessor.ToString() + "/Inventory").transform);
                         t.gameObject.transform.position = GameObject.Find(possessor.ToString() + "/Inventory").transform.position;
