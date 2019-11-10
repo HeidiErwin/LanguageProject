@@ -55,6 +55,20 @@ public class GameController : MonoBehaviour {
             }
 
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0)) {
+            Debug.Log("0 pressed");
+            if (currentInteractObject != null) {
+                GameObject thatInventory = GameObject.Find(currentInteractObject.name + "/Inventory");
+                GameObject playerInventory = GameObject.Find("FPSController/Inventory");
+                if (thatInventory != null && playerInventory.transform.childCount > 0) {
+                    Transform item = playerInventory.transform.GetChild(0);
+                    item.transform.SetParent(thatInventory.transform);
+                    item.transform.position = thatInventory.transform.position;
+                }
+            }
+        }
+
         if (Input.GetKeyUp(KeyCode.Tab)) {
             if (selectedExpression != null) {
                 if (!is2D) {
