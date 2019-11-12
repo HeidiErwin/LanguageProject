@@ -72,15 +72,29 @@ public class Testing : MonoBehaviour {
         // PrintProves(m, true, new Phrase(Expression.NOT, a));
         // PrintProves(m, true, ifAB);
 
-        // // MODUS PONENS
-        // Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
-        // Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
-        // m.Add(new Phrase(Expression.IF, c, d));
-        // m.Add(c);
-        // PrintProves(m, true, d);
-        // Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
-        // m.Add(new Phrase(Expression.IF, d, e));
-        // PrintProves(m, true, e);
+        // MODUS PONENS
+        Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
+        Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
+        m.Add(new Phrase(Expression.IF, c, d));
+        m.Add(c);
+        PrintProves(m, true, d);
+        Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
+        m.Add(new Phrase(Expression.IF, d, e));
+        PrintProves(m, true, e);
+
+        Expression f = new Word(SemanticType.TRUTH_VALUE, "F");
+        m.Add(new Phrase(Expression.IF, e, f));
+        PrintProves(m, true, f);
+
+        Expression bobIsRed = new Phrase(Expression.RED, Expression.BOB);
+        Expression allRedsAreGreen = new Phrase(Expression.ALL, Expression.RED, Expression.GREEN);
+        m.Add(bobIsRed);
+        m.Add(allRedsAreGreen);
+        PrintProves(m, true, new Phrase(Expression.GREEN, Expression.BOB));
+
+        Expression allGreensAreBlue = new Phrase(Expression.ALL, Expression.GREEN, Expression.BLUE);
+        m.Add(allGreensAreBlue);
+        PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
 
         // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
         // m.Add(new Phrase(Expression.TREE, Expression.BOB));

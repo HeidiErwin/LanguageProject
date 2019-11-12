@@ -527,8 +527,43 @@ public abstract class Model {
 
         // END MODUS PONENS
 
-        // BOUND
+        // UNIVERSAL ELIMINATION
+        MetaVariable xp0 = new MetaVariable(SemanticType.PREDICATE, 0);
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        IPattern predicatePattern =
+            new ExpressionPattern(xp0, xi0);
+
+        List<Dictionary<MetaVariable, Expression>> decomposition = predicatePattern.GetBindings(expr);
+        if (decomposition != null) {
+            foreach (Dictionary<MetaVariable, Expression> binding in decomposition) {
+                Expression subject = binding[xi0];
+                Expression predicate = binding[xp0];
+
+                IPattern universalPattern =
+                    new ExpressionPattern(Expression.ALL, xp0, predicate);
+
+                foreach (Expression e in GetAll()) {
+                    List<Dictionary<MetaVariable, Expression>> domains =
+                        universalPattern.GetBindings(e);
+
+                    if (domains == null) {
+                        continue;
+                    }
+
+                    Expression domain = domains[0][xp0];
+                    HashSet<Expression> domainBasis = GetBasis(new Phrase(domain, subject));
+                    if (domainBasis != null) {
+                        domainBasis.Add(new Phrase(Expression.ALL, domain, predicate));
+                        triedExpressions[expr] = domainBasis;
+                        return domainBasis;
+                    }
+                }
+            }
+        }
+
+        // END UNIVERSAL ELIMINATION
+
+        // BOUND
         IPattern trustworthyPattern =
             new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0));
 
