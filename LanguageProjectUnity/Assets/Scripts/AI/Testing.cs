@@ -96,6 +96,13 @@ public class Testing : MonoBehaviour {
         m.Add(allGreensAreBlue);
         PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
 
+        Expression dBetterThanC = new Phrase(Expression.BETTER, d, c);
+        Expression eBetterThanD = new Phrase(Expression.BETTER, e, d);
+        m.Add(dBetterThanC);
+        m.Add(eBetterThanD);
+        PrintProves(m, true, new Phrase(Expression.BETTER, e, c));
+
+
         // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
         // m.Add(new Phrase(Expression.TREE, Expression.BOB));
         // PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB_2));

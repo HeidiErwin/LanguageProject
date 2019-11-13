@@ -563,6 +563,17 @@ public abstract class Model {
 
         // END UNIVERSAL ELIMINATION
 
+        // TRANSITIVITY OF BETTER
+        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+        betterPattern = new ExpressionPattern(Expression.BETTER, xt0, xt1);
+
+        List<Dictionary<MetaVariable, Expression>> preferands = betterPattern.GetBindings(expr);
+
+        if (preferands != null) {
+            // TODO
+        }
+        // END TRANSITIVITY OF BETTER
+
         // BOUND
         IPattern trustworthyPattern =
             new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0));
