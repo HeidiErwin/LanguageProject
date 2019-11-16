@@ -101,6 +101,12 @@ public class Testing : MonoBehaviour {
         m.Add(dBetterThanC);
         m.Add(eBetterThanD);
         PrintProves(m, true, new Phrase(Expression.BETTER, e, c));
+        Expression fBetterThanE = new Phrase(Expression.BETTER, f, e);
+        m.Add(fBetterThanE);
+        PrintProves(m, true, new Phrase(Expression.BETTER, f, c));
+
+        Expression g = new Word(SemanticType.TRUTH_VALUE, "G");
+        PrintProves(m, false, new Phrase(Expression.BETTER, g, c));
 
 
         // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));

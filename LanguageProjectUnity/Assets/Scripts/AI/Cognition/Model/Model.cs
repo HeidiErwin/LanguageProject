@@ -517,7 +517,7 @@ public abstract class Model {
                 continue;
             }
             Expression antecedent = antecedents[0][xt0];
-            HashSet<Expression> antecedentBasis = GetBasis(antecedent);
+            HashSet<Expression> antecedentBasis = GetBasis(antecedent, suppositions);
             if (antecedentBasis != null) {
                 antecedentBasis.Add(new Phrase(Expression.IF, antecedent, expr));
                 triedExpressions[expr] = antecedentBasis;
@@ -551,7 +551,7 @@ public abstract class Model {
                     }
 
                     Expression domain = domains[0][xp0];
-                    HashSet<Expression> domainBasis = GetBasis(new Phrase(domain, subject));
+                    HashSet<Expression> domainBasis = GetBasis(new Phrase(domain, subject), suppositions);
                     if (domainBasis != null) {
                         domainBasis.Add(new Phrase(Expression.ALL, domain, predicate));
                         triedExpressions[expr] = domainBasis;
@@ -565,12 +565,34 @@ public abstract class Model {
 
         // TRANSITIVITY OF BETTER
         MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
-        betterPattern = new ExpressionPattern(Expression.BETTER, xt0, xt1);
+        IPattern betterPattern = new ExpressionPattern(Expression.BETTER, xt0, xt1);
 
         List<Dictionary<MetaVariable, Expression>> preferands = betterPattern.GetBindings(expr);
 
         if (preferands != null) {
-            // TODO
+            Expression better = preferands[0][xt0];
+            Expression worse = preferands[0][xt1];
+
+            foreach (Expression p in preferables) {
+                HashSet<Expression> betterBasis = 
+                    GetBasis(new Phrase(Expression.BETTER, better, p), suppositions);
+
+                if (betterBasis != null) {
+                    HashSet<Expression> worseBasis =
+                        GetBasis(new Phrase(Expression.BETTER, p,  worse), suppositions);
+
+                    if (worseBasis != null) {
+                        HashSet<Expression> transitiveBasis = new HashSet<Expression>();
+                        foreach (Expression b in betterBasis) {
+                            transitiveBasis.Add(b);
+                        }
+                        foreach (Expression b in worseBasis) {
+                            transitiveBasis.Add(b);
+                        }
+                        return transitiveBasis;
+                    }
+                }
+            }
         }
         // END TRANSITIVITY OF BETTER
 
@@ -612,7 +634,7 @@ public abstract class Model {
         }
 
         // CONDITIIONAL PROOF
-        MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
+        // MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
         IPattern conditionalPattern = new ExpressionPattern(Expression.IF, xt0, xt1);
 

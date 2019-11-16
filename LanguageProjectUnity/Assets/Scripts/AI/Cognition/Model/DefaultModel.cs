@@ -176,15 +176,6 @@ public class DefaultModel {
         //     false));
         
         MetaVariable xt2 = new MetaVariable(SemanticType.TRUTH_VALUE, 2);
-
-        // transitivity of better
-        // better(x, y), better(y, z) |- better(x, z)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(
-                new ExpressionPattern(Expression.BETTER, xt0, xt1),
-                new ExpressionPattern(Expression.BETTER, xt1, xt2))},
-            new List<IPattern>[]{BuildList(
-                new ExpressionPattern(Expression.BETTER, xt0, xt2))}));
         
         // A, B |- A & B
         m.Add(new SubstitutionRule(
