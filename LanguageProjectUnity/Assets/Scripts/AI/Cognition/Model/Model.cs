@@ -451,14 +451,22 @@ public abstract class Model {
     }
 
     public HashSet<Expression> GetBasis(Expression expr) {
+        return GetBasis(false, expr);
+    }
+
+    public HashSet<Expression> GetBasis(bool plan, Expression expr) {
         this.loopCounter = 0;
         this.lastSuppositions = new List<Expression>();
-        return GetBasis(expr, new List<Expression>());
+        return GetBasis(plan, expr, new List<Expression>());
+    }
+
+    public HashSet<Expression> GetBasis(Expression expr, List<Expression> suppositions) {
+        return GetBasis(false, expr, suppositions);
     }
 
     // returns the set of sentences that prove expr, if any.
     // returns NULL if this model doesn't prove expr.
-    public HashSet<Expression> GetBasis(Expression expr, List<Expression> suppositions) {
+    public HashSet<Expression> GetBasis(bool plan, Expression expr, List<Expression> suppositions) {
         if (this.loopCounter > 100) {
             Debug.Log("LOOP FAILURE: " + expr);
             return null;
@@ -500,11 +508,42 @@ public abstract class Model {
             return basis;
         }
 
+        // no inference with WOULD yet TODO add that
+        if (!expr.type.Equals(SemanticType.TRUTH_VALUE)) {
+            return null;
+        }
+
         if (this.Contains(new Phrase(Expression.NOT, expr))) {
             return null;
         }
 
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
+
+        if (plan) {
+            // Check to see if this expression is actionable.
+            IPattern iMakePattern = new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0);
+            List<Dictionary<MetaVariable, Expression>> iMakeBinding = iMakePattern.GetBindings(expr);
+            if (iMakeBinding != null) {
+                Expression action = new Phrase(Expression.WOULD, iMakeBinding[0][xt0]);
+                HashSet<Expression> actionBasis = GetBasis(true, action, suppositions);
+                if (actionBasis != null) {
+                    return actionBasis;
+                }
+            }
+        }
+
+        // ABILITY
+        IPattern iAbilityPattern = new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0);
+        List<Dictionary<MetaVariable, Expression>> iAbilityBinding = iAbilityPattern.GetBindings(expr);
+        if (iAbilityBinding != null) {
+            Expression ability = new Phrase(Expression.WOULD, iAbilityBinding[0][xt0]);
+            HashSet<Expression> abilityBasis = GetBasis(plan, ability, suppositions);
+            if (abilityBasis != null) {
+                return abilityBasis;
+            }
+        }
+        // END ABILITY
+
 
         // MODUS PONENS: checking to see if anything in the model satisifies
         // X, X -> expr
