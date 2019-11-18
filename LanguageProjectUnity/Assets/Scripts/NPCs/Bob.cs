@@ -15,11 +15,12 @@ public class Bob : NPC {
         }
 
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
 
-        model.Add(new ActionRule(
-            Expression.VERUM,
-            new ExpressionPattern(Expression.WOULD, new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)),
-            new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)));
+        // model.Add(new ActionRule(
+        //     Expression.VERUM,
+        //     new ExpressionPattern(Expression.WOULD, new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)),
+        //     new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)));
 
         // model.Add(new ActionRule(
         //     new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
@@ -43,11 +44,13 @@ public class Bob : NPC {
         // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD)));
         // // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
 
-        // // beliefs about Evan
-        // // model.Add(new Phrase(Expression.PERSON, Expression.EVAN));
-        // // model.Add(new Phrase(Expression.ACTIVE, Expression.EVAN));
+        // beliefs about Evan
+        model.Add(new Phrase(Expression.PERSON, Expression.EVAN));
+        // model.Add(new Phrase(Expression.ACTIVE, Expression.EVAN));
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(new Phrase(Expression.KING, Expression.BOB))));
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
+
+        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
 
         // // utilities
         model.Add(new Phrase(Expression.BETTER,

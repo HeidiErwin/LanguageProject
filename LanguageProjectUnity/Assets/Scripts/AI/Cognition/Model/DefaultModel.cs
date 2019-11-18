@@ -207,29 +207,29 @@ public class DefaultModel {
             new List<IPattern>[]{BuildList(xt1)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
-        // A, B |- equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0, xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-            false));
+        // // A, B |- equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0, xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+        //     false));
 
-        // ~A, ~B |- equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
-            false));
+        // // ~A, ~B |- equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
+        //     false));
 
-        // A, ~B |- ~equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-            false));
+        // // A, ~B |- ~equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+        //     false));
 
-        // ~A, B |- ~equivalent(A, B)
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
-            false));
+        // // ~A, B |- ~equivalent(A, B)
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
+        //     false));
 
         // // MODUS PONENS
         // // if(A, B), A |- B
@@ -341,10 +341,28 @@ public class DefaultModel {
         //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // make(x, S) |- S
+        // // able(x, S), make(x, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         BuildList(
+        //             new ExpressionPattern(Expression.ABLE, xi0, xt0),
+        //             new ExpressionPattern(Expression.MAKE, xi0, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
+
+        // // make(x, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
+
+        // you're able to give your stuff to other people
         m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-            new List<IPattern>[]{BuildList(xt0)}));
+            new List<IPattern>[]{DefaultModel.BuildList(
+                new ExpressionPattern(Expression.PERSON, xi0),
+                new ExpressionPattern(Expression.POSSESS, Expression.SELF, xi1))},
+            new List<IPattern>[]{
+                DefaultModel.BuildList(
+                new ExpressionPattern(Expression.ABLE, Expression.SELF,
+                    new ExpressionPattern(Expression.POSSESS, xi0, xi1)))}));
 
         // TRUST
         // renege

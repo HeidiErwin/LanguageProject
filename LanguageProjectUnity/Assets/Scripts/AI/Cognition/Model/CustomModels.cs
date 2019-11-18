@@ -57,20 +57,20 @@ public class CustomModels {
     public static void AddFPExperimentModel(Model m) {
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
 
-        // ACTION RULES
-        m.Add(new ActionRule(
-            new ExpressionPattern(Expression.EQUIVALENT,
-                new Phrase(Expression.IN_THE_ROOM, Expression.SELF),
-                new ExpressionPattern(Expression.IN_THE_ROOM, xi0)),
-            new ExpressionPattern(Expression.WOULD,
-                new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
-            new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
+        // // ACTION RULES
+        // m.Add(new ActionRule(
+        //     new ExpressionPattern(Expression.EQUIVALENT,
+        //         new Phrase(Expression.IN_THE_ROOM, Expression.SELF),
+        //         new ExpressionPattern(Expression.IN_THE_ROOM, xi0)),
+        //     new ExpressionPattern(Expression.WOULD,
+        //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
+        //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
 
-        m.Add(new ActionRule(
-            new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
-            new ExpressionPattern(Expression.WOULD,
-                new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
-            new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
+        // m.Add(new ActionRule(
+        //     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+        //     new ExpressionPattern(Expression.WOULD,
+        //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
+        //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
 
         // COMMON KNOWLEDGE
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, Expression.BOB)));

@@ -69,7 +69,7 @@ public class SubstitutionRule {
         return true;
     }
 
-    public List<Result> Substitute(Model m, List<Expression> suppositions, Expression expr) {
+    public List<Result> Substitute(Model m, bool plan, List<Expression> suppositions, Expression expr) {
         List<IPattern>[] match = this.bottom;
         List<IPattern>[] substitution = this.top;
 
@@ -91,7 +91,7 @@ public class SubstitutionRule {
                     if (conditions == null || conditions.Length == 0) {
                         domain = new List<Dictionary<MetaVariable, Expression>>();
                     } else {
-                        domain = m.Find(suppositions, conditions);
+                        domain = m.Find(plan, suppositions, conditions);
                     }
 
                     if (domain == null) {
@@ -174,7 +174,7 @@ public class SubstitutionRule {
                     if (conditions == null || conditions.Length == 0) {
                         domain = new List<Dictionary<MetaVariable, Expression>>();
                     } else {
-                        domain = m.Find(suppositions, boundConditions);
+                        domain = m.Find(plan, suppositions, boundConditions);
                         // UnityEngine.Debug.Log(domain == null);
                     }
 

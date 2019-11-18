@@ -73,41 +73,69 @@ public class Testing : MonoBehaviour {
         // PrintProves(m, true, ifAB);
 
         // MODUS PONENS
-        Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
-        Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
-        m.Add(new Phrase(Expression.IF, c, d));
-        m.Add(c);
-        PrintProves(m, true, d);
-        Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
-        m.Add(new Phrase(Expression.IF, d, e));
-        PrintProves(m, true, e);
+        // Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
+        // Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
+        // m.Add(new Phrase(Expression.IF, c, d));
+        // m.Add(c);
+        // PrintProves(m, true, d);
+        // Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
+        // m.Add(new Phrase(Expression.IF, d, e));
+        // PrintProves(m, true, e);
 
-        Expression f = new Word(SemanticType.TRUTH_VALUE, "F");
-        m.Add(new Phrase(Expression.IF, e, f));
-        PrintProves(m, true, f);
+        // Expression f = new Word(SemanticType.TRUTH_VALUE, "F");
+        // m.Add(new Phrase(Expression.IF, e, f));
+        // PrintProves(m, true, f);
 
-        Expression bobIsRed = new Phrase(Expression.RED, Expression.BOB);
-        Expression allRedsAreGreen = new Phrase(Expression.ALL, Expression.RED, Expression.GREEN);
-        m.Add(bobIsRed);
-        m.Add(allRedsAreGreen);
-        PrintProves(m, true, new Phrase(Expression.GREEN, Expression.BOB));
+        // Expression bobIsRed = new Phrase(Expression.RED, Expression.BOB);
+        // Expression allRedsAreGreen = new Phrase(Expression.ALL, Expression.RED, Expression.GREEN);
+        // m.Add(bobIsRed);
+        // m.Add(allRedsAreGreen);
+        // PrintProves(m, true, new Phrase(Expression.GREEN, Expression.BOB));
 
-        Expression allGreensAreBlue = new Phrase(Expression.ALL, Expression.GREEN, Expression.BLUE);
-        m.Add(allGreensAreBlue);
-        PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
+        // Expression allGreensAreBlue = new Phrase(Expression.ALL, Expression.GREEN, Expression.BLUE);
+        // m.Add(allGreensAreBlue);
+        // PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
 
-        Expression dBetterThanC = new Phrase(Expression.BETTER, d, c);
-        Expression eBetterThanD = new Phrase(Expression.BETTER, e, d);
-        m.Add(dBetterThanC);
-        m.Add(eBetterThanD);
-        PrintProves(m, true, new Phrase(Expression.BETTER, e, c));
-        Expression fBetterThanE = new Phrase(Expression.BETTER, f, e);
-        m.Add(fBetterThanE);
-        PrintProves(m, true, new Phrase(Expression.BETTER, f, c));
+        // Expression dBetterThanC = new Phrase(Expression.BETTER, d, c);
+        // Expression eBetterThanD = new Phrase(Expression.BETTER, e, d);
+        // m.Add(dBetterThanC);
+        // m.Add(eBetterThanD);
+        // PrintProves(m, true, new Phrase(Expression.BETTER, e, c));
+        // Expression fBetterThanE = new Phrase(Expression.BETTER, f, e);
+        // m.Add(fBetterThanE);
+        // PrintProves(m, true, new Phrase(Expression.BETTER, f, c));
 
         Expression g = new Word(SemanticType.TRUTH_VALUE, "G");
-        PrintProves(m, false, new Phrase(Expression.BETTER, g, c));
+        // PrintProves(m, false, new Phrase(Expression.BETTER, g, c));
 
+        // PrintPlan(m, c);
+
+        // PrintPlan(m, new Phrase(Expression.MAKE, Expression.SELF, g));
+
+        m.Add(new Phrase(Expression.ABLE, Expression.SELF, g));
+        // m.Add(new Phrase(Expression.MAKE, Expression.SELF, g));
+        // PrintProves(m, false, g);
+        PrintPlan(m, g);
+
+
+        // able(x, H), make(x, H) |- H
+        Expression h = new Word(SemanticType.TRUTH_VALUE, "H");
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         DefaultModel.BuildList(new ExpressionPattern(Expression.ABLE, xi0, h)),
+        //         DefaultModel.BuildList(new ExpressionPattern(Expression.MAKE, xi0, h))
+        //     },
+        //     new List<IPattern>[]{DefaultModel.BuildList(h)}));
+
+        // m.Add(new Phrase(Expression.WOULD, h));
+        m.Add(new Phrase(Expression.ABLE, Expression.BOB, h));
+        m.Add(new Phrase(Expression.MAKE, Expression.BOB, h));
+        PrintProves(m, true, h);
+
+        m.Add(new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
+        // PrintProves(m, false, new Phrase(Expression.AT, Expression.SELF, Expression.BOB));
+        PrintPlan(m, new Phrase(Expression.AT, Expression.SELF, Expression.BOB));
 
         // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
         // m.Add(new Phrase(Expression.TREE, Expression.BOB));
@@ -150,6 +178,23 @@ public class Testing : MonoBehaviour {
                 s.Append("}");
                 Debug.Log(s.ToString());
             }
+        }
+    }
+
+    private void PrintPlan(Model m, Expression e) {
+        HashSet<Expression> plan = m.GetBasis(true, e);
+        if (plan == null) {
+            Debug.Log("NO PLAN FOR " + e);
+        } else {
+            StringBuilder s = new StringBuilder();
+            s.Append("PLAN FOR " + e + ":\n");
+            foreach (Expression p in plan) {
+                if (p.GetHead().Equals(Expression.WOULD)) {
+                    s.Append(p + "\n");
+                }
+            }
+            s.Append("END PLAN FOR " + e);
+            Debug.Log(s.ToString());
         }
     }
 

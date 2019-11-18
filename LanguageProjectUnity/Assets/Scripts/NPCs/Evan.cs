@@ -8,19 +8,32 @@ public class Evan : NPC {
 
         this.name = Expression.EVAN;
 
-        CustomModels.AddDoorModel(this.model);
+        // CustomModels.AddDoorModel(this.model);
         // Substitution Rules
 
-        // Action Rules
-        model.Add(new ActionRule(
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
-            new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+        model.Add(
+            new Phrase(Expression.ABLE, 
+                Expression.SELF,
+                new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+        
+        model.Add(new Phrase(Expression.IF,
+                new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
+                new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))));
 
-        model.Add(new ActionRule(
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
-            new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+        model.Add(new Phrase(Expression.IF,
+                new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+                new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.GOAL))));
+
+        // Action Rules
+        // model.Add(new ActionRule(
+        //     new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
+        //     new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))),
+        //     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+
+        // model.Add(new ActionRule(
+        //     new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR)),
+        //     new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))),
+        //     new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
         // // particular beliefs
 
@@ -42,9 +55,9 @@ public class Evan : NPC {
         //     new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
         //     Expression.NEUTRAL));
 
-        // // model.Add(new Phrase(Expression.BETTER,
-        // //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
-        // //     Expression.NEUTRAL));
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
+            Expression.NEUTRAL));
         
         // model.Add(new Phrase(Expression.BETTER,
         //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
