@@ -156,12 +156,12 @@ public class DefaultModel {
         //         new ExpressionPattern(xp0, xi0))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi1))}));
 
-        // // F(x), G(x) |- some(F, G)
-        // // not transposable to save time
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.SOME, xp0, xp1))},
-        //     false));
+        // F(x), G(x) |- some(F, G)
+        // not transposable to save time
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.SOME, xp0, xp1))},
+            false));
 
         // // uniqueness of king
         // // king(i), king(j) |- i = j
@@ -357,12 +357,12 @@ public class DefaultModel {
         // you're able to give your stuff to other people
         m.Add(new SubstitutionRule(
             new List<IPattern>[]{DefaultModel.BuildList(
-                new ExpressionPattern(Expression.PERSON, xi0),
-                new ExpressionPattern(Expression.POSSESS, Expression.SELF, xi1))},
+                new ExpressionPattern(Expression.PERSON, xi1),
+                new ExpressionPattern(Expression.POSSESS, xi0, xi2))},
             new List<IPattern>[]{
                 DefaultModel.BuildList(
-                new ExpressionPattern(Expression.ABLE, Expression.SELF,
-                    new ExpressionPattern(Expression.POSSESS, xi0, xi1)))}));
+                new ExpressionPattern(Expression.ABLE, xi0,
+                    new ExpressionPattern(Expression.POSSESS, xi1, xi2)))}));
 
         // TRUST
         // renege
