@@ -46,12 +46,25 @@ public class Bob : NPC {
 
         // beliefs about Evan
         model.Add(new Phrase(Expression.PERSON, Expression.EVAN));
+        model.Add(new Phrase(Expression.ABLE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+        model.Add(new Phrase(Expression.INDIFFERENT, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), Expression.NEUTRAL));
         // model.Add(new Phrase(Expression.ACTIVE, Expression.EVAN));
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(new Phrase(Expression.KING, Expression.BOB))));
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
 
         model.Add(new Phrase(Expression.IN_THE_ROOM, Expression.SELF));
         model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
+        model.Add(new Phrase(Expression.BETTER,
+                new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+                Expression.NEUTRAL));
+
+        model.Add(new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
+
+        model.Add(new Phrase(Expression.IF,
+            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
+            new Phrase(Expression.ABLE, Expression.SELF,
+                new Phrase(Expression.EXPRESS_CONFORMITY, Expression.SELF, Expression.EVAN,
+                    new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))));
 
         // // // utilities
         // model.Add(new Phrase(Expression.BETTER,

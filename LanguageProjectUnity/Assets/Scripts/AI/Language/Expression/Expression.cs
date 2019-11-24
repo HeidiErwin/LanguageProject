@@ -258,9 +258,12 @@ public abstract class Expression : IPattern {
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BOUND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "bound");
     public static readonly Expression PERCEIVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "perceive");
-    public static readonly Expression EXPRESS = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "express");
+    public static readonly Expression EXPRESS = new Word(SemanticType.INDIVIDUAL_2_TRUTH_RELATION, "express");
+    public static readonly Expression EXPRESS_CONFORMITY = new Word(SemanticType.INDIVIDUAL_2_CONFORMITY_RELATION, "express");
     public static readonly Expression BELIEVE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "believe");
     public static readonly Expression DESIRE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "desire");
+    public static readonly Expression PREFER = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION_2, "prefer");
+    public static readonly Expression INDIFFERENT = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION_2, "indifferent");
     public static readonly Expression INTEND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "intend");
     public static readonly Expression SINCERE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "sincere");
     public static readonly Expression CORRECT = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "correct");

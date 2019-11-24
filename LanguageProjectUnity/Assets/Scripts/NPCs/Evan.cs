@@ -10,6 +10,11 @@ public class Evan : NPC {
 
         // CustomModels.AddDoorModel(this.model);
         // Substitution Rules
+        
+        model.Add(
+            new Phrase(Expression.ABLE,
+                Expression.SELF,
+                new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
 
         model.Add(
             new Phrase(Expression.ABLE, 
@@ -53,10 +58,6 @@ public class Evan : NPC {
         
         // model.Add(new Phrase(Expression.BETTER,
         //     new Phrase(Expression.AT, Expression.SELF, Expression.BOB),
-        //     Expression.NEUTRAL));
-
-        // model.Add(new Phrase(Expression.BETTER,
-        //     new Phrase(Expression.AT, Expression.SELF, Expression.GOAL),
         //     Expression.NEUTRAL));
         
         // model.Add(new Phrase(Expression.BETTER,

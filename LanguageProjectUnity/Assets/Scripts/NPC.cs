@@ -321,28 +321,33 @@ public class NPC : Character {
                 }
             }
 
-            IPattern commandSchema =
+            MetaVariable xc0 = new MetaVariable(SemanticType.CONFORMITY_VALUE, 0);
+
+            IPattern conformitySchema =
                 new ExpressionPattern(Expression.WOULD,
-                    new ExpressionPattern(Expression.INTEND, xi0, xt0));
+                    new ExpressionPattern(Expression.EXPRESS_CONFORMITY, Expression.SELF, xi0, xc0));
 
-            List<Dictionary<MetaVariable, Expression>> commandBinding = commandSchema.GetBindings(action);
+            List<Dictionary<MetaVariable, Expression>> conformityBinding = conformitySchema.GetBindings(action);
 
-            if (commandBinding != null) {
-                Expression command = new Phrase(Expression.WOULD, commandBinding[0][xt0]);
-                yield return ShowSpeechBubble(command);
-                Expression recipient = commandBinding[0][xi0];
+            if (conformityBinding != null) {
+                Expression conformity = conformityBinding[0][xc0];
+                yield return ShowSpeechBubble(conformity);
+                Expression recipient = conformityBinding[0][xi0];
 
                 if (recipient.Equals(Expression.BOB)) {
-                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
                 if (recipient.Equals(Expression.EVAN)) {
-                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
                 if (recipient.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
-                    GameObject.Find("Woodcutter").GetComponent<NPC>().ReceiveExpression(this.name, command);
+                    GameObject.Find("Woodcutter").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
+
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF,
+                    new Phrase(Expression.EXPRESS_CONFORMITY, Expression.SELF, recipient, conformity)));
             }
 
             MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
@@ -462,6 +467,7 @@ public class NPC : Character {
                 StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
 
                 model.Add(new Phrase(Expression.BETTER, utterance.GetArg(0), Expression.NEUTRAL));
+                model.decisionLock = false;
                 // model.AddUtility(utterance.GetArg(0), 10f);
             
                 return;

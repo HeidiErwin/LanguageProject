@@ -40,6 +40,7 @@ public abstract class Model {
 
     // loop detection
     private int loopCounter = 0;
+    private bool isLastPlan = false;
 
     // returns true if e is in this model
     public abstract bool Contains(Expression e);
@@ -495,9 +496,12 @@ public abstract class Model {
             return null;
         }
 
-        if (expr.Equals(new Phrase(Expression.MAKE, Expression.SELF, new Word(SemanticType.TRUTH_VALUE, "G")))) {
+        // if it's a plan instead of a proof or vice versa,
+        // we need to reset
+        if (isLastPlan != plan) {
+            triedExpressions.Clear();
         }
-
+        isLastPlan = plan;
 
         // BEGIN: checking to see if suppositions match.
         // If they we need to reset our tried proofs.
@@ -634,6 +638,37 @@ public abstract class Model {
             }
         }
         // END TRANSITIVITY OF BETTER
+        
+        // TRANSITIVITY OF AS_GOOD_AS
+        IPattern asGoodAsPattern = new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1);
+        preferands = asGoodAsPattern.GetBindings(expr);
+
+        if (preferands != null) {
+            Expression first = preferands[0][xt0];
+            Expression second = preferands[0][xt1];
+
+            foreach (Expression p in preferables) {
+                HashSet<Expression> firstBasis = 
+                    GetBasis(plan, new Phrase(Expression.AS_GOOD_AS, first, p), suppositions);
+
+                if (firstBasis != null) {
+                    HashSet<Expression> secondBasis =
+                        GetBasis(plan, new Phrase(Expression.AS_GOOD_AS, p, second), suppositions);
+
+                    if (secondBasis != null) {
+                        HashSet<Expression> transitiveBasis = new HashSet<Expression>();
+                        foreach (Expression b in firstBasis) {
+                            transitiveBasis.Add(b);
+                        }
+                        foreach (Expression b in secondBasis) {
+                            transitiveBasis.Add(b);
+                        }
+                        return transitiveBasis;
+                    }
+                }
+            }
+        }
+        // END TRANSITIVITY OF AS_GOOD_AS
 
         // BOUND
         IPattern trustworthyPattern =
@@ -665,7 +700,6 @@ public abstract class Model {
         // MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
         IPattern conditionalPattern = new ExpressionPattern(Expression.IF, xt0, xt1);
-
         List<Dictionary<MetaVariable, Expression>> conditionalBindings = conditionalPattern.GetBindings(expr);
 
         if (conditionalBindings != null) {
@@ -673,6 +707,33 @@ public abstract class Model {
         }
 
         // END CONDITIONAL PROOF
+        
+        // BELIEF
+        // if the model proves X, it also proves believes(self, X)
+        IPattern selfBeliefPattern = new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0);
+        List<Dictionary<MetaVariable, Expression>> selfBeliefBindings = selfBeliefPattern.GetBindings(expr);
+
+        if (selfBeliefBindings != null) {
+            HashSet<Expression> contentBasis = GetBasis(false, selfBeliefBindings[0][xt0], suppositions);
+            triedExpressions[expr] = contentBasis;
+            return contentBasis;
+        }
+        // END BELIEF
+
+        // LACK OF BELIEF
+        // if the model fails to prove X, it proves ~believes(self, X)
+        // NOTE this isn't the same as believes(self, ~X)
+        IPattern notSelfBeliefPattern = new ExpressionPattern(Expression.NOT, selfBeliefPattern);
+        List<Dictionary<MetaVariable, Expression>> notSelfBeliefBindings = notSelfBeliefPattern.GetBindings(expr);
+
+        if (notSelfBeliefBindings != null) {
+            if (GetBasis(false, notSelfBeliefBindings[0][xt0], suppositions) == null) {
+                basis.Add(expr);
+                triedExpressions[expr] = basis;
+                return basis;
+            }
+        }
+        // END LACK OF BELIEF
 
         // RECURSIVE CASES
         foreach (SubstitutionRule sr in this.substitutionRules) {
@@ -810,6 +871,39 @@ public abstract class Model {
             if (abilityBasis != null) {
                 abilityBasis.Add(new Phrase(Expression.WOULD, expr));
                 return abilityBasis;
+            }
+
+            // check if anyone else is able to make the expr true.
+            // SPECIAL PURPOSE: this can be handled generally but
+            // will involve a more efficient algorithm.
+            IPattern otherAbilityPattern = new ExpressionPattern(Expression.ABLE, xi0, expr);
+            foreach (Expression e in GetAll()) {
+                List<Dictionary<MetaVariable, Expression>> otherAbilityBinding = otherAbilityPattern.GetBindings(e);
+                if (otherAbilityBinding == null) {
+                    continue;
+                }
+
+                // we've found another person who can do what we want
+                Expression other = otherAbilityBinding[0][xi0];
+
+                // if they don't mind helping, just request it
+                if (GetBasis(false,
+                    new Phrase(Expression.NOT, new Phrase(Expression.PREFER, other, Expression.NEUTRAL, expr)), suppositions) != null) {
+                    HashSet<Expression> expressBasis = GetBasis(true,
+                            new Phrase(Expression.EXPRESS_CONFORMITY,
+                                Expression.SELF, other, new Phrase(Expression.WOULD, expr)),
+                        suppositions);
+                    triedExpressions[expr] = expressBasis;
+                    return expressBasis;
+                }
+
+                // otherwise, we'll need to make an offer.
+                // TODO: jot down algorithm here.
+                foreach (Expression e2 in GetAll()) {
+                    // TODO
+                }
+
+                
             }
         }
         // END  ACTIONS

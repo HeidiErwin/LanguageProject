@@ -148,7 +148,6 @@ public abstract class SemanticType {
     // public abstract bool Matches(SemanticType t);
 
     public static readonly SemanticType INDIVIDUAL = new E();
-    public static readonly SemanticType EVENT = new I();
     public static readonly SemanticType TRUTH_VALUE = new T();
     public static readonly SemanticType CONFORMITY_VALUE = new C();
     public static readonly SemanticType ASSERTION = new A();
@@ -169,9 +168,11 @@ public abstract class SemanticType {
     public static readonly SemanticType GEACH_QUANTIFIER_PHRASE = new Arrow(new SemanticType[]{ QUANTIFIER_PHRASE, RELATION_2, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType TRUTH_FUNCTION_1 = new Arrow(new SemanticType[]{ TRUTH_VALUE }, TRUTH_VALUE );
     public static readonly SemanticType TRUTH_FUNCTION_2 = new Arrow(new SemanticType[]{ TRUTH_VALUE, TRUTH_VALUE }, TRUTH_VALUE);
-    public static readonly SemanticType EVENT_TRUTH_RELATION = new Arrow(new SemanticType[]{ EVENT, TRUTH_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType INDIVIDUAL_TRUTH_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, TRUTH_VALUE }, TRUTH_VALUE);
-    public static readonly SemanticType EVENT_INDIVIDUAL_TRUTH_RELATION = new Arrow(new SemanticType[]{ EVENT, INDIVIDUAL, TRUTH_VALUE }, TRUTH_VALUE);
+    public static readonly SemanticType INDIVIDUAL_TRUTH_RELATION_2 = new Arrow(new SemanticType[]{ INDIVIDUAL, TRUTH_VALUE, TRUTH_VALUE }, TRUTH_VALUE);
+    public static readonly SemanticType INDIVIDUAL_2_TRUTH_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL,  TRUTH_VALUE }, TRUTH_VALUE);
+    public static readonly SemanticType INDIVIDUAL_CONFORMITY_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, CONFORMITY_VALUE }, TRUTH_VALUE);
+    public static readonly SemanticType INDIVIDUAL_2_CONFORMITY_RELATION = new Arrow(new SemanticType[]{ INDIVIDUAL, INDIVIDUAL,  CONFORMITY_VALUE }, TRUTH_VALUE);
     public static readonly SemanticType RELATION_2_REDUCER = new Arrow(new SemanticType[]{ RELATION_2, INDIVIDUAL }, TRUTH_VALUE);
     public static readonly SemanticType GEACH_TRUTH_FUNCTION_1 =
         new Arrow(new SemanticType[]{ TRUTH_FUNCTION_1, PREDICATE, INDIVIDUAL }, TRUTH_VALUE);

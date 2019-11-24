@@ -73,10 +73,10 @@ public class DefaultModel {
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(Expression.VERUM)}));
 
-        // // falsum |-
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(Expression.FALSUM)},
-        //     new List<IPattern>[]{}));
+        // falsum |-
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(Expression.FALSUM)},
+            new List<IPattern>[]{}));
 
         // // S |- believes(self, S)
         // m.Add(new SubstitutionRule(
@@ -89,6 +89,18 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, new ExpressionPattern(not, xt0)))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0)))},
         //     false));
+        
+        // better(A, B) |- prefers(self, A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BETTER, xt0, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.PREFER, Expression.SELF, xt0, xt1))},
+            false));
+
+        // ~better(A, B) |- ~prefers(self, A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BETTER, xt0, xt1)))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.PREFER, Expression.SELF, xt0, xt1)))},
+            false));
 
         // S |- T(S)
         m.Add(new SubstitutionRule(
@@ -207,6 +219,51 @@ public class DefaultModel {
             new List<IPattern>[]{BuildList(xt1)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
+        // reflexivity of as_good_as
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt0))}));
+
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt0))}));
+
+        // symmetry of as_good_as
+        // as_good_as(A, B) |- as_good_as(B, A)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt1, xt0))}));
+
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt1))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt1, xt0))}));
+
+        // better(A, B) |- ~better(B, A)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BETTER, xt0, xt1))},
+            new List<IPattern>[]{BuildList(
+                new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.BETTER, xt1, xt0)))}));
+
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.PREFER, xi0, xt0, xt1))},
+            new List<IPattern>[]{BuildList(
+                new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.PREFER, xi0, xt1, xt0)))}));
+
+        // as_good_as(A, B) |- ~better(A, B)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1))},
+            new List<IPattern>[]{BuildList(
+                new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.BETTER, xt0, xt1)))}));
+
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt1))},
+            new List<IPattern>[]{BuildList(
+                new ExpressionPattern(Expression.NOT,
+                    new ExpressionPattern(Expression.PREFER, xi0, xt0, xt1)))}));
+
         // // A, B |- equivalent(A, B)
         // m.Add(new SubstitutionRule(
         //     new List<IPattern>[]{BuildList(xt0, xt1)},
@@ -230,12 +287,6 @@ public class DefaultModel {
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
         //     false));
-
-        // // MODUS PONENS
-        // // if(A, B), A |- B
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IF, xt0, xt1), xt0)},
-        //     new List<IPattern>[]{BuildList(xt1)}));
         
         // // NATURAL ARITHEMTIC
         // // numeric conversion
@@ -349,10 +400,10 @@ public class DefaultModel {
         //             new ExpressionPattern(Expression.MAKE, xi0, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
-        // // make(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
+        // make(x, S) |- S
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
+            new List<IPattern>[]{BuildList(xt0)}));
 
         // you're able to give your stuff to other people
         m.Add(new SubstitutionRule(
