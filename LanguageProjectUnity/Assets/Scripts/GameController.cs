@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F)) {
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Interact")) {
             if (currentUseObject != null) {
                 currentUseObject.transform.parent = null;
                 currentUseObject = null;                
@@ -57,7 +57,6 @@ public class GameController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha0)) {
-            Debug.Log("0 pressed");
             if (currentInteractObject != null) {
                 GameObject thatInventory = GameObject.Find(currentInteractObject.name + "/Inventory");
                 GameObject playerInventory = GameObject.Find("FPSController/Inventory");
@@ -69,7 +68,7 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab)) {
+        if (Input.GetKeyUp(KeyCode.Tab) || Input.GetButtonDown("Submit")) {
             if (selectedExpression != null) {
                 if (!is2D) {
                     selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);

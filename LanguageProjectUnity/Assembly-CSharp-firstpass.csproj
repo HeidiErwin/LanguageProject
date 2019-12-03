@@ -186,61 +186,61 @@
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.multiplayer-hlapi.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.multiplayer-weaver.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.XR.LegacyInputHelpers">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.SpatialTracking">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.XR.LegacyInputHelpers">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.multiplayer-hlapi.Runtime">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/Applications/Unity/Hub/Editor/2019.2.12f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -419,20 +419,20 @@
  <Reference Include="UnityEngine.XRModule">
  <HintPath>/Applications/Unity/Hub/Editor/2019.2.12f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.Advertisements.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.Editor.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Analytics.Editor">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Analytics.StandardEvents">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
- <HintPath>/Users/billmarcy/Documents/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Analytics.Editor">
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Analytics.StandardEvents">
+ <HintPath>/Users/billmarcy/Workspace/LanguageProject/LanguageProjectUnity/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>/Applications/Unity/Hub/Editor/2019.2.12f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

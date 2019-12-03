@@ -58,7 +58,7 @@ public class Pointer : MonoBehaviour {
                 }
                 gc.currentInteractObject = hit.transform.gameObject;
                 SetHalo(hit.transform.gameObject, true);
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) {
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Interact")) {
                     if (gc.usableExpression) {
                         NPC addressee = hit.transform.gameObject.GetComponent<NPC>();
                         if (addressee != null) {
