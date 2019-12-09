@@ -8,7 +8,7 @@ using UnityEngine.UI;
  * A script for the expressions on the keyboard which aren't technically ExpressionPieces,
  * but rather create ExpressionPieces when the user attempts to drag from them.
  */
-public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
+public class ExpressionPieceSpawner : MonoBehaviour /*, IPointerClickHandler */ {
     private Expression expression;
     /**
      * Sets the name and Expression of this ExpressionPieceSpawner.
@@ -38,13 +38,13 @@ public class ExpressionPieceSpawner : MonoBehaviour, IPointerClickHandler {
         return exprPieceInstance.GetComponent<ExpressionPiece>();
     }
 
-    /**
-    * When the user tries to drag this ExpressionPieceSpawner, an ExpressionPiece 
-    * will get created based on the name of this ExpressionPieceSpawner.
-    */
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-        ExpressionPiece exprPiece = MakeNewExpressionPiece();
-    }
+    // *
+    // * When the user tries to drag this ExpressionPieceSpawner, an ExpressionPiece 
+    // * will get created based on the name of this ExpressionPieceSpawner.
+    
+    // void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+    //     ExpressionPiece exprPiece = MakeNewExpressionPiece();
+    // }
 
     /*
      * Set up the visual for this spawner

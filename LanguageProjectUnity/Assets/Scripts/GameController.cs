@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private GameObject pointer;
+    [SerializeField] private GameObject mergePointer;
     [SerializeField] private GameObject canvas;
     [SerializeField] private String wordsPath;
     private GameObject fpc;
@@ -21,6 +22,8 @@ public class GameController : MonoBehaviour {
     public GameObject currentInteractObject;
     public GameObject currentUseObject;  
 
+    public ExpressionPieceSpawner selectedSpawner;
+    public ExpressionPiece highlightedExpression;
     public ExpressionPiece selectedExpression;
     public ExpressionPiece usableExpression;
 
@@ -32,8 +35,13 @@ public class GameController : MonoBehaviour {
 
     public GameObject door;
 
+    private bool isInKeyboard = true;
+    private int wordIndex = -1;
+    public int expressionIndex = 0;
+
     void Start() {
         HidePointer();
+        HideMergePointer();
         fpc = GameObject.Find("FPSController");
         if (is2D) {
             fakeCrown.SetActive(false);
@@ -68,15 +76,16 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab) || Input.GetButtonDown("Submit")) {
+        if (Input.GetButtonDown("Menu")) {
             if (selectedExpression != null) {
                 if (!is2D) {
                     selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);
                     selectedExpression.transform.position = new Vector3(Screen.width / 2, Screen.height / 2);
                     usableExpression = selectedExpression;
-                    // selectedExpression = null;
+                    // highlightedExpression = null;
                 }
                 HidePointer();
+                HideMergePointer();
                 selectedExpression = null;
             }
 
@@ -86,14 +95,79 @@ public class GameController : MonoBehaviour {
                 if (canvas.activeInHierarchy) {
                     fpcScript.enabled = false;
                     highClick.Play();
+                    if (isInKeyboard) {
+                        if (wordIndex == -1) {
+                            SetWordIndex(0);    
+                        }
+                        ShowPointer(wordIndex);
+                    } else {
+                        if (expressionIndex == -1 && highlightedExpression != null) {
+                            SetExpressionIndex(0);
+                        } else {
+                            ShowPointer(highlightedExpression);
+                        }
+                    }
                 } else {
                     fpcScript.enabled = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                     lowClick.Play();
+                    HidePointer();
+                    HideMergePointer();
                 }
             }
         }
+
+        // buttons when keyboard is out
+        if (canvas.activeInHierarchy) {
+            if (Input.GetButtonDown("TabForward")) {
+                isInKeyboard = false;
+                SetExpressionIndex(expressionIndex);
+            }
+
+            if (Input.GetButtonDown("TabBack")) {
+                isInKeyboard = true;
+            }
+
+            if (Input.GetButtonDown("Right")) {
+                if (isInKeyboard) {
+                    SetWordIndex(wordIndex + 1);
+                } else {
+                    SetExpressionIndex(expressionIndex + 1);
+                }
+            }
+
+            if (Input.GetButtonDown("Left")) {
+                if (isInKeyboard) {
+                    SetWordIndex(wordIndex - 1);
+                } else {
+                    SetExpressionIndex(expressionIndex - 1);
+                }
+            }
+
+            if (Input.GetButtonDown("Submit")) {
+                if (isInKeyboard) {
+                    selectedSpawner.MakeNewExpressionPiece();
+                } else {
+                    if (selectedExpression == null) {
+                        selectedExpression = highlightedExpression;
+                        ShowMergePointer(selectedExpression);
+                    } else {
+                        ExpressionPiece functionPiece = highlightedExpression.parentExpressionPiece;
+                        if (functionPiece.CombineWith(selectedExpression, highlightedExpression.index)) {
+                            combineSuccess.Play();
+                            SetExpressionIndex(expressionIndex - 1);
+                        } else {
+                            failure.Play();
+                        }
+                        selectedExpression = null;
+                        HideMergePointer();
+                    }
+                }
+            }
+        }
+
+
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
@@ -110,6 +184,7 @@ public class GameController : MonoBehaviour {
         GameObject firstRow = keyboard.transform.GetChild(0).gameObject;
         GameObject secondRow = keyboard.transform.GetChild(1).gameObject;
         GameObject thirdRow = keyboard.transform.GetChild(2).gameObject;
+        
         if (firstRow.transform.childCount < PIECES_PER_ROW) {
             spawnerInstance.transform.SetParent(firstRow.transform);
         } else if (secondRow.transform.childCount < PIECES_PER_ROW) {
@@ -182,14 +257,59 @@ public class GameController : MonoBehaviour {
         // exprPieceScript.SetVisual(exprPieceScript.GenerateVisual());
     }
 
+    public void SetWordIndex(int index) {
+        wordIndex = index;
+
+        GameObject keyboard = canvas.transform.GetChild(0).gameObject;
+        GameObject row = keyboard.transform.GetChild(index / PIECES_PER_ROW).gameObject;
+        ExpressionPieceSpawner spawner = row.GetComponentsInChildren<ExpressionPieceSpawner>()[index % PIECES_PER_ROW];
+
+        selectedSpawner = spawner;
+
+        ShowPointer(index);
+    }
+
+    public void SetExpressionIndex(int index) {
+        expressionIndex = index;
+
+        ExpressionPiece[] workspace = canvas.transform.GetChild(1).gameObject.GetComponentsInChildren<ExpressionPiece>();
+        if (workspace.Length == 0) {
+            index = -1;
+        } else {
+            highlightedExpression = workspace[index];
+            ShowPointer(workspace[index]);
+        }
+    }
+
     public void HidePointer() {
         pointer.SetActive(false);
     }
 
-    public void ShowPointer() {
+    public void HideMergePointer() {
+        mergePointer.SetActive(false);
+    }
+
+    // TODO change this to ExpressionPieceSpawner
+    // once you can figure out the UI stuff
+    public void ShowPointer(int index) {
+        int x = index % PIECES_PER_ROW;
+        int y = index / PIECES_PER_ROW;
         pointer.SetActive(true);
-        float selectedPieceHeight = selectedExpression.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
-        pointer.transform.position = new Vector3(selectedExpression.transform.position.x,
-                                                 selectedExpression.transform.position.y + selectedPieceHeight / 2 + 15);
+        pointer.transform.position = new Vector3((x * 40f) + 30f,
+            canvas.transform.GetChild(0).gameObject.transform.GetChild(y).gameObject.transform.position.y + 40f);
+    }
+
+    public void ShowMergePointer(ExpressionPiece exprPiece) {
+        mergePointer.SetActive(true);
+        float pieceHeight = exprPiece.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
+        mergePointer.transform.position = new Vector3(exprPiece.transform.position.x,
+                                                 exprPiece.transform.position.y + pieceHeight / 2 + 15);
+    }
+
+    public void ShowPointer(ExpressionPiece exprPiece) {
+        pointer.SetActive(true);
+        float pieceHeight = exprPiece.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
+        pointer.transform.position = new Vector3(exprPiece.transform.position.x,
+                                                 exprPiece.transform.position.y + pieceHeight / 2 + 15);
     }
 }

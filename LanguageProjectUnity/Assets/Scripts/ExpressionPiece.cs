@@ -10,7 +10,7 @@ using System;
 /**
  * A script to be attached to any Expression objects.
  */
-public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
+public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
     #region variables
     private const bool DRAW_SUBEXPRESSION_TYPE = false;
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
@@ -27,11 +27,10 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
     public int heightInUnits = 1;
 
     private ExpressionPiece[] arguments;
-    private int index = -1;
-    private ExpressionPiece parentExpressionPiece;
+    public int index = -1;
+    public ExpressionPiece parentExpressionPiece;
     #endregion
 
-    // TODO HEIDI 1/27 fill this in so we can display the sentence an NPC is saying over their head!
     public void FromScratch(Expression expr, Vector3 position) {
         this.expression = expr;
         this.arguments = new ExpressionPiece[expr.GetNumArgs()];
@@ -293,11 +292,12 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         //     Destroy(arg.gameObject, 0.0f);
         // }
 
-        Destroy(this.gameObject, 0.0f);
         // the arguments to the input expression aren't being destroyed properly. They're just floating around
         Destroy(inputExpression.gameObject, 0.0f);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
+
+        Destroy(this.gameObject, 0.0f);
 
         return true;
     }
@@ -412,87 +412,91 @@ public class ExpressionPiece : MonoBehaviour, IPointerClickHandler {
         generatedVisual.transform.SetParent(this.gameObject.transform);
     }
 
-    /**
-     * Loops through all the things the user could possibly be trying to click 
-     * and if the user is clicking an argument of this expression piece rather 
-     * than this expression piece itself, "forwards the click" i.e. calls the 
-     * OnClick() method of the argument.
-     */
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+    // MOUSE CLICK MERGING
 
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
+    // /**
+    //  * Loops through all the things the user could possibly be trying to click 
+    //  * and if the user is clicking an argument of this expression piece rather 
+    //  * than this expression piece itself, "forwards the click" i.e. calls the 
+    //  * OnClick() method of the argument.
+    //  */
+    // void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
 
-        ExpressionPiece argumentClicked = null;
-        foreach (RaycastResult r in results) {
-            if (r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
-                argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
-                break;
-            }
-        }
+    //     List<RaycastResult> results = new List<RaycastResult>();
+    //     EventSystem.current.RaycastAll(eventData, results);
 
-        //if user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
-        //otherwise, call OnClick() for the clicked empty arg
-        if (argumentClicked == null) {
-            if (this.gameController.selectedExpression != null && !this.gameController.selectedExpression.Equals(this)) {
-                this.gameController.failure.Play();
-            }
-            this.OnClick();
-        } else {
-            argumentClicked.OnClick();
-        }
-    }
+    //     ExpressionPiece argumentClicked = null;
+    //     foreach (RaycastResult r in results) {
+    //         if (r.gameObject.GetComponent<ExpressionPiece>() != null && r.gameObject.GetComponent<ExpressionPiece>().id.Equals("_")) {
+    //             argumentClicked = r.gameObject.GetComponent<ExpressionPiece>();
+    //             break;
+    //         }
+    //     }
 
-    public void OnClick() {
-        HandleClickSelection();
-    }
+    //     //if user wasn't clicking any empty arguments, call OnClick() for this ExpressionPiece;
+    //     //otherwise, call OnClick() for the clicked empty arg
+    //     if (argumentClicked == null) {
+    //         if (this.gameController.selectedExpression != null && !this.gameController.selectedExpression.Equals(this)) {
+    //             this.gameController.failure.Play();
+    //         }
+    //         this.OnClick();
+    //     } else {
+    //         argumentClicked.OnClick();
+    //     }
+    // }
 
-    /**
-     * This method handles setting and removing the gameController's selectedExpression.
-     * Also calls CombineWith if appropriate.
-     */
-    private bool HandleClickSelection() {
-        // if the game controller has no selected expression,
-        // make this expression the selected expression (unless it's an empty argument slot)
-        if (this.gameController.selectedExpression == null) {
-            if (!this.id.Equals("_")) {
-                this.gameController.selectedExpression = this;
-                gameController.ShowPointer();
-                this.gameController.highClick.Play();
-            } else { // clicking an empty argument, want to make the parent piece selected
-                this.gameController.selectedExpression = this.parentExpressionPiece;
-                gameController.ShowPointer();
-                this.gameController.highClick.Play();
-            }
-            return false;
-        }
+    // public void OnClick() {
+    //     HandleClickSelection();
+    // }
 
-        // if we're selecting the same expression, then deselect it
-        if (this.gameController.selectedExpression == this) {
-            this.gameController.selectedExpression = null;
-            gameController.HidePointer();
-            this.gameController.lowClick.Play();
-            return false;
-        }
+    // /**
+    //  * This method handles setting and removing the gameController's selectedExpression.
+    //  * Also calls CombineWith if appropriate.
+    //  */
+    // private bool HandleClickSelection() {
+    //     // if the game controller has no selected expression,
+    //     // make this expression the selected expression (unless it's an empty argument slot)
+    //     if (this.gameController.selectedExpression == null) {
+    //         if (!this.id.Equals("_")) {
+    //             this.gameController.selectedExpression = this;
+    //             gameController.ShowPointer(this);
+    //             this.gameController.highClick.Play();
+    //         } else { // clicking an empty argument, want to make the parent piece selected
+    //             this.gameController.selectedExpression = this.parentExpressionPiece;
+    //             gameController.ShowPointer(this.parentExpressionPiece);
+    //             this.gameController.highClick.Play();
+    //         }
+    //         return false;
+    //     }
 
-        // if one expression is selected and we click another, try to
-        // combine the two expressions. If it works, return true.
-        if (this.parentExpressionPiece != null && this.id.Equals("_")) {
-            bool successfulCombination = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
-            this.gameController.selectedExpression = null;
-            gameController.HidePointer();
+    //     // if we're selecting the same expression, then deselect it
+    //     if (this.gameController.selectedExpression == this) {
+    //         this.gameController.selectedExpression = null;
+    //         gameController.HidePointer();
+    //         this.gameController.lowClick.Play();
+    //         return false;
+    //     }
+
+    //     // if one expression is selected and we click another, try to
+    //     // combine the two expressions. If it works, return true.
+    //     if (this.parentExpressionPiece != null && this.id.Equals("_")) {
+    //         bool successfulCombination = this.parentExpressionPiece.CombineWith(this.gameController.selectedExpression, this.index);
+    //         this.gameController.selectedExpression = null;
+    //         gameController.HidePointer();
             
-            if (successfulCombination) {
-                this.gameController.combineSuccess.Play();
-            } else {
-                this.gameController.failure.Play();
-            }
+    //         if (successfulCombination) {
+    //             this.gameController.combineSuccess.Play();
+    //         } else {
+    //             this.gameController.failure.Play();
+    //         }
 
-            return successfulCombination;
-        }
+    //         return successfulCombination;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
+
+    // END MOUSE CLICK MERGING
 
     private static int Max(int a, int b) {
         return a >= b ? a : b;
