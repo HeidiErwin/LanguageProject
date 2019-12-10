@@ -36,8 +36,13 @@ public class GameController : MonoBehaviour {
     public GameObject door;
 
     private bool isInKeyboard = true;
-    private int wordIndex = -1;
+    private int wordIndex = 0;
     public int expressionIndex = 0;
+    private int numWords = 0;
+    private int numExpressions = 0;
+
+    private List<ExpressionPiece> argumentSlots = null;
+    private int argumentIndex = 0;
 
     void Start() {
         HidePointer();
@@ -87,6 +92,8 @@ public class GameController : MonoBehaviour {
                 HidePointer();
                 HideMergePointer();
                 selectedExpression = null;
+                numExpressions--;
+                argumentSlots = null;
             }
 
             canvas.SetActive(!canvas.activeInHierarchy);
@@ -96,10 +103,7 @@ public class GameController : MonoBehaviour {
                     fpcScript.enabled = false;
                     highClick.Play();
                     if (isInKeyboard) {
-                        if (wordIndex == -1) {
-                            SetWordIndex(0);    
-                        }
-                        ShowPointer(wordIndex);
+                        SetWordIndex(wordIndex);
                     } else {
                         if (expressionIndex == -1 && highlightedExpression != null) {
                             SetExpressionIndex(0);
@@ -120,54 +124,98 @@ public class GameController : MonoBehaviour {
 
         // buttons when keyboard is out
         if (canvas.activeInHierarchy) {
+            if (numExpressions == 0 && !isInKeyboard) {
+                isInKeyboard = true;
+                SetWordIndex(wordIndex);
+            }
             if (Input.GetButtonDown("TabForward")) {
                 isInKeyboard = false;
                 SetExpressionIndex(expressionIndex);
+                highClick.Play();
             }
 
             if (Input.GetButtonDown("TabBack")) {
                 isInKeyboard = true;
+                SetWordIndex(wordIndex);
+                highClick.Play();
             }
 
             if (Input.GetButtonDown("Right")) {
                 if (isInKeyboard) {
                     SetWordIndex(wordIndex + 1);
-                } else {
+                } else if (argumentSlots == null) {
                     SetExpressionIndex(expressionIndex + 1);
+                } else {
+                    SetArgumentIndex(argumentIndex + 1);
                 }
+                highClick.Play();
             }
 
             if (Input.GetButtonDown("Left")) {
                 if (isInKeyboard) {
                     SetWordIndex(wordIndex - 1);
-                } else {
+                } else if (argumentSlots == null) {
                     SetExpressionIndex(expressionIndex - 1);
+                } else {
+                    SetArgumentIndex(argumentIndex - 1);
                 }
+                highClick.Play();
             }
 
             if (Input.GetButtonDown("Submit")) {
                 if (isInKeyboard) {
                     selectedSpawner.MakeNewExpressionPiece();
-                } else {
-                    if (selectedExpression == null) {
-                        selectedExpression = highlightedExpression;
-                        ShowMergePointer(selectedExpression);
-                    } else {
-                        ExpressionPiece functionPiece = highlightedExpression.parentExpressionPiece;
-                        if (functionPiece.CombineWith(selectedExpression, highlightedExpression.index)) {
-                            combineSuccess.Play();
-                            SetExpressionIndex(expressionIndex - 1);
-                        } else {
-                            failure.Play();
+                    numExpressions++;
+                    placeExpression.Play();
+                } else if (selectedExpression == null) {
+                    selectedExpression = highlightedExpression;
+                    ShowMergePointer(selectedExpression);
+
+                    // Get all the argument slots that are the same type
+                    // as the selected expression
+                    ExpressionPiece[] pieces = canvas.GetComponentsInChildren<ExpressionPiece>();
+                    argumentSlots = new List<ExpressionPiece>();
+                    foreach (ExpressionPiece piece in pieces) {
+                        if (piece.id.Equals("_") && piece.expression.type.Equals(selectedExpression.expression.type)) {
+                            argumentSlots.Add(piece);
                         }
-                        selectedExpression = null;
+                    }
+                    argumentIndex = 0;
+                    SetArgumentIndex(argumentIndex);
+                    highClick.Play();
+                } else {
+                    ExpressionPiece functionPiece = highlightedExpression.parentExpressionPiece;
+                    if (functionPiece.CombineWith(selectedExpression, highlightedExpression.index)) {
+                        combineSuccess.Play();
+                        SetExpressionIndex(0);
+                        numExpressions--;
+                        argumentSlots = null;
+                    } else {
+                        failure.Play();
+                    }
+                    selectedExpression = null;
+                    HideMergePointer();
+                    HidePointer();
+                    SetExpressionIndex(0);
+                }
+            }
+
+            if (Input.GetButtonDown("Cancel")) {
+                if (!isInKeyboard) {
+                    if (selectedExpression == null) {
+                        Destroy(highlightedExpression.gameObject);
+                        HidePointer();
+                        failure.Play();
+                    } else {
                         HideMergePointer();
+                        highlightedExpression = selectedExpression;
+                        selectedExpression = null;
+                        argumentSlots = null;
+                        lowClick.Play();
                     }
                 }
             }
         }
-
-
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
@@ -240,6 +288,7 @@ public class GameController : MonoBehaviour {
                     currentType = SemanticType.INDIVIDUAL_TRUTH_RELATION;
                 } else {
                     SetUpSpawner(new Word(currentType, line));
+                    numWords++;
                 }
             }
             line = reader.ReadLine();
@@ -258,6 +307,10 @@ public class GameController : MonoBehaviour {
     }
 
     public void SetWordIndex(int index) {
+        if (index < 0 || index >= numWords) {
+            return;
+        }
+
         wordIndex = index;
 
         GameObject keyboard = canvas.transform.GetChild(0).gameObject;
@@ -266,19 +319,39 @@ public class GameController : MonoBehaviour {
 
         selectedSpawner = spawner;
 
-        ShowPointer(index);
+        ShowPointer(spawner);
     }
 
     public void SetExpressionIndex(int index) {
+        if (index < 0 || index >= numExpressions) {
+            return;
+        }
         expressionIndex = index;
+        List<ExpressionPiece> workspace = new List<ExpressionPiece>();
+        Transform workspaceTransform = canvas.transform.Find("Workspace");
+        for (int i = 0; i < workspaceTransform.childCount; i++) {
+            ExpressionPiece piece = workspaceTransform.GetChild(i).gameObject.GetComponent<ExpressionPiece>();
+            if (piece != null) {
+                workspace.Add(piece);
+            }
+        }
 
-        ExpressionPiece[] workspace = canvas.transform.GetChild(1).gameObject.GetComponentsInChildren<ExpressionPiece>();
-        if (workspace.Length == 0) {
+        if (workspace.Count == 0) {
             index = -1;
         } else {
             highlightedExpression = workspace[index];
             ShowPointer(workspace[index]);
         }
+    }
+
+    public void SetArgumentIndex(int index) {
+        if (index < 0 || index >= argumentSlots.Count) {
+            return;
+        }
+
+        argumentIndex = index;
+        highlightedExpression = argumentSlots[argumentIndex];
+        ShowPointer(argumentSlots[argumentIndex]);
     }
 
     public void HidePointer() {
@@ -291,22 +364,27 @@ public class GameController : MonoBehaviour {
 
     // TODO change this to ExpressionPieceSpawner
     // once you can figure out the UI stuff
-    public void ShowPointer(int index) {
-        int x = index % PIECES_PER_ROW;
-        int y = index / PIECES_PER_ROW;
+    public void ShowPointer(ExpressionPieceSpawner spawner) {
         pointer.SetActive(true);
-        pointer.transform.position = new Vector3((x * 40f) + 30f,
-            canvas.transform.GetChild(0).gameObject.transform.GetChild(y).gameObject.transform.position.y + 40f);
+        float spawnerHeight = 40f;
+        pointer.transform.position =
+            new Vector3(spawner.transform.position.x,
+                spawner.transform.position.y + (spawnerHeight / 2) + 15);
     }
 
     public void ShowMergePointer(ExpressionPiece exprPiece) {
         mergePointer.SetActive(true);
         float pieceHeight = exprPiece.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
-        mergePointer.transform.position = new Vector3(exprPiece.transform.position.x,
-                                                 exprPiece.transform.position.y + pieceHeight / 2 + 15);
+        mergePointer.transform.position =
+        new Vector3(exprPiece.transform.position.x,
+            exprPiece.transform.position.y + pieceHeight / 2 + 15);
     }
 
     public void ShowPointer(ExpressionPiece exprPiece) {
+        if (exprPiece == null) {
+            HidePointer();
+            return;
+        }
         pointer.SetActive(true);
         float pieceHeight = exprPiece.GetHeightInUnits() * ExpressionPiece.PIXELS_PER_UNIT;
         pointer.transform.position = new Vector3(exprPiece.transform.position.x,
