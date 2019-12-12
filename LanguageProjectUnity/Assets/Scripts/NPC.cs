@@ -46,20 +46,20 @@ public class NPC : Character {
             yield break;
         }
 
-        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        // StringBuilder s = new StringBuilder();
-        // foreach (Expression a in actionSequence) {
-        //     s.Append(a);
-        //     s.Append("; ");
-        // }
-        // Debug.Log(s.ToString());
+        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        StringBuilder s = new StringBuilder();
+        foreach (Expression a in actionSequence) {
+            s.Append(a);
+            s.Append("; ");
+        }
+        Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
             if (!controller.is2D) {
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
-                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Bob").transform.position;
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("bob").transform.position;
 
                     yield return null;
                     while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
@@ -73,7 +73,7 @@ public class NPC : Character {
                 }
 
                 if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
-                    GetComponent<NavMeshAgent>().destination = GameObject.Find("Evan").transform.position;
+                    GetComponent<NavMeshAgent>().destination = GameObject.Find("evan").transform.position;
 
                     yield return null;
                     while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
@@ -130,18 +130,18 @@ public class NPC : Character {
                 }
             }
 
-            // StopCoroutine(GoTo("Bob"));
-            // StopCoroutine(GoTo("Evan"));
+            // StopCoroutine(GoTo("bob"));
+            // StopCoroutine(GoTo("evan"));
             // StopCoroutine(GoTo("DoorFront"));
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
-                    yield return StartCoroutine(GoTo("Bob"));
+                    yield return StartCoroutine(GoTo("bob"));
                     // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
                     continue;
             }
 
             if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
-                    yield return StartCoroutine(GoTo("Evan"));
+                    yield return StartCoroutine(GoTo("evan"));
                     // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
                     continue;
             }
@@ -271,7 +271,7 @@ public class NPC : Character {
                 // yield return ShowSpeechBubble("would");
 
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
 
@@ -287,7 +287,7 @@ public class NPC : Character {
                 yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
                 // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
@@ -313,11 +313,11 @@ public class NPC : Character {
                 Expression recipient = assertionBinding[0][xi0];
 
                 if (recipient.Equals(Expression.BOB)) {
-                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
+                    GameObject.Find("bob").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
                 }
 
                 if (recipient.Equals(Expression.EVAN)) {
-                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
+                    GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
                 }
             }
 
@@ -335,11 +335,11 @@ public class NPC : Character {
                 Expression recipient = conformityBinding[0][xi0];
 
                 if (recipient.Equals(Expression.BOB)) {
-                    GameObject.Find("Bob").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
+                    GameObject.Find("bob").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
                 if (recipient.Equals(Expression.EVAN)) {
-                    GameObject.Find("Evan").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
+                    GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
                 if (recipient.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {

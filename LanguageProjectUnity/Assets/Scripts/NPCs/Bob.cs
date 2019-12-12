@@ -37,12 +37,12 @@ public class Bob : NPC {
         //     new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
 
         // // self-knowledge
-        // model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
         // model.Add(new Phrase(Expression.KING, Expression.SELF));
-        // model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
-        // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.SAPPHIRE)));
-        // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD)));
-        // // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
+        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.SAPPHIRE)));
+        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD)));
+        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
 
         // beliefs about Evan
         model.Add(new Phrase(Expression.PERSON, Expression.EVAN));
@@ -54,9 +54,9 @@ public class Bob : NPC {
 
         model.Add(new Phrase(Expression.IN_THE_ROOM, Expression.SELF));
         model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
-        model.Add(new Phrase(Expression.BETTER,
-                new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
-                Expression.NEUTRAL));
+        // model.Add(new Phrase(Expression.BETTER,
+        //         new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+        //         Expression.NEUTRAL));
 
         model.Add(new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
 
@@ -70,9 +70,7 @@ public class Bob : NPC {
         // model.Add(new Phrase(Expression.BETTER,
         //     new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), Expression.NEUTRAL));
 
-        // model.Add(new Phrase(Expression.BETTER,
-        //     new Phrase(Expression.POSSESS, Expression.EVAN, Expression.RUBY), Expression.NEUTRAL));
-
-        // model.SetUtility(new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), 10f);
+        model.Add(new Phrase(Expression.BETTER,
+            new Phrase(Expression.POSSESS, Expression.EVAN, Expression.RUBY), Expression.NEUTRAL));
     }
 }

@@ -42,10 +42,11 @@ public class Evan : NPC {
 
         // // particular beliefs
 
-        // // self-knowledge
-        // model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.EVAN));
+        // self-knowledge
+        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.EVAN));
+        model.Add(new Phrase(Expression.IN_THE_ROOM, Expression.SELF));
         // model.Add(new Phrase(Expression.KING, Expression.SELF));
-        // // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        // model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
 
         // // beliefs about Bob
         // // model.Add(new Phrase(Expression.PERSON, Expression.BOB));

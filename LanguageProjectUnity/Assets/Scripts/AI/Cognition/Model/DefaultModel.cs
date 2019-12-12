@@ -384,26 +384,10 @@ public class DefaultModel {
                     new ExpressionPattern(Expression.SUCC, xi0),
                     new ExpressionPattern(Expression.PLUS, xi1, new ExpressionPattern(Expression.SUCC, xi2)))))}, false)) ;
 
-        // // perceptual inference
-        // // perceive(self, S) | veridical(self, S) |- S
+        // // make(x, S) |- S
         // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
-        //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
+        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
-
-        // // able(x, S), make(x, S) |- S
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{
-        //         BuildList(
-        //             new ExpressionPattern(Expression.ABLE, xi0, xt0),
-        //             new ExpressionPattern(Expression.MAKE, xi0, xt0))},
-        //     new List<IPattern>[]{BuildList(xt0)}));
-
-        // make(x, S) |- S
-        m.Add(new SubstitutionRule(
-            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
-            new List<IPattern>[]{BuildList(xt0)}));
 
         // you're able to give your stuff to other people
         m.Add(new SubstitutionRule(
@@ -424,6 +408,22 @@ public class DefaultModel {
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0)))},
             false));
+
+        // // perceptual inference
+        // // perceive(self, S) | veridical(self, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
+        //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
+
+        // // able(x, S), make(x, S) |- S
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{
+        //         BuildList(
+        //             new ExpressionPattern(Expression.ABLE, xi0, xt0),
+        //             new ExpressionPattern(Expression.MAKE, xi0, xt0))},
+        //     new List<IPattern>[]{BuildList(xt0)}));
 
         // // testimonial inference
         // // express(x, S) | sincere(x, S) |- believe(x, S)

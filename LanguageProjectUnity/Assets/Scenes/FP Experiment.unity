@@ -3656,6 +3656,41 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1880474541}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &866014186
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 940
+  m_Height: 467
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 2
+  m_ColorFormat: 59
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &866474003
 GameObject:
   m_ObjectHideFlags: 0
@@ -3733,7 +3768,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1809057544}
+  m_TargetTexture: {fileID: 866014186}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -5583,7 +5618,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_Name
-      value: Evan
+      value: evan
       objectReference: {fileID: 0}
     - target: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_TagString
@@ -6514,6 +6549,7 @@ MonoBehaviour:
   log: {fileID: 0}
   fakeCrown: {fileID: 0}
   door: {fileID: 556495282}
+  expressionIndex: 0
 --- !u!1001 &1308364370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8492,41 +8528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344e90a3920f84f5ea3dfdf39a6eae8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!84 &1809057544
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 959
-  m_Height: 473
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthFormat: 2
-  m_ColorFormat: 59
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1001 &1815478121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9671,7 +9672,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_Name
-      value: Bob
+      value: bob
       objectReference: {fileID: 0}
     - target: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_TagString
@@ -9679,7 +9680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 108622, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_Name

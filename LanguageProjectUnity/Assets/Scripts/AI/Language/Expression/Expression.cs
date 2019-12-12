@@ -269,9 +269,9 @@ public abstract class Expression : IPattern {
     public static readonly Expression CORRECT = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "correct");
     public static readonly Expression VERIDICAL = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "veridical");
 
-    public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "Bob");
+    public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");
-    public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "Evan");
+    public static readonly Expression EVAN = new Word(SemanticType.INDIVIDUAL, "evan");
     public static readonly Expression PLAYER = new Word(SemanticType.INDIVIDUAL, "player");
     public static readonly Expression WAYSIDE_PARK = new Word(SemanticType.INDIVIDUAL, "wayside_park");
     public static readonly Expression THE_GREAT_KEY = new Word(SemanticType.INDIVIDUAL, "the_great_key");

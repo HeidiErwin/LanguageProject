@@ -538,7 +538,6 @@ public abstract class Model {
             return basis;
         }
 
-        // no inference with WOULD yet TODO add that
         if (!expr.type.Equals(SemanticType.TRUTH_VALUE)) {
             return null;
         }

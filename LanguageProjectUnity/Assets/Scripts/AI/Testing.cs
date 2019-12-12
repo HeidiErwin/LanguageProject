@@ -86,15 +86,15 @@ public class Testing : MonoBehaviour {
         // m.Add(new Phrase(Expression.IF, e, f));
         // PrintProves(m, true, f);
 
-        // Expression bobIsRed = new Phrase(Expression.RED, Expression.BOB);
-        // Expression allRedsAreGreen = new Phrase(Expression.ALL, Expression.RED, Expression.GREEN);
-        // m.Add(bobIsRed);
-        // m.Add(allRedsAreGreen);
+        Expression bobIsRed = new Phrase(Expression.RED, Expression.BOB);
+        Expression allRedsAreGreen = new Phrase(Expression.ALL, Expression.RED, Expression.GREEN);
+        m.Add(bobIsRed);
+        m.Add(allRedsAreGreen);
         // PrintProves(m, true, new Phrase(Expression.GREEN, Expression.BOB));
 
-        // Expression allGreensAreBlue = new Phrase(Expression.ALL, Expression.GREEN, Expression.BLUE);
-        // m.Add(allGreensAreBlue);
-        // PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
+        Expression allGreensAreBlue = new Phrase(Expression.ALL, Expression.GREEN, Expression.BLUE);
+        m.Add(allGreensAreBlue);
+        PrintProves(m, true, new Phrase(Expression.BLUE, Expression.BOB));
 
         // Expression dBetterThanC = new Phrase(Expression.BETTER, d, c);
         // Expression eBetterThanD = new Phrase(Expression.BETTER, e, d);
@@ -137,7 +137,8 @@ public class Testing : MonoBehaviour {
         // PrintProves(m, false, new Phrase(Expression.AT, Expression.SELF, Expression.BOB));
         PrintPlan(m, new Phrase(Expression.AT, Expression.SELF, Expression.BOB));
 
-        // m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
+        m.Add(new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
+        PrintProves(m, true, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.BOB_2));
         // m.Add(new Phrase(Expression.TREE, Expression.BOB));
         // PrintProves(m, true, new Phrase(Expression.TREE, Expression.BOB_2));
 

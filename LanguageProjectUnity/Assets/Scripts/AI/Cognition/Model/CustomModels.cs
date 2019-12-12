@@ -81,7 +81,7 @@ public class CustomModels {
         m.Add(new Phrase(Expression.CREDIBLE, Expression.PLAYER));
 
 
-        m.Add(new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY));
+        // m.Add(new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY));
 
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY)));
         m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.EVAN, Expression.SAPPHIRE)));
