@@ -120,13 +120,13 @@ public class DefaultModel {
             new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
             false));
 
-        // // GEACH RULES
-        // // t -> t
-        // // !F(x) |- G(!, F, x)
-        // m.Add(new SubstitutionRule(
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
-        //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
-        //     false));
+        // GEACH RULES
+        // t -> t
+        // !F(x) |- G(!, F, x)
+        m.Add(new SubstitutionRule(
+            new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
+            new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
+            false));
         
         // // t, t -> t
         // // C(F(x), H(x)) |- G(C, F, H, x)

@@ -46,13 +46,13 @@ public class NPC : Character {
             yield break;
         }
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        StringBuilder s = new StringBuilder();
-        foreach (Expression a in actionSequence) {
-            s.Append(a);
-            s.Append("; ");
-        }
-        Debug.Log(s.ToString());
+        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+        // Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.

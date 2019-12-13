@@ -286,6 +286,12 @@ public class GameController : MonoBehaviour {
                     currentType = SemanticType.TRUTH_ASSERTION_FUNCTION;
                 } else if (line.Equals("#INDIVIDUAL_TRUTH_RELATION")) {
                     currentType = SemanticType.INDIVIDUAL_TRUTH_RELATION;
+                } else if (line.Equals("#GEACH_TRUTH_FUNCTION_1")) {
+                    currentType = SemanticType.GEACH_TRUTH_FUNCTION_1;
+                } else if (line.Equals("#GEACH_TRUTH_FUNCTION_2")) {
+                    currentType = SemanticType.GEACH_TRUTH_FUNCTION_2;
+                } else if (line.Equals("#GEACH_QUANTIFIER_PHRASE")) {
+                    currentType = SemanticType.GEACH_QUANTIFIER_PHRASE;
                 } else {
                     SetUpSpawner(new Word(currentType, line));
                     numWords++;
