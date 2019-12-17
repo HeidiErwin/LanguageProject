@@ -268,6 +268,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression SINCERE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "sincere");
     public static readonly Expression CORRECT = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "correct");
     public static readonly Expression VERIDICAL = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "veridical");
+    public static readonly Expression SUCCESS = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "success");
 
     public static readonly Expression BOB = new Word(SemanticType.INDIVIDUAL, "bob");
     public static readonly Expression BOB_2 = new Word(SemanticType.INDIVIDUAL, "bob2");

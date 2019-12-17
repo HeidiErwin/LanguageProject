@@ -71,24 +71,6 @@ public abstract class Model {
         actionRules.Add(r);
     }
 
-    // public float GetUtility(Expression e) {
-    //     return utilities[e];
-    // }
-
-    // public void SetUtility(Expression e, float u) {
-    //     utilities[e] = u;
-    //     decisionLock = false;
-    // }
-
-    // public void AddUtility(Expression e, float du) {
-    //     if (utilities.ContainsKey(e)) {
-    //         utilities[e] += du;
-    //     } else {
-    //         utilities[e] = du;
-    //     }
-    //     decisionLock = false;
-    // }
-
     public void AddToDomain(Expression e) {
         if (e == null) {
             return;
@@ -181,10 +163,6 @@ public abstract class Model {
     // returns false if the belief is rejected    
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
-        if (this.Proves(input)) {
-            return true;
-        }
-
         List<Expression> removed = new List<Expression>();
         Expression negatedInput = new Phrase(Expression.NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
@@ -249,6 +227,7 @@ public abstract class Model {
 
         currentGoal = null;
         currentPlan = null;
+        decisionLock = false;
         return true;
     }
 
@@ -273,19 +252,6 @@ public abstract class Model {
             }
         }
 
-        // foreach (KeyValuePair<Expression, float> us in this.utilities) {
-        //     if (us.Value >= maxUtility) {
-        //         List<Expression> plan = Plan(us.Key);
-        //         // if the goal is already true, or isn't
-        //         // achievable, then don't set this as the goal.
-        //         if (plan != null && plan.Count != 0) {
-        //             maxGoal = us.Key;
-        //             maxPlan = plan;
-        //             maxUtility = us.Value;
-        //         }
-        //     }
-        // }
-
         if (maxGoal.Equals(Expression.NEUTRAL)) {
             decisionLock = true;
         }
@@ -293,6 +259,8 @@ public abstract class Model {
         currentPlan = maxPlan;
     }
 
+    // TODO make it so plan works through multiple plans
+    // and picks the best one
     public List<Expression> Plan(Expression goal) {
         HashSet<Expression> planBasis = GetBasis(true, goal);
         if (planBasis == null) {
@@ -305,157 +273,7 @@ public abstract class Model {
             }
         }
         return plan;
-        // return Plan(goal, new List<Expression>(), new HashSet<Expression>());
     }
-
-    // SOON TO BE DEPRECATED
-    // naive, non-schematic action planner
-    // public List<Expression> Plan(Expression goal, List<Expression> actionSequence, HashSet<Expression> tried) {
-    //     if (tried.Contains(goal)) {
-    //         return null;
-    //     }
-        
-    //     // in this case, we've reach a point where the goal has been satisfied
-    //     if (Proves(goal)) {
-    //         return actionSequence;
-    //     }
-
-    //     List<List<Expression>> possibleActions = new List<List<Expression>>();
-
-    //     MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-    //     // MODUS PONENS: checking to see if anything in the model satisifies
-    //     // X, (X -> goal)
-    //     IPattern consequentPattern =
-    //         new ExpressionPattern(Expression.IF, xt0, goal);
-
-    //     foreach (Expression e in GetAll()) {
-    //         List<Dictionary<MetaVariable, Expression>> antecedents = consequentPattern.GetBindings(e);
-    //         if (antecedents == null) {
-    //             continue;
-    //         }
-    //         Expression antecedent = antecedents[0][xt0];
-    //         List<Expression> antecedentSequence = Plan(antecedent, actionSequence, ImAdd<Expression>(goal, tried));
-    //         if (antecedentSequence != null) {
-    //             possibleActions.Add(antecedentSequence);
-    //         }
-    //     }
-
-    //     // END MODUS PONENS
-
-    //     IPattern secondOrderAttitudePattern =
-    //         new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 0),
-    //             new MetaVariable(SemanticType.INDIVIDUAL, 0),
-    //             new ExpressionPattern(new MetaVariable(SemanticType.INDIVIDUAL_TRUTH_RELATION, 1),
-    //                 new MetaVariable(SemanticType.INDIVIDUAL, 1),
-    //                 new MetaVariable(SemanticType.TRUTH_VALUE, 0)));
-
-    //     if (secondOrderAttitudePattern.Matches(goal)) {
-    //         return null;
-    //     }
-
-    //     // search through action rules and recur on their preconditions as subgoals.
-    //     foreach (ActionRule r in this.actionRules) {
-    //         List<Dictionary<MetaVariable, Expression>> bindings = r.result.GetBindings(goal);
-    //         if (bindings != null) {
-    //             Expression action = r.action.ToExpression();
-                
-    //             // TODO accept multiple matches
-    //             if (bindings.Count > 0) {
-    //                 action = r.action.Bind(bindings[0]).ToExpression();
-    //             }
-    //             if (action == null) {
-    //                 // TODO handle binding issues later
-    //                 return null;
-    //             }
-    //             List<Expression> newActionSequence = new List<Expression>();
-    //             newActionSequence.Add(action);
-    //             foreach (Expression a in actionSequence) {
-    //                 newActionSequence.Add(a);
-    //             }
-
-    //             Expression newGoal = r.condition.ToExpression();
-
-    //             if (bindings.Count > 0) {
-    //                 newGoal = r.condition.Bind(bindings[0]).ToExpression();
-    //             }
-
-    //             List<Expression> solvedSequence = Plan(newGoal, newActionSequence, ImAdd<Expression>(goal, tried));
-    //             if (solvedSequence != null) {
-    //                 possibleActions.Add(solvedSequence);
-    //                 // return solvedSequence;
-    //             }
-    //         }
-    //     }
-
-    //     // TODO: make it so, if there's no plan for this goal, form a
-    //     // plan for what would entail the goal
-    //     foreach (SubstitutionRule sr in this.substitutionRules) {
-    //         List<SubstitutionRule.Result> admissibleSubstitutions = sr.Substitute(this, plan, new List<Expression>(), goal);
-    //         if (admissibleSubstitutions == null) {
-    //             continue;
-    //         }
-    //         foreach (SubstitutionRule.Result cnfs in admissibleSubstitutions) {
-    //             List<Expression> subgoals = new List<Expression>();
-
-    //             // TODO: add Find() functionality eventually (bleh)
-    //             bool bound = true;
-    //             foreach (IPattern p in cnfs.positives) {
-    //                 Expression positive = p.ToExpression();
-    //                 if (positive != null) {
-    //                     subgoals.Add(positive);
-    //                 } else {
-    //                     bound = false;
-    //                     break;
-    //                 }
-    //             }
-    //             if (!bound) {
-    //                 continue;
-    //             }
-
-    //             foreach (IPattern p in cnfs.negatives) {
-    //                 Expression negative = p.ToExpression();
-    //                 if (negative != null) {
-    //                     subgoals.Add(negative);
-    //                 } else {
-    //                     bound = false;
-    //                     break;
-    //                 }
-    //             }
-
-    //             if (!bound) {
-    //                 continue;
-    //             }
-
-    //             List<Expression> solvedSubsequence = actionSequence;
-    //             bool solved = true;
-    //             foreach (Expression subgoal in subgoals) {
-    //                 solvedSubsequence = Plan(subgoal, solvedSubsequence, ImAdd<Expression>(goal, tried));
-    //                 if (solvedSubsequence == null) {
-    //                     solved = false;
-    //                     break;
-    //                 }
-    //             }
-    //             if (solved) {
-    //                 possibleActions.Add(solvedSubsequence);
-    //                 // return solvedSubsequence;
-    //             }
-    //         }
-    //     }
-
-    //     // if there are known courses of action, choose among the best of them.
-    //     // if there aren't any, then return NULL.
-    //     List<Expression> bestCourse = null;
-
-    //     foreach (List<Expression> course in possibleActions) {
-    //         // eventually, this should be a utility estimate. For now,
-    //         // it simply counts how many actions are required.
-    //         if (bestCourse == null || bestCourse.Count > course.Count) {
-    //             bestCourse = course;
-    //         }
-    //     }
-
-    //     return bestCourse;
-    // }
 
     public bool Proves(Expression expr) {
         // triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
@@ -605,6 +423,35 @@ public abstract class Model {
 
         // END UNIVERSAL ELIMINATION
 
+        // SENTENTIAL ATTITUDES
+        Expression perceiveExpression = new Phrase(Expression.PERCEIVE, Expression.SELF, expr);
+        if (this.Contains(perceiveExpression)) {
+            basis.Add(perceiveExpression);
+            basis.Add(new Phrase(Expression.VERIDICAL, Expression.SELF, expr));
+        }
+
+        IPattern believePattern = new ExpressionPattern(Expression.BELIEVE, xi0, expr);
+        IPattern makePattern = new ExpressionPattern(Expression.MAKE, xi0, expr);
+
+        foreach (Expression e in GetAll()) {
+            List<Dictionary<MetaVariable, Expression>> believeBindings = believePattern.GetBindings(e);
+            if (believeBindings != null) {
+                Expression believer = believeBindings[0][xi0];
+                basis.Add(new Phrase(Expression.BELIEVE, believer, e));
+                basis.Add(new Phrase(Expression.CORRECT, believer, e));
+                return basis;
+            }
+
+            List<Dictionary<MetaVariable, Expression>> makeBindings = makePattern.GetBindings(e);
+            if (makeBindings != null) {
+                Expression maker = makeBindings[0][xi0];
+                basis.Add(new Phrase(Expression.MAKE, maker, e));
+                basis.Add(new Phrase(Expression.SUCCESS, maker, e));
+                return basis;
+            }
+        }
+        // END SENTENTIAL ATTITUDES
+
         // TRANSITIVITY OF BETTER
         MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
         IPattern betterPattern = new ExpressionPattern(Expression.BETTER, xt0, xt1);
@@ -708,7 +555,7 @@ public abstract class Model {
         // END CONDITIONAL PROOF
         
         // BELIEF
-        // if the model proves X, it also proves believes(self, X)
+        // if the model proves X, it also proves believess(self, X)
         IPattern selfBeliefPattern = new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0);
         List<Dictionary<MetaVariable, Expression>> selfBeliefBindings = selfBeliefPattern.GetBindings(expr);
 

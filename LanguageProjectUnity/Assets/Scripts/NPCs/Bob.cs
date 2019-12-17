@@ -53,10 +53,10 @@ public class Bob : NPC {
         // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
 
         model.Add(new Phrase(Expression.IN_THE_ROOM, Expression.SELF));
-        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
-        // model.Add(new Phrase(Expression.BETTER,
-        //         new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
-        //         Expression.NEUTRAL));
+        // model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
+        model.Add(new Phrase(Expression.BETTER,
+                new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
+                Expression.NEUTRAL));
 
         model.Add(new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,13 +46,13 @@ public class NPC : Character {
             yield break;
         }
 
-        // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
-        StringBuilder s = new StringBuilder();
-        foreach (Expression a in actionSequence) {
-            s.Append(a);
-            s.Append("; ");
-        }
-        Debug.Log(s.ToString());
+        // // UNCOMMENT BELOW TO PRINT OUT THE ACTION SEUQNECE
+        // StringBuilder s = new StringBuilder();
+        // foreach (Expression a in actionSequence) {
+        //     s.Append(a);
+        //     s.Append("; ");
+        // }
+        // Debug.Log(s.ToString());
 
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
@@ -369,16 +369,15 @@ public class NPC : Character {
                     }
                 }
 
+                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, item))));
                 this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.POSSESS, possessor, item)));
-                // if () {
-
-                // }
             }
         }
         // this.controller.combineSuccess.Play();
         // yield return ShowSpeechBubble("yes");
         model.ClearGoal();
         actionInProgress = false;
+        
         yield return true;
     }
 
@@ -402,13 +401,13 @@ public class NPC : Character {
 
     // @NOTE turned off for testing
     public void ReceivePercept(params Expression[] percept) {
-        // if (this.model == null) {
-        //     return;
-        // }
+        if (this.model == null) {
+            return;
+        }
 
-        // foreach (Expression p in percept) {
-        //     this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
-        // }
+        foreach (Expression p in percept) {
+            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
+        }
     }
 
     public void ReceiveExpression(Expression utterer, Expression utterance) {
