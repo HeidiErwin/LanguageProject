@@ -23,12 +23,12 @@ emerald
 #PREDICATE
 in_the_room
 // exists
-// door
-// open
+door
+open
 // closed
 
 #DETERMINER
-// the
+the
 
 #RELATION_2
 =
@@ -59,3 +59,12 @@ would
 
 #TRUTH_ASSERTION_FUNCTION
 assert
+
+#GEACH_TRUTH_FUNCTION_1
+geach
+
+#GEACH_TRUTH_FUNCTION_2
+geach
+
+#GEACH_QUANTIFIER_PHRASE
+geach
