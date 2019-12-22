@@ -22,7 +22,7 @@ public enum EvidentialSource {
 // is no distinction between a surface language and
 // the internal language).
 public abstract class Model {
-    protected HashSet<SubstitutionRule> substitutionRules = new HashSet<SubstitutionRule>();
+    protected HashSet<InferenceRule> inferenceRules = new HashSet<InferenceRule>();
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
     // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
@@ -58,12 +58,12 @@ public abstract class Model {
     public abstract HashSet<Expression> GetAll();
 
     // Adding rules into the model
-    public void Add(SubstitutionRule r) {
-        substitutionRules.Add(r);
+    public void Add(InferenceRule r) {
+        inferenceRules.Add(r);
         r.AddToDomain(this);
 
         if (r.isTransposable) {
-            substitutionRules.Add(r.Contrapositive());
+            inferenceRules.Add(r.Contrapositive());
         }
     }
 
@@ -421,6 +421,9 @@ public abstract class Model {
             }
         }
 
+        // while current = 
+        // 
+
         // END UNIVERSAL ELIMINATION
 
         // SENTENTIAL ATTITUDES
@@ -582,20 +585,20 @@ public abstract class Model {
         // END LACK OF BELIEF
 
         // RECURSIVE CASES
-        foreach (SubstitutionRule sr in this.substitutionRules) {
-            List<SubstitutionRule.Result> admissibleSubstitutions = sr.Substitute(this, plan, suppositions, expr);
+        foreach (InferenceRule ir in this.inferenceRules) {
+            List<InferenceRule.Result> admissibleInferences = ir.InferUpward(this, plan, suppositions, expr);
             
-            if (admissibleSubstitutions == null) {
+            if (admissibleInferences == null) {
                 continue;
             }
 
-            foreach (SubstitutionRule.Result conjunctSubstitution in admissibleSubstitutions) {
+            foreach (InferenceRule.Result conjunctInference in admissibleInferences) {
                 basis.Clear();
                 bool proved = true;
 
                 List<IPattern> toFindList = new List<IPattern>();
 
-                foreach (IPattern p in conjunctSubstitution.positives) {
+                foreach (IPattern p in conjunctInference.positives) {
                     Expression e = p.ToExpression();
                     if (e == null) {
                         toFindList.Add(p);
@@ -616,7 +619,7 @@ public abstract class Model {
                     continue;
                 }
 
-                foreach (IPattern p in conjunctSubstitution.negatives) {
+                foreach (IPattern p in conjunctInference.negatives) {
                     if (p == null) {
                         continue;
                     }
@@ -636,7 +639,7 @@ public abstract class Model {
                     }
                 }
 
-                foreach (IPattern p in conjunctSubstitution.assumptions) {
+                foreach (IPattern p in conjunctInference.assumptions) {
                     if (p == null) {
                         continue;
                     }
@@ -655,7 +658,7 @@ public abstract class Model {
 
                 if (toFindList.Count == 0) {
                     if (proved) {
-                        foreach (IPattern p in conjunctSubstitution.assumptions) {
+                        foreach (IPattern p in conjunctInference.assumptions) {
                             Expression e = p.ToExpression();
                             basis.Add(e);
                         }
@@ -701,7 +704,7 @@ public abstract class Model {
                             }
                         }
 
-                        foreach (IPattern p in conjunctSubstitution.assumptions) {
+                        foreach (IPattern p in conjunctInference.assumptions) {
                             Expression fullyBound = p.Bind(provedBinding).ToExpression();
                             basis.Add(fullyBound);
                         }

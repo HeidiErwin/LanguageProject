@@ -26,7 +26,7 @@ public class CustomModels {
 
         // SUBSTITUTION RULES
         // open(x) |- not(closed(x))
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(
                     Expression.OPEN,
                     new MetaVariable(SemanticType.INDIVIDUAL, 0)))},

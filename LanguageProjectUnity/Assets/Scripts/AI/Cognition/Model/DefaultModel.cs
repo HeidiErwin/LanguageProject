@@ -69,53 +69,53 @@ public class DefaultModel {
         // SUBSTITUTION RULES
 
         // |- verum
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(Expression.VERUM)}));
 
         // falsum |-
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(Expression.FALSUM)},
             new List<IPattern>[]{}));
 
         // // S |- believes(self, S)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(xt0)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0))},
         //     false));
 
         // // believes(x, ~S) |- ~believes(x, S)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, new ExpressionPattern(not, xt0)))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(Expression.BELIEVE, xi0, xt0)))},
         //     false));
         
         // better(A, B) |- prefers(self, A, B)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BETTER, xt0, xt1))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.PREFER, Expression.SELF, xt0, xt1))},
             false));
 
         // ~better(A, B) |- ~prefers(self, A, B)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.BETTER, xt0, xt1)))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.PREFER, Expression.SELF, xt0, xt1)))},
             false));
 
         // S |- T(S)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(xt0)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.TRUE, xt0))},
             false));
 
         // ~S |- ~T(S)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, xt0))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUE, xt0)))},
             false));
 
         // S |- ~~S
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(xt0)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
             false));
@@ -123,46 +123,46 @@ public class DefaultModel {
         // GEACH RULES
         // t -> t
         // !F(x) |- G(!, F, x)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
             false));
         
         // // t, t -> t
         // // C(F(x), H(x)) |- G(C, F, H, x)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(xtf10, new ExpressionPattern(xp0, xi0)))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.GEACH_TF1, xtf10, xp0, xi0))},
         //     false));
 
         // // |- F(the(F))
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, new ExpressionPattern(Expression.THE, xp0)))}));
 
         // // reflexivity for at
         // // |- at(x, x)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AT, xi0, xi0))}));
 
         // reflexivity for identity
         // |- x = x
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi0))}));
 
         // @NOTE this is redundant once substitution of identicals is figured out.
         // symmetry for identity
         // x = y |- y = x
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi1, xi0))}));
 
         // // CAUSING LOOPS
         // // substitution of identiticals
         // // x = y, F(x) |- F(y)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1),
         //         new ExpressionPattern(xp0, xi0))},
@@ -170,14 +170,14 @@ public class DefaultModel {
 
         // F(x), G(x) |- some(F, G)
         // not transposable to save time
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0), new ExpressionPattern(xp1, xi0))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.SOME, xp0, xp1))},
             false));
 
         // // uniqueness of king
         // // king(i), king(j) |- i = j
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(
         //             new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
@@ -190,100 +190,100 @@ public class DefaultModel {
         MetaVariable xt2 = new MetaVariable(SemanticType.TRUTH_VALUE, 2);
         
         // A, B |- A & B
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(xt0, xt1)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))}));
 
         // // A & B |- A
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
         // // A & B |- B
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AND, xt0, xt1))},
         //     new List<IPattern>[]{BuildList(xt1)}));
 
         // // A v B |- A, B
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))},
         //     new List<IPattern>[]{BuildList(xt0, xt1)}));
 
         // A |- A v B
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(xt0)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
         // B |- A v B
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(xt1)},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.OR, xt0, xt1))}));
 
         // reflexivity of as_good_as
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt0))}));
 
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt0))}));
 
         // symmetry of as_good_as
         // as_good_as(A, B) |- as_good_as(B, A)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt1, xt0))}));
 
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt1))},
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt1, xt0))}));
 
         // better(A, B) |- ~better(B, A)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.BETTER, xt0, xt1))},
             new List<IPattern>[]{BuildList(
                 new ExpressionPattern(Expression.NOT,
                     new ExpressionPattern(Expression.BETTER, xt1, xt0)))}));
 
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.PREFER, xi0, xt0, xt1))},
             new List<IPattern>[]{BuildList(
                 new ExpressionPattern(Expression.NOT,
                     new ExpressionPattern(Expression.PREFER, xi0, xt1, xt0)))}));
 
         // as_good_as(A, B) |- ~better(A, B)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1))},
             new List<IPattern>[]{BuildList(
                 new ExpressionPattern(Expression.NOT,
                     new ExpressionPattern(Expression.BETTER, xt0, xt1)))}));
 
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.INDIFFERENT, xi0, xt0, xt1))},
             new List<IPattern>[]{BuildList(
                 new ExpressionPattern(Expression.NOT,
                     new ExpressionPattern(Expression.PREFER, xi0, xt0, xt1)))}));
 
         // // A, B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(xt0, xt1)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
         //     false));
 
         // // ~A, ~B |- equivalent(A, B)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), new ExpressionPattern(not, xt1))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1))},
         //     false));
 
         // // A, ~B |- ~equivalent(A, B)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(xt0, new ExpressionPattern(not, xt1))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
         //     false));
 
         // // ~A, B |- ~equivalent(A, B)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(not, xt0), xt1)},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.EQUIVALENT, xt0, xt1)))},
         //     false));
@@ -293,42 +293,42 @@ public class DefaultModel {
         // MetaVariable xii0 = new MetaVariable(SemanticType.INDIVIDUAL_FUNCTION_1, 0);
         
         // // x = succ(0) |- x = 1
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
         //         new ExpressionPattern(Expression.SUCC, Expression.ZERO)))},
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.ONE))}, false));
 
         // // x = succ(1) |- x = 2
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
         //         new ExpressionPattern(Expression.SUCC, Expression.ONE)))},
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.TWO))}, false));
 
         // // x = succ(2) |- x = 3
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
         //         new ExpressionPattern(Expression.SUCC, Expression.TWO)))},
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.THREE))}, false));
 
         // // x = succ(3) |- x = 4
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
         //         new ExpressionPattern(Expression.SUCC, Expression.THREE)))},
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.FOUR))}, false));
 
         // // x = succ(4) |- x = 5
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
         //         new ExpressionPattern(Expression.SUCC, Expression.FOUR)))},
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, Expression.FIVE))}, false));
 
         // |- succ(x) != 0
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{},
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.NOT,
@@ -336,14 +336,14 @@ public class DefaultModel {
                     new ExpressionPattern(Expression.SUCC, xi0), Expression.ZERO)))}, false));
 
         // x = y |- succ(x) = succ(y)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.IDENTITY, new ExpressionPattern(Expression.SUCC, xi0),
                         new ExpressionPattern(Expression.SUCC, xi1)))}, false));
 
         // x != y |- succ(x) != succ(y)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.NOT,
@@ -351,21 +351,21 @@ public class DefaultModel {
                         new ExpressionPattern(Expression.SUCC, xi1))))}, false));
 
         // x = y |- x = y + 0
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.IDENTITY, xi0, xi1))},
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
                         new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO)))}, false));
 
         // x != y |- x != y + 0
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0, xi1)))},
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0,
                         new ExpressionPattern(Expression.PLUS, xi1, Expression.ZERO))))}, false));
 
         // x = y + z |- succ(x) = y + succ(z)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.IDENTITY, xi0,
                     new ExpressionPattern(Expression.PLUS, xi1, xi2)))},
@@ -375,7 +375,7 @@ public class DefaultModel {
                     new ExpressionPattern(Expression.PLUS, xi1, new ExpressionPattern(Expression.SUCC, xi2))))}, false));
 
         // x != y + z |- succ(x) != y + succ(z)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.IDENTITY, xi0,
                     new ExpressionPattern(Expression.PLUS, xi1, xi2))))},
@@ -385,12 +385,12 @@ public class DefaultModel {
                     new ExpressionPattern(Expression.PLUS, xi1, new ExpressionPattern(Expression.SUCC, xi2)))))}, false)) ;
 
         // // make(x, S) |- S
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
         // you're able to give your stuff to other people
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{DefaultModel.BuildList(
                 new ExpressionPattern(Expression.PERSON, xi1),
                 new ExpressionPattern(Expression.POSSESS, xi0, xi2))},
@@ -402,7 +402,7 @@ public class DefaultModel {
         // TRUST
         // renege
         // bound(x, A), ~A |- ~trustworthy(x)
-        m.Add(new SubstitutionRule(
+        m.Add(new InferenceRule(
             new List<IPattern>[]{
                 BuildList(new ExpressionPattern(Expression.BOUND, xi0, xt0), new ExpressionPattern(Expression.NOT, xt0))},
             new List<IPattern>[]{
@@ -411,14 +411,14 @@ public class DefaultModel {
 
         // // perceptual inference
         // // perceive(self, S) | veridical(self, S) |- S
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0)),
         //         BuildList(new ExpressionPattern(Expression.VERIDICAL, Expression.SELF, xt0))},
         //     new List<IPattern>[]{BuildList(xt0)}));
 
         // // able(x, S), make(x, S) |- S
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(
         //             new ExpressionPattern(Expression.ABLE, xi0, xt0),
@@ -427,7 +427,7 @@ public class DefaultModel {
 
         // // testimonial inference
         // // express(x, S) | sincere(x, S) |- believe(x, S)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.EXPRESS, xi0, xt0)),
         //         BuildList(new ExpressionPattern(Expression.SINCERE, xi0, xt0))
@@ -437,7 +437,7 @@ public class DefaultModel {
         //     }));
 
         // // believe(x, S) | correct(x, S) |- S
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{
         //         BuildList(new ExpressionPattern(Expression.BELIEVE, xi0, xt0)),
         //         BuildList(new ExpressionPattern(Expression.CORRECT, xi0, xt0))
@@ -447,7 +447,7 @@ public class DefaultModel {
         //     }));
 
         // // F(x) |- exists(x)
-        // m.Add(new SubstitutionRule(
+        // m.Add(new InferenceRule(
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(xp0, xi0))},
         //     new List<IPattern>[]{BuildList(new ExpressionPattern(Expression.EXISTS, xi0))}, false));
 
