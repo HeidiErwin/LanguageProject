@@ -748,11 +748,13 @@ public abstract class Model {
 
                 // otherwise, we'll need to make an offer.
                 // TODO: jot down algorithm here.
-                foreach (Expression e2 in GetAll()) {
-                    // TODO
+                // expr what you want. e2 is what you think they want.
+                foreach (Expression e2 in this.preferables) {
+                    // NAIVE: find the first expression that you prefer to 
+                    // HashSet<Expression> preferBasis = GetBasis(false, new Phrase(Expression.BETTER, e2, expr), suppositions);
+                    // HashSet<Expression> otherPreferenceBasis = GetBasis(true, new Phrase(Expression.PREFER, other, e2, expr), suppositions);
+                    
                 }
-
-                
             }
         }
         // END  ACTIONS
