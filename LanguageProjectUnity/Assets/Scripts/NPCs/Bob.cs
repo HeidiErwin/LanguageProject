@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using static Expression;
 
 public class Bob : NPC {
 
     void Start() {
         base.Start();
         CustomModels.AddFPExperimentModel(this.model);
-        this.name = Expression.BOB;
+        this.name = BOB;
 
         if (GameObject.Find("GameController").GetComponent<GameController>().is2D) {
             CustomModels.AddDoorModel(this.model);    
@@ -18,59 +19,67 @@ public class Bob : NPC {
         MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
 
         // model.Add(new ActionRule(
-        //     Expression.VERUM,
-        //     new ExpressionPattern(Expression.WOULD, new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)),
-        //     new ExpressionPattern(Expression.POSSESS, xi0, Expression.RUBY)));
+        //     VERUM,
+        //     new ExpressionPattern(WOULD, new ExpressionPattern(POSSESS, xi0, RUBY)),
+        //     new ExpressionPattern(POSSESS, xi0, RUBY)));
 
         // model.Add(new ActionRule(
-        //     new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
-        //     new Phrase(Expression.WOULD,
-        //         new Phrase(Expression.INTEND, Expression.EVAN,
-        //             new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))),
-        //     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+        //     new Phrase(AT, SELF, EVAN),
+        //     new Phrase(WOULD,
+        //         new Phrase(INTEND, EVAN,
+        //             new Phrase(OPEN, new Phrase(THE, DOOR)))),
+        //     new Phrase(OPEN, new Phrase(THE, DOOR))));
 
         // model.Add(new ActionRule(
-        //     new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
-        //     new Phrase(Expression.WOULD,
-        //         new Phrase(Expression.INTEND, Expression.EVAN,
-        //             new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))),
-        //     new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+        //     new Phrase(AT, SELF, EVAN),
+        //     new Phrase(WOULD,
+        //         new Phrase(INTEND, EVAN,
+        //             new Phrase(CLOSED, new Phrase(THE, DOOR)))),
+        //     new Phrase(CLOSED, new Phrase(THE, DOOR))));
 
         // // self-knowledge
-        model.Add(new Phrase(Expression.IDENTITY, Expression.SELF, Expression.BOB));
-        // model.Add(new Phrase(Expression.KING, Expression.SELF));
-        model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
-        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.SAPPHIRE)));
-        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD)));
-        model.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        model.Add(new Phrase(IDENTITY, SELF, BOB));
+        // model.Add(new Phrase(KING, SELF));
+        model.Add(new Phrase(POSSESS, SELF, RUBY));
+        model.Add(new Phrase(NOT, new Phrase(POSSESS, SELF, SAPPHIRE)));
+        model.Add(new Phrase(NOT, new Phrase(POSSESS, SELF, EMERALD)));
+        model.Add(new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
+
+
+        // testing location
+        model.Add(new Phrase(AT, NARROW_TREE, new Phrase(LOCATION, ZERO, FIVE)));
+        model.Add(new Phrase(AT, BROAD_TREE, new Phrase(LOCATION, FIVE, FIVE)));
+
+        model.Add(new Phrase(BETTER, new Phrase(AT, SELF, new Phrase(LOCATION, FIVE, ZERO)), NEUTRAL));
 
         // beliefs about Evan
-        model.Add(new Phrase(Expression.PERSON, Expression.EVAN));
-        model.Add(new Phrase(Expression.ABLE, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-        model.Add(new Phrase(Expression.INDIFFERENT, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)), Expression.NEUTRAL));
-        // model.Add(new Phrase(Expression.ACTIVE, Expression.EVAN));
-        // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(new Phrase(Expression.KING, Expression.BOB))));
-        // // model.Add(new Phrase(Expression.BELIEVE, Expression.EVAN, new Phrase(Expression.KING, Expression.EVAN)));
+        model.Add(new Phrase(PERSON, EVAN));
+        model.Add(new Phrase(ABLE, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR))));
+        // model.Add(new Phrase(INDIFFERENT, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR)), NEUTRAL));
+        // model.Add(new Phrase(ACTIVE, EVAN));
+        // // model.Add(new Phrase(BELIEVE, EVAN, new Phrase(new Phrase(KING, BOB))));
+        // // model.Add(new Phrase(BELIEVE, EVAN, new Phrase(KING, EVAN)));
 
-        model.Add(new Phrase(Expression.IN_THE_ROOM, Expression.SELF));
-        // model.Add(new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY));
-        // model.Add(new Phrase(Expression.BETTER,
-        //         new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
-        //         Expression.NEUTRAL));
+        model.Add(new Phrase(IN_THE_ROOM, SELF));
+        // model.Add(new Phrase(POSSESS, SELF, RUBY));
+        // model.Add(new Phrase(BETTER,
+        //         new Phrase(OPEN, new Phrase(THE, DOOR)),
+        //         NEUTRAL));
 
-        model.Add(new Phrase(Expression.ABLE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
 
-        model.Add(new Phrase(Expression.IF,
-            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN),
-            new Phrase(Expression.ABLE, Expression.SELF,
-                new Phrase(Expression.EXPRESS_CONFORMITY, Expression.SELF, Expression.EVAN,
-                    new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))));
+        model.Add(new Phrase(ABLE, SELF, new Phrase(AT, SELF, EVAN)));
+
+        model.Add(new Phrase(IF,
+            new Phrase(AT, SELF, EVAN),
+            new Phrase(ABLE, SELF,
+                new Phrase(EXPRESS_CONFORMITY, SELF, EVAN,
+                    new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR)))))));
 
         // // // utilities
-        // model.Add(new Phrase(Expression.BETTER,
-        //     new Phrase(Expression.POSSESS, Expression.SELF, Expression.EMERALD), Expression.NEUTRAL));
+        // model.Add(new Phrase(BETTER,
+        //     new Phrase(POSSESS, SELF, EMERALD), NEUTRAL));
 
-        // model.Add(new Phrase(Expression.BETTER,
-        //     new Phrase(Expression.POSSESS, Expression.EVAN, Expression.RUBY), Expression.NEUTRAL));
+        // model.Add(new Phrase(BETTER,
+        //     new Phrase(POSSESS, EVAN, RUBY), NEUTRAL));
     }
 }

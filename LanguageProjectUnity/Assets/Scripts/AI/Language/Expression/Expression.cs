@@ -254,6 +254,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression SUCC  = new Word(SemanticType.INDIVIDUAL_FUNCTION_1, "succ");
     public static readonly Expression PLUS  = new Word(SemanticType.INDIVIDUAL_FUNCTION_2, "+");
 
+    public static readonly Expression LOCATION = new Word(SemanticType.INDIVIDUAL_FUNCTION_2, "location");
+
     public static readonly Expression ABLE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "able");
     public static readonly Expression MAKE = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "make");
     public static readonly Expression BOUND = new Word(SemanticType.INDIVIDUAL_TRUTH_RELATION, "bound");
@@ -281,6 +283,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression RUBY = new Word(SemanticType.INDIVIDUAL, "ruby");
     public static readonly Expression SAPPHIRE = new Word(SemanticType.INDIVIDUAL, "sapphire");
     public static readonly Expression EMERALD = new Word(SemanticType.INDIVIDUAL, "emerald");
+    public static readonly Expression BROAD_TREE = new Word(SemanticType.INDIVIDUAL, "broad_tree");
+    public static readonly Expression NARROW_TREE = new Word(SemanticType.INDIVIDUAL, "narrow_tree");
     
     public static readonly Expression ASHLEY = new Word(SemanticType.INDIVIDUAL, "ashley");
     public static readonly Expression BLAIR = new Word(SemanticType.INDIVIDUAL, "blair");

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using static Expression;
 
 public class NPC : Character {
     GameController controller;
@@ -54,11 +55,14 @@ public class NPC : Character {
         // }
         // Debug.Log(s.ToString());
 
+        MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
+        MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
+
         // TODO: make the next action in the sequence wait until the previous
         // action has been completed.
         foreach (Expression action in actionSequence) {
             if (!controller.is2D) {
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
+                if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, BOB)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("bob").transform.position;
 
                     yield return null;
@@ -66,13 +70,13 @@ public class NPC : Character {
                         yield return null;
                     }
                     this.model.UpdateBelief(
-                        new Phrase(Expression.MAKE, Expression.SELF,
-                            new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
+                        new Phrase(MAKE, SELF,
+                            new Phrase(AT, SELF, BOB)));
 
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
+                if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, EVAN)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("evan").transform.position;
 
                     yield return null;
@@ -81,13 +85,13 @@ public class NPC : Character {
                     }
 
                     this.model.UpdateBelief(
-                        new Phrase(Expression.MAKE, Expression.SELF,
-                            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
+                        new Phrase(MAKE, SELF,
+                            new Phrase(AT, SELF, EVAN)));
 
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.GOAL)))) {
+                if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, GOAL)))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Prize").transform.position;
 
                     yield return null;
@@ -96,13 +100,13 @@ public class NPC : Character {
                     }
 
                     this.model.UpdateBelief(
-                        new Phrase(Expression.MAKE, Expression.SELF,
-                            new Phrase(Expression.AT, Expression.SELF, Expression.GOAL)));
+                        new Phrase(MAKE, SELF,
+                            new Phrase(AT, SELF, GOAL)));
 
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
+                if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, DOOR))))) {
                     GetComponent<NavMeshAgent>().destination = GameObject.Find("Door").transform.position;
                     
                     yield return null;
@@ -113,18 +117,94 @@ public class NPC : Character {
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
+                IPattern locationPattern = new ExpressionPattern(WOULD, new ExpressionPattern(AT, SELF, new ExpressionPattern(LOCATION, xi0, xi1)));
+                List<Dictionary<MetaVariable, Expression>> locationBindings = locationPattern.GetBindings(action);
+                if (locationBindings != null) {
+                    Debug.Log("Location pattern matched " + action);
+                    Expression xCoord = locationBindings[0][xi0];
+                    Expression yCoord = locationBindings[0][xi1];
+
+                    float xCoordUnity = -1f;
+                    float yCoordUnity = -1f;
+
+                    if (xCoord.Equals(ZERO)) {
+                        xCoordUnity = 0f;
+                    }
+
+                    if (xCoord.Equals(ONE)) {
+                        xCoordUnity = 1f;
+                    }
+
+                    if (xCoord.Equals(TWO)) {
+                        xCoordUnity = 2f;
+                    }
+
+                    if (xCoord.Equals(THREE)) {
+                        xCoordUnity = 3f;
+                    }
+
+                    if (xCoord.Equals(THREE)) {
+                        xCoordUnity = 4f;
+                    }
+
+                    if (xCoord.Equals(FIVE)) {
+                        xCoordUnity = 5f;
+                    }
+                    if (xCoord.Equals(ZERO)) {
+                        xCoordUnity = 0f;
+                    }
+
+                    if (yCoord.Equals(ONE)) {
+                        yCoordUnity = 1f;
+                    }
+
+                    if (yCoord.Equals(TWO)) {
+                        yCoordUnity = 2f;
+                    }
+
+                    if (yCoord.Equals(THREE)) {
+                        yCoordUnity = 3f;
+                    }
+
+                    if (yCoord.Equals(THREE)) {
+                        yCoordUnity = 4f;
+                    }
+
+                    if (yCoord.Equals(FIVE)) {
+                        yCoordUnity = 5f;
+                    }
+
+                    xCoordUnity *= 3f;
+                    xCoordUnity += 1.3f;
+
+                    yCoordUnity *= 2f;
+                    yCoordUnity += -5f;
+
+                    GetComponent<NavMeshAgent>().destination = new Vector3(xCoordUnity, 0f, yCoordUnity);
+                    Debug.Log(GetComponent<NavMeshAgent>().destination);
+
+                    yield return null;
+                    while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
+                        yield return null;
+                    }
+
+                    this.model.UpdateBelief(new Phrase(MAKE, SELF, action.GetArg(0)));
+
+                    continue;
+                }
+
+                if (action.Equals(new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR))))) {
                     controller.door.SetActive(false);
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
+                if (action.Equals(new Phrase(WOULD, new Phrase(CLOSED, new Phrase(THE, DOOR))))) {
                     controller.door.SetActive(true);
                     continue;
                 }
 
-                if (action.Equals(new Phrase(Expression.WOULD,
-                    new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, Expression.RUBY))))) {
+                if (action.Equals(new Phrase(WOULD,
+                    new Phrase(NOT, new Phrase(POSSESS, SELF, RUBY))))) {
                     // Debug.Log("GIVE UP RUBY!!!");
                     continue;
                 }
@@ -134,96 +214,96 @@ public class NPC : Character {
             // StopCoroutine(GoTo("evan"));
             // StopCoroutine(GoTo("DoorFront"));
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, BOB)))) {
                     yield return StartCoroutine(GoTo("bob"));
-                    // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
+                    // this.model.Add(new Phrase(AT, EVAN, BOB));
                     continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, EVAN)))) {
                     yield return StartCoroutine(GoTo("evan"));
-                    // this.model.Add(new Phrase(Expression.AT, Expression.EVAN, Expression.BOB));
+                    // this.model.Add(new Phrase(AT, EVAN, BOB));
                     continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, DOOR))))) {
                 yield return StartCoroutine(GoTo("DoorFront"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(THE, DOOR))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, COW))))) {
                 yield return StartCoroutine(GoTo("Cow"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(THE, COW))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.PLAYER)))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, PLAYER)))) {
                 yield return StartCoroutine(GoTo("Player(Clone)"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.PLAYER))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(PLAYER))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, TREE))))) {
                 yield return StartCoroutine(GoTo("tree"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(THE, TREE))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, LOG))))) {
                 yield return StartCoroutine(GoTo("log"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.LOG))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(THE, LOG))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE,  new Phrase(POSSESS, new Phrase(THE, LOG), 1)))))) {
                 yield return StartCoroutine(GoTo("Woodcutter"));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(AT, SELF, new Phrase(THE,  new Phrase(POSSESS, new Phrase(THE, LOG), 1)))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.EXISTS, new Phrase(Expression.THE, Expression.LOG))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(EXISTS, new Phrase(THE, LOG))))) {
                 GameObject.Find("tree").SetActive(false);
                 controller.log.SetActive(true);
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))))) {
-                this.model.UpdateBelief(new Phrase(Expression.MAKE,
-                    Expression.SELF,
-                    new Phrase(Expression.WEAR,
-                        Expression.SELF,
-                        new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))));
+            if (action.Equals(new Phrase(WOULD, new Phrase(WEAR, SELF, new Phrase(THE, new Phrase(FAKE, CROWN)))))) {
+                this.model.UpdateBelief(new Phrase(MAKE,
+                    SELF,
+                    new Phrase(WEAR,
+                        SELF,
+                        new Phrase(THE, new Phrase(FAKE, CROWN)))));
 
                 controller.fakeCrown.SetActive(true);
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.NOT, new Phrase(Expression.WEAR, Expression.SELF, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))))) {
-                this.model.UpdateBelief(new Phrase(Expression.MAKE,
-                    Expression.SELF,
-                    new Phrase(Expression.NOT,
-                        new Phrase(Expression.WEAR,
-                            Expression.SELF,
-                            new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
+            if (action.Equals(new Phrase(WOULD, new Phrase(NOT, new Phrase(WEAR, SELF, new Phrase(THE, new Phrase(FAKE, CROWN))))))) {
+                this.model.UpdateBelief(new Phrase(MAKE,
+                    SELF,
+                    new Phrase(NOT,
+                        new Phrase(WEAR,
+                            SELF,
+                            new Phrase(THE, new Phrase(FAKE, CROWN))))));
 
                 controller.fakeCrown.SetActive(false);
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.POSSESS, Expression.PLAYER, new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))))) {
-                this.model.UpdateBelief(new Phrase(Expression.MAKE,
-                    Expression.SELF,
-                    new Phrase(Expression.NOT,
-                        new Phrase(Expression.POSSESS,
-                            Expression.SELF,
-                            new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN))))));
+            if (action.Equals(new Phrase(WOULD, new Phrase(POSSESS, PLAYER, new Phrase(THE, new Phrase(FAKE, CROWN)))))) {
+                this.model.UpdateBelief(new Phrase(MAKE,
+                    SELF,
+                    new Phrase(NOT,
+                        new Phrase(POSSESS,
+                            SELF,
+                            new Phrase(THE, new Phrase(FAKE, CROWN))))));
                 
-                this.model.UpdateBelief(new Phrase(Expression.MAKE,
-                    Expression.SELF,
-                    new Phrase(Expression.POSSESS,
-                        Expression.PLAYER,
-                        new Phrase(Expression.THE, new Phrase(Expression.FAKE, Expression.CROWN)))));
+                this.model.UpdateBelief(new Phrase(MAKE,
+                    SELF,
+                    new Phrase(POSSESS,
+                        PLAYER,
+                        new Phrase(THE, new Phrase(FAKE, CROWN)))));
 
                 GameObject player = GameObject.Find("Player(Clone)");
 
@@ -241,82 +321,81 @@ public class NPC : Character {
             // The second "if" clauses are commented out b/c without coroutines, they aren't activated in time.
             // TODO Uncomment when coroutine stuff is sorted out.
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Open();
-                // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-                // ShowSpeechBubble(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
+                // this.model.Remove(new Phrase(CLOSED, new Phrase(THE, DOOR)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(OPEN, new Phrase(THE, DOOR))));
+                // ShowSpeechBubble(new Phrase(OPEN, new Phrase(THE, DOOR)));
                 //     }
                continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(CLOSED, new Phrase(THE, DOOR))))) {
                 //     if (currentInteractObject != null && currentInteractObject.name.Equals("DoorFront")) {
                 this.controller.lowClick.Play();
                 GameObject.Find("Door").GetComponent<Door>().Close();
-                // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-                // ShowSpeechBubble(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
+                // this.model.Remove(new Phrase(OPEN, new Phrase(THE, DOOR)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(CLOSED, new Phrase(THE, DOOR))));
+                // ShowSpeechBubble(new Phrase(CLOSED, new Phrase(THE, DOOR)));
                 //     }
                continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(INTEND, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR)))))) {
                 this.controller.placeExpression.Play();
                 // the below code works with fromScratch, to a degree
-                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                yield return ShowSpeechBubble(new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR))));
 
                 // yield return ShowSpeechBubble("would");
 
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR))));
+                // this.model.Remove(new Phrase(INTEND, EVAN, new Phrase(CLOSED, new Phrase(THE, DOOR))));
+                // this.model.Add(new Phrase(INTEND, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR))));
 
-                // this.model.Remove(new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(CLOSED, new Phrase(THE, DOOR)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(OPEN, new Phrase(THE, DOOR))));
 
-                // ShowSpeechBubble(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
+                // ShowSpeechBubble(new Phrase(INTEND, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR))));
                 continue;
             }
 
-            if (action.Equals(new Phrase(Expression.WOULD, new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR)))))) {
+            if (action.Equals(new Phrase(WOULD, new Phrase(INTEND, EVAN, new Phrase(CLOSED, new Phrase(THE, DOOR)))))) {
                 this.controller.placeExpression.Play();
-                yield return ShowSpeechBubble(new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                yield return ShowSpeechBubble(new Phrase(WOULD, new Phrase(CLOSED, new Phrase(THE, DOOR))));
                 // yield return ShowSpeechBubble("would");
                 // yield return new WaitForSeconds(2.0f);
-                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(Expression.WOULD, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Remove(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR))));
-                // this.model.Add(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, new Phrase(WOULD, new Phrase(CLOSED, new Phrase(THE, DOOR))));
+                // this.model.Remove(new Phrase(INTEND, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR))));
+                // this.model.Add(new Phrase(INTEND, EVAN, new Phrase(CLOSED, new Phrase(THE, DOOR))));
 
-                // this.model.Remove(new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // this.model.Remove(new Phrase(OPEN, new Phrase(THE, DOOR)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(CLOSED, new Phrase(THE, DOOR))));
 
-                // ShowSpeechBubble(new Phrase(Expression.INTEND, Expression.EVAN, new Phrase(Expression.CLOSED, new Phrase(Expression.THE, Expression.DOOR))));
+                // ShowSpeechBubble(new Phrase(INTEND, EVAN, new Phrase(CLOSED, new Phrase(THE, DOOR))));
                 continue;
             }
 
-            MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
             MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
 
             IPattern assertionSchema =
-                new ExpressionPattern(Expression.WOULD,
-                    new ExpressionPattern(Expression.BELIEVE, xi0, xt0));
+                new ExpressionPattern(WOULD,
+                    new ExpressionPattern(BELIEVE, xi0, xt0));
 
             List<Dictionary<MetaVariable, Expression>> assertionBinding = assertionSchema.GetBindings(action);
 
             if (assertionBinding != null) {
-                Expression assertion = new Phrase(Expression.ASSERT, assertionBinding[0][xt0]);
+                Expression assertion = new Phrase(ASSERT, assertionBinding[0][xt0]);
                 yield return ShowSpeechBubble(assertion);
                 Expression recipient = assertionBinding[0][xi0];
 
-                if (recipient.Equals(Expression.BOB)) {
+                if (recipient.Equals(BOB)) {
                     GameObject.Find("bob").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
                 }
 
-                if (recipient.Equals(Expression.EVAN)) {
+                if (recipient.Equals(EVAN)) {
                     GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, assertion);
                 }
             }
@@ -324,8 +403,8 @@ public class NPC : Character {
             MetaVariable xc0 = new MetaVariable(SemanticType.CONFORMITY_VALUE, 0);
 
             IPattern conformitySchema =
-                new ExpressionPattern(Expression.WOULD,
-                    new ExpressionPattern(Expression.EXPRESS_CONFORMITY, Expression.SELF, xi0, xc0));
+                new ExpressionPattern(WOULD,
+                    new ExpressionPattern(EXPRESS_CONFORMITY, SELF, xi0, xc0));
 
             List<Dictionary<MetaVariable, Expression>> conformityBinding = conformitySchema.GetBindings(action);
 
@@ -334,26 +413,25 @@ public class NPC : Character {
                 yield return ShowSpeechBubble(conformity);
                 Expression recipient = conformityBinding[0][xi0];
 
-                if (recipient.Equals(Expression.BOB)) {
+                if (recipient.Equals(BOB)) {
                     GameObject.Find("bob").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
-                if (recipient.Equals(Expression.EVAN)) {
+                if (recipient.Equals(EVAN)) {
                     GameObject.Find("evan").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
-                if (recipient.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
+                if (recipient.Equals(new Phrase(THE,  new Phrase(POSSESS, new Phrase(THE, LOG), 1)))) {
                     GameObject.Find("Woodcutter").GetComponent<NPC>().ReceiveExpression(this.name, conformity);
                 }
 
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF,
-                    new Phrase(Expression.EXPRESS_CONFORMITY, Expression.SELF, recipient, conformity)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF,
+                    new Phrase(EXPRESS_CONFORMITY, SELF, recipient, conformity)));
             }
 
-            MetaVariable xi1 = new MetaVariable(SemanticType.INDIVIDUAL, 1);
             IPattern possessionSchema =
-                new ExpressionPattern(Expression.WOULD,
-                    new ExpressionPattern(Expression.POSSESS, xi0, xi1));
+                new ExpressionPattern(WOULD,
+                    new ExpressionPattern(POSSESS, xi0, xi1));
 
             List<Dictionary<MetaVariable, Expression>> possessionBinding = possessionSchema.GetBindings(action);
 
@@ -369,8 +447,8 @@ public class NPC : Character {
                     }
                 }
 
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.NOT, new Phrase(Expression.POSSESS, Expression.SELF, item))));
-                this.model.UpdateBelief(new Phrase(Expression.MAKE, Expression.SELF, new Phrase(Expression.POSSESS, possessor, item)));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(NOT, new Phrase(POSSESS, SELF, item))));
+                this.model.UpdateBelief(new Phrase(MAKE, SELF, new Phrase(POSSESS, possessor, item)));
             }
         }
         // this.controller.combineSuccess.Play();
@@ -391,7 +469,7 @@ public class NPC : Character {
             if (selectedExpr == null) {
                 // Debug.Log("No selected expression to say to this NPC");
             } else {
-                ReceiveExpression(Expression.PLAYER, selectedExpr.expression);
+                ReceiveExpression(PLAYER, selectedExpr.expression);
                 Destroy(selectedExpr.gameObject);
                 controller.HidePointer();
                 // scontroller.SetInSpeakingMode(false);
@@ -406,7 +484,7 @@ public class NPC : Character {
         }
 
         foreach (Expression p in percept) {
-            this.model.UpdateBelief(new Phrase(Expression.PERCEIVE, Expression.SELF, p));
+            this.model.UpdateBelief(new Phrase(PERCEIVE, SELF, p));
         }
     }
 
@@ -420,52 +498,52 @@ public class NPC : Character {
         }
 
         if (utterance.type.Equals(SemanticType.CONFORMITY_VALUE)) {
-            // if (name.Equals(new Phrase(Expression.THE,  new Phrase(Expression.POSSESS, new Phrase(Expression.THE, Expression.LOG), 1)))) {
-            //     if (!model.Proves(new Phrase(Expression.KING, utterer))) {
-            //         StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+            // if (name.Equals(new Phrase(THE,  new Phrase(POSSESS, new Phrase(THE, LOG), 1)))) {
+            //     if (!model.Proves(new Phrase(KING, utterer))) {
+            //         StartCoroutine(ShowSpeechBubble(REFUSE));
             //         return;
             //     }
             // }
 
             // TODO figure out conditions of refusal, etc.
-            if (utterance.GetHead().Equals(Expression.CONTRACT)) {
-                if (!this.model.Proves(new Phrase(Expression.NOT, new Phrase(Expression.TRUSTWORTHY, utterer)))) {
+            if (utterance.GetHead().Equals(CONTRACT)) {
+                if (!this.model.Proves(new Phrase(NOT, new Phrase(TRUSTWORTHY, utterer)))) {
                     // TODO: check if utilities work out, and if you can uphold your end of the deal.
                     // For now, just accept by default
                     // uphold your end of the bargain
-                    model.Add(new Phrase(Expression.BETTER, utterance.GetArg(1), Expression.NEUTRAL));
+                    model.Add(new Phrase(BETTER, utterance.GetArg(1), NEUTRAL));
                     // model.AddUtility(utterance.GetArg(1), 10f);
                     
                     // hold the other person to account
-                    model.UpdateBelief(new Phrase(Expression.BOUND, utterer, utterance.GetArg(0)));
+                    model.UpdateBelief(new Phrase(BOUND, utterer, utterance.GetArg(0)));
 
                     // // hold yourself to account??
-                    // model.UpdateBelief(new Phrase(Expression.BOUND, utterer, utterance.GetArg(1)));
+                    // model.UpdateBelief(new Phrase(BOUND, utterer, utterance.GetArg(1)));
 
                     this.controller.combineSuccess.Play();
-                    StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ACCEPT)));
+                    StartCoroutine(ShowSpeechBubble(new Phrase(ACCEPT)));
 
                     return;
                 }
 
                 this.controller.lowClick.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.REFUSE));
+                StartCoroutine(ShowSpeechBubble(REFUSE));
 
                 return;
             }
 
-            if (utterance.GetHead().Equals(Expression.WOULD)) {
-                if (this.model.Proves(new Phrase(Expression.NOT, new Phrase(Expression.TRUSTWORTHY, utterer)))) {
+            if (utterance.GetHead().Equals(WOULD)) {
+                if (this.model.Proves(new Phrase(NOT, new Phrase(TRUSTWORTHY, utterer)))) {
                     this.controller.lowClick.Play();
-                    StartCoroutine(ShowSpeechBubble(new Phrase(Expression.REFUSE)));
+                    StartCoroutine(ShowSpeechBubble(new Phrase(REFUSE)));
 
                     return;
                 }
 
                 this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(Expression.ACCEPT));
+                StartCoroutine(ShowSpeechBubble(ACCEPT));
 
-                model.Add(new Phrase(Expression.BETTER, utterance.GetArg(0), Expression.NEUTRAL));
+                model.Add(new Phrase(BETTER, utterance.GetArg(0), NEUTRAL));
                 model.decisionLock = false;
                 // model.AddUtility(utterance.GetArg(0), 10f);
             
@@ -475,13 +553,13 @@ public class NPC : Character {
 
         if (utterance.type.Equals(SemanticType.ASSERTION)) {
             Expression content = utterance.GetArg(0);
-            // if (this.model.UpdateBelief(new Phrase(Expression.BELIEVE, utterer, content))) {
+            // if (this.model.UpdateBelief(new Phrase(BELIEVE, utterer, content))) {
             if (this.model.UpdateBelief(content)) {
                 this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
+                StartCoroutine(ShowSpeechBubble(new Phrase(ASSERT, AFFIRM)));
             } else {
                 this.controller.failure.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
+                StartCoroutine(ShowSpeechBubble(new Phrase(ASSERT, DENY)));
             }
             return;
         }
@@ -489,13 +567,13 @@ public class NPC : Character {
         if (utterance.type.Equals(SemanticType.TRUTH_VALUE)) {
             if (this.model.Proves(utterance)) {
                 this.controller.combineSuccess.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.AFFIRM)));
-            } else if (this.model.Proves(new Phrase(Expression.NOT, utterance))) {
+                StartCoroutine(ShowSpeechBubble(new Phrase(ASSERT, AFFIRM)));
+            } else if (this.model.Proves(new Phrase(NOT, utterance))) {
                 this.controller.failure.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, Expression.DENY)));
+                StartCoroutine(ShowSpeechBubble(new Phrase(ASSERT, DENY)));
             } else {
                 this.controller.lowClick.Play();
-                StartCoroutine(ShowSpeechBubble(new Phrase(Expression.ASSERT, new Phrase(Expression.OR, Expression.AFFIRM, Expression.DENY))));
+                StartCoroutine(ShowSpeechBubble(new Phrase(ASSERT, new Phrase(OR, AFFIRM, DENY))));
             }
             return;
         }
@@ -541,7 +619,7 @@ public class NPC : Character {
                 Expression[] answers = new Expression[bound.Count];
                 counter = 0;
                 foreach (IPattern p in bound) {
-                    Expression answer = new Phrase(Expression.ASSERT, p.ToExpression());
+                    Expression answer = new Phrase(ASSERT, p.ToExpression());
                     answers[counter] = answer;
                     counter++;
                 }
@@ -610,7 +688,24 @@ public class NPC : Character {
         yield return new WaitForSeconds(2.0f);
     }
 
+    // public IEnumerator GoToLocation(Expression location) {
+    //     if (!location.GetHead().Equals(LOCATION)) {
+    //         yield break;
+    //     }
+
+
+
+    //     target = null; //transform
+    //     speed = 2;
+    //     GoToTarget();
+    //     while (!walkingComplete) {
+    //         yield return null;
+    //     }
+    //     yield break;
+    // }
+
     public IEnumerator GoTo(String targetID) {
+        // deprecated: objective unity coordinate from object
         GameObject targetObject = GameObject.Find(targetID);
         if (targetObject) {
             target = targetObject.transform;
