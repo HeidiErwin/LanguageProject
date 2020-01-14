@@ -21,8 +21,10 @@ emerald
 // +
 
 #PREDICATE
+red
+blue
 in_the_room
-// exists
+exists
 door
 open
 // closed
