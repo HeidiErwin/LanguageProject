@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 344}
   m_MaxSize: {x: 12004, y: 8044}
   vertical: 0
-  controlID: 640
+  controlID: 108
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 344}
   m_MaxSize: {x: 8004, y: 8044}
   vertical: 1
-  controlID: 604
+  controlID: 109
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 222}
   m_MaxSize: {x: 8004, y: 4022}
   vertical: 0
-  controlID: 569
+  controlID: 110
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -598,8 +598,8 @@ MonoBehaviour:
     y: 0
     width: 277
     height: 747
-  m_MinSize: {x: 277, y: 72}
-  m_MaxSize: {x: 4002, y: 4022}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -641,5 +641,5 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
-  m_LastInspectedObjectInstanceID: 24404
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
