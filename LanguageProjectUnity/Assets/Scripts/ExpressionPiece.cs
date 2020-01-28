@@ -12,7 +12,7 @@ using System;
  */
 public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
     #region variables
-    private const bool DRAW_SUBEXPRESSION_TYPE = false;
+    private const bool DRAW_SUBEXPRESSION_TYPE = true;
     private const bool DRAW_OPEN_ARGUMENT_TYPE = true;
     public const float EXPRESSION_OPACITY = 0.4f;
     private const float BUFFER_IN_UNITS = 0.1f; // the slight space between args, etc. for visual appeal
