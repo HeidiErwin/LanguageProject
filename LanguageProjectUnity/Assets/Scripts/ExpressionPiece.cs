@@ -293,13 +293,21 @@ public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
         // }
 
         // the arguments to the input expression aren't being destroyed properly. They're just floating around
-        Destroy(inputExpression.gameObject, 0.0f);
+        RippleDestroy(inputExpression.gameObject);
 
         exprPiece.transform.SetSiblingIndex(indexToOccupy);
 
-        Destroy(this.gameObject, 0.0f);
+        RippleDestroy(this.gameObject);
 
         return true;
+    }
+
+    private void RippleDestroy(GameObject o) {
+        foreach (Transform child in o.transform) {
+            RippleDestroy(child.gameObject);
+        }
+        Debug.Log("Destroying " + o);
+        Destroy(o, 0.0f);
     }
 
     public void SetParentExpressionPiece(ExpressionPiece parent) {
