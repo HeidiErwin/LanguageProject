@@ -2,10 +2,6 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
-// TODO 2/27: make custom return type
-// for Substitute() which includes information
-// about default assumptions being made
-
 public class InferenceRule {
     public class Result {
         public List<IPattern> positives { private set; get; }

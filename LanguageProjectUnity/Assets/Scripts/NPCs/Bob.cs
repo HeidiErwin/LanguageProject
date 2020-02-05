@@ -62,9 +62,9 @@ public class Bob : NPC {
 
         model.Add(new Phrase(IN_THE_ROOM, SELF));
         // model.Add(new Phrase(POSSESS, SELF, RUBY));
-        // model.Add(new Phrase(BETTER,
-        //         new Phrase(OPEN, new Phrase(THE, DOOR)),
-        //         NEUTRAL));
+        model.Add(new Phrase(BETTER,
+                new Phrase(OPEN, new Phrase(THE, DOOR)),
+                NEUTRAL));
 
 
         model.Add(new Phrase(ABLE, SELF, new Phrase(AT, SELF, EVAN)));

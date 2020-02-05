@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static Expression;
+
 public enum EvidentialSource {
     Perception,
     Testimony,
@@ -84,7 +86,7 @@ public abstract class Model {
             // TODO add an exception clause for conjunction/disjunction
             domain[e.type].Add(e);
         } else {
-            if (e.GetHead().Equals(Expression.BETTER) || e.GetHead().Equals(Expression.AS_GOOD_AS)) {
+            if (e.GetHead().Equals(BETTER) || e.GetHead().Equals(AS_GOOD_AS)) {
                 preferables.Add(e.GetArg(0));
                 preferables.Add(e.GetArg(1));
             }
@@ -107,9 +109,9 @@ public abstract class Model {
     public int EstimatePlausibility(Expression e, bool isNew) {
         MetaVariable xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0);
         MetaVariable xt0 = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
-        IPattern perceptionPattern = new ExpressionPattern(Expression.PERCEIVE, Expression.SELF, xt0);
-        IPattern testimonyPattern = new ExpressionPattern(Expression.BELIEVE, xi0, xt0);
-        IPattern expectationPattern = new ExpressionPattern(Expression.MAKE, Expression.SELF, xt0);
+        IPattern perceptionPattern = new ExpressionPattern(PERCEIVE, SELF, xt0);
+        IPattern testimonyPattern = new ExpressionPattern(BELIEVE, xi0, xt0);
+        IPattern expectationPattern = new ExpressionPattern(MAKE, SELF, xt0);
 
         List<Dictionary<MetaVariable, Expression>> bindings = perceptionPattern.GetBindings(e);
         if (bindings != null) {
@@ -122,7 +124,7 @@ public abstract class Model {
 
         bindings = testimonyPattern.GetBindings(e);
         if (bindings != null) {
-            bool isCredible = true; // this.Proves(new Phrase(Expression.CREDIBLE, bindings[0][xi0]));
+            bool isCredible = true; // this.Proves(new Phrase(CREDIBLE, bindings[0][xi0]));
             if (isCredible) {
                 if (isNew) {
                     return 7;    
@@ -152,7 +154,7 @@ public abstract class Model {
             return 4;
         }
 
-        if (e.Equals(new Phrase(Expression.NOT, new Word(SemanticType.TRUTH_VALUE, "example")))) {
+        if (e.Equals(new Phrase(NOT, new Word(SemanticType.TRUTH_VALUE, "example")))) {
             return 5;
         }
 
@@ -164,7 +166,7 @@ public abstract class Model {
     // TODO: make a more sophicated update policy
     public bool UpdateBelief(Expression input) {
         List<Expression> removed = new List<Expression>();
-        Expression negatedInput = new Phrase(Expression.NOT, input);
+        Expression negatedInput = new Phrase(NOT, input);
         HashSet<Expression> basis = GetBasis(negatedInput);
 
         while (basis != null) {
@@ -180,7 +182,7 @@ public abstract class Model {
             
             if (leastPlausible.Equals(input)) {
                 foreach (Expression e in removed) {
-                    this.Remove(new Phrase(Expression.NOT, e));
+                    this.Remove(new Phrase(NOT, e));
                     this.Add(e);
                 }
                 return false;
@@ -190,7 +192,7 @@ public abstract class Model {
             if (this.Contains(leastPlausible)) {
                 this.Remove(leastPlausible);
             } else {
-                this.Add(new Phrase(Expression.NOT, leastPlausible));
+                this.Add(new Phrase(NOT, leastPlausible));
             }
             
             triedExpressions.Clear();
@@ -238,12 +240,12 @@ public abstract class Model {
     // since it only accepts a goal which is thought to be achievable
     // (i.e. it's expectation is not 0)
     public void DecideGoal() {
-        Expression maxGoal = Expression.NEUTRAL;
+        Expression maxGoal = NEUTRAL;
         List<Expression> maxPlan = null;
         // float maxUtility = Single.NegativeInfinity;
 
         foreach (Expression preferable in this.preferables) {
-            if (this.Proves(new Phrase(Expression.BETTER, preferable, maxGoal))) {
+            if (this.Proves(new Phrase(BETTER, preferable, maxGoal))) {
                 List<Expression> plan = Plan(preferable);
                 if (plan != null && plan.Count != 0) {
                     maxGoal = preferable;
@@ -252,7 +254,7 @@ public abstract class Model {
             }
         }
 
-        if (maxGoal.Equals(Expression.NEUTRAL)) {
+        if (maxGoal.Equals(NEUTRAL)) {
             decisionLock = true;
         }
         currentGoal = maxGoal;
@@ -268,7 +270,7 @@ public abstract class Model {
         }
         List<Expression> plan = new List<Expression>();
         foreach (Expression p in planBasis) {
-            if (p.GetHead().Equals(Expression.WOULD)) {
+            if (p.GetHead().Equals(WOULD)) {
                 plan.Add(p);
             }
         }
@@ -360,7 +362,7 @@ public abstract class Model {
             return null;
         }
 
-        if (this.Contains(new Phrase(Expression.NOT, expr))) {
+        if (this.Contains(new Phrase(NOT, expr))) {
             return null;
         }
 
@@ -369,7 +371,7 @@ public abstract class Model {
         // MODUS PONENS: checking to see if anything in the model satisifies
         // X, X -> expr
         IPattern consequentPattern =
-            new ExpressionPattern(Expression.IF, xt0, expr);
+            new ExpressionPattern(IF, xt0, expr);
 
         foreach (Expression e in GetAll()) {
             List<Dictionary<MetaVariable, Expression>> antecedents = consequentPattern.GetBindings(e);
@@ -379,7 +381,7 @@ public abstract class Model {
             Expression antecedent = antecedents[0][xt0];
             HashSet<Expression> antecedentBasis = GetBasis(plan, antecedent, suppositions);
             if (antecedentBasis != null) {
-                antecedentBasis.Add(new Phrase(Expression.IF, antecedent, expr));
+                antecedentBasis.Add(new Phrase(IF, antecedent, expr));
                 triedExpressions[expr] = antecedentBasis;
                 return antecedentBasis;
             }
@@ -400,7 +402,7 @@ public abstract class Model {
                 Expression predicate = binding[xp0];
 
                 IPattern universalPattern =
-                    new ExpressionPattern(Expression.ALL, xp0, predicate);
+                    new ExpressionPattern(ALL, xp0, predicate);
 
                 foreach (Expression e in GetAll()) {
                     List<Dictionary<MetaVariable, Expression>> domains =
@@ -413,7 +415,7 @@ public abstract class Model {
                     Expression domain = domains[0][xp0];
                     HashSet<Expression> domainBasis = GetBasis(plan, new Phrase(domain, subject), suppositions);
                     if (domainBasis != null) {
-                        domainBasis.Add(new Phrase(Expression.ALL, domain, predicate));
+                        domainBasis.Add(new Phrase(ALL, domain, predicate));
                         triedExpressions[expr] = domainBasis;
                         return domainBasis;
                     }
@@ -421,35 +423,32 @@ public abstract class Model {
             }
         }
 
-        // while current = 
-        // 
-
         // END UNIVERSAL ELIMINATION
 
         // SENTENTIAL ATTITUDES
-        Expression perceiveExpression = new Phrase(Expression.PERCEIVE, Expression.SELF, expr);
+        Expression perceiveExpression = new Phrase(PERCEIVE, SELF, expr);
         if (this.Contains(perceiveExpression)) {
             basis.Add(perceiveExpression);
-            basis.Add(new Phrase(Expression.VERIDICAL, Expression.SELF, expr));
+            basis.Add(new Phrase(VERIDICAL, SELF, expr));
         }
 
-        IPattern believePattern = new ExpressionPattern(Expression.BELIEVE, xi0, expr);
-        IPattern makePattern = new ExpressionPattern(Expression.MAKE, xi0, expr);
+        IPattern believePattern = new ExpressionPattern(BELIEVE, xi0, expr);
+        IPattern makePattern = new ExpressionPattern(MAKE, xi0, expr);
 
         foreach (Expression e in GetAll()) {
             List<Dictionary<MetaVariable, Expression>> believeBindings = believePattern.GetBindings(e);
             if (believeBindings != null) {
                 Expression believer = believeBindings[0][xi0];
-                basis.Add(new Phrase(Expression.BELIEVE, believer, e));
-                basis.Add(new Phrase(Expression.CORRECT, believer, e));
+                basis.Add(new Phrase(BELIEVE, believer, e));
+                basis.Add(new Phrase(CORRECT, believer, e));
                 return basis;
             }
 
             List<Dictionary<MetaVariable, Expression>> makeBindings = makePattern.GetBindings(e);
             if (makeBindings != null) {
                 Expression maker = makeBindings[0][xi0];
-                basis.Add(new Phrase(Expression.MAKE, maker, e));
-                basis.Add(new Phrase(Expression.SUCCESS, maker, e));
+                basis.Add(new Phrase(MAKE, maker, e));
+                basis.Add(new Phrase(SUCCESS, maker, e));
                 return basis;
             }
         }
@@ -457,7 +456,7 @@ public abstract class Model {
 
         // TRANSITIVITY OF BETTER
         MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
-        IPattern betterPattern = new ExpressionPattern(Expression.BETTER, xt0, xt1);
+        IPattern betterPattern = new ExpressionPattern(BETTER, xt0, xt1);
 
         List<Dictionary<MetaVariable, Expression>> preferands = betterPattern.GetBindings(expr);
 
@@ -467,11 +466,11 @@ public abstract class Model {
 
             foreach (Expression p in preferables) {
                 HashSet<Expression> betterBasis = 
-                    GetBasis(plan, new Phrase(Expression.BETTER, better, p), suppositions);
+                    GetBasis(plan, new Phrase(BETTER, better, p), suppositions);
 
                 if (betterBasis != null) {
                     HashSet<Expression> worseBasis =
-                        GetBasis(plan, new Phrase(Expression.BETTER, p,  worse), suppositions);
+                        GetBasis(plan, new Phrase(BETTER, p,  worse), suppositions);
 
                     if (worseBasis != null) {
                         HashSet<Expression> transitiveBasis = new HashSet<Expression>();
@@ -489,7 +488,7 @@ public abstract class Model {
         // END TRANSITIVITY OF BETTER
         
         // TRANSITIVITY OF AS_GOOD_AS
-        IPattern asGoodAsPattern = new ExpressionPattern(Expression.AS_GOOD_AS, xt0, xt1);
+        IPattern asGoodAsPattern = new ExpressionPattern(AS_GOOD_AS, xt0, xt1);
         preferands = asGoodAsPattern.GetBindings(expr);
 
         if (preferands != null) {
@@ -498,11 +497,11 @@ public abstract class Model {
 
             foreach (Expression p in preferables) {
                 HashSet<Expression> firstBasis = 
-                    GetBasis(plan, new Phrase(Expression.AS_GOOD_AS, first, p), suppositions);
+                    GetBasis(plan, new Phrase(AS_GOOD_AS, first, p), suppositions);
 
                 if (firstBasis != null) {
                     HashSet<Expression> secondBasis =
-                        GetBasis(plan, new Phrase(Expression.AS_GOOD_AS, p, second), suppositions);
+                        GetBasis(plan, new Phrase(AS_GOOD_AS, p, second), suppositions);
 
                     if (secondBasis != null) {
                         HashSet<Expression> transitiveBasis = new HashSet<Expression>();
@@ -521,11 +520,11 @@ public abstract class Model {
 
         // BOUND
         IPattern trustworthyPattern =
-            new ExpressionPattern(Expression.NOT, new ExpressionPattern(Expression.TRUSTWORTHY, xi0));
+            new ExpressionPattern(NOT, new ExpressionPattern(TRUSTWORTHY, xi0));
 
         List<Dictionary<MetaVariable, Expression>> promiser = trustworthyPattern.GetBindings(expr);
         if (promiser != null) {
-            IPattern promisePattern = new ExpressionPattern(Expression.BOUND, promiser[0][xi0], xt0);
+            IPattern promisePattern = new ExpressionPattern(BOUND, promiser[0][xi0], xt0);
 
             foreach (Expression e in GetAll()) {
                 List<Dictionary<MetaVariable, Expression>> promises = promisePattern.GetBindings(e);
@@ -533,10 +532,10 @@ public abstract class Model {
                     continue;
                 }
                 Expression promise = promises[0][xt0];
-                HashSet<Expression> promiseBasis = GetBasis(plan, new Phrase(Expression.NOT, promise));
+                HashSet<Expression> promiseBasis = GetBasis(plan, new Phrase(NOT, promise));
                 if (promiseBasis != null) {
-                    basis.Add(new Phrase(Expression.BOUND, promiser[0][xi0], promise));
-                    basis.Add(new Phrase(Expression.NOT, promise));
+                    basis.Add(new Phrase(BOUND, promiser[0][xi0], promise));
+                    basis.Add(new Phrase(NOT, promise));
                     triedExpressions[expr] = basis;
                     return basis;
                 }
@@ -548,7 +547,7 @@ public abstract class Model {
         // CONDITIIONAL PROOF
         // MetaVariable xt1 = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
 
-        IPattern conditionalPattern = new ExpressionPattern(Expression.IF, xt0, xt1);
+        IPattern conditionalPattern = new ExpressionPattern(IF, xt0, xt1);
         List<Dictionary<MetaVariable, Expression>> conditionalBindings = conditionalPattern.GetBindings(expr);
 
         if (conditionalBindings != null) {
@@ -559,7 +558,7 @@ public abstract class Model {
         
         // BELIEF
         // if the model proves X, it also proves believess(self, X)
-        IPattern selfBeliefPattern = new ExpressionPattern(Expression.BELIEVE, Expression.SELF, xt0);
+        IPattern selfBeliefPattern = new ExpressionPattern(BELIEVE, SELF, xt0);
         List<Dictionary<MetaVariable, Expression>> selfBeliefBindings = selfBeliefPattern.GetBindings(expr);
 
         if (selfBeliefBindings != null) {
@@ -572,7 +571,7 @@ public abstract class Model {
         // LACK OF BELIEF
         // if the model fails to prove X, it proves ~believes(self, X)
         // NOTE this isn't the same as believes(self, ~X)
-        IPattern notSelfBeliefPattern = new ExpressionPattern(Expression.NOT, selfBeliefPattern);
+        IPattern notSelfBeliefPattern = new ExpressionPattern(NOT, selfBeliefPattern);
         List<Dictionary<MetaVariable, Expression>> notSelfBeliefBindings = notSelfBeliefPattern.GetBindings(expr);
 
         if (notSelfBeliefBindings != null) {
@@ -625,9 +624,9 @@ public abstract class Model {
                     }
                     Expression e = p.ToExpression();
                     if (e == null) {
-                        toFindList.Add(new ExpressionPattern(Expression.NOT, p));
+                        toFindList.Add(new ExpressionPattern(NOT, p));
                     } else {
-                        HashSet<Expression> subBasis = this.GetBasis(plan, new Phrase(Expression.NOT, e), suppositions);
+                        HashSet<Expression> subBasis = this.GetBasis(plan, new Phrase(NOT, e), suppositions);
                         if (subBasis == null) {
                             proved = false;
                             break;
@@ -645,7 +644,7 @@ public abstract class Model {
                     }
                     Expression e = p.ToExpression();
                     if (e != null) {
-                        if (Contains(new Phrase(Expression.NOT, e))) {
+                        if (Contains(new Phrase(NOT, e))) {
                             proved = false;
                             break;
                         }
@@ -716,16 +715,16 @@ public abstract class Model {
         // ACTIONS
         if (plan) {
             // Check to see if this expression is actionable.
-            HashSet<Expression> abilityBasis = GetBasis(plan, new Phrase(Expression.ABLE, Expression.SELF, expr), suppositions);
+            HashSet<Expression> abilityBasis = GetBasis(plan, new Phrase(ABLE, SELF, expr), suppositions);
             if (abilityBasis != null) {
-                abilityBasis.Add(new Phrase(Expression.WOULD, expr));
+                abilityBasis.Add(new Phrase(WOULD, expr));
                 return abilityBasis;
             }
 
             // check if anyone else is able to make the expr true.
             // SPECIAL PURPOSE: this can be handled generally but
             // will involve a more efficient algorithm.
-            IPattern otherAbilityPattern = new ExpressionPattern(Expression.ABLE, xi0, expr);
+            IPattern otherAbilityPattern = new ExpressionPattern(ABLE, xi0, expr);
             foreach (Expression e in GetAll()) {
                 List<Dictionary<MetaVariable, Expression>> otherAbilityBinding = otherAbilityPattern.GetBindings(e);
                 if (otherAbilityBinding == null) {
@@ -737,10 +736,10 @@ public abstract class Model {
 
                 // if they don't mind helping, just request it
                 if (GetBasis(false,
-                    new Phrase(Expression.NOT, new Phrase(Expression.PREFER, other, Expression.NEUTRAL, expr)), suppositions) != null) {
+                    new Phrase(NOT, new Phrase(PREFER, other, NEUTRAL, expr)), suppositions) != null) {
                     HashSet<Expression> expressBasis = GetBasis(true,
-                            new Phrase(Expression.EXPRESS_CONFORMITY,
-                                Expression.SELF, other, new Phrase(Expression.WOULD, expr)),
+                            new Phrase(EXPRESS_CONFORMITY,
+                                SELF, other, new Phrase(WOULD, expr)),
                         suppositions);
                     triedExpressions[expr] = expressBasis;
                     return expressBasis;
@@ -751,8 +750,8 @@ public abstract class Model {
                 // // expr what you want. e2 is what you think they want.
                 // foreach (Expression e2 in this.preferables) {
                 //     // NAIVE: find the first expression that you prefer to 
-                //     HashSet<Expression> preferBasis = GetBasis(true, new Phrase(Expression.BETTER, e2, expr), suppositions);
-                //     HashSet<Expression> otherPreferenceBasis = GetBasis(true, new Phrase(Expression.PREFER, other, e2, expr), suppositions);
+                //     HashSet<Expression> preferBasis = GetBasis(true, new Phrase(BETTER, e2, expr), suppositions);
+                //     HashSet<Expression> otherPreferenceBasis = GetBasis(true, new Phrase(PREFER, other, e2, expr), suppositions);
                 //     if (preferBasis != null && otherPreferenceBasis != null) {
                 //         foreach (Expression b in preferBasis) {
                 //             basis.Add(b);
