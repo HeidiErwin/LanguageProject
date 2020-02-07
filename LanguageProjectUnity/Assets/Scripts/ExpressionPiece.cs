@@ -377,10 +377,12 @@ public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
         headObject.transform.SetParent(visualContainer.transform);
         Image headImage = headObject.AddComponent<Image>();
         Expression expr = this.expression;
-        // Sprite headSprite = Resources.Load<Sprite>("Symbols/" + expr.headString);
-        Sprite headSprite = Resources.Load<Sprite>("English/" + expr.headString);
+        Sprite headSprite = Resources.Load<Sprite>("Symbols/" + expr.headString);
         if (headSprite == null) {
             headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.headString);
+        }
+        if (headSprite == null) {
+            headSprite = Resources.Load<Sprite>("English/" + expr.headString);
         }
         headImage.sprite = headSprite;
         headImage.transform.localScale *= .25f;

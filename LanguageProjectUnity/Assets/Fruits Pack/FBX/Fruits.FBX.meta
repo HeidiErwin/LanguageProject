@@ -1,0 +1,219 @@
+fileFormatVersion: 2
+guid: 7141bb4678d3cc84b97c3f02eababb5f
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Apple
+    100002: Apple_Bitten
+    100004: Apple_Slice
+    100006: Banana
+    100008: Coconut
+    100010: Coconut_Slice
+    100012: //RootNode
+    100014: Lemon
+    100016: Lemon_Slice
+    100018: Orange
+    100020: Orange_Slice
+    100022: Pear
+    100024: Pineapple
+    100026: Strawberry
+    100028: Watermelon
+    100030: Watermelon_Slice
+    400000: Apple
+    400002: Apple_Bitten
+    400004: Apple_Slice
+    400006: Banana
+    400008: Coconut
+    400010: Coconut_Slice
+    400012: //RootNode
+    400014: Lemon
+    400016: Lemon_Slice
+    400018: Orange
+    400020: Orange_Slice
+    400022: Pear
+    400024: Pineapple
+    400026: Strawberry
+    400028: Watermelon
+    400030: Watermelon_Slice
+    2100000: Apple_Red
+    2100002: Pear
+    2100004: Orange
+    2100006: Lemon
+    2100008: Banana
+    2100010: Watermelon
+    2100012: Coconut
+    2100014: Strawberry
+    2100016: Pineapple
+    2300000: Apple
+    2300002: Apple_Bitten
+    2300004: Apple_Slice
+    2300006: Banana
+    2300008: Coconut
+    2300010: Coconut_Slice
+    2300012: Lemon
+    2300014: Lemon_Slice
+    2300016: Orange
+    2300018: Orange_Slice
+    2300020: Pear
+    2300022: Pineapple
+    2300024: Strawberry
+    2300026: Watermelon
+    2300028: Watermelon_Slice
+    3300000: Apple
+    3300002: Apple_Bitten
+    3300004: Apple_Slice
+    3300006: Banana
+    3300008: Coconut
+    3300010: Coconut_Slice
+    3300012: Lemon
+    3300014: Lemon_Slice
+    3300016: Orange
+    3300018: Orange_Slice
+    3300020: Pear
+    3300022: Pineapple
+    3300024: Strawberry
+    3300026: Watermelon
+    3300028: Watermelon_Slice
+    4300000: Apple
+    4300002: Pear
+    4300004: Orange
+    4300006: Lemon
+    4300008: Banana
+    4300010: Watermelon
+    4300012: Coconut
+    4300014: Strawberry
+    4300016: Pineapple
+    4300018: Apple_Slice
+    4300020: Apple_Bitten
+    4300022: Orange_Slice
+    4300024: Lemon_Slice
+    4300026: Watermelon_Slice
+    4300028: Coconut_Slice
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Apple_Red
+    second: {fileID: 2100000, guid: 4ffb9ef4cabb34143a0c39223fb2434d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Banana
+    second: {fileID: 2100000, guid: 463489150753a974f8044198f657ecbf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Coconut
+    second: {fileID: 2100000, guid: 6d34d88a604145e47837942b62f9645b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lemon
+    second: {fileID: 2100000, guid: d018a225e0ae5644e883f6934abcb6f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Orange
+    second: {fileID: 2100000, guid: 862d4c47ded734a4c8c5d17f9a81e5cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pear
+    second: {fileID: 2100000, guid: 66c79b58a8aea714c87c3488abf5a248, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pineapple
+    second: {fileID: 2100000, guid: 4c67f1f00568b774cb07a396afffe1ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Strawberry
+    second: {fileID: 2100000, guid: 38d8bde1d704fac4699b8ea12b259688, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Watermelon
+    second: {fileID: 2100000, guid: c896c1401f07e684cad66e5763af3105, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

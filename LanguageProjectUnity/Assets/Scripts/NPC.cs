@@ -120,7 +120,6 @@ public class NPC : Character {
                 IPattern locationPattern = new ExpressionPattern(WOULD, new ExpressionPattern(AT, SELF, new ExpressionPattern(LOCATION, xi0, xi1)));
                 List<Dictionary<MetaVariable, Expression>> locationBindings = locationPattern.GetBindings(action);
                 if (locationBindings != null) {
-                    Debug.Log("Location pattern matched " + action);
                     Expression xCoord = locationBindings[0][xi0];
                     Expression yCoord = locationBindings[0][xi1];
 
@@ -181,7 +180,6 @@ public class NPC : Character {
                     yCoordUnity += -5f;
 
                     GetComponent<NavMeshAgent>().destination = new Vector3(xCoordUnity, 0f, yCoordUnity);
-                    Debug.Log(GetComponent<NavMeshAgent>().destination);
 
                     yield return null;
                     while (GetComponent<NavMeshAgent>().remainingDistance > 1) {
