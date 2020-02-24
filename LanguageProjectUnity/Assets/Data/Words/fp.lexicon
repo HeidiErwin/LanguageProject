@@ -4,33 +4,16 @@ player
 bob
 evan
 goal
+door
 ruby
 sapphire
 emerald
-// 0
-// 1
-// 2
-// 3
-// 4
-// 5
-
-#INDIVIDUAL_FUNCTION_1
-// succ
-
-#INDIVIDUAL_FUNCTION_2
-// +
 
 #PREDICATE
-red
-blue
 in_the_room
 exists
-door
 open
 // closed
-
-#DETERMINER
-the
 
 #RELATION_2
 =
@@ -39,13 +22,16 @@ possess
 
 #QUANTIFIER
 some
-all
+
+#TRUTH_VALUE
+verum
+falsum
 
 #TRUTH_FUNCTION_1
 not
 
 #TRUTH_FUNCTION_2
-// equivalent
+and
 or
 if
 
@@ -61,12 +47,3 @@ would
 
 #TRUTH_ASSERTION_FUNCTION
 assert
-
-#GEACH_TRUTH_FUNCTION_1
-geach
-
-#GEACH_TRUTH_FUNCTION_2
-geach
-
-#GEACH_QUANTIFIER_PHRASE
-geach

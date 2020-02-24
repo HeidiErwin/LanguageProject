@@ -8,81 +8,106 @@ using static Expression;
 
 public class Testing : MonoBehaviour {
     void Start() {
-        Model m = DefaultModel.Make();
-        // // Expression example = new Word(SemanticType.TRUTH_VALUE, "example");
-        // // Expression iPerceiveExample = new Phrase(PERCEIVE, SELF, example);
-        // // Expression iPerceiveNotExample = new Phrase(PERCEIVE, SELF, new Phrase(NOT, example));
-        // // m.Add(iPerceiveExample);
-        // // PrintProves(m, true, iPerceiveExample);
-        // // PrintProves(m, true, example);
-        // // Debug.Log(m.UpdateBelief(new Phrase(NOT, example)));
-        // // // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
-        // // PrintProves(m, true, iPerceiveExample);
-        // // PrintProves(m, true, new Phrase(NOT, example));
-        // // PrintProves(m, false, example);
-        // // PrintProves(m, true, new Phrase(NOT, new Phrase(VERIDICAL, SELF, example)));
+        Model m = DefaultModel.Make(true);
+        // m.Add(new Word(SemanticType.TRUTH_VALUE, "A"));
+        // Debug.Log(m.Contains(new Word(SemanticType.TRUTH_VALUE, "A")));
+        // Debug.Log(!m.Contains(new Word(SemanticType.TRUTH_VALUE, "B")));
+        // m.Add(new Word(SemanticType.TRUTH_VALUE, "B"));
+        // Debug.Log(m.Contains(new Word(SemanticType.TRUTH_VALUE, "B")));
+        // m.Add(new Phrase(ANIMAL, BOB));
+        // Debug.Log(m.Contains(new Phrase(ANIMAL, BOB)));
+        // m.Add(new Phrase(ANIMAL, EVAN));
+        // Debug.Log(m.Contains(new Phrase(ANIMAL, EVAN)));
+        m.Add(new Phrase(AT, BOB, EVAN));
+        m.Add(new Phrase(AT, EVAN, GOAL));
+        Debug.Log(!m.Contains(new Phrase(AT, BOB, GOAL)));
 
-        // // Debug.Log(m.UpdateBelief(new Phrase(EXPRESS, PLAYER, new Phrase(TREE, BOB))));
-        // // PrintProves(m, true, new Phrase(EXPRESS, PLAYER, new Phrase(TREE, BOB)));
-        // // PrintProves(m, true, new Phrase(BELIEVE, PLAYER, new Phrase(TREE, BOB)));
-        // // PrintProves(m, true, new Phrase(TREE, BOB));
+        // in the model: 
+        // 
+        // greater(one, _) is no good
+        // 
+        // every dog howls.
+        // 
+        // dog is predicate and so is howls
+        // 
+        // every(predicate, predicate) -> true
+        // every(dog(_), howls(_))
+        // 
 
-        // // Debug.Log(bm.DomainString());
-        // // PrintProves(bm, true, new Phrase(ANIMAL, BOB));
-        // // PrintProves(bm, true, new Phrase(SOME, ANIMAL, ACTIVE));
-        // // PrintProves(bm, true, new Phrase(SOME, new Phrase(IDENTITY, BOB), ACTIVE));
-        // // PrintProves(bm, true, new Phrase(EXISTS, BOB));
-        // // PrintProves(bm, true, new Phrase(CONTAINED_WITHIN, BOB, WAYSIDE_PARK));
-        // // PrintProves(bm, true, new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
-        // // PrintProves(bm, true,
-        // //     new Phrase(NOT,
-        // //         new Phrase(AND, 
-        // //             new Phrase(IDENTITY, BOB, EVAN),
-        // //             new Phrase(ACTIVE, BOB))));
-        // // PrintProves(bm, true, new Phrase(NOT, new Phrase(KING, EVAN)));
-        // // PrintProves(bm, true, new Phrase(ANIMAL, BOB_2));
-        // // PrintProves(bm, true, new Phrase(NOT, new Phrase(IDENTITY, EVAN, BOB_2)));
-        // // Debug.Log(new Phrase(IDENTITY, EVAN, BOB));
-        // // Debug.Log(new Phrase(SOME, KING, ACTIVE));
-        // // Debug.Log(new Phrase(GIVE, THE_GREAT_DOOR, BOB));
-        // // PrintProves(bm, true, new Phrase(GEACH_TF1, NOT, KING, EVAN));
-        // // PrintProves(m, true, b);
-        // // PrintProves(m, true, new Phrase(NOT, new Phrase(NOT, new Phrase(PERSON, SELF))));
+        // Expression example = new Word(SemanticType.TRUTH_VALUE, "example");
+        // Expression iPerceiveExample = new Phrase(PERCEIVE, SELF, example);
+        // Expression iPerceiveNotExample = new Phrase(PERCEIVE, SELF, new Phrase(NOT, example));
+        // m.Add(iPerceiveExample);
+        // PrintProves(m, true, iPerceiveExample);
+        // PrintProves(m, true, example);
+        // Debug.Log(m.UpdateBelief(new Phrase(NOT, example)));
+        // // Debug.Log(m.UpdateBelief(iPerceiveNotExample));
+        // PrintProves(m, true, iPerceiveExample);
+        // PrintProves(m, true, new Phrase(NOT, example));
+        // PrintProves(m, false, example);
+        // PrintProves(m, true, new Phrase(NOT, new Phrase(VERIDICAL, SELF, example)));
+
+        // Debug.Log(m.UpdateBelief(new Phrase(EXPRESS, PLAYER, new Phrase(TREE, BOB))));
+        // PrintProves(m, true, new Phrase(EXPRESS, PLAYER, new Phrase(TREE, BOB)));
+        // PrintProves(m, true, new Phrase(BELIEVE, PLAYER, new Phrase(TREE, BOB)));
+        // PrintProves(m, true, new Phrase(TREE, BOB));
+
+        // Debug.Log(bm.DomainString());
+        // PrintProves(bm, true, new Phrase(ANIMAL, BOB));
+        // PrintProves(bm, true, new Phrase(SOME, ANIMAL, ACTIVE));
+        // PrintProves(bm, true, new Phrase(SOME, new Phrase(IDENTITY, BOB), ACTIVE));
+        // PrintProves(bm, true, new Phrase(EXISTS, BOB));
+        // PrintProves(bm, true, new Phrase(CONTAINED_WITHIN, BOB, WAYSIDE_PARK));
+        // PrintProves(bm, true, new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
+        // PrintProves(bm, true,
+        //     new Phrase(NOT,
+        //         new Phrase(AND, 
+        //             new Phrase(IDENTITY, BOB, EVAN),
+        //             new Phrase(ACTIVE, BOB))));
+        // PrintProves(bm, true, new Phrase(NOT, new Phrase(KING, EVAN)));
+        // PrintProves(bm, true, new Phrase(ANIMAL, BOB_2));
+        // PrintProves(bm, true, new Phrase(NOT, new Phrase(IDENTITY, EVAN, BOB_2)));
+        // Debug.Log(new Phrase(IDENTITY, EVAN, BOB));
+        // Debug.Log(new Phrase(SOME, KING, ACTIVE));
+        // Debug.Log(new Phrase(GIVE, THE_GREAT_DOOR, BOB));
+        // PrintProves(bm, true, new Phrase(GEACH_TF1, NOT, KING, EVAN));
+        // PrintProves(m, true, b);
+        // PrintProves(m, true, new Phrase(NOT, new Phrase(NOT, new Phrase(PERSON, SELF))));
         
-        // // Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
-        // // Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
+        // Expression a = new Word(SemanticType.TRUTH_VALUE, "A");
+        // Expression b = new Word(SemanticType.TRUTH_VALUE, "B");
 
-        // // m.Add(a);
-        // // m.Add(new Phrase(NOT, b));
+        // m.Add(a);
+        // m.Add(new Phrase(NOT, b));
 
-        // // PrintProves(m, true, new Phrase(TRUE, a));
-        // // PrintProves(m, true, new Phrase(TRUE, new Phrase(TRUE, a)));
-        // // PrintProves(m, true, new Phrase(TRUE, new Phrase(NOT, b)));
-        // // PrintProves(m, true, new Phrase(NOT, new Phrase(TRUE, b)));
+        // PrintProves(m, true, new Phrase(TRUE, a));
+        // PrintProves(m, true, new Phrase(TRUE, new Phrase(TRUE, a)));
+        // PrintProves(m, true, new Phrase(TRUE, new Phrase(NOT, b)));
+        // PrintProves(m, true, new Phrase(NOT, new Phrase(TRUE, b)));
 
-        // // m.Add(new SubstitutionRule(
-        // //     new List<IPattern>[]{DefaultModel.BuildList(a)},
-        // //     new List<IPattern>[]{DefaultModel.BuildList(b)},
-        // //     false));
-        // // Expression ifAB = new Phrase(IF, a, b);
-        // // PrintProves(m, false, b);
-        // // PrintProves(m, true, ifAB);
-        // // PrintProves(m, false, a);
+        // m.Add(new SubstitutionRule(
+        //     new List<IPattern>[]{DefaultModel.BuildList(a)},
+        //     new List<IPattern>[]{DefaultModel.BuildList(b)},
+        //     false));
+        // Expression ifAB = new Phrase(IF, a, b);
+        // PrintProves(m, false, b);
+        // PrintProves(m, true, ifAB);
+        // PrintProves(m, false, a);
         
-        // // // now, testing a conditional is true, even if the antecedant is thought false
-        // // m.Add(new Phrase(NOT, a));
-        // // PrintProves(m, true, new Phrase(NOT, a));
-        // // PrintProves(m, true, ifAB);
+        // // now, testing a conditional is true, even if the antecedant is thought false
+        // m.Add(new Phrase(NOT, a));
+        // PrintProves(m, true, new Phrase(NOT, a));
+        // PrintProves(m, true, ifAB);
 
-        // // MODUS PONENS
-        // // Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
-        // // Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
-        // // m.Add(new Phrase(IF, c, d));
-        // // m.Add(c);
-        // // PrintProves(m, true, d);
-        // // Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
-        // // m.Add(new Phrase(IF, d, e));
-        // // PrintProves(m, true, e);
+        // MODUS PONENS
+        Expression c = new Word(SemanticType.TRUTH_VALUE, "C");
+        Expression d = new Word(SemanticType.TRUTH_VALUE, "D");
+        m.Add(new Phrase(IF, c, d));
+        m.Add(c);
+        PrintProves(m, true, d);
+        Expression e = new Word(SemanticType.TRUTH_VALUE, "E");
+        m.Add(new Phrase(IF, d, e));
+        PrintProves(m, true, e);
 
         // // Expression f = new Word(SemanticType.TRUTH_VALUE, "F");
         // // m.Add(new Phrase(IF, e, f));
@@ -156,7 +181,7 @@ public class Testing : MonoBehaviour {
         
         // m.Add(new Phrase(BELIEVE, EVAN, new Phrase(BELIEVE, BOB, new Phrase(IN_THE_ROOM, RUBY))));
         // "every(A, B)" => write: "B(x) :- A(x)"
-        PrintProves(m, true, new Phrase(IN_THE_ROOM, RUBY));
+        // PrintProves(m, true, new Phrase(IN_THE_ROOM, RUBY));
     }
 
     private void PrintProves(Model m, bool proves, Expression e) {

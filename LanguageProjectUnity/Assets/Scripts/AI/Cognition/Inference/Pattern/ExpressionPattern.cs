@@ -5,6 +5,11 @@ using System.Collections.Generic;
 // TODO for this class: check the semantic types
 // to see if they match
 
+// First order bindings -> variables can only bind to expressions
+using FOBindings = System.Collections.Generic.Dictionary<MetaVariable, Expression>;
+// Higher-order bindings -> variables can bind to other variables
+using HOBindings = System.Collections.Generic.Dictionary<MetaVariable, IPattern>;
+
 public class ExpressionPattern : IPattern {
     protected IPattern headPattern;
     protected IPattern[] argPatterns;
@@ -118,7 +123,7 @@ public class ExpressionPattern : IPattern {
             Expression head = kv.Key;
             Expression[] args = kv.Value;
 
-            List<Dictionary<MetaVariable, Expression>> currentBindings = headPattern.GetBindings(head, inputBindings);
+            List<FOBindings> currentBindings = headPattern.GetBindings(head, inputBindings);
 
             if (currentBindings == null) {
                 continue;
@@ -147,6 +152,12 @@ public class ExpressionPattern : IPattern {
 
     public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
         return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
+    }
+
+    public List<HOBindings> Unify(IPattern that) {
+        UnityEngine.Debug.Log("Stub: ExpressionPattern.Unify()");
+        // NOTE: Doesn't permute arguments yet. Might be too slow to do it for both expressions.
+        return null;
     }
 
     public bool Matches(Expression expr) {

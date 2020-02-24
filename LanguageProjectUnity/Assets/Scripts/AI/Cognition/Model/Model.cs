@@ -26,7 +26,6 @@ public enum EvidentialSource {
 public abstract class Model {
     protected HashSet<InferenceRule> inferenceRules = new HashSet<InferenceRule>();
     protected HashSet<ActionRule> actionRules = new HashSet<ActionRule>();
-    // protected HashSet<Expression> primitiveAbilites = new HashSet<IPattern>();
     protected Dictionary<SemanticType, HashSet<Expression>> domain = new Dictionary<SemanticType, HashSet<Expression>>();
     protected Dictionary<Expression, HashSet<Expression>> triedExpressions = new Dictionary<Expression, HashSet<Expression>>();
     protected List<Expression> lastSuppositions = new List<Expression>();

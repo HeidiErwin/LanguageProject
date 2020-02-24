@@ -27,15 +27,15 @@ public class Bob : NPC {
         //     new Phrase(AT, SELF, EVAN),
         //     new Phrase(WOULD,
         //         new Phrase(INTEND, EVAN,
-        //             new Phrase(OPEN, new Phrase(THE, DOOR)))),
-        //     new Phrase(OPEN, new Phrase(THE, DOOR))));
+        //             new Phrase(OPEN, DOOR))),
+        //     new Phrase(OPEN, DOOR)));
 
         // model.Add(new ActionRule(
         //     new Phrase(AT, SELF, EVAN),
         //     new Phrase(WOULD,
         //         new Phrase(INTEND, EVAN,
-        //             new Phrase(CLOSED, new Phrase(THE, DOOR)))),
-        //     new Phrase(CLOSED, new Phrase(THE, DOOR))));
+        //             new Phrase(CLOSED, DOOR))),
+        //     new Phrase(CLOSED, DOOR)));
 
         // // self-knowledge
         model.Add(new Phrase(IDENTITY, SELF, BOB));
@@ -50,22 +50,18 @@ public class Bob : NPC {
         model.Add(new Phrase(AT, NARROW_TREE, new Phrase(LOCATION, ZERO, FIVE)));
         model.Add(new Phrase(AT, BROAD_TREE, new Phrase(LOCATION, FIVE, FIVE)));
 
-        model.Add(new Phrase(BETTER, new Phrase(AT, SELF, new Phrase(LOCATION, FIVE, ZERO)), NEUTRAL));
+        // model.Add(new Phrase(BETTER, new Phrase(AT, SELF, new Phrase(LOCATION, FIVE, ZERO)), NEUTRAL));
 
         // beliefs about Evan
         model.Add(new Phrase(PERSON, EVAN));
-        model.Add(new Phrase(ABLE, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR))));
-        // model.Add(new Phrase(INDIFFERENT, EVAN, new Phrase(OPEN, new Phrase(THE, DOOR)), NEUTRAL));
+        model.Add(new Phrase(ABLE, EVAN, new Phrase(OPEN, DOOR)));
+        // model.Add(new Phrase(INDIFFERENT, EVAN, new Phrase(OPEN, DOOR), NEUTRAL));
         // model.Add(new Phrase(ACTIVE, EVAN));
         // // model.Add(new Phrase(BELIEVE, EVAN, new Phrase(new Phrase(KING, BOB))));
         // // model.Add(new Phrase(BELIEVE, EVAN, new Phrase(KING, EVAN)));
 
         model.Add(new Phrase(IN_THE_ROOM, SELF));
-        // model.Add(new Phrase(POSSESS, SELF, RUBY));
-        model.Add(new Phrase(BETTER,
-                new Phrase(OPEN, new Phrase(THE, DOOR)),
-                NEUTRAL));
-
+        model.Add(new Phrase(POSSESS, SELF, RUBY));
 
         model.Add(new Phrase(ABLE, SELF, new Phrase(AT, SELF, EVAN)));
 
@@ -73,13 +69,17 @@ public class Bob : NPC {
             new Phrase(AT, SELF, EVAN),
             new Phrase(ABLE, SELF,
                 new Phrase(EXPRESS_CONFORMITY, SELF, EVAN,
-                    new Phrase(WOULD, new Phrase(OPEN, new Phrase(THE, DOOR)))))));
+                    new Phrase(WOULD, new Phrase(OPEN, DOOR))))));
 
-        // // // utilities
-        // model.Add(new Phrase(BETTER,
-        //     new Phrase(POSSESS, SELF, EMERALD), NEUTRAL));
+        // // utilities
+        model.Add(new Phrase(BETTER,
+            new Phrase(POSSESS, SELF, EMERALD), NEUTRAL));
 
-        // model.Add(new Phrase(BETTER,
-        //     new Phrase(POSSESS, EVAN, RUBY), NEUTRAL));
+        model.Add(new Phrase(BETTER,
+            new Phrase(POSSESS, EVAN, RUBY), NEUTRAL));
+
+                model.Add(new Phrase(BETTER,
+                new Phrase(OPEN, DOOR),
+                NEUTRAL));
     }
 }

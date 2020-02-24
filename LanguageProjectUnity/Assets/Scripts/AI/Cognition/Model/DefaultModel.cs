@@ -11,7 +11,11 @@ public class DefaultModel {
     }
 
     public static Model Make() {
-        Model m = new SimpleModel();
+        return Make(true);
+    }
+
+    public static Model Make(bool isSimple) {
+        Model m = isSimple ? (Model) new SimpleModel() : (Model) new PrefixModel();
 
         MetaVariable xt0   = new MetaVariable(SemanticType.TRUTH_VALUE, 0);
         MetaVariable xt1   = new MetaVariable(SemanticType.TRUTH_VALUE, 1);
@@ -41,31 +45,6 @@ public class DefaultModel {
         // SELF-KNOWLEDGE
         m.Add(new Phrase(PERSON, SELF));
         m.Add(new Phrase(ACTIVE, SELF));
-
-        // // ACTION RULES
-        // m.Add(new ActionRule(
-        //     VERUM,
-        //     new ExpressionPattern(WOULD,
-        //         new ExpressionPattern(AT, SELF, xi0)),
-        //     new ExpressionPattern(AT, SELF, xi0)));
-
-        // m.Add(new ActionRule(
-        //     new ExpressionPattern(AT, SELF, xi0),
-        //     new ExpressionPattern(WOULD,
-        //         new ExpressionPattern(BELIEVE, xi0, xt0)),
-        //     new ExpressionPattern(BELIEVE, xi0, xt0)));
-
-        // m.Add(new ActionRule(
-        //     new ExpressionPattern(AT, SELF, xi0),
-        //     new ExpressionPattern(WOULD,
-        //         new ExpressionPattern(INTEND, xi0, xt0)),
-        //     new ExpressionPattern(INTEND, xi0, xt0)));
-
-        // m.Add(new ActionRule(
-        //     new ExpressionPattern(POSSESS, SELF, xi0),
-        //     new ExpressionPattern(WOULD,
-        //         new ExpressionPattern(NOT, new ExpressionPattern(POSSESS, SELF, xi0))),
-        //     new ExpressionPattern(NOT, new ExpressionPattern(POSSESS, SELF, xi0))));
 
         // SUBSTITUTION RULES
 

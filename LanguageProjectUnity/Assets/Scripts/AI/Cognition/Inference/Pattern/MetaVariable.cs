@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// First order bindings -> variables can only bind to expressions
+using FOBindings = System.Collections.Generic.Dictionary<MetaVariable, Expression>;
+// Higher-order bindings -> variables can bind to other variables
+using HOBindings = System.Collections.Generic.Dictionary<MetaVariable, IPattern>;
+
 public class MetaVariable : IPattern {
     protected SemanticType type;
     protected int localID;
@@ -19,10 +24,10 @@ public class MetaVariable : IPattern {
             return null;
         }
 
-        List<Dictionary<MetaVariable, Expression>> outputBindings = new List<Dictionary<MetaVariable, Expression>>();
+        List<FOBindings> outputBindings = new List<FOBindings>();
 
         if (inputBindings.Count == 0) {
-            Dictionary<MetaVariable, Expression> newBinding = new Dictionary<MetaVariable, Expression>();
+            FOBindings newBinding = new FOBindings();
             newBinding.Add(this, expr);
             outputBindings.Add(newBinding);
             return outputBindings;
@@ -30,10 +35,10 @@ public class MetaVariable : IPattern {
 
         bool matchedOne = false;
 
-        foreach (Dictionary<MetaVariable, Expression> binding in inputBindings) {
+        foreach (FOBindings binding in inputBindings) {
             if (!binding.ContainsKey(this) || binding[this].Equals(expr)) {
                 matchedOne = true;
-                Dictionary<MetaVariable, Expression> newBinding = new Dictionary<MetaVariable, Expression>();
+                FOBindings newBinding = new FOBindings();
                 
                 foreach (KeyValuePair<MetaVariable, Expression> kv in binding) {
                     newBinding.Add(kv.Key, kv.Value);
@@ -49,21 +54,26 @@ public class MetaVariable : IPattern {
         return matchedOne ? outputBindings : null;
     }
 
-    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
-        return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
+    public List<FOBindings> GetBindings(Expression expr) {
+        return GetBindings(expr, new List<FOBindings>());
+    }
+
+    public List<HOBindings> Unify(IPattern that) {
+        UnityEngine.Debug.Log("Stub: MetaVariable.Unify()");
+        return null;
     }
 
     public bool Matches(Expression expr) {
         return expr != null && this.type.Equals(expr.type);
     }
 
-    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> possibleBindings) {
+    public bool Matches(Expression expr, List<FOBindings> possibleBindings) {
         if (expr == null) {
             return false;
         }
 
         bool oneMatched = false;
-        foreach (Dictionary<MetaVariable, Expression> binding in possibleBindings) {
+        foreach (FOBindings binding in possibleBindings) {
             if (this.Matches(expr, binding)) {
                 oneMatched = true;
             } else {
@@ -75,7 +85,7 @@ public class MetaVariable : IPattern {
         return oneMatched;
     }
 
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> binding) {        
+    public bool Matches(Expression expr, FOBindings binding) {        
         if (binding.ContainsKey(this)) {
             return binding[this].Equals(expr);
         } else {

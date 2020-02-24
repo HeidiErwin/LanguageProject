@@ -97,6 +97,10 @@ public abstract class SemanticType {
                 return new Color32(23, 50, 125, 255);
             }
 
+            if (this.Equals(SemanticType.TRUTH_CONFORMITY_FUNCTION_2)) {
+                return new Color32(35, 60, 200, 255);
+            }
+
             if (this.Equals(SemanticType.TRUTH_ASSERTION_FUNCTION)) {
                 return new Color32(153, 204, 255, 255);
             }

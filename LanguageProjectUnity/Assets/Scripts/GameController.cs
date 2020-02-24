@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour {
             GameObject playerInstance = Instantiate(player, new Vector2(0f, 0f), Quaternion.identity);
         }
         SetUpKeyboard();
+
         canvas.SetActive(false);
 
         // Assembly asm = typeof(GameController).Assembly;
@@ -64,9 +65,8 @@ public class GameController : MonoBehaviour {
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Interact")) {
             if (currentUseObject != null) {
                 currentUseObject.transform.parent = null;
-                currentUseObject = null;                
+                currentUseObject = null;
             }
-
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha0)) {
@@ -88,6 +88,10 @@ public class GameController : MonoBehaviour {
                     selectedExpression.transform.position = new Vector3(Screen.width / 2, Screen.height / 2);
                     usableExpression = selectedExpression;
                     // highlightedExpression = null;
+                } else {
+                    selectedExpression.transform.SetParent(GameObject.Find("ScreenCanvas").transform);
+                    selectedExpression.transform.position = new Vector3(Screen.width * 3 / 4, Screen.height * 3 / 4);
+                    usableExpression = selectedExpression;
                 }
                 HidePointer();
                 HideMergePointer();
@@ -274,6 +278,8 @@ public class GameController : MonoBehaviour {
                     currentType = SemanticType.DETERMINER;
                 } else if (line.Equals("#QUANTIFIER")) {
                     currentType = SemanticType.QUANTIFIER;
+                } else if (line.Equals("#TRUTH_VALUE")) {
+                    currentType = SemanticType.TRUTH_VALUE;
                 } else if (line.Equals("#TRUTH_FUNCTION_1")) {
                     currentType = SemanticType.TRUTH_FUNCTION_1;
                 } else if (line.Equals("#TRUTH_FUNCTION_2")) {

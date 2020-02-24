@@ -6,16 +6,16 @@ using System.Collections.Generic;
 // more space efficient than the simple model
 public class PrefixModel : Model {
     bool hasBlank = false;
-    private Dictionary<String, PrefixModel[]> entriesByHeadString = new Dictionary<String, PrefixModel[]>();
+    private Dictionary<Expression, PrefixModel[]> entriesByHead = new Dictionary<Expression, PrefixModel[]>();
 
     public override bool Contains(Expression e) {
         if (e == null) {
             return hasBlank;
         }
 
-        if (entriesByHeadString.ContainsKey(e.headString)) {
-            PrefixModel[] argTrees = entriesByHeadString[e.headString];
-            for (int i = 0; i < argTrees.Length; i++) {
+        if (entriesByHead.ContainsKey(e.GetHead())) {
+            PrefixModel[] argTrees = entriesByHead[e.GetHead()];
+            for (int i = 0; i < e.GetNumArgs(); i++) {
                 Expression arg = e.GetArg(i);
                 if (!argTrees[i].Contains(arg)) {
                     return false;
@@ -31,21 +31,20 @@ public class PrefixModel : Model {
         
         if (e == null) {
             if (hasBlank) {
-                return false;    
+                return false;
             }
             hasBlank = true;
             return true;
         }
 
-        String head = e.headString;
+        Expression head = e.GetHead();
         int numArgs = e.GetNumArgs();
-        if (!entriesByHeadString.ContainsKey(head)) {
-
-            entriesByHeadString.Add(head, new PrefixModel[numArgs]);
+        if (!entriesByHead.ContainsKey(head)) {
+            entriesByHead.Add(head, new PrefixModel[numArgs]);
             changed = true;
         }
 
-        PrefixModel[] argTrees = entriesByHeadString[head];
+        PrefixModel[] argTrees = entriesByHead[head];
 
         for (int i = 0; i < numArgs; i++) {
             if (argTrees[i] == null) {
@@ -59,6 +58,16 @@ public class PrefixModel : Model {
     }
 
     public override HashSet<Expression> GetAll() {
+        // foreach (Expression head in entriesByHead.Keys) {
+        //     PrefixModel[] subModels = entriesByHead[head];
+        //     for (int i = 0; i < subModels.length; i++) {
+        //         PrefixModel subModel = subModels[i];
+        //         HashSet<Expression> allSubExpressions = subModel.GetAll();
+        //         for () {
+
+        //         }
+        //     }
+        // }
         return null;
     }
 
@@ -80,20 +89,20 @@ public class PrefixModel : Model {
             return false;
         }
 
-        String head = e.headString;
+        Expression head = e.GetHead();
         
-        if (!entriesByHeadString.ContainsKey(head)) {
+        if (!entriesByHead.ContainsKey(head)) {
             return false;
         }
 
         int numArgs = e.GetNumArgs();
         
         if (numArgs == 0) {
-            entriesByHeadString.Remove(head);
+            entriesByHead.Remove(head);
             return true;
         }
 
-        PrefixModel[] argTrees = entriesByHeadString[head];
+        PrefixModel[] argTrees = entriesByHead[head];
         bool shouldDeleteArgs = true;
         for (int i = 0; i < numArgs; i++) {
             if (!argTrees[i].Contains(e.GetArg(i))) {

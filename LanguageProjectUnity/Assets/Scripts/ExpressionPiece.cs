@@ -306,7 +306,6 @@ public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
         foreach (Transform child in o.transform) {
             RippleDestroy(child.gameObject);
         }
-        Debug.Log("Destroying " + o);
         Destroy(o, 0.0f);
     }
 
@@ -377,9 +376,9 @@ public class ExpressionPiece : MonoBehaviour /*, IPointerClickHandler */ {
         headObject.transform.SetParent(visualContainer.transform);
         Image headImage = headObject.AddComponent<Image>();
         Expression expr = this.expression;
-        Sprite headSprite = Resources.Load<Sprite>("Symbols/" + expr.headString);
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.headString);
         if (headSprite == null) {
-            headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + expr.headString);
+            headSprite = Resources.Load<Sprite>("Symbols/" + expr.headString);
         }
         if (headSprite == null) {
             headSprite = Resources.Load<Sprite>("English/" + expr.headString);

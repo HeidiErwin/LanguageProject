@@ -55,9 +55,9 @@ public class ExpressionPieceSpawner : MonoBehaviour /*, IPointerClickHandler */ 
         nameObject.name = "Name";
         nameObject.transform.SetParent(gameObject.transform);
         Image headImage = nameObject.AddComponent<Image>();
-        Sprite headSprite = Resources.Load<Sprite>("Symbols/" + this.expression.headString);
+        Sprite headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.headString);
         if (headSprite == null) {
-            headSprite = Resources.Load<Sprite>("PlaceholderSprites/" + this.expression.headString);
+            headSprite = Resources.Load<Sprite>("Symbols/" + this.expression.headString);
         }
         if (headSprite == null) {
             headSprite = Resources.Load<Sprite>("English/" + this.expression.headString);

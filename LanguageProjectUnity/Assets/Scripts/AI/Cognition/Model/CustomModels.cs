@@ -1,57 +1,59 @@
 using System.Collections.Generic;
 
+using static Expression;
+
 public class CustomModels {
     public static void AddDoorModel(Model m) {
         // ACTION RULES
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD,
-                new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD,
+                new Phrase(AT, SELF, DOOR)),
+            new Phrase(AT, SELF, DOOR)));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.BOB)),
-            new Phrase(Expression.AT, Expression.SELF, Expression.BOB)));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD, new Phrase(AT, SELF, BOB)),
+            new Phrase(AT, SELF, BOB)));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)),
-            new Phrase(Expression.AT, Expression.SELF, Expression.EVAN)));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD, new Phrase(AT, SELF, EVAN)),
+            new Phrase(AT, SELF, EVAN)));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))),
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.DOOR))));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD, new Phrase(AT, SELF, DOOR)),
+            new Phrase(AT, SELF, DOOR)));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD, new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))),
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.COW))));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD, new Phrase(AT, SELF, new Phrase(THE, COW))),
+            new Phrase(AT, SELF, new Phrase(THE, COW))));
 
         // SUBSTITUTION RULES
         // open(x) |- not(closed(x))
         m.Add(new InferenceRule(
             new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(
-                    Expression.OPEN,
+                    OPEN,
                     new MetaVariable(SemanticType.INDIVIDUAL, 0)))},
             new List<IPattern>[]{DefaultModel.BuildList(new ExpressionPattern(
-                Expression.NOT,
-                new ExpressionPattern(Expression.CLOSED, new MetaVariable(SemanticType.INDIVIDUAL, 0))))}));
+                NOT,
+                new ExpressionPattern(CLOSED, new MetaVariable(SemanticType.INDIVIDUAL, 0))))}));
 
         // COMMON KNOWLEDGE
-        m.Add(new Phrase(Expression.NOT, new Phrase(Expression.IDENTITY, Expression.BOB, Expression.EVAN)));
+        m.Add(new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
     }
 
     public static void AddWoodcutterModel(Model m) {
         // ACTION RULES
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD,
-                new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.KING))),
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.KING))));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD,
+                new Phrase(AT, SELF, new Phrase(THE, KING))),
+            new Phrase(AT, SELF, new Phrase(THE, KING))));
 
-        m.Add(new ActionRule(Expression.VERUM,
-            new Phrase(Expression.WOULD,
-                new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))),
-            new Phrase(Expression.AT, Expression.SELF, new Phrase(Expression.THE, Expression.TREE))));
+        m.Add(new ActionRule(VERUM,
+            new Phrase(WOULD,
+                new Phrase(AT, SELF, new Phrase(THE, TREE))),
+            new Phrase(AT, SELF, new Phrase(THE, TREE))));
 
         // COMMON KNOWLEDGE
-        m.Add(new Phrase(Expression.CREDIBLE, new Phrase(Expression.THE, Expression.KING)));
+        m.Add(new Phrase(CREDIBLE, new Phrase(THE, KING)));
     }
 
     public static void AddFPExperimentModel(Model m) {
@@ -59,33 +61,33 @@ public class CustomModels {
 
         // // ACTION RULES
         // m.Add(new ActionRule(
-        //     new ExpressionPattern(Expression.EQUIVALENT,
-        //         new Phrase(Expression.IN_THE_ROOM, Expression.SELF),
-        //         new ExpressionPattern(Expression.IN_THE_ROOM, xi0)),
-        //     new ExpressionPattern(Expression.WOULD,
-        //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
-        //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
+        //     new ExpressionPattern(EQUIVALENT,
+        //         new Phrase(IN_THE_ROOM, SELF),
+        //         new ExpressionPattern(IN_THE_ROOM, xi0)),
+        //     new ExpressionPattern(WOULD,
+        //         new ExpressionPattern(AT, SELF, xi0)),
+        //     new ExpressionPattern(AT, SELF, xi0)));
 
         // m.Add(new ActionRule(
-        //     new Phrase(Expression.OPEN, new Phrase(Expression.THE, Expression.DOOR)),
-        //     new ExpressionPattern(Expression.WOULD,
-        //         new ExpressionPattern(Expression.AT, Expression.SELF, xi0)),
-        //     new ExpressionPattern(Expression.AT, Expression.SELF, xi0)));
+        //     new Phrase(OPEN, DOOR),
+        //     new ExpressionPattern(WOULD,
+        //         new ExpressionPattern(AT, SELF, xi0)),
+        //     new ExpressionPattern(AT, SELF, xi0)));
 
         // COMMON KNOWLEDGE
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, Expression.BOB)));
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, Expression.EVAN)));
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.IN_THE_ROOM, new Phrase(Expression.THE, Expression.DOOR))));
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF,
-            new Phrase(Expression.NOT, new Phrase(Expression.IN_THE_ROOM, Expression.GOAL))));
-        m.Add(new Phrase(Expression.CREDIBLE, Expression.PLAYER));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(IN_THE_ROOM, BOB)));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(IN_THE_ROOM, EVAN)));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(IN_THE_ROOM, DOOR)));
+        m.Add(new Phrase(PERCEIVE, SELF,
+            new Phrase(NOT, new Phrase(IN_THE_ROOM, GOAL))));
+        m.Add(new Phrase(CREDIBLE, PLAYER));
 
 
-        // m.Add(new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY));
+        // m.Add(new Phrase(POSSESS, BOB, RUBY));
 
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.BOB, Expression.RUBY)));
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.EVAN, Expression.SAPPHIRE)));
-        m.Add(new Phrase(Expression.PERCEIVE, Expression.SELF, new Phrase(Expression.POSSESS, Expression.PLAYER, Expression.EMERALD)));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(POSSESS, BOB, RUBY)));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(POSSESS, EVAN, SAPPHIRE)));
+        m.Add(new Phrase(PERCEIVE, SELF, new Phrase(POSSESS, PLAYER, EMERALD)));
     }
 
     public static void AddVillageModel(Model m) {

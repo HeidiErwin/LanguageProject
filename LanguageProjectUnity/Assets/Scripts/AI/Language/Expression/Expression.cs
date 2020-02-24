@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+using FOBindings = System.Collections.Generic.Dictionary<MetaVariable, Expression>;
+using HOBindings = System.Collections.Generic.Dictionary<MetaVariable, IPattern>;
+
 // a linguistic entity, either as a primitive word or a
 // complex phrase which (currently but perhaps not permanently)
 // consists of a combination of two subexpressions. That is:
@@ -146,7 +149,7 @@ public abstract class Expression : IPattern {
         return type;
     }
 
-    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+    public List<FOBindings> GetBindings(Expression expr, List<FOBindings> bindings) {
         if (this.Equals(expr)) {
             return bindings;
         } else {
@@ -154,8 +157,8 @@ public abstract class Expression : IPattern {
         }
     }
 
-    public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr) {
-        return GetBindings(expr, new List<Dictionary<MetaVariable, Expression>>());
+    public List<FOBindings> GetBindings(Expression expr) {
+        return GetBindings(expr, new List<FOBindings>());
     }
 
     // TODO implement GetHashCode() so SimpleModel can be used
@@ -163,12 +166,31 @@ public abstract class Expression : IPattern {
         return this.Equals(expr);
     }
 
-    public bool Matches(Expression expr, Dictionary<MetaVariable, Expression> bindings) {
+    public bool Matches(Expression expr, FOBindings bindings) {
         return this.Matches(expr);
     }
 
-    public bool Matches(Expression expr, List<Dictionary<MetaVariable, Expression>> bindings) {
+    public bool Matches(Expression expr, List<FOBindings> bindings) {
         return this.Matches(expr);
+    }
+
+    public List<HOBindings> Unify(IPattern that) {
+        List<FOBindings> unification = that.GetBindings(this);
+
+        if (unification == null) {
+            return null;
+        }
+
+        List<HOBindings> res = new List<HOBindings>();
+
+        foreach (FOBindings fobs in unification) {
+            HOBindings hobs = new HOBindings();
+            foreach (MetaVariable x in fobs.Keys) {
+                hobs.Add(x, (IPattern) fobs[x]);
+            }
+            res.Add(hobs);
+        }
+        return res;
     }
 
     public HashSet<MetaVariable> GetFreeMetaVariables() {
@@ -179,11 +201,11 @@ public abstract class Expression : IPattern {
         return this;
     }
 
-    public IPattern Bind(Dictionary<MetaVariable, Expression> binding) {
+    public IPattern Bind(FOBindings binding) {
         return this;
     }
 
-    public List<IPattern> Bind(List<Dictionary<MetaVariable, Expression>> bindings) {
+    public List<IPattern> Bind(List<FOBindings> bindings) {
         List<IPattern> output = new List<IPattern>();
         output.Add(this);
         return output;
@@ -210,7 +232,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression NOT = new Word(SemanticType.TRUTH_FUNCTION_1, "not");
 
     public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
-    public static readonly Expression FALSUM = new Phrase(Expression.NOT, Expression.VERUM);
+    public static readonly Expression FALSUM = new Word(SemanticType.TRUTH_VALUE, "falsum");
     public static readonly Expression NEUTRAL = new Word(SemanticType.TRUTH_VALUE, "neutral");
 
     public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
@@ -285,6 +307,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression EMERALD = new Word(SemanticType.INDIVIDUAL, "emerald");
     public static readonly Expression BROAD_TREE = new Word(SemanticType.INDIVIDUAL, "broad_tree");
     public static readonly Expression NARROW_TREE = new Word(SemanticType.INDIVIDUAL, "narrow_tree");
+    public static readonly Expression DOOR = new Word(SemanticType.INDIVIDUAL, "door");
     
     public static readonly Expression ASHLEY = new Word(SemanticType.INDIVIDUAL, "ashley");
     public static readonly Expression BLAIR = new Word(SemanticType.INDIVIDUAL, "blair");
@@ -313,7 +336,6 @@ public abstract class Expression : IPattern {
     public static readonly Expression TREE = new Word(SemanticType.PREDICATE, "tree");
     public static readonly Expression LOG = new Word(SemanticType.PREDICATE, "log");
 
-    public static readonly Expression DOOR = new Word(SemanticType.PREDICATE, "door");
     public static readonly Expression CLOSED = new Word(SemanticType.PREDICATE, "closed");
     public static readonly Expression OPEN = new Word(SemanticType.PREDICATE, "open");
 
