@@ -166,6 +166,20 @@ public class GameController : MonoBehaviour {
                 highClick.Play();
             }
 
+            if (Input.GetButtonDown("Up")) {
+                if (isInKeyboard) {
+                    SetWordIndex(wordIndex - PIECES_PER_ROW);
+                    highClick.Play();
+                }
+            }
+
+            if (Input.GetButtonDown("Down")) {
+                if (isInKeyboard) {
+                    SetWordIndex(wordIndex + PIECES_PER_ROW);
+                    highClick.Play();
+                }
+            }
+
             if (Input.GetButtonDown("Submit")) {
                 if (isInKeyboard) {
                     selectedSpawner.MakeNewExpressionPiece();
