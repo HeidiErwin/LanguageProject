@@ -43,7 +43,7 @@ public class Bob : NPC {
         model.Add(new Phrase(POSSESS, SELF, RUBY));
         model.Add(new Phrase(NOT, new Phrase(POSSESS, SELF, SAPPHIRE)));
         model.Add(new Phrase(NOT, new Phrase(POSSESS, SELF, EMERALD)));
-        model.Add(new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
+        // model.Add(new Phrase(NOT, new Phrase(IDENTITY, BOB, EVAN)));
 
 
         // testing location

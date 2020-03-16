@@ -20,6 +20,7 @@ public class MetaVariable : IPattern {
     }
 
     public List<Dictionary<MetaVariable, Expression>> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> inputBindings) {
+        // make sure the types match up
         if (expr == null || !expr.type.Equals(this.type)) {
             return null;
         }
@@ -58,8 +59,62 @@ public class MetaVariable : IPattern {
         return GetBindings(expr, new List<FOBindings>());
     }
 
+    public bool Occurs(IPattern that) {
+        if (that == null) {
+            return false;
+        }
+        
+        HashSet<MetaVariable> freeMetaVariables = that.GetFreeMetaVariables();
+        if (freeMetaVariables == null) {
+            return false;
+        }
+
+        return freeMetaVariables.Contains(this);
+    }
+
     public List<HOBindings> Unify(IPattern that) {
-        UnityEngine.Debug.Log("Stub: MetaVariable.Unify()");
+        return Unify(that, new List<HOBindings>());
+    }
+
+    public List<HOBindings> Unify(IPattern that, List<HOBindings> inputBindings) {
+        if (that == null || !that.GetSemanticType().Equals(this.type)) {
+            return null;
+        }
+
+        List<HOBindings> outputBindings = new List<HOBindings>();
+
+        if (this.Equals(that)) {
+            foreach (HOBindings hob in inputBindings) {
+                HOBindings newHOB = new HOBindings();
+                foreach (KeyValuePair<MetaVariable, IPattern> kv in hob) {
+                    newHOB.Add(kv.Key, kv.Value);
+                }
+                outputBindings.Add(newHOB);
+            }
+            return outputBindings;
+        }
+
+        if (this.Occurs(that)) {
+            return null;
+        }
+
+        if (inputBindings.Count == 0) {
+            HOBindings newBinding = new HOBindings();
+            newBinding.Add(this, that);
+            outputBindings.Add(newBinding);
+            return outputBindings;
+        }
+
+        // here, we want to go through all of the current bindings
+        foreach (HOBindings hob in inputBindings) {
+            HOBindings newBinding = new HOBindings();
+            foreach (KeyValuePair<MetaVariable, IPattern> kv in hob) {
+                // bind all the current bindings with the binding we found here
+                // .kv.Key, kv.Value.Bind(this, that);
+            }
+        }
+
+        UnityEngine.Debug.Log("Stub: Unify()");
         return null;
     }
 
@@ -136,6 +191,42 @@ public class MetaVariable : IPattern {
             }
             if (!bound) {
                 output.Add(this);    
+            }
+        }
+        return output;
+    }
+
+    public IPattern Bind(MetaVariable x, IPattern that) {
+        if (this.Equals(x)) {
+            return that;
+        } else {
+            return this;
+        }
+    }
+
+    public IPattern Bind(Dictionary<MetaVariable, IPattern> binding) {
+        if (binding.ContainsKey(this)) {
+            return binding[this];
+        } else {
+            return this;
+        }
+    }
+
+    public List<IPattern> Bind(List<Dictionary<MetaVariable, IPattern>> bindings) {
+        List<IPattern> output = new List<IPattern>();
+        foreach (Dictionary<MetaVariable, IPattern> binding in bindings) {
+            bool bound = false;
+            foreach (KeyValuePair<MetaVariable, IPattern> kv in binding) {
+                MetaVariable x = kv.Key;
+                IPattern p = kv.Value;
+
+                if (this.Equals(x)) {
+                    output.Add(p);
+                    bound = true;
+                }
+            }
+            if (!bound) {
+                output.Add(this);
             }
         }
         return output;

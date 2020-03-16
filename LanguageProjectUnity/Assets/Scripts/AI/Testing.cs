@@ -22,6 +22,16 @@ public class Testing : MonoBehaviour {
         m.Add(new Phrase(AT, EVAN, GOAL));
         Debug.Log(!m.Contains(new Phrase(AT, BOB, GOAL)));
 
+        IPattern xi0 = new MetaVariable(SemanticType.INDIVIDUAL, 0); // x
+        IPattern atxx = new ExpressionPattern(AT, xi0, xi0);
+        List<Dictionary<MetaVariable, Expression>> bindings = atxx.GetBindings(new Phrase(AT, BOB, EVAN));
+
+        Debug.Log("Match was unsuccessful : " + (bindings == null));
+
+        bindings = atxx.GetBindings(new Phrase(AT, BOB, BOB));
+
+        Debug.Log("Match was successful : " + ContentString(bindings));
+
         // in the model: 
         // 
         // greater(one, _) is no good

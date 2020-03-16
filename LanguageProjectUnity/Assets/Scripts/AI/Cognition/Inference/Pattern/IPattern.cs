@@ -7,13 +7,17 @@ using HOBindings = System.Collections.Generic.Dictionary<MetaVariable, IPattern>
 public interface IPattern {
     SemanticType GetSemanticType();
     bool Matches(Expression expr);
-    List<FOBindings> GetBindings(Expression expr, List<Dictionary<MetaVariable, Expression>> inputBindings);
+    List<FOBindings> GetBindings(Expression expr, List<FOBindings> inputBindings);
     List<FOBindings> GetBindings(Expression expr);
-    List<HOBindings> Unify(IPattern that);
+    // List<HOBindings> Unify(IPattern that);
+    // List<HOBindings> Unify(IPattern that, List<HOBindings> inputBindings);
     void AddToDomain(Model m);
     HashSet<MetaVariable> GetFreeMetaVariables();
     IPattern Bind(MetaVariable x, Expression expr);
     IPattern Bind(FOBindings bindings);
     List<IPattern> Bind(List<FOBindings> bindings);
+    // IPattern Bind(MetaVariable x, IPattern that);
+    // IPattern Bind(HOBindings bindings);
+    // List<IPattern> Bind(List<HOBindings> bindings);
     Expression ToExpression();
 }

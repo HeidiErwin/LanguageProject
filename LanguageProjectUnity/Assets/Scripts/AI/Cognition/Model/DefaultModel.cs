@@ -100,6 +100,9 @@ public class DefaultModel {
             new List<IPattern>[]{BuildList(new ExpressionPattern(not, new ExpressionPattern(not, xt0)))},
             false));
 
+        // ~(M |- =(x, y)) |- ~=(x, y)
+        // 
+
         // GEACH RULES
         // t -> t
         // !F(x) |- G(!, F, x)

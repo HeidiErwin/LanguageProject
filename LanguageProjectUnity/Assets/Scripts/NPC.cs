@@ -192,6 +192,7 @@ public class NPC : Character {
                 }
 
                 if (action.Equals(new Phrase(WOULD, new Phrase(OPEN, DOOR)))) {
+                    // unity might check some stuff here.
                     controller.door.SetActive(false);
                     continue;
                 }

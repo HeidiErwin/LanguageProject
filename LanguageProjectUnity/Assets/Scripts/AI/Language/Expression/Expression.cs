@@ -175,15 +175,15 @@ public abstract class Expression : IPattern {
     }
 
     public List<HOBindings> Unify(IPattern that) {
-        List<FOBindings> unification = that.GetBindings(this);
+        List<FOBindings> unifier = that.GetBindings(this);
 
-        if (unification == null) {
+        if (unifier == null) {
             return null;
         }
 
         List<HOBindings> res = new List<HOBindings>();
 
-        foreach (FOBindings fobs in unification) {
+        foreach (FOBindings fobs in unifier) {
             HOBindings hobs = new HOBindings();
             foreach (MetaVariable x in fobs.Keys) {
                 hobs.Add(x, (IPattern) fobs[x]);
@@ -191,6 +191,21 @@ public abstract class Expression : IPattern {
             res.Add(hobs);
         }
         return res;
+    }
+
+    List<HOBindings> Unify(IPattern that, List<HOBindings> inputBindings) {
+        // if (that is MetaVariable) {
+        //     MetaVariable x = (MetaVariable) that;
+        //     if (x.GetSemanticType().Equals(this.type)) {
+        //     }
+        // } else if (that is ExpressionPattern) {
+        //     ExpressionPattern p = (ExpressionPattern) that;
+        // } else {
+        //     Expression e = (Expression) that;
+        //     if () {
+        //     }
+        // }
+        return null;
     }
 
     public HashSet<MetaVariable> GetFreeMetaVariables() {
@@ -234,6 +249,8 @@ public abstract class Expression : IPattern {
     public static readonly Expression VERUM = new Word(SemanticType.TRUTH_VALUE, "verum");
     public static readonly Expression FALSUM = new Word(SemanticType.TRUTH_VALUE, "falsum");
     public static readonly Expression NEUTRAL = new Word(SemanticType.TRUTH_VALUE, "neutral");
+
+    public static readonly Expression WAS = new Word(SemanticType.TRUTH_FUNCTION_1, "was");
 
     public static readonly Expression AFFIRM = new Word(SemanticType.TRUTH_VALUE, "affirm");
     public static readonly Expression DENY = new Phrase(Expression.NOT, Expression.AFFIRM);
@@ -333,6 +350,7 @@ public abstract class Expression : IPattern {
     public static readonly Expression ANIMAL = new Word(SemanticType.PREDICATE, "animal");
     public static readonly Expression COLOR = new Word(SemanticType.PREDICATE, "color");
 
+
     public static readonly Expression TREE = new Word(SemanticType.PREDICATE, "tree");
     public static readonly Expression LOG = new Word(SemanticType.PREDICATE, "log");
 
@@ -349,6 +367,10 @@ public abstract class Expression : IPattern {
     public static readonly Expression CYAN = new Word(SemanticType.PREDICATE, "cyan");
     public static readonly Expression MAGENTA = new Word(SemanticType.PREDICATE, "magenta");
     public static readonly Expression WHITE = new Word(SemanticType.PREDICATE, "white");
+
+    public static readonly Expression RUNS = new Word(SemanticType.PREDICATE, "runs");
+
+    // kicks
 
     public static readonly Expression REAL = new Word(SemanticType.PREDICATE_MODIFIER, "real");
     public static readonly Expression FAKE = new Word(SemanticType.PREDICATE_MODIFIER, "fake");
